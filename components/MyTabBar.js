@@ -1,9 +1,10 @@
-import {View, Text} from 'react-native';
+import {View, Text, TouchableOpacity, Image} from 'react-native';
 import React from 'react';
+import TabBarIcon from './TabBarIcon';
 
 const MyTabBar = ({state, descriptors, navigation}) => {
   return (
-    <View style={{flexDirection: 'row'}}>
+    <View className="flex-row pt-10 mb-10 items-center justify-center">
       {state.routes.map((route, index) => {
         const {options} = descriptors[route.key];
         const label =
@@ -41,8 +42,15 @@ const MyTabBar = ({state, descriptors, navigation}) => {
             testID={options.tabBarTestID}
             onPress={onPress}
             onLongPress={onLongPress}
-            style={{flex: 1}}>
-            <Text style={{color: isFocused ? '#673ab7' : '#222'}}>{label}</Text>
+            className="flex-1 item-center justify-center flex-row">
+            <View className="">
+              {/* <TabBarIcon lableProp={label} isFocusedProp={isFocused} /> */}
+              <TabBarIcon lableProp={label} isFocusedProp={isFocused} />
+              {/* <Image source={require('../asset/icn_red_home.png')} />
+              <Text style={{color: isFocused ? '#673ab7' : '#222'}}>
+                {label}
+              </Text> */}
+            </View>
           </TouchableOpacity>
         );
       })}

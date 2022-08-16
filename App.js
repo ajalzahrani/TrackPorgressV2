@@ -41,12 +41,13 @@ import ScheduleScreen from './screens/ScheduleScreen';
 
 // TailwindCSS
 import {TailwindProvider} from 'tailwindcss-react-native';
+import MyTabBar from './components/MyTabBar';
 
 const App: () => Node = () => {
   return (
     <NavigationContainer>
       <TailwindProvider>
-        <Tab.Navigator>
+        <Tab.Navigator tabBar={props => <MyTabBar {...props} />}>
           <Tab.Screen
             name="home"
             component={HomeScreen}
