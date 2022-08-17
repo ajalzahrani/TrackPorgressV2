@@ -24,10 +24,13 @@ const SettingsScreen = () => {
   };
   return (
     <SafeAreaView className="bg-[#112044] flex-1">
-      <View className="mt-16 ml-12">
+      <View className="mt-10 ml-12">
         <ProfileTitle />
       </View>
-      <View className="items-center mt-16">
+      <View className="px-5 mt-10">
+        <CardInformation />
+      </View>
+      <View className="px-5 mt-2">
         <CardInformation />
       </View>
     </SafeAreaView>
