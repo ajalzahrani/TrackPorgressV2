@@ -33,63 +33,17 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-// Screens
-import HomeScreen from './screens/HomeScreen';
-import SettingsScreen from './screens/SettingsScreen';
-import StatScreen from './screens/StatScreen';
-import ScheduleScreen from './screens/ScheduleScreen';
+// TabBar
+import TabBar from './components/TabBar';
 
 // TailwindCSS
 import {TailwindProvider} from 'tailwindcss-react-native';
-import MyTabBar from './components/MyTabBar';
 
 const App: () => Node = () => {
   return (
     <NavigationContainer>
       <TailwindProvider>
-        <Tab.Navigator tabBar={props => <MyTabBar {...props} />}>
-          <Tab.Screen
-            name="home"
-            component={HomeScreen}
-            options={{
-              headerShown: false,
-              tabBarIcon: ({}) => {
-                return <HomeIcon />;
-              },
-            }}
-          />
-          <Tab.Screen
-            name="schedule"
-            component={ScheduleScreen}
-            options={{
-              headerShown: false,
-              tabBarIcon: ({}) => {
-                return <TableIcon />;
-              },
-            }}
-            t
-          />
-          <Tab.Screen
-            name="stat"
-            component={StatScreen}
-            options={{
-              headerShown: false,
-              tabBarIcon: ({}) => {
-                return <ChartPieIcon />;
-              },
-            }}
-          />
-          <Tab.Screen
-            name="settings"
-            component={SettingsScreen}
-            options={{
-              headerShown: false,
-              tabBarIcon: ({}) => {
-                return <AdjustmentsIcon />;
-              },
-            }}
-          />
-        </Tab.Navigator>
+        <TabBar />
       </TailwindProvider>
     </NavigationContainer>
   );
