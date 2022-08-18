@@ -5,24 +5,28 @@ import {
   Image,
   TouchableOpacity,
   StyleSheet,
+  ScrollView,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import React from 'react';
 
 import AddNewWorkout from '../components/AddNewWorkout';
 import CalenderRow from '../components/CalenderRow';
-import {color} from 'react-native-reanimated';
+import WorkoutCard from '../components/WorkoutCard';
+
+import {colors, workoutData} from '../components/constants';
 
 const ScheduleScreen = () => {
   return (
     <SafeAreaView className="bg-[#112044] flex-1">
-      <AddNewWorkout />
-      <CalenderRow />
-      <View style={style.titleButtonContainerStyle}>
+      <View>
+        <AddNewWorkout />
+        <CalenderRow />
+      </View>
+      <View style={style.workoutContainerStyle}>
         <Text style={style.workoutTitleStyle}>Pushup workout</Text>
         <TouchableOpacity>
           <LinearGradient
-            // className="py-3 px-20 rounded-full mt-10"
             style={style.touchableOpacityStartStyle}
             start={{x: 1, y: 0}}
             end={{x: 0, y: 0}}
@@ -34,26 +38,52 @@ const ScheduleScreen = () => {
           </LinearGradient>
         </TouchableOpacity>
       </View>
+      <View style={{paddingHorizontal: 16}}>
+        <View style={style.preWorkoutListContainerStyle}>
+          <Text className="text-white">Pre-list of workouts</Text>
+          <ScrollView style={{alignSelf: 'stretch', paddingBottom: 200}}>
+            <WorkoutCard />
+            <WorkoutCard />
+            <WorkoutCard />
+            <WorkoutCard />
+            <WorkoutCard />
+            <WorkoutCard />
+            <WorkoutCard />
+            <WorkoutCard />
+          </ScrollView>
+        </View>
+      </View>
     </SafeAreaView>
   );
 };
 
 const style = StyleSheet.create({
+  preWorkoutListContainerStyle: {
+    marginTop: 51,
+  },
+  workoutContainerStyle: {
+    display: 'flex',
+    flexdirection: 'column',
+    alignItems: 'center',
+    padding: 0,
+    gap: 30,
+    marginTop: 56,
+  },
   workoutTitleStyle: {
     fontStyle: 'normal',
     fontWeight: '600',
     fontSize: 30,
     lineHeight: 45,
     textAlign: 'center',
-    color: '#FFFFFF',
-    marginTop: 56,
+    color: colors.white,
   },
   touchableOpacityStartStyle: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 10,
+    paddingHorizontal: 55,
+    paddingVertical: 10,
     gap: 10,
     borderRadius: 100,
     marginTop: 30,

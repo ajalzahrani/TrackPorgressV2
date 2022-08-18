@@ -3,6 +3,7 @@ export const colors = {
   semiPrimary: '#1A294F',
   secondary: '#E10D60',
   offwhite: '#FFFFFF33',
+  secondaryow: '#ffffff1a',
   greeny: '#B3BBD4',
   red: 'red',
   white: '#FFF',
