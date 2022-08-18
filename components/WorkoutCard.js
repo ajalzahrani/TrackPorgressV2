@@ -10,11 +10,12 @@ import React from 'react';
 
 import {colors, assets, workoutData} from './constants';
 
-const WorkoutCard = () => {
+const WorkoutCard = ({id, title}) => {
   return (
     <View style={style.cardContainer}>
-      <Text style={style.workoutTitle}>Pushup workout</Text>
+      <Text style={style.workoutTitle}>{title}</Text>
       <View style={style.editContainerStyle} className="space-x-2">
+        {/* FIXME: Adjust button size acording to the design */}
         <TouchableOpacity style={style.touchableOpacityArrowStyle}>
           <Image source={assets.icn_rightarrow} />
         </TouchableOpacity>

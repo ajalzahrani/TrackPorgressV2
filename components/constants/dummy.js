@@ -1,4 +1,4 @@
-const workoutData = [
+export const workoutData = [
   {
     id: 1,
     title: 'Pushup workout',
@@ -21,4 +21,4 @@ const workoutData = [
   },
 ];
 
-export default {workoutData};
+// export default workoutData; --> Error "it should be like export {workoutData} and delete export above"
