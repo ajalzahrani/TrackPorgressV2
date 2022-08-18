@@ -1,6 +1,8 @@
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import React from 'react';
 
+import {colors} from './constants';
+
 const CalenderRow = () => {
   return (
     <View className="flex-row justify-around pt-5 mx-3">
@@ -31,7 +33,7 @@ const CalenderRow = () => {
 
 const style = StyleSheet.create({
   touchableOpacityStyle: {
-    backgroundColor: '#F194FF',
+    backgroundColor: colors.offwhite,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10,

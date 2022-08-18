@@ -2,6 +2,8 @@ import React from 'react';
 import {Image, View, Text, StyleSheet} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
+import {colors, assets} from './constants';
+
 // Screens
 import HomeScreen from '../screens/HomeScreen';
 import SettingsScreen from '../screens/SettingsScreen';
@@ -25,16 +27,17 @@ const TabBar = () => {
           tabBarIcon: ({focused}) => (
             <View style={style.tabBarVewStyle}>
               <Image
-                source={require('../asset/icn_red_home.png')}
+                source={assets.icn_home}
                 resizeMode="contain"
                 style={{
-                  tintColor: focused ? 'red' : '#B3BBD4',
+                  // FIXME: check the color
+                  tintColor: focused ? colors.red : colors.greeny,
                   ...style.tabBarIconStyle,
                 }}
               />
               <Text
                 style={{
-                  color: focused ? 'red' : '#B3BBD4',
+                  color: focused ? colors.red : colors.greeny,
                   ...style.tabBarTitleStyle,
                 }}>
                 Home
@@ -51,16 +54,16 @@ const TabBar = () => {
           tabBarIcon: ({focused}) => (
             <View style={style.tabBarVewStyle}>
               <Image
-                source={require('../asset/icn_green_schedule.png')}
+                source={assets.icn_schedule}
                 resizeMode="contain"
                 style={{
-                  tintColor: focused ? 'red' : '#B3BBD4',
+                  tintColor: focused ? colors.red : colors.greeny,
                   ...style.tabBarIconStyle,
                 }}
               />
               <Text
                 style={{
-                  color: focused ? 'red' : '#B3BBD4',
+                  color: focused ? colors.red : colors.greeny,
                   ...style.tabBarTitleStyle,
                 }}>
                 Schedule
@@ -78,16 +81,16 @@ const TabBar = () => {
           tabBarIcon: ({focused}) => (
             <View style={style.tabBarVewStyle}>
               <Image
-                source={require('../asset/icn_green_stat.png')}
+                source={assets.icn_stat}
                 resizeMode="contain"
                 style={{
-                  tintColor: focused ? 'red' : '#B3BBD4',
+                  tintColor: focused ? colors.red : colors.greeny,
                   ...style.tabBarIconStyle,
                 }}
               />
               <Text
                 style={{
-                  color: focused ? 'red' : '#B3BBD4',
+                  color: focused ? colors.red : colors.greeny,
                   ...style.tabBarTitleStyle,
                 }}>
                 Stat
@@ -104,16 +107,16 @@ const TabBar = () => {
           tabBarIcon: ({focused}) => (
             <View style={style.tabBarVewStyle}>
               <Image
-                source={require('../asset/icn_green_settings.png')}
+                source={assets.icn_settings}
                 resizeMode="contain"
                 style={{
-                  tintColor: focused ? 'red' : '#B3BBD4',
+                  tintColor: focused ? colors.red : colors.greeny,
                   ...style.tabBarIconStyle,
                 }}
               />
               <Text
                 style={{
-                  color: focused ? 'red' : '#B3BBD4',
+                  color: focused ? colors.red : colors.greeny,
                   ...style.tabBarTitleStyle,
                 }}>
                 Settings
@@ -129,7 +132,7 @@ const TabBar = () => {
 const style = StyleSheet.create({
   tabBarStyle: {
     position: 'absolute',
-    backgroundColor: '#1A294F',
+    backgroundColor: colors.semiPrimary,
   },
   tabBarVewStyle: {
     alignItems: 'center',
