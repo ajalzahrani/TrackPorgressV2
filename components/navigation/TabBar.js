@@ -12,7 +12,7 @@ const ScheduleStack = createNativeStackNavigator();
 // Screens
 import HomeScreen from '../../screens/HomeScreen';
 import ScheduleScreen from '../../screens/ScheduleScreen';
-import ExerciseScreen from '../../screens/ExerciseScreen';
+import WorkoutScreen from '../../screens/WorkoutScreen';
 import StatScreen from '../../screens/StatScreen';
 import SettingsScreen from '../../screens/SettingsScreen';
 
@@ -23,7 +23,7 @@ const ScheduleStackScreen = () => {
   return (
     <ScheduleStack.Navigator screenOptions={{headerShown: false}}>
       <ScheduleStack.Screen name="ScheduleScreen" component={ScheduleScreen} />
-      <ScheduleStack.Screen name="ExerciseScreen" component={ExerciseScreen} />
+      <ScheduleStack.Screen name="WorkoutScreen" component={WorkoutScreen} />
     </ScheduleStack.Navigator>
   );
 };

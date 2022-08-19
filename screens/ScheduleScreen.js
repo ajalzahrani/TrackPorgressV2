@@ -11,19 +11,19 @@ import LinearGradient from 'react-native-linear-gradient';
 import React, {useEffect, useState} from 'react';
 
 // Components
-import AddNewWorkout from '../components/AddNewWorkout';
+import AddNew from '../components/AddNew';
 import CalenderRow from '../components/CalenderRow';
 import WorkoutCard from '../components/WorkoutCard';
 
 // Assets
-import {colors, workoutData} from '../components/constants';
+import {colors, workoutData, assets} from '../components/constants';
 
 const ScheduleScreen = () => {
   const [woData, setWoData] = useState(workoutData);
   return (
     <SafeAreaView className="bg-[#112044] flex-1">
       <View>
-        <AddNewWorkout />
+        <AddNew title={'Add new workout'} />
         <CalenderRow />
       </View>
       <View style={style.workoutContainerStyle}>
@@ -35,7 +35,7 @@ const ScheduleScreen = () => {
             end={{x: 0, y: 0}}
             colors={['#FA3B89', '#E10D60']}>
             <View className="flex-row justify-center items-center space-x-2">
-              <Image source={require('../asset/icn_start.png')} />
+              <Image source={assets.icn_start} />
               <Text className="text-base font-semibold text-white">Start</Text>
             </View>
           </LinearGradient>

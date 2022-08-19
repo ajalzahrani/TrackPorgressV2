@@ -15,12 +15,8 @@ const WorkoutCard = ({id, title}) => {
     <View style={style.cardContainer}>
       <Text style={style.workoutTitle}>{title}</Text>
       <View style={style.editContainerStyle} className="space-x-2">
-        {/* FIXME: Adjust button size acording to the design */}
-        <TouchableOpacity style={style.touchableOpacityArrowStyle}>
-          <Image
-            style={{width: 18, height: 15.98}}
-            source={assets.icn_rightarrow}
-          />
+        <TouchableOpacity>
+          <Image source={assets.icn_goforward} />
         </TouchableOpacity>
         <TouchableOpacity>
           <Image source={assets.icn_edit} />

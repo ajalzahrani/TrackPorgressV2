@@ -7,6 +7,10 @@ import icn_start from '../../asset/icn_start.png';
 import icn_plus from '../../asset/icn_plus.png';
 import icn_rightarrow from '../../asset/icn_rightarrow.png';
 import icn_edit from '../../asset/icn_edit.png';
+import icn_add from '../../asset/icn_add.png';
+import icn_min from '../../asset/icn_min.png';
+import icn_goback from '../../asset/icn_goback.png';
+import icn_goforward from '../../asset/icn_goforward.png';
 
 import AsianBueaty from '../../asset/personalpic.png';
 
@@ -20,6 +24,10 @@ export default {
   icn_start,
   icn_edit,
   icn_rightarrow,
+  icn_add,
+  icn_min,
+  icn_goback,
+  icn_goforward,
 
   AsianBueaty,
 };

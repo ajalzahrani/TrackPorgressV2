@@ -40,7 +40,7 @@ const StatScreen = () => {
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView className="bg-[#112044] flex-1">
       <View className="p-5">
         <Text className="text-center bg-red-300 text-lg p-5">
           Statistic Screen
