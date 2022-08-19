@@ -1,16 +1,32 @@
 import React from 'react';
 import {Image, View, Text, StyleSheet} from 'react-native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import {colors, assets} from './constants';
+// Tab Navigator
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+const Tab = createBottomTabNavigator();
+
+// Stack Navigator
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+const ScheduleStack = createNativeStackNavigator();
 
 // Screens
-import HomeScreen from '../screens/HomeScreen';
-import SettingsScreen from '../screens/SettingsScreen';
-import StatScreen from '../screens/StatScreen';
-import ScheduleScreen from '../screens/ScheduleScreen';
+import HomeScreen from '../../screens/HomeScreen';
+import ScheduleScreen from '../../screens/ScheduleScreen';
+import ExerciseScreen from '../../screens/ExerciseScreen';
+import StatScreen from '../../screens/StatScreen';
+import SettingsScreen from '../../screens/SettingsScreen';
 
-const Tab = createBottomTabNavigator();
+// componetns
+import {colors, assets} from '../constants';
+
+const ScheduleStackScreen = () => {
+  return (
+    <ScheduleStack.Navigator screenOptions={{headerShown: false}}>
+      <ScheduleStack.Screen name="ScheduleScreen" component={ScheduleScreen} />
+      <ScheduleStack.Screen name="ExerciseScreen" component={ExerciseScreen} />
+    </ScheduleStack.Navigator>
+  );
+};
 
 const TabBar = () => {
   return (
@@ -48,7 +64,7 @@ const TabBar = () => {
       />
       <Tab.Screen
         name="schedule"
-        component={ScheduleScreen}
+        component={ScheduleStackScreen}
         options={{
           headerShown: false,
           tabBarIcon: ({focused}) => (

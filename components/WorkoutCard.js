@@ -17,7 +17,10 @@ const WorkoutCard = ({id, title}) => {
       <View style={style.editContainerStyle} className="space-x-2">
         {/* FIXME: Adjust button size acording to the design */}
         <TouchableOpacity style={style.touchableOpacityArrowStyle}>
-          <Image source={assets.icn_rightarrow} />
+          <Image
+            style={{width: 18, height: 15.98}}
+            source={assets.icn_rightarrow}
+          />
         </TouchableOpacity>
         <TouchableOpacity>
           <Image source={assets.icn_edit} />
@@ -52,7 +55,8 @@ const style = StyleSheet.create({
     justifyContent: 'space-between',
   },
   touchableOpacityArrowStyle: {
-    padding: 8,
+    alignItems: 'flex-start',
+    padding: 10,
     borderRadius: 100,
     backgroundColor: colors.secondary,
   },

@@ -19,6 +19,10 @@ export const workoutData = [
     id: 5,
     title: 'Legs workout',
   },
+  {
+    id: 6,
+    title: 'ABS',
+  },
 ];
 
 // export default workoutData; --> Error "it should be like export {workoutData} and delete export above"
