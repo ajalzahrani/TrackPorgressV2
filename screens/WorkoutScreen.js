@@ -35,50 +35,45 @@ const WorkoutScreen = () => {
           navigateTo={{to: 'ExerciseScreen'}}
         />
       </View>
-      <View style={{paddingHorizontal: 16}}>
-        <View>
-          <TextInput
-            placeholder="Workout name"
-            placeholderTextColor={colors.white}
-            style={{
-              backgroundColor: colors.offwhite,
-              paddingVertical: 12,
-              paddingHorizontal: 20,
-              color: colors.white,
-              fontSize: 16,
-              fontWeight: '400',
-              borderRadius: 100,
-              marginHorizontal: 30,
-              marginTop: 47,
-            }}
-          />
-        </View>
-        <View style={{}}>
-          <View style={style.preWorkoutListContainerStyle}>
-            <Text className="text-white">Pre-list of workouts</Text>
-            <ScrollView
-              contentContainerStyle={{paddingBottom: 72}}
-              style={{alignSelf: 'stretch'}}>
-              <ExerciseCard />
-              <ExerciseCard />
-              <ExerciseCard />
-              <ExerciseCard />
-              <TouchableOpacity>
-                <LinearGradient
-                  style={style.touchableOpacityStartStyle}
-                  start={{x: 1, y: 0}}
-                  end={{x: 0, y: 0}}
-                  colors={['#FA3B89', '#E10D60']}>
-                  <View className="flex-row justify-center items-center space-x-2">
-                    <Image source={assets.icn_start} />
-                    <Text className="text-base font-semibold text-white">
-                      Start
-                    </Text>
-                  </View>
-                </LinearGradient>
-              </TouchableOpacity>
-            </ScrollView>
-          </View>
+      <View style={{paddingHorizontal: 16, flex: 1}}>
+        <TextInput
+          placeholder="Workout name"
+          placeholderTextColor={colors.white}
+          style={{
+            backgroundColor: colors.offwhite,
+            paddingVertical: 12,
+            paddingHorizontal: 20,
+            color: colors.white,
+            fontSize: 16,
+            fontWeight: '400',
+            borderRadius: 100,
+            marginHorizontal: 30,
+            marginTop: 47,
+          }}
+        />
+
+        <View style={style.preWorkoutListContainerStyle}>
+          <Text className="text-white">Pre-list of workouts</Text>
+          <ScrollView contentContainerStyle={{paddingBottom: 72}}>
+            <ExerciseCard />
+            <ExerciseCard />
+            <ExerciseCard />
+            <ExerciseCard />
+            <TouchableOpacity>
+              <LinearGradient
+                style={style.touchableOpacityStartStyle}
+                start={{x: 1, y: 0}}
+                end={{x: 0, y: 0}}
+                colors={['#FA3B89', '#E10D60']}>
+                <View className="flex-row justify-center items-center space-x-2">
+                  <Image source={assets.icn_start} />
+                  <Text className="text-base font-semibold text-white">
+                    Start
+                  </Text>
+                </View>
+              </LinearGradient>
+            </TouchableOpacity>
+          </ScrollView>
         </View>
       </View>
     </SafeAreaView>
@@ -99,6 +94,7 @@ const style = StyleSheet.create({
   },
   preWorkoutListContainerStyle: {
     marginTop: 24,
+    flex: 1,
   },
   touchableOpacityStartStyle: {
     display: 'flex',

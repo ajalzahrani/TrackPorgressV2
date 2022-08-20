@@ -8,7 +8,7 @@ import {
   ScrollView,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import React, { useState} from 'react';
+import React, {useState} from 'react';
 
 // Components
 import AddNew from '../components/AddNew';
@@ -21,7 +21,7 @@ import {colors, workoutData, assets} from '../components/constants';
 const ScheduleScreen = () => {
   const [woData, setWoData] = useState(workoutData);
   return (
-    <SafeAreaView className="bg-[#112044] flex-1 mb-8">
+    <SafeAreaView className="bg-[#112044] flex-1">
       <View>
         <AddNew title={'Add new workout'} navigateTo={{to: 'WorkoutScreen'}} />
         <CalenderRow />
@@ -41,12 +41,10 @@ const ScheduleScreen = () => {
           </LinearGradient>
         </TouchableOpacity>
       </View>
-      <View style={{paddingHorizontal: 16}}>
+      <View style={{paddingHorizontal: 16, flex: 1}}>
         <View style={style.preWorkoutListContainerStyle}>
           <Text className="text-white">Pre-list of workouts</Text>
-          <ScrollView
-            contentContainerStyle={{paddingBottom: 72}}
-            style={{alignSelf: 'stretch'}}>
+          <ScrollView contentContainerStyle={{paddingBottom: 72}}>
             {woData?.map(item => (
               <WorkoutCard key={item.id} id={item.id} title={item.title} />
             ))}

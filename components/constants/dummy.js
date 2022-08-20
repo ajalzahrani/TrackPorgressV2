@@ -50,6 +50,38 @@ export const exerciseData = [
     id: 6,
     title: 'Crunches',
   },
+  {
+    id: 7,
+    title: 'Diamond pushup',
+  },
+  {
+    id: 8,
+    title: 'Wide grip pushup',
+  },
+  {
+    id: 9,
+    title: 'Split Squat',
+  },
+  {
+    id: 10,
+    title: 'Close grip pullup',
+  },
+  {
+    id: 11,
+    title: 'Natural grip pullup',
+  },
+  {
+    id: 12,
+    title: 'Crunches',
+  },
+  {
+    id: 13,
+    title: 'Natural grip pullup',
+  },
+  {
+    id: 14,
+    title: 'Crunches',
+  },
 ];
 
 // export default workoutData; --> Error "it should be like export {workoutData} and delete export above"

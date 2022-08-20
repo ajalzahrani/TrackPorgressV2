@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TextInput,
   FlatList,
+  ScrollView,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import React, {useState} from 'react';
@@ -23,7 +24,7 @@ const ExerciseScreen = () => {
 
   return (
     <SafeAreaView className="bg-[#112044] flex-1">
-      <View style={{paddingHorizontal: 16}}>
+      <View style={{paddingHorizontal: 16, flex: 1}}>
         {/* TextInput component */}
         <TextInput
           placeholder="Exercise name"
@@ -41,28 +42,27 @@ const ExerciseScreen = () => {
           }}
         />
 
-        {/* Exercise List */}
-        <View style={style.preWorkoutListContainerStyle}>
-          <FlatList
-            data={exData}
-            renderItem={({item}) => <ExerciseSelectRow item={item} />}
-            keyExtractor={item => item.id}
-          />
-        </View>
-
-        {/* OK Button */}
-        <TouchableOpacity>
-          <LinearGradient
-            style={style.touchableOpacityStartStyle}
-            start={{x: 1, y: 0}}
-            end={{x: 0, y: 0}}
-            colors={['#FA3B89', '#E10D60']}>
-            <View className="flex-row justify-center items-center space-x-2">
-              <Image source={assets.icn_start} />
-              <Text className="text-base font-semibold text-white">Done</Text>
-            </View>
-          </LinearGradient>
-        </TouchableOpacity>
+        <ScrollView contentContainerStyle={{paddingBottom: 72, marginTop: 20}}>
+          {/* Exercise List */}
+          <View style={style.preListContainerStyle}>
+            {exData.map(item => (
+              <ExerciseSelectRow key={item.id} item={item} />
+            ))}
+          </View>
+          {/* OK Button */}
+          <TouchableOpacity>
+            <LinearGradient
+              style={style.touchableOpacityStartStyle}
+              start={{x: 1, y: 0}}
+              end={{x: 0, y: 0}}
+              colors={['#FA3B89', '#E10D60']}>
+              <View className="flex-row justify-center items-center space-x-2">
+                <Image source={assets.icn_start} />
+                <Text className="text-base font-semibold text-white">Done</Text>
+              </View>
+            </LinearGradient>
+          </TouchableOpacity>
+        </ScrollView>
       </View>
     </SafeAreaView>
   );
@@ -76,7 +76,8 @@ const style = StyleSheet.create({
     paddingHorizontal: 16,
     marginVertical: 10,
   },
-  preWorkoutListContainerStyle: {
+  preListContainerStyle: {
+    // flex: 1,
     marginTop: 24,
     backgroundColor: colors.secondaryow,
     justifyContent: 'center',
