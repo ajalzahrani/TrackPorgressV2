@@ -15,6 +15,7 @@ import ScheduleScreen from '../../screens/ScheduleScreen';
 import WorkoutScreen from '../../screens/WorkoutScreen';
 import StatScreen from '../../screens/StatScreen';
 import SettingsScreen from '../../screens/SettingsScreen';
+import ExerciseScreen from '../../screens/ExerciseScreen';
 
 // componetns
 import {colors, assets} from '../constants';
@@ -24,6 +25,14 @@ const ScheduleStackScreen = () => {
     <ScheduleStack.Navigator screenOptions={{headerShown: false}}>
       <ScheduleStack.Screen name="ScheduleScreen" component={ScheduleScreen} />
       <ScheduleStack.Screen name="WorkoutScreen" component={WorkoutScreen} />
+      <ScheduleStack.Screen
+        name="ExerciseScreen"
+        component={ExerciseScreen}
+        options={{
+          presentation: 'modal',
+          headerShown: false,
+        }}
+      />
     </ScheduleStack.Navigator>
   );
 };

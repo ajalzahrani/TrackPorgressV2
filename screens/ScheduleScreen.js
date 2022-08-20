@@ -21,9 +21,9 @@ import {colors, workoutData, assets} from '../components/constants';
 const ScheduleScreen = () => {
   const [woData, setWoData] = useState(workoutData);
   return (
-    <SafeAreaView className="bg-[#112044] flex-1">
+    <SafeAreaView className="bg-[#112044] flex-1 mb-8">
       <View>
-        <AddNew title={'Add new workout'} />
+        <AddNew title={'Add new workout'} navigateTo={{to: 'WorkoutScreen'}} />
         <CalenderRow />
       </View>
       <View style={style.workoutContainerStyle}>

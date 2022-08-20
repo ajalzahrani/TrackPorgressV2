@@ -24,7 +24,7 @@ const ExerciseCard = () => {
       {/* Exercise Titile */}
       <Text style={style.exerciseTitleStyle}>Diamond pushup</Text>
 
-      <SETsController />
+      <SETsController indicatorTitle={'Set'} />
 
       {/* Dividor */}
       <View
@@ -35,7 +35,7 @@ const ExerciseCard = () => {
         }}
       />
 
-      <SETsController />
+      <SETsController indicatorTitle={'Rep'} />
     </View>
   );
 };

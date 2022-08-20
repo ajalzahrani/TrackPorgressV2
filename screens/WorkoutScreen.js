@@ -19,7 +19,7 @@ import {colors, exerciseData, assets} from '../components/constants';
 import AddNewWorkout from '../components/AddNew';
 import ExerciseCard from '../components/ExerciseCard';
 
-const ExerciseScreen = () => {
+const WorkoutScreen = () => {
   const [ed, setEd] = useState(exerciseData);
 
   const navigation = useNavigation();
@@ -30,7 +30,10 @@ const ExerciseScreen = () => {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image source={assets.icn_goback} />
         </TouchableOpacity>
-        <AddNewWorkout title={'Add new exercise'} />
+        <AddNewWorkout
+          title={'Add new exercise'}
+          navigateTo={{to: 'ExerciseScreen'}}
+        />
       </View>
       <View style={{paddingHorizontal: 16}}>
         <View>
@@ -111,4 +114,4 @@ const style = StyleSheet.create({
   },
 });
 
-export default ExerciseScreen;
+export default WorkoutScreen;

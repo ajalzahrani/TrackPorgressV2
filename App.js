@@ -39,6 +39,11 @@ const App: () => Node = () => {
   return (
     <NavigationContainer>
       <TailwindProvider>
+        <StatusBar
+          backgroundColor="transparent"
+          barStyle="light-content"
+          translucent={true}
+        />
         <TabBar />
       </TailwindProvider>
     </NavigationContainer>
