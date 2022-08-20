@@ -1,5 +1,5 @@
-import {View, TouchableOpacity, Text, SafeAreaView, Image} from 'react-native';
-import React, {useState} from 'react';
+import {View, SafeAreaView} from 'react-native';
+import React from 'react';
 
 import ProfileTitle from '../components/ProfileTitle';
 import CardInformation from '../components/CardInformation';

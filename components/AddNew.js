@@ -1,8 +1,8 @@
-import {View, Text, TouchableOpacity, Image} from 'react-native';
+import {Text, TouchableOpacity, Image} from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 
-import {assets, colors} from './constants';
+import {assets} from './constants';
 
 const AddNew = ({title, navigateTo}) => {
   const navigation = useNavigation();

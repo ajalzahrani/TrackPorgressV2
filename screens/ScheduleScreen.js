@@ -8,7 +8,7 @@ import {
   ScrollView,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import React, {useEffect, useState} from 'react';
+import React, { useState} from 'react';
 
 // Components
 import AddNew from '../components/AddNew';

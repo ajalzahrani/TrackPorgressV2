@@ -7,7 +7,6 @@ const ProfileTitle = () => {
       <Image
         source={require('../asset/personalpic.png')}
         style={{
-          //resizeMode: 'contain',
           width: 100,
           height: 100,
           borderRadius: 100,

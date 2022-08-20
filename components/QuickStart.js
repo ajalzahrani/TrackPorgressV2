@@ -28,7 +28,3 @@ const QuickStart = () => {
 };
 
 export default QuickStart;
-
-// this the primary red color https://tailwindcss.com/docs/background-image#linear-gradients
-// #E10D60
-// #FA3B89

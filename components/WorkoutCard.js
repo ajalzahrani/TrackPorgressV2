@@ -1,14 +1,7 @@
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-} from 'react-native';
+import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import React from 'react';
 
-import {colors, assets, workoutData} from './constants';
+import {colors, assets} from './constants';
 
 const WorkoutCard = ({id, title}) => {
   return (

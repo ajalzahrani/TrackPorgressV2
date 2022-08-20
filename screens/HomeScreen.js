@@ -1,14 +1,5 @@
-import {
-  Text,
-  View,
-  StatusBar,
-  Button,
-  SafeAreaView,
-  Image,
-  TextInput,
-  ScrollView,
-} from 'react-native';
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import {Text, View, SafeAreaView, Image} from 'react-native';
+import React from 'react';
 
 // Components
 import QuickStart from '../components/QuickStart';

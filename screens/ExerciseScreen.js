@@ -5,48 +5,21 @@ import {
   Image,
   TouchableOpacity,
   StyleSheet,
-  ScrollView,
   TextInput,
   FlatList,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import React, {useEffect, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
-
-import {store} from '../Store';
+import React, {useState} from 'react';
 
 // Assets
 import {colors, exerciseData, assets} from '../components/constants';
 
 // components
-import AddNewWorkout from '../components/AddNew';
 import Divider from '../components/Divider';
 import ExerciseSelectRow from '../components/ExerciseSelectRow';
 
 const ExerciseScreen = () => {
   const [exData, setEXData] = useState(exerciseData);
-  const [isSelected, setIsSelected] = useState(false);
-
-  const setSelected = id => {
-    const key = id + '';
-    if (store.getBoolean(key) === false) {
-      store.set(key, true);
-    } else if (store.getBoolean(key) === true) {
-      store.set(key, false);
-    } else {
-      store.set(key, true);
-    }
-  };
-
-  const checkSelected = id => {
-    const key = id + '';
-    const value = store.getBoolean(key);
-    if (value == null) {
-      return false;
-    }
-    console.log(value);
-    return value;
-  };
 
   return (
     <SafeAreaView className="bg-[#112044] flex-1">
