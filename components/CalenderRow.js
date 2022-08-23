@@ -1,31 +1,143 @@
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {colors} from './constants';
 
+const weekObj = {
+  Saturday: false,
+  Sunday: false,
+  Monday: false,
+  Tuesday: false,
+  Wednesday: false,
+  Thursday: false,
+  Friday: false,
+};
+
 const CalenderRow = () => {
+  const [isOn, setisOn] = useState(weekObj);
+
+  useEffect(() => {
+    handleWhichDay();
+  }, []);
+
+  const handleWhichDay = () => {
+    var date = new Date();
+    date.setDate(date.getDate() + 0); // add day
+    const todayName = date.toLocaleDateString('en-us', {weekday: 'long'}); // get day name
+
+    date.setDate(date.getDate() - 1); // min day
+    const yesterdayName = date.toLocaleDateString('en-us', {weekday: 'long'}); // get day name
+
+    const udpateToday = {[todayName]: true}; // this is how to use variable as object key with {[variable]: value}
+    const updateYesterday = {[yesterdayName]: false};
+
+    // set it to state
+    setisOn(prev => {
+      return {prev, ...udpateToday, ...updateYesterday};
+    });
+  };
+
   return (
     // <View className="flex-row justify-around pt-5 mx-3">
     <View style={style.containerStyle}>
-      <TouchableOpacity style={style.touchableOpacityStyle}>
+      <TouchableOpacity
+        style={{
+          display: 'flex',
+          backgroundColor: isOn.Sunday ? colors.red : colors.offwhite,
+          justifyContent: 'center',
+          alignItems: 'center',
+          borderRadius: 30,
+          height: 44,
+          width: 44,
+          order: 6,
+          flexGrow: 0,
+        }}>
         <Text style={style.textSytle}>S</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={style.touchableOpacityStyle}>
+      <TouchableOpacity
+        style={{
+          display: 'flex',
+          backgroundColor: isOn.Monday ? colors.red : colors.offwhite,
+          justifyContent: 'center',
+          alignItems: 'center',
+          borderRadius: 30,
+          height: 44,
+          width: 44,
+          order: 6,
+          flexGrow: 0,
+        }}>
         <Text style={style.textSytle}>M</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={style.touchableOpacityStyle}>
+      <TouchableOpacity
+        style={{
+          display: 'flex',
+          backgroundColor: isOn.Tuesday ? colors.red : colors.offwhite,
+          justifyContent: 'center',
+          alignItems: 'center',
+          borderRadius: 30,
+          height: 44,
+          width: 44,
+          order: 6,
+          flexGrow: 0,
+        }}>
         <Text style={style.textSytle}>T</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={style.touchableOpacityStyle}>
+      <TouchableOpacity
+        style={{
+          display: 'flex',
+          backgroundColor: isOn.Wednesday ? colors.red : colors.offwhite,
+          justifyContent: 'center',
+          alignItems: 'center',
+          borderRadius: 30,
+          height: 44,
+          width: 44,
+          order: 6,
+          flexGrow: 0,
+        }}>
         <Text style={style.textSytle}>W</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={style.touchableOpacityStyle} op>
+      <TouchableOpacity
+        style={{
+          display: 'flex',
+          backgroundColor: isOn.Thursday ? colors.red : colors.offwhite,
+          justifyContent: 'center',
+          alignItems: 'center',
+          borderRadius: 30,
+          height: 44,
+          width: 44,
+          order: 6,
+          flexGrow: 0,
+        }}>
         <Text style={style.textSytle}>T</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={style.touchableOpacityStyle}>
+      <TouchableOpacity
+        style={{
+          display: 'flex',
+          backgroundColor: isOn.Friday ? colors.red : colors.offwhite,
+          justifyContent: 'center',
+          alignItems: 'center',
+          borderRadius: 30,
+          height: 44,
+          width: 44,
+          order: 6,
+          flexGrow: 0,
+        }}>
         <Text style={style.textSytle}>F</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={style.touchableOpacityStyle}>
+      <TouchableOpacity
+        style={{
+          display: 'flex',
+          backgroundColor: isOn.Saturday ? colors.red : colors.offwhite,
+          justifyContent: 'center',
+          alignItems: 'center',
+          borderRadius: 30,
+          height: 44,
+          width: 44,
+          order: 6,
+          flexGrow: 0,
+        }}
+        // onPress={() => handleWhichDay()}
+      >
         <Text style={style.textSytle}>S</Text>
       </TouchableOpacity>
     </View>

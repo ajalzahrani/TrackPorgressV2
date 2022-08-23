@@ -18,8 +18,10 @@ import {colors, exerciseData, assets} from '../components/constants';
 // components
 import Divider from '../components/Divider';
 import ExerciseSelectRow from '../components/ExerciseSelectRow';
+import {useNavigation} from '@react-navigation/native';
 
 const ExerciseScreen = () => {
+  const navigation = useNavigation();
   const [exData, setEXData] = useState(exerciseData);
 
   return (
@@ -50,7 +52,10 @@ const ExerciseScreen = () => {
             ))}
           </View>
           {/* OK Button */}
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
+            }}>
             <LinearGradient
               style={style.touchableOpacityStartStyle}
               start={{x: 1, y: 0}}

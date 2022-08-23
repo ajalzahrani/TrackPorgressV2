@@ -84,8 +84,9 @@ export const exerciseData = [
   },
 ];
 
-export const scheduleData = {
-  Sunday: {
+export const scheduleData = [
+  {
+    day: 'Sunday',
     workout: {
       id: 1,
       title: 'pushup workout',
@@ -93,20 +94,60 @@ export const scheduleData = {
         {
           id: 1,
           title: 'pushups',
+          freq: [15, 12, 12, 10],
         },
         {
           id: 2,
           title: 'wide grip pushup',
+          freq: [10, 10, 10],
+        },
+        {
+          id: 3,
+          title: 'Diamond pushup',
+          freq: [10, 10, 10, 10, 10],
+        },
+        {
+          id: 2,
+          title: 'Reverse pushup',
+          freq: [20, 20],
         },
       ],
     },
   },
-  Monday: {},
-  Tuesday: {},
-  Windesday: {},
-  Thuresday: {},
-  Friday: {},
-  Saturday: {},
-};
+  {day: 'Monday'},
+  {
+    day: 'Tuesday',
+    workout: {
+      id: 1,
+      title: 'Pullup workout',
+      exercises: [
+        {
+          id: 1,
+          title: 'PullUps',
+          freq: [15, 12, 12, 10],
+        },
+        {
+          id: 2,
+          title: 'wide grip pullups',
+          freq: [10, 10, 10],
+        },
+        {
+          id: 3,
+          title: 'Close grip pullup',
+          freq: [10, 10, 10, 10, 10],
+        },
+        {
+          id: 2,
+          title: 'Chine up',
+          freq: [20, 20],
+        },
+      ],
+    },
+  },
+  {day: 'Windesday'},
+  {day: 'Thuresday'},
+  {day: 'Friday'},
+  {day: 'Saturday'},
+];
 
 // export default workoutData; --> Error "it should be like export {workoutData} and delete export above"

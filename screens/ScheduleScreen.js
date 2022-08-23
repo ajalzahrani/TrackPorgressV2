@@ -16,7 +16,12 @@ import CalenderRow from '../components/CalenderRow';
 import WorkoutCard from '../components/WorkoutCard';
 
 // Assets
-import {colors, workoutData, assets} from '../components/constants';
+import {
+  colors,
+  workoutData,
+  assets,
+  scheduleData,
+} from '../components/constants';
 
 const ScheduleScreen = () => {
   const [woData, setWoData] = useState(workoutData);

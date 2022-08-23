@@ -1,8 +1,6 @@
 import {View, Text, TouchableOpacity} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-
-import {}
 
 const QuickStart = () => {
   return (
