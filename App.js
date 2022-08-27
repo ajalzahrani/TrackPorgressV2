@@ -18,13 +18,8 @@ import {
   View,
 } from 'react-native';
 
-// Icons
-import {
-  HomeIcon,
-  TableIcon,
-  ChartPieIcon,
-  AdjustmentsIcon,
-} from 'react-native-heroicons/outline';
+// Database
+import {createDatebase, createDatabaseTables} from './components/database';
 
 // Navigation
 import {NavigationContainer} from '@react-navigation/native';
@@ -36,6 +31,8 @@ import TabBar from './components/navigation/TabBar';
 import {TailwindProvider} from 'tailwindcss-react-native';
 
 const App: () => Node = () => {
+  createDatebase();
+  createDatabaseTables();
   return (
     <NavigationContainer>
       <TailwindProvider>

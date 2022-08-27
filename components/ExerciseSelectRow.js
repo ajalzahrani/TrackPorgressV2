@@ -33,6 +33,8 @@ const style = StyleSheet.create({
     marginVertical: 10,
   },
   exerciseTitleStyle: {
+    flex: 1,
+    flexWrap: 'wrap',
     color: colors.white,
     fontWeight: '500',
     fontSize: 20,

@@ -15,6 +15,9 @@ import React, {useState} from 'react';
 // Assets
 import {colors, exerciseData, assets} from '../components/constants';
 
+// Database
+import {Exercise_Read} from '../components/database';
+
 // components
 import Divider from '../components/Divider';
 import ExerciseSelectRow from '../components/ExerciseSelectRow';
@@ -23,6 +26,22 @@ import {useNavigation} from '@react-navigation/native';
 const ExerciseScreen = () => {
   const navigation = useNavigation();
   const [exData, setEXData] = useState(exerciseData);
+  const [search, setSearch] = useState('');
+  const [searchResult, setSearchResult] = useState();
+
+  const handleSearch = searchText => {
+    const filterdExercies = exData.filter((exer, index) => {
+      // console.log(exer.title.match(searchText));
+      return exer.title.match(searchText);
+    });
+    if (searchText === '') {
+      setSearchResult([]);
+    } else {
+      setSearchResult(filterdExercies);
+    }
+  };
+
+  const getExers = () => {};
 
   return (
     <SafeAreaView className="bg-[#112044] flex-1">
@@ -31,6 +50,7 @@ const ExerciseScreen = () => {
         <TextInput
           placeholder="Exercise name"
           placeholderTextColor={colors.white}
+          onChange={text => handleSearch(text)}
           style={{
             backgroundColor: colors.offwhite,
             paddingVertical: 12,
@@ -47,14 +67,15 @@ const ExerciseScreen = () => {
         <ScrollView contentContainerStyle={{paddingBottom: 72, marginTop: 20}}>
           {/* Exercise List */}
           <View style={style.preListContainerStyle}>
-            {exData.map(item => (
+            {searchResult?.map(item => (
               <ExerciseSelectRow key={item.id} item={item} />
             ))}
           </View>
           {/* OK Button */}
           <TouchableOpacity
             onPress={() => {
-              navigation.goBack();
+              const exarry = Exercise_Read();
+              console.log();
             }}>
             <LinearGradient
               style={style.touchableOpacityStartStyle}

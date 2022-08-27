@@ -52,35 +52,59 @@ export const exerciseData = [
   },
   {
     id: 7,
-    title: 'Diamond pushup',
+    title: 'Deadlift',
   },
   {
     id: 8,
-    title: 'Wide grip pushup',
+    title: 'T-Bar Row',
   },
   {
     id: 9,
-    title: 'Split Squat',
+    title: 'One-Leg Plank',
   },
   {
     id: 10,
-    title: 'Close grip pullup',
+    title: 'Lat Pulldown',
   },
   {
     id: 11,
-    title: 'Natural grip pullup',
+    title: 'Farmer’s Walk & Trap Bar Carry',
   },
   {
     id: 12,
-    title: 'Crunches',
+    title: 'Seated Incline Dumbbell Curl',
   },
   {
     id: 13,
-    title: 'Natural grip pullup',
+    title: 'Standing Barbell Curl',
   },
   {
     id: 14,
-    title: 'Crunches',
+    title: 'Dips',
+  },
+  {
+    id: 12,
+    title: 'Shrugs',
+  },
+  {
+    id: 13,
+    title: 'Dumbbell Lateral Raises',
+  },
+  {
+    id: 14,
+    title: 'Presses',
+  },
+  {
+    id: 12,
+    title: 'Rear Delt Raises',
+  },
+  {
+    id: 13,
+    title: 'Barbell Bench Press',
+  },
+  {
+    id: 14,
+    title: 'DCable Crossover',
   },
 ];
 

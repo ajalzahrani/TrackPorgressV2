@@ -84,10 +84,10 @@ const StatScreen = () => {
           }}>
           <Text className="text-white text-center text-lg">Clear Data</Text>
         </TouchableOpacity>
-        <Text className="mt-2 text-center text-xl">
+        <Text className="mt-2 text-center text-yellow-50 text-xl">
           {userProfileValue?.fname}
         </Text>
-        <Text className="mt-2 text-center text-xl">
+        <Text className="mt-2 text-center text-yellow-50 text-xl">
           {userProfileValue?.lname}
         </Text>
       </View>
