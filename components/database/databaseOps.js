@@ -1,5 +1,11 @@
 import {openDatabase} from 'react-native-sqlite-storage';
 
+const db = openDatabase(
+  {name: 'TrackProgressv2_rn_sqlite', location: 'Documents'},
+  successCB,
+  errorCB,
+);
+
 function errorCB(err) {
   console.log('SQL Error: ' + err);
 }
@@ -63,12 +69,11 @@ const tables = {
 };
 
 const createExerciesMasterQuery = `      
-CREATE TABLE IF NOT EXISTS "ExerciesMaster" (
-	"exerciseId"	INTEGER NOT NULL,
-	"name"	TEXT NOT NULL,
-	"description"	TEXT,
-	"icon"	NUMERIC,
-	PRIMARY KEY("exerciseId" AUTOINCREMENT)
+CREATE TABLE IF NOT EXISTS ExerciesMaster (
+	exerciseId	INTEGER NOT NULL,
+	name varchar(255),
+	description	varchar(255),
+	PRIMARY KEY(exerciseId AUTOINCREMENT)
 )   
 `;
 
@@ -101,26 +106,53 @@ CREATE TABLE IF NOT EXISTS "Days" (
 `;
 
 // ExerciseMaster table ops
+
+const getCategories = () => {
+  db.transaction(txn => {
+    txn.executeSql(
+      `select exerciseid, name from ExerciesMaster`,
+      [],
+      (SQLTransaction, SQLResultSet) => {
+        console.log(`Categories retrieved successfully.`);
+        let lenght = SQLResultSet.rows.length;
+
+        if (lenght > 0) {
+          let result = [];
+          for (let i = 0; i < lenght; i++) {
+            let item = SQLResultSet.rows.item(i);
+            result.push({id: item.id, name: item.name});
+          }
+          return 0;
+        }
+      },
+      error => {
+        console.log('Error on getting categories: ', error.message);
+      },
+    );
+  });
+};
+
 // 0 Argument , return array
-const Exercise_Read = async () => {
+const Exercise_Read = () => {
   let query = `select exerciseid, name from ExerciesMaster`;
 
-  (await db).transaction(tx => {
+  return db.transaction(tx => {
     tx.executeSql(
       query,
       [],
-      (tx, results) => {
+      (SQLTransaction, SQLResultSet) => {
         console.log('Exercises retrieved successfully');
 
-        let len = results.rows.length;
+        let len = SQLResultSet.rows.length;
+        // console.log('lenth = , ', len);
         if (len > 0) {
           let result = [];
-          for (let i = 0; i < lenght; i++) {
+          for (let i = 0; i < len; i++) {
             let exeRow = SQLResultSet.rows.item(i);
-            // console.log('lenth = , ', len);
             result.push({id: exeRow.exerciseId, name: exeRow.name});
+            console.log(SQLResultSet.rows.item(i));
           }
-
+          //   console.log(result);
           return result;
         } else {
           return [];
@@ -137,8 +169,8 @@ function Exercise_ReadById(exerciseId) {
   return `select exerciseid, name from ExerciesMaster where exerciseid = ${exerciseId}`;
 }
 
-const Exercise_insert = async (name, description = '', icon = '') => {
-  let query = `INSERT INTO ExerciesMaster (name,description,icon) VALUES ('${name}','${description}','${icon}');`;
+const Exercise_insert = async (name, description = '') => {
+  let query = `INSERT INTO ExerciesMaster (name,description) VALUES ('${name}','${description}');`;
 
   (await db).transaction(tx => {
     tx.executeSql(
@@ -221,20 +253,37 @@ const createTablesTrans = async query => {
   });
 };
 
-function createDatebase() {
-  db = openDatabase(
-    {name: 'TrackProgressv2_rn_sqlite', location: 'Documents'},
-    successCB,
-    errorCB,
-  );
+function dropAllTables() {
+  let query = `DROP TABLE ExerciesMaster`;
+
+  return db.transaction(tx => {
+    tx.executeSql(
+      query,
+      [],
+      (SQLTransaction, SQLResultSet) => {
+        console.log('Table droped successfully !!!!!!');
+      },
+      error => {
+        console.log('Error on droping table', error.message);
+      },
+    );
+  });
 }
 
+// dropAllTables();
+
 function createDatabaseTables() {
-  createTablesTrans(createExerciesMasterQuery);
+  //   createTablesTrans(createExerciesMasterQuery);
   createTablesTrans(createScheduleQuery);
   createTablesTrans(createWorkoutQuery);
   createTablesTrans(createWorkoutDeaitlsQuery);
   createTablesTrans(createDayQuery);
 }
 
-export {createDatebase, createDatabaseTables, Exercise_Read};
+export {
+  db,
+  createDatabaseTables,
+  Exercise_Read,
+  Exercise_insert,
+  getCategories,
+};

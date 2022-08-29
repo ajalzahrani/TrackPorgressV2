@@ -1,7 +1,15 @@
 import {
+  db,
   createDatabaseTables,
-  createDatebase,
   Exercise_Read,
+  Exercise_insert,
+  getCategories,
 } from './databaseOps';
 
-export {createDatabaseTables, createDatebase, Exercise_Read};
+export {
+  db,
+  createDatabaseTables,
+  Exercise_Read,
+  Exercise_insert,
+  getCategories,
+};
