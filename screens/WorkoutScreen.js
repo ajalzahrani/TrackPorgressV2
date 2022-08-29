@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  Modal,
+  Pressable,
   TextInput,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -18,14 +20,46 @@ import {colors, exerciseData, assets} from '../components/constants';
 // components
 import AddNewWorkout from '../components/AddNew';
 import ExerciseCard from '../components/ExerciseCard';
+import AddExerciseModle from '../components/AddExerciseModle';
 
 const WorkoutScreen = () => {
-  const [ed, setEd] = useState(exerciseData);
+  const [workoutName, setWorkoutName] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
 
   const navigation = useNavigation();
 
+  // Workflow functions
+  const checkWorkname = () => {
+    if (workoutName.length > 0) {
+      // Save the workout parameters and goBack to schedule
+      alert('save workout');
+    } else {
+      // Prompet the user to enter workout name
+      setModalVisible(true);
+    }
+  };
+
   return (
     <SafeAreaView className="bg-[#112044] flex-1">
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={style.centeredView}>
+          <View style={style.modalView}>
+            <Text style={style.modalText}>Type in workout name</Text>
+            <Pressable
+              style={[style.button, style.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}>
+              <Text style={style.textStyle}>Okey</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
       <View style={style.goBackStyle}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image source={assets.icn_goback} />
@@ -38,7 +72,8 @@ const WorkoutScreen = () => {
       <View style={{paddingHorizontal: 16, flex: 1}}>
         <TextInput
           placeholder="Workout name"
-          placeholderTextColor={colors.white}
+          placeholderTextColor={colors.offwhite}
+          onChangeText={setWorkoutName}
           style={{
             backgroundColor: colors.offwhite,
             paddingVertical: 12,
@@ -55,11 +90,14 @@ const WorkoutScreen = () => {
         <View style={style.preWorkoutListContainerStyle}>
           <Text className="text-white">Pre-list of workouts</Text>
           <ScrollView contentContainerStyle={{paddingBottom: 72}}>
+            <ExerciseCard exerName={''} />
             <ExerciseCard />
             <ExerciseCard />
             <ExerciseCard />
-            <ExerciseCard />
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                checkWorkname();
+              }}>
               <LinearGradient
                 style={style.touchableOpacityStartStyle}
                 start={{x: 1, y: 0}}
@@ -107,6 +145,49 @@ const style = StyleSheet.create({
     borderRadius: 100,
     marginTop: 30,
     marginHorizontal: 24.5,
+  },
+
+  // modal style
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    // marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
   },
 });
 

@@ -18,11 +18,11 @@ import {colors, exerciseData, assets} from '../components/constants';
 import AddNewWorkout from '../components/AddNew';
 import SETsController from './SETsController';
 
-const ExerciseCard = () => {
+const ExerciseCard = ({exerName}) => {
   return (
     <View style={style.cardContainer}>
       {/* Exercise Titile */}
-      <Text style={style.exerciseTitleStyle}>Diamond pushup</Text>
+      <Text style={style.exerciseTitleStyle}>{exerName}</Text>
 
       <SETsController indicatorTitle={'Set'} />
 
