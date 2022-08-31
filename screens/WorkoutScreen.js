@@ -22,9 +22,14 @@ import AddNewWorkout from '../components/AddNew';
 import ExerciseCard from '../components/ExerciseCard';
 import AddExerciseModle from '../components/AddExerciseModle';
 
+// Database
+import {db, Exercise_Read, getCategories} from '../components/database';
+
 const WorkoutScreen = () => {
-  const [workoutName, setWorkoutName] = useState('');
-  const [modalVisible, setModalVisible] = useState(false);
+  const [workoutName, setWorkoutName] = useState(''); // workout name state
+  const [modalVisible, setModalVisible] = useState(false); // workoutname alert modal state
+  const [exercises, setExercises] = useState([]); // exercise list array state
+  const [selectedExercisesNames, setSelectedExercisesNames] = useState([]);
 
   const navigation = useNavigation();
 
@@ -38,6 +43,148 @@ const WorkoutScreen = () => {
       setModalVisible(true);
     }
   };
+
+  const handleSetExercises = exerciseArray => {
+    setExercises(exerciseArray);
+  };
+
+  // if element unchecked remove it from the array
+  function checkIfExerSelected(id, array) {
+    for (let i = 0; i < array.length; i++) {
+      if (array[i] === id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // I use this function in previous logic to select exercise and now is just for learn how to pass props throw navigatio.
+  const selectExercise = exerId => {
+    // FIXME: strange if you add curly bracts you will get error undefinded is not object.
+    // setExercises(prev => {
+    //   [...prev, exerId];
+    // });
+    // FIXME: strange this log doesn't print exercise state, but it does in useEffect.
+    // console.log('select function call: ', exercises);
+    // Solution is because this being called before render, so call this in return method will print.
+
+    // check if the added exer already selelcted , if so then return
+    if (checkIfExerSelected(exerId, exercises) === false) {
+      setExercises(state => {
+        return [...state, exerId];
+      });
+    }
+  };
+
+  // DATABASE OPS
+  const Workout_Create = async () => {
+    (await db).transaction(txn => {
+      txn.executeSql(
+        `CREATE TABLE IF NOT EXISTS Workout (id integer primary key autoincrement, title varchar(255), description varchar(500))`,
+        [],
+        (SQLTransaction, SQLResultSet) => {
+          console.log('Table Workout was created successfully.');
+        },
+        error => {
+          console.log('Error on creating Workout table: ', error.message);
+        },
+      );
+    });
+  };
+
+  const WorkoutDetails_Create = async () => {
+    (await db).transaction(txn => {
+      txn.executeSql(
+        `CREATE TABLE IF NOT EXISTS workoutDetails (wdId integer primary key autoincrement, wId integer, eId integer)`,
+        [],
+        (SQLTransaction, SQLResultSet) => {
+          console.log('Table WorkoutDetails was created successfully.');
+        },
+        error => {
+          console.log(
+            'Error on creating WorkoutDetails table: ',
+            error.message,
+          );
+        },
+      );
+    });
+  };
+
+  const ExerciseDetails_Create = async () => {
+    (await db).transaction(txn => {
+      txn.executeSql(
+        `CREATE TABLE IF NOT EXISTS ExerciseDetails (edId integer primary key autoincrement, set integer, rep integer)`,
+        [],
+        (SQLTransaction, SQLResultSet) => {
+          console.log('Table ExerciseDetails was created successfully.');
+        },
+        error => {
+          console.log(
+            'Error on creating ExerciseDetails table: ',
+            error.message,
+          );
+        },
+      );
+    });
+  };
+
+  const Exercise_Read = () => {
+    if (exercises.length == 0) return;
+
+    let query = 'select id, name from ExerciesMaster where id in (';
+    for (let i = 0; i < exercises.length; i++) {
+      query = query + exercises[i];
+      if (i === exercises.length - 1) {
+        query = query + ')';
+      } else {
+        query = query + ',';
+      }
+    }
+
+    return db.transaction(tx => {
+      tx.executeSql(
+        query,
+        [JSON.stringify(exercises)],
+        (SQLTransaction, SQLResultSet) => {
+          console.log('Exercise from workoutscreen retrieved successfully');
+
+          let len = SQLResultSet.rows.length;
+          if (len > 0) {
+            let result = [];
+            for (let i = 0; i < len; i++) {
+              let exeRow = SQLResultSet.rows.item(i);
+              result.push({id: exeRow.id, name: exeRow.name});
+            }
+            setSelectedExercisesNames(result);
+          }
+        },
+        error => {
+          console.log('Error on reading exercises', error.message);
+        },
+      );
+    });
+  };
+
+  Workout_insert = () => {
+    db.transaction(txn => {
+      txn.executeSql(
+        `insert into Workout (name) values (?)`,
+        [search],
+        (SQLTransaction, SQLResultSet) => {
+          console.log(`exer added successfully.`);
+          setSearch('');
+        },
+        error => {
+          console.log('Error on adding category: ', error.message);
+        },
+      );
+    });
+  };
+
+  useEffect(() => {
+    console.log('array from workoutscreen: ', exercises);
+    Exercise_Read();
+  }, [exercises]);
 
   return (
     <SafeAreaView className="bg-[#112044] flex-1">
@@ -67,6 +214,12 @@ const WorkoutScreen = () => {
         <AddNewWorkout
           title={'Add new exercise'}
           navigateTo={{to: 'ExerciseScreen'}}
+          // options={{selectExercise: selectExercise()}}
+
+          // Logic how to pass props throw navigation
+          // convert the props to object and pass >> continue to next component
+          // options={{selectExercise: selectExercise}}
+          options={{handleSetExercises: handleSetExercises}}
         />
       </View>
       <View style={{paddingHorizontal: 16, flex: 1}}>
@@ -90,10 +243,12 @@ const WorkoutScreen = () => {
         <View style={style.preWorkoutListContainerStyle}>
           <Text className="text-white">Pre-list of workouts</Text>
           <ScrollView contentContainerStyle={{paddingBottom: 72}}>
-            <ExerciseCard exerName={''} />
-            <ExerciseCard />
-            <ExerciseCard />
-            <ExerciseCard />
+            {selectedExercisesNames?.map(element => {
+              {
+                /* console.log('element value', element); */
+              }
+              return <ExerciseCard key={element.id} exerName={element.name} />;
+            })}
             <TouchableOpacity
               onPress={() => {
                 checkWorkname();

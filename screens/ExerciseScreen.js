@@ -25,12 +25,18 @@ import ExerciseSelectRow from '../components/ExerciseSelectRow';
 import {useNavigation} from '@react-navigation/native';
 import AddExerciseModle from '../components/AddExerciseModle';
 
-const ExerciseScreen = () => {
+const ExerciseScreen = ({route}) => {
   const navigation = useNavigation();
   const [exData, setEXData] = useState([]);
   const [search, setSearch] = useState('');
   const [searchResult, setSearchResult] = useState();
   const [notFound, setNotFound] = useState(false);
+  const [exerciseList, setExerciseList] = useState([]);
+
+  // Logic how to pass props throw navigation
+  // recive the props object >> continue to next component
+  const {addExercies} = route.params;
+  const {setExercises} = route.params;
 
   const handleSearch = searchText => {
     const filterdExercies = exData.filter((exer, index) => {
@@ -44,6 +50,7 @@ const ExerciseScreen = () => {
     }
   };
 
+  // Databaes operations
   const Exercise_Create = async () => {
     (await db).transaction(txn => {
       txn.executeSql(
@@ -101,7 +108,7 @@ const ExerciseScreen = () => {
             let result = [];
             for (let i = 0; i < len; i++) {
               let exeRow = SQLResultSet.rows.item(i);
-              result.push({id: exeRow.exerciseId, name: exeRow.name});
+              result.push({id: exeRow.id, name: exeRow.name});
             }
             setEXData(result);
             setNotFound(false);
@@ -116,6 +123,28 @@ const ExerciseScreen = () => {
       );
     });
   };
+
+  // functionals
+  const handleSelectExercise = () => {};
+
+  function handleExerciseSelection(id) {
+    let array = exerciseList;
+    let isRemoved = false;
+    for (let i = 0; i < array.length; i++) {
+      if (array[i] === id) {
+        let index = array.indexOf(id);
+        if (index !== -1) {
+          array.splice(index, 1);
+          setExerciseList(array);
+          isRemoved = true;
+        }
+        // setExerciseList(prev => prev.filter((_, index) => index !== id));
+      }
+    }
+    if (isRemoved === false) {
+      setExerciseList(prev => [...prev, id]);
+    }
+  }
 
   useEffect(() => {
     Exercise_Create();
@@ -164,7 +193,15 @@ const ExerciseScreen = () => {
           {/* Exercise List */}
           <View style={style.preListContainerStyle}>
             {exData?.map(item => (
-              <ExerciseSelectRow key={item.id} item={item} />
+              <ExerciseSelectRow
+                key={item.id}
+                item={item}
+                // Logic how to pass props throw navigation >> continue to next component
+                // get object propreties and pass them to desired component
+                // selectExercise={addExercies.selectExercise}
+                checkIfExerSelected
+                handleExerciseSelection={handleExerciseSelection}
+              />
             ))}
           </View>
           {/* OK Button */}
@@ -173,6 +210,8 @@ const ExerciseScreen = () => {
               // Exercise_Read();
               // Exercise_Insert();
               // Exercise_Create();
+              setExercises.handleSetExercises(exerciseList);
+              navigation.goBack();
             }}>
             <LinearGradient
               style={style.touchableOpacityStartStyle}

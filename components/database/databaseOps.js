@@ -53,57 +53,12 @@ function openCB() {
 //   );
 // });
 
-/*
-    Tables
-ExerciseMaster
-Workout
-WorkoutDeaitls
-Schedule
-*/
-
 const tables = {
   ExerciseMaster: 'ExerciseMaster',
   Workout: 'Workout',
   WorkoutDeaitls: 'WorkoutDeaitls',
   Schedule: 'Schedule',
 };
-
-const createExerciesMasterQuery = `      
-CREATE TABLE IF NOT EXISTS ExerciesMaster (
-	exerciseId	INTEGER NOT NULL,
-	name varchar(255),
-	description	varchar(255),
-	PRIMARY KEY(exerciseId AUTOINCREMENT)
-)   
-`;
-
-const createWorkoutQuery = `
-CREATE TABLE IF NOT EXISTS "Workout" (
-	"workoutId"	INTEGER,
-	"title"	TEXT NOT NULL,
-	PRIMARY KEY("workoutId" AUTOINCREMENT))
-`;
-
-const createWorkoutDeaitlsQuery = `
-CREATE TABLE IF NOT EXISTS "workoutDetails" (
-	"workoutDetailsId"	INTEGER NOT NULL,
-	"workoutId"	INTEGER NOT NULL,
-	"exerciseId"	INTEGER NOT NULL,
-	PRIMARY KEY("workoutDetailsId" AUTOINCREMENT)
-)
-`;
-
-const createScheduleQuery = `
-CREATE TABLE IF NOT EXISTS "Schedule" (id INTEGER PRIMARY KEY NOT NULL, workoutId INTEGER NOT NULL, dayId INTEGER)
-`;
-
-const createDayQuery = `
-CREATE TABLE IF NOT EXISTS "Days" (
-	"dayId"	INTEGER NOT NULL,
-	"name"	text NOT NULL,
-	PRIMARY KEY("dayId" AUTOINCREMENT)
-)
-`;
 
 // ExerciseMaster table ops
 
@@ -186,56 +141,6 @@ const Exercise_insert = async (name, description = '') => {
   });
 };
 
-function Exercise_update(exerciesId, name, description) {
-  return `update ExerciesMaster set name = '${name}', description = '${description}' where exerciseid = ${exerciesId}`;
-}
-
-function Exercise_delete(exerciseId) {
-  return `delete from ExerciesMaster where exerciseid = ${exerciseId}`;
-}
-
-// Workout table ops
-function Workout_Read() {
-  return `select workoutId, title, description from Workout`;
-}
-
-function Workout_ReadById(workoutId) {
-  return `select workoutId, title, description from Workout where workoutId = ${workoutId}`;
-}
-
-function Workout_insert(title, description = '') {
-  return `INSERT INTO Workout (title,description) VALUES ('${title}','${description}');`;
-}
-
-function Workout_update(workoutId, title, description) {
-  return `update Workout set title = '${title}', description = '${description}' where workoutId = ${workoutId}`;
-}
-
-function Workout_delete(workoutId) {
-  return `delete from Workout where workoutid = ${workoutId}`;
-}
-
-// WorkoutDetails table ops
-function WorkoutDetails_Read() {
-  return `SELECT workoutDetailsId, workoutid, exerciseid FROM workoutDetails`;
-}
-
-function WorkoutDetails_ReadById(workoutDetailsId) {
-  return `select workoutDetailsId, workoutId, exerciseid from workoutDetails where workoutDetailsId = ${workoutDetailsId}`;
-}
-
-function WorkoutDetails_insert(workoutId, exerciseId) {
-  return `INSERT INTO workoutDetails (workoutId,exerciseId) VALUES ('${workoutId}','${exerciseId}');`;
-}
-
-function WorkoutDetails_update(workoutDetailsId, workoutId) {
-  return `update workoutDetails set workoutid = ${workoutId}, exerciseid = ${exerciseId} where workoutDetailsId = ${workoutDetailsId}`;
-}
-
-function WorkoutDetails_delete(workoutDetailsId) {
-  return `delete from workoutDetails where workoutDetailsId = ${workoutDetailsId}`;
-}
-
 // Schedule Table ops
 
 const createTablesTrans = async query => {
@@ -254,7 +159,7 @@ const createTablesTrans = async query => {
 };
 
 function dropAllTables() {
-  let query = `DROP TABLE ExerciesMaster`;
+  let query = `DROP TABLE Days`;
 
   return db.transaction(tx => {
     tx.executeSql(
@@ -274,10 +179,10 @@ function dropAllTables() {
 
 function createDatabaseTables() {
   //   createTablesTrans(createExerciesMasterQuery);
-  createTablesTrans(createScheduleQuery);
-  createTablesTrans(createWorkoutQuery);
-  createTablesTrans(createWorkoutDeaitlsQuery);
-  createTablesTrans(createDayQuery);
+  // createTablesTrans(createScheduleQuery);
+  // createTablesTrans(createWorkoutQuery);
+  // createTablesTrans(createWorkoutDeaitlsQuery);
+  // createTablesTrans(createDayQuery);
 }
 
 export {

@@ -4,14 +4,22 @@ import React, {useState} from 'react';
 // Assets
 import {colors, exerciseData, assets} from '../components/constants';
 
-const ExerciseSelectRow = ({item}) => {
+const ExerciseSelectRow = ({item, selectExercise, handleExerciseSelection}) => {
   const [isSelected, setIsSelected] = useState(false);
 
   return (
     <View style={style.ExerciseRow}>
       <Text style={style.exerciseTitleStyle}>{item.name}</Text>
       <View className="flex-row space-x-2 justify-center items-center">
-        <TouchableOpacity onPress={() => setIsSelected(!isSelected)}>
+        <TouchableOpacity
+          onPress={() => {
+            setIsSelected(!isSelected);
+            // console.log(item.id);
+            // Logic how to pass props throw navigation
+            // use the props here.
+            // selectExercise(item.id);
+            handleExerciseSelection(item.id);
+          }}>
           <View
             style={{
               backgroundColor: isSelected ? colors.red : colors.primary,
