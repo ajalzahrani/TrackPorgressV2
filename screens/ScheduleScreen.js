@@ -8,7 +8,7 @@ import {
   ScrollView,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 // Components
 import AddNew from '../components/AddNew';
@@ -23,12 +23,62 @@ import {
   scheduleData,
 } from '../components/constants';
 
+// Database
+import {db, Exercise_Read, getCategories} from '../components/database';
+
 const ScheduleScreen = () => {
   const [woData, setWoData] = useState(workoutData);
+
+  // DATABASE OPS
+  const Schedule_Create = () => {
+    db.transaction(txn => {
+      txn.executeSql(
+        `CREATE TABLE IF NOT EXISTS Schedule (id integer primary key autoincrement, workoutId integer, day varchar(20))`,
+        [],
+        (SQLTransaction, SQLResultSet) => {
+          console.log('Table Schedule was created successfully.');
+        },
+        error => {
+          console.log('Error on creating Schedule table: ', error.message);
+        },
+      );
+    });
+  };
+
+  const Schedule_Insert = () => {
+    var date = new Date();
+    date.setDate(date.getDate() + 0); // add day
+    const todayName = date.toLocaleDateString('en-us', {weekday: 'long'}); // get day name
+
+    db.transaction(txn => {
+      txn.executeSql(
+        `insert into Schedule (workoutId, day) values (999, ?)`,
+        [todayName],
+        (SQLTransaction, SQLResultSet) => {
+          console.log('Values inserted in table Schedule successfully ');
+        },
+        error => {
+          console.log(
+            'Error on inserting values in Schedule table: ',
+            error.message,
+          );
+        },
+      );
+    });
+  };
+
+  useEffect(() => {
+    Schedule_Create();
+  });
+
   return (
     <SafeAreaView className="bg-[#112044] flex-1">
       <View>
-        <AddNew title={'Add new workout'} navigateTo={{to: 'WorkoutScreen'}} />
+        <AddNew
+          title={'Add new workout'}
+          navigateTo={{to: 'WorkoutScreen'}}
+          Schedule_Insert={Schedule_Insert}
+        />
         <CalenderRow />
       </View>
       <View style={style.workoutContainerStyle}>

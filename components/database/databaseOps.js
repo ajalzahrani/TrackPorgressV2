@@ -159,7 +159,7 @@ const createTablesTrans = async query => {
 };
 
 function dropAllTables() {
-  let query = `DROP TABLE Days`;
+  let query = `DROP TABLE Schedule`;
 
   return db.transaction(tx => {
     tx.executeSql(

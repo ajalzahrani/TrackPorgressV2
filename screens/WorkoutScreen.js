@@ -25,19 +25,39 @@ import AddExerciseModle from '../components/AddExerciseModle';
 // Database
 import {db, Exercise_Read, getCategories} from '../components/database';
 
+// View of ExerciseParameters object
+const ex = {
+  id: 3,
+  rep: [15, 12, 12, 10],
+};
+
 const WorkoutScreen = () => {
   const [workoutName, setWorkoutName] = useState(''); // workout name state
   const [modalVisible, setModalVisible] = useState(false); // workoutname alert modal state
   const [exercises, setExercises] = useState([]); // exercise list array state
   const [selectedExercisesNames, setSelectedExercisesNames] = useState([]);
+  const [exerciseParam, setExerciseParam] = useState({});
+  const [workoutId, setWorkoutId] = useState(-1);
 
   const navigation = useNavigation();
 
   // Workflow functions
-  const checkWorkname = () => {
+  const SaveWorkout = () => {
     if (workoutName.length > 0) {
       // Save the workout parameters and goBack to schedule
-      alert('save workout');
+
+      // insert into workout the title
+      Workout_Insert();
+
+      // get last inserted Id and set it to workoutId state
+      Workout_ReadLastId();
+
+      // update Schedule with the new Id from workoutId state
+      Schedule_update();
+
+      alert('Workout ' + workoutName + ' saved successfully');
+
+      navigation.goBack();
     } else {
       // Prompet the user to enter workout name
       setModalVisible(true);
@@ -57,6 +77,12 @@ const WorkoutScreen = () => {
     }
     return false;
   }
+
+  const handleSetExerciseParam = (exerId, reps) => {
+    setExerciseParam(prev => {
+      return {...prev};
+    });
+  };
 
   // I use this function in previous logic to select exercise and now is just for learn how to pass props throw navigatio.
   const selectExercise = exerId => {
@@ -110,19 +136,76 @@ const WorkoutScreen = () => {
     });
   };
 
-  const ExerciseDetails_Create = async () => {
+  const Freq_Create = async () => {
     (await db).transaction(txn => {
       txn.executeSql(
-        `CREATE TABLE IF NOT EXISTS ExerciseDetails (edId integer primary key autoincrement, set integer, rep integer)`,
+        `CREATE TABLE IF NOT EXISTS Freq (fId integer primary key autoincrement, wdId integer, reps integer)`,
         [],
         (SQLTransaction, SQLResultSet) => {
-          console.log('Table ExerciseDetails was created successfully.');
+          console.log('Table Freq was created successfully.');
         },
         error => {
-          console.log(
-            'Error on creating ExerciseDetails table: ',
-            error.message,
-          );
+          console.log('Error on creating Freq table: ', error.message);
+        },
+      );
+    });
+  };
+
+  const Workout_Insert = () => {
+    db.transaction(txn => {
+      txn.executeSql(
+        `insert into Workout (name) values (?)`,
+        [workoutName],
+        (SQLTransaction, SQLResultSet) => {
+          console.log(`Workout added successfully.`);
+          setWorkoutName('');
+        },
+        error => {
+          console.log('Error on adding Workout: ', error.message);
+        },
+      );
+    });
+  };
+
+  // When Workout Screen opend app will insert new record with workoutDetailsId and workoutid only
+  // After selecting exercises
+
+  const WorkoutDetails_Insert = () => {
+    let workoutId = -1;
+    let workoutDetialsId = -1;
+    let exerciseId = -1;
+
+    // Get the last inserted workoutId
+    db.transaction(txn => {
+      txn.executeSql(
+        `select id from workout limit 1`,
+        [],
+        (SQLTransaction, SQLResultSet) => {
+          let len = SQLResultSet.rows.length;
+
+          if (len == 1) {
+            workoutId = SQLResultSet.rows.item(0).id;
+          } else {
+            console.log('no result found in workout');
+          }
+        },
+      );
+    });
+
+    // Make a Exercise parameter state as an object to hold exerciseId, sets, reps
+    // Loop throw exercises state and insert each exercise with wokoutId
+  };
+
+  const Freq_Insert = (workoutDetialsId, reps) => {
+    db.transaction(txn => {
+      txn.executeSql(
+        `insert into Freq (wdId, reps) values (?, ?)`,
+        [workoutDetialsId, reps],
+        (SQLTransaction, SQLResultSet) => {
+          console.log(`Freq added successfully.`);
+        },
+        error => {
+          console.log('Error on adding Freq: ', error.message);
         },
       );
     });
@@ -165,20 +248,38 @@ const WorkoutScreen = () => {
     });
   };
 
-  Workout_insert = () => {
+  const Workout_ReadLastId = () => {
     db.transaction(txn => {
       txn.executeSql(
-        `insert into Workout (name) values (?)`,
-        [search],
+        `select id from workout limit 1`,
+        [],
         (SQLTransaction, SQLResultSet) => {
-          console.log(`exer added successfully.`);
-          setSearch('');
-        },
-        error => {
-          console.log('Error on adding category: ', error.message);
+          let len = SQLResultSet.rows.length;
+
+          if (len == 1) {
+            setWorkoutId(SQLResultSet.rows.item(0).id);
+          } else {
+            console.log('no result found in workout');
+          }
         },
       );
     });
+  };
+
+  const Schedule_update = () => {
+    db.transaction(txn => {
+      txn.executeSql(
+        `update schedule set workoutId = ? where workoutId = 999`,
+        [workoutId],
+        (SQLTransaction, SQLResultSet) => {
+          console.log('Schedule table updated successfully');
+        },
+        error => {
+          console.log('Error on updating Schedule table', error.message);
+        },
+      );
+    });
+    setWorkoutId(-1);
   };
 
   useEffect(() => {
@@ -244,14 +345,11 @@ const WorkoutScreen = () => {
           <Text className="text-white">Pre-list of workouts</Text>
           <ScrollView contentContainerStyle={{paddingBottom: 72}}>
             {selectedExercisesNames?.map(element => {
-              {
-                /* console.log('element value', element); */
-              }
               return <ExerciseCard key={element.id} exerName={element.name} />;
             })}
             <TouchableOpacity
               onPress={() => {
-                checkWorkname();
+                SaveWorkout();
               }}>
               <LinearGradient
                 style={style.touchableOpacityStartStyle}
@@ -261,7 +359,24 @@ const WorkoutScreen = () => {
                 <View className="flex-row justify-center items-center space-x-2">
                   <Image source={assets.icn_start} />
                   <Text className="text-base font-semibold text-white">
-                    Start
+                    Sketch
+                  </Text>
+                </View>
+              </LinearGradient>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                alert('Hello');
+              }}>
+              <LinearGradient
+                style={style.touchableOpacityStartStyle}
+                start={{x: 1, y: 0}}
+                end={{x: 0, y: 0}}
+                colors={['#FA3B89', '#E10D60']}>
+                <View className="flex-row justify-center items-center space-x-2">
+                  <Image source={assets.icn_start} />
+                  <Text className="text-base font-semibold text-white">
+                    Check
                   </Text>
                 </View>
               </LinearGradient>

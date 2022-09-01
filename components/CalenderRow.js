@@ -43,7 +43,7 @@ const CalenderRow = () => {
       <TouchableOpacity
         style={{
           display: 'flex',
-          backgroundColor: isOn.Sunday ? colors.red : colors.offwhite,
+          backgroundColor: isOn.Sunday ? colors.secondary : colors.offwhite,
           justifyContent: 'center',
           alignItems: 'center',
           borderRadius: 30,
@@ -57,7 +57,7 @@ const CalenderRow = () => {
       <TouchableOpacity
         style={{
           display: 'flex',
-          backgroundColor: isOn.Monday ? colors.red : colors.offwhite,
+          backgroundColor: isOn.Monday ? colors.secondary : colors.offwhite,
           justifyContent: 'center',
           alignItems: 'center',
           borderRadius: 30,
@@ -71,7 +71,7 @@ const CalenderRow = () => {
       <TouchableOpacity
         style={{
           display: 'flex',
-          backgroundColor: isOn.Tuesday ? colors.red : colors.offwhite,
+          backgroundColor: isOn.Tuesday ? colors.secondary : colors.offwhite,
           justifyContent: 'center',
           alignItems: 'center',
           borderRadius: 30,
@@ -85,7 +85,7 @@ const CalenderRow = () => {
       <TouchableOpacity
         style={{
           display: 'flex',
-          backgroundColor: isOn.Wednesday ? colors.red : colors.offwhite,
+          backgroundColor: isOn.Wednesday ? colors.secondary : colors.offwhite,
           justifyContent: 'center',
           alignItems: 'center',
           borderRadius: 30,
@@ -99,7 +99,7 @@ const CalenderRow = () => {
       <TouchableOpacity
         style={{
           display: 'flex',
-          backgroundColor: isOn.Thursday ? colors.red : colors.offwhite,
+          backgroundColor: isOn.Thursday ? colors.secondary : colors.offwhite,
           justifyContent: 'center',
           alignItems: 'center',
           borderRadius: 30,
@@ -113,7 +113,7 @@ const CalenderRow = () => {
       <TouchableOpacity
         style={{
           display: 'flex',
-          backgroundColor: isOn.Friday ? colors.red : colors.offwhite,
+          backgroundColor: isOn.Friday ? colors.secondary : colors.offwhite,
           justifyContent: 'center',
           alignItems: 'center',
           borderRadius: 30,
@@ -127,7 +127,7 @@ const CalenderRow = () => {
       <TouchableOpacity
         style={{
           display: 'flex',
-          backgroundColor: isOn.Saturday ? colors.red : colors.offwhite,
+          backgroundColor: isOn.Saturday ? colors.secondary : colors.offwhite,
           justifyContent: 'center',
           alignItems: 'center',
           borderRadius: 30,

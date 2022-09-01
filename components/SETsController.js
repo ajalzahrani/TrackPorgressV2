@@ -45,14 +45,14 @@ const SETsController = ({indicatorTitle}) => {
 
         {/* plus - min buttons */}
         <View style={{flexDirection: 'row'}} className="space-x-10">
-          <TouchableOpacity onPress={() => addNumber()}>
-            <Image source={assets.icn_add} />
-          </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
               minNumber();
             }}>
             <Image source={assets.icn_min} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => addNumber()}>
+            <Image source={assets.icn_add} />
           </TouchableOpacity>
         </View>
       </View>
