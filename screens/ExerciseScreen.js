@@ -16,9 +16,6 @@ import React, {useEffect, useState} from 'react';
 // Assets
 import {colors, exerciseData, assets} from '../components/constants';
 
-// Database
-import {db, Exercise_Read, getCategories} from '../components/database';
-
 // components
 import Divider from '../components/Divider';
 import ExerciseSelectRow from '../components/ExerciseSelectRow';
@@ -27,7 +24,7 @@ import AddExerciseModle from '../components/AddExerciseModle';
 
 const ExerciseScreen = ({route}) => {
   const navigation = useNavigation();
-  const [exData, setEXData] = useState([]);
+  const [exData, setEXData] = useState(exerciseData);
   const [search, setSearch] = useState('');
   const [searchResult, setSearchResult] = useState();
   const [notFound, setNotFound] = useState(false);
@@ -37,6 +34,8 @@ const ExerciseScreen = ({route}) => {
   // recive the props object >> continue to next component
   const {addExercies} = route.params;
   const {setExercises} = route.params;
+
+  const getExercises = () => {};
 
   const handleSearch = searchText => {
     const filterdExercies = exData.filter((exer, index) => {
@@ -49,83 +48,6 @@ const ExerciseScreen = ({route}) => {
       setSearchResult(filterdExercies);
     }
   };
-
-  // Databaes operations
-  const Exercise_Create = async () => {
-    (await db).transaction(txn => {
-      txn.executeSql(
-        `CREATE TABLE IF NOT EXISTS ExerciesMaster 
-        (id integer primary key autoincrement, name varchar(255))`,
-        [],
-        (SQLTransaction, SQLResultSet) => {
-          console.log('Table Exercies was created successfully.');
-        },
-        error => {
-          console.log('Error on creating Exercies table: ', error.message);
-        },
-      );
-    });
-  };
-
-  const Exercise_Insert = async () => {
-    (await db).transaction(txn => {
-      txn.executeSql(
-        `insert into ExerciesMaster (name) values (?)`,
-        [search],
-        (SQLTransaction, SQLResultSet) => {
-          console.log(`exer added successfully.`);
-          setSearch('');
-        },
-        error => {
-          console.log('Error on adding category: ', error.message);
-        },
-      );
-    });
-  };
-
-  const Exercise_Read = () => {
-    let query = '';
-
-    if (search.length > 0) {
-      query =
-        "select id, name from ExerciesMaster where name LIKE '%" +
-        search +
-        "%' ";
-    } else {
-      query = `select id, name from ExerciesMaster`;
-    }
-
-    return db.transaction(tx => {
-      tx.executeSql(
-        query,
-        [],
-        (SQLTransaction, SQLResultSet) => {
-          console.log('Exercises retrieved successfully');
-
-          let len = SQLResultSet.rows.length;
-          // console.log('lenth = , ', len);
-          if (len > 0) {
-            let result = [];
-            for (let i = 0; i < len; i++) {
-              let exeRow = SQLResultSet.rows.item(i);
-              result.push({id: exeRow.id, name: exeRow.name});
-            }
-            setEXData(result);
-            setNotFound(false);
-          } else {
-            console.log('No Result');
-            setNotFound(true);
-          }
-        },
-        error => {
-          console.log('Error on reading exercises', error.message);
-        },
-      );
-    });
-  };
-
-  // functionals
-  const handleSelectExercise = () => {};
 
   function handleExerciseSelection(id) {
     let array = exerciseList;
@@ -146,10 +68,7 @@ const ExerciseScreen = ({route}) => {
     }
   }
 
-  useEffect(() => {
-    Exercise_Create();
-    Exercise_Read();
-  }, [search]);
+  useEffect(() => {}, []);
   return (
     <SafeAreaView className="bg-[#112044] flex-1">
       <View style={{paddingHorizontal: 16, flex: 1}}>
@@ -207,9 +126,6 @@ const ExerciseScreen = ({route}) => {
           {/* OK Button */}
           <TouchableOpacity
             onPress={() => {
-              // Exercise_Read();
-              // Exercise_Insert();
-              // Exercise_Create();
               setExercises.handleSetExercises(exerciseList);
               navigation.goBack();
             }}>

@@ -22,15 +22,6 @@ import AddNewWorkout from '../components/AddNew';
 import ExerciseCard from '../components/ExerciseCard';
 import AddExerciseModle from '../components/AddExerciseModle';
 
-// Database
-import {db, Exercise_Read, getCategories} from '../components/database';
-
-// View of ExerciseParameters object
-const ex = {
-  id: 3,
-  rep: [15, 12, 12, 10],
-};
-
 const WorkoutScreen = () => {
   const [workoutName, setWorkoutName] = useState(''); // workout name state
   const [modalVisible, setModalVisible] = useState(false); // workoutname alert modal state
@@ -45,15 +36,6 @@ const WorkoutScreen = () => {
   const SaveWorkout = () => {
     if (workoutName.length > 0) {
       // Save the workout parameters and goBack to schedule
-
-      // insert into workout the title
-      Workout_Insert();
-
-      // get last inserted Id and set it to workoutId state
-      Workout_ReadLastId();
-
-      // update Schedule with the new Id from workoutId state
-      Schedule_update();
 
       alert('Workout ' + workoutName + ' saved successfully');
 
@@ -102,189 +84,8 @@ const WorkoutScreen = () => {
     }
   };
 
-  // DATABASE OPS
-  const Workout_Create = async () => {
-    (await db).transaction(txn => {
-      txn.executeSql(
-        `CREATE TABLE IF NOT EXISTS Workout (id integer primary key autoincrement, title varchar(255), description varchar(500))`,
-        [],
-        (SQLTransaction, SQLResultSet) => {
-          console.log('Table Workout was created successfully.');
-        },
-        error => {
-          console.log('Error on creating Workout table: ', error.message);
-        },
-      );
-    });
-  };
-
-  const WorkoutDetails_Create = async () => {
-    (await db).transaction(txn => {
-      txn.executeSql(
-        `CREATE TABLE IF NOT EXISTS workoutDetails (wdId integer primary key autoincrement, wId integer, eId integer)`,
-        [],
-        (SQLTransaction, SQLResultSet) => {
-          console.log('Table WorkoutDetails was created successfully.');
-        },
-        error => {
-          console.log(
-            'Error on creating WorkoutDetails table: ',
-            error.message,
-          );
-        },
-      );
-    });
-  };
-
-  const Freq_Create = async () => {
-    (await db).transaction(txn => {
-      txn.executeSql(
-        `CREATE TABLE IF NOT EXISTS Freq (fId integer primary key autoincrement, wdId integer, reps integer)`,
-        [],
-        (SQLTransaction, SQLResultSet) => {
-          console.log('Table Freq was created successfully.');
-        },
-        error => {
-          console.log('Error on creating Freq table: ', error.message);
-        },
-      );
-    });
-  };
-
-  const Workout_Insert = () => {
-    db.transaction(txn => {
-      txn.executeSql(
-        `insert into Workout (name) values (?)`,
-        [workoutName],
-        (SQLTransaction, SQLResultSet) => {
-          console.log(`Workout added successfully.`);
-          setWorkoutName('');
-        },
-        error => {
-          console.log('Error on adding Workout: ', error.message);
-        },
-      );
-    });
-  };
-
-  // When Workout Screen opend app will insert new record with workoutDetailsId and workoutid only
-  // After selecting exercises
-
-  const WorkoutDetails_Insert = () => {
-    let workoutId = -1;
-    let workoutDetialsId = -1;
-    let exerciseId = -1;
-
-    // Get the last inserted workoutId
-    db.transaction(txn => {
-      txn.executeSql(
-        `select id from workout limit 1`,
-        [],
-        (SQLTransaction, SQLResultSet) => {
-          let len = SQLResultSet.rows.length;
-
-          if (len == 1) {
-            workoutId = SQLResultSet.rows.item(0).id;
-          } else {
-            console.log('no result found in workout');
-          }
-        },
-      );
-    });
-
-    // Make a Exercise parameter state as an object to hold exerciseId, sets, reps
-    // Loop throw exercises state and insert each exercise with wokoutId
-  };
-
-  const Freq_Insert = (workoutDetialsId, reps) => {
-    db.transaction(txn => {
-      txn.executeSql(
-        `insert into Freq (wdId, reps) values (?, ?)`,
-        [workoutDetialsId, reps],
-        (SQLTransaction, SQLResultSet) => {
-          console.log(`Freq added successfully.`);
-        },
-        error => {
-          console.log('Error on adding Freq: ', error.message);
-        },
-      );
-    });
-  };
-
-  const Exercise_Read = () => {
-    if (exercises.length == 0) return;
-
-    let query = 'select id, name from ExerciesMaster where id in (';
-    for (let i = 0; i < exercises.length; i++) {
-      query = query + exercises[i];
-      if (i === exercises.length - 1) {
-        query = query + ')';
-      } else {
-        query = query + ',';
-      }
-    }
-
-    return db.transaction(tx => {
-      tx.executeSql(
-        query,
-        [JSON.stringify(exercises)],
-        (SQLTransaction, SQLResultSet) => {
-          console.log('Exercise from workoutscreen retrieved successfully');
-
-          let len = SQLResultSet.rows.length;
-          if (len > 0) {
-            let result = [];
-            for (let i = 0; i < len; i++) {
-              let exeRow = SQLResultSet.rows.item(i);
-              result.push({id: exeRow.id, name: exeRow.name});
-            }
-            setSelectedExercisesNames(result);
-          }
-        },
-        error => {
-          console.log('Error on reading exercises', error.message);
-        },
-      );
-    });
-  };
-
-  const Workout_ReadLastId = () => {
-    db.transaction(txn => {
-      txn.executeSql(
-        `select id from workout limit 1`,
-        [],
-        (SQLTransaction, SQLResultSet) => {
-          let len = SQLResultSet.rows.length;
-
-          if (len == 1) {
-            setWorkoutId(SQLResultSet.rows.item(0).id);
-          } else {
-            console.log('no result found in workout');
-          }
-        },
-      );
-    });
-  };
-
-  const Schedule_update = () => {
-    db.transaction(txn => {
-      txn.executeSql(
-        `update schedule set workoutId = ? where workoutId = 999`,
-        [workoutId],
-        (SQLTransaction, SQLResultSet) => {
-          console.log('Schedule table updated successfully');
-        },
-        error => {
-          console.log('Error on updating Schedule table', error.message);
-        },
-      );
-    });
-    setWorkoutId(-1);
-  };
-
   useEffect(() => {
     console.log('array from workoutscreen: ', exercises);
-    Exercise_Read();
   }, [exercises]);
 
   return (

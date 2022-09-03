@@ -18,9 +18,6 @@ import {
   View,
 } from 'react-native';
 
-// Database
-import {createDatabaseTables} from './components/database';
-
 // Navigation
 import {NavigationContainer} from '@react-navigation/native';
 
@@ -31,7 +28,6 @@ import TabBar from './components/navigation/TabBar';
 import {TailwindProvider} from 'tailwindcss-react-native';
 
 const App: () => Node = () => {
-  createDatabaseTables();
   return (
     <NavigationContainer>
       <TailwindProvider>

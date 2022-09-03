@@ -9,7 +9,7 @@ const ExerciseSelectRow = ({item, selectExercise, handleExerciseSelection}) => {
 
   return (
     <View style={style.ExerciseRow}>
-      <Text style={style.exerciseTitleStyle}>{item.name}</Text>
+      <Text style={style.exerciseTitleStyle}>{item.title}</Text>
       <View className="flex-row space-x-2 justify-center items-center">
         <TouchableOpacity
           onPress={() => {

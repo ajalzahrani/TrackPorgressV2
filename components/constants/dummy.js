@@ -68,7 +68,7 @@ export const exerciseData = [
   },
   {
     id: 11,
-    title: 'Farmer’s Walk & Trap Bar Carry',
+    title: 'Farmer Walk & Trap Bar Carry',
   },
   {
     id: 12,
@@ -83,32 +83,32 @@ export const exerciseData = [
     title: 'Dips',
   },
   {
-    id: 12,
+    id: 15,
     title: 'Shrugs',
   },
   {
-    id: 13,
+    id: 16,
     title: 'Dumbbell Lateral Raises',
   },
   {
-    id: 14,
+    id: 17,
     title: 'Presses',
   },
   {
-    id: 12,
+    id: 18,
     title: 'Rear Delt Raises',
   },
   {
-    id: 13,
+    id: 19,
     title: 'Barbell Bench Press',
   },
   {
-    id: 14,
+    id: 20,
     title: 'DCable Crossover',
   },
 ];
 
-export const scheduleData = [
+export const weekDays = [
   {
     day: 'Sunday',
     workout: {
@@ -169,7 +169,7 @@ export const scheduleData = [
     },
   },
   {day: 'Windesday'},
-  {day: 'Thuresday'},
+  {day: 'Thursday'},
   {day: 'Friday'},
   {day: 'Saturday'},
 ];

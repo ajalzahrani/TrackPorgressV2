@@ -16,73 +16,65 @@ import CalenderRow from '../components/CalenderRow';
 import WorkoutCard from '../components/WorkoutCard';
 
 // Assets
-import {
-  colors,
-  workoutData,
-  assets,
-  scheduleData,
-} from '../components/constants';
-
-// Database
-import {db, Exercise_Read, getCategories} from '../components/database';
+import {colors, workoutData, assets, weekDays} from '../components/constants';
 
 const ScheduleScreen = () => {
-  const [woData, setWoData] = useState(workoutData);
+  const [woData, setWoData] = useState();
+  const [dayObject, setDayObject] = useState({});
 
-  // DATABASE OPS
-  const Schedule_Create = () => {
-    db.transaction(txn => {
-      txn.executeSql(
-        `CREATE TABLE IF NOT EXISTS Schedule (id integer primary key autoincrement, workoutId integer, day varchar(20))`,
-        [],
-        (SQLTransaction, SQLResultSet) => {
-          console.log('Table Schedule was created successfully.');
-        },
-        error => {
-          console.log('Error on creating Schedule table: ', error.message);
-        },
-      );
-    });
-  };
+  /*
+    Make store for each day with day name proprety oject in MMKV
+    Make function to get a particular day object - Done
+    Make function to get workout from day object
+    Make function to get Exercises from workout
+    Make function to get sets and reps
+    Make function to insert new workout to day object
+    Make function to insert new Exercise to workout object
+    Make function to insert set and reps to Exercise object
+    Make function to update Workout object
+    Make function to update Exercise object
+    Make function to update sets and reps
 
-  const Schedule_Insert = () => {
+    The following function will accept array or object and key proprety (and , or) return update array or object
+    Make function to get array
+    Make function to get Object
+    Make function to insert into array
+    Make function to insert into Object
+    Make function to delete from array
+    Make function to delete from Object
+    Make function to update array
+    Make function to update Object
+  */
+  // Get day object
+  // Get workout object
+  // Get exercise object
+
+  const getDayObject = () => {
     var date = new Date();
-    date.setDate(date.getDate() + 0); // add day
+    date.setDate(date.getDate() - 4); // add day
     const todayName = date.toLocaleDateString('en-us', {weekday: 'long'}); // get day name
 
-    db.transaction(txn => {
-      txn.executeSql(
-        `insert into Schedule (workoutId, day) values (999, ?)`,
-        [todayName],
-        (SQLTransaction, SQLResultSet) => {
-          console.log('Values inserted in table Schedule successfully ');
-        },
-        error => {
-          console.log(
-            'Error on inserting values in Schedule table: ',
-            error.message,
-          );
-        },
-      );
-    });
+    for (let i = 0; i < weekDays.length; i++) {
+      if (weekDays[i].day === todayName) {
+        setDayObject(weekDays[i]);
+        break;
+      }
+    }
   };
 
   useEffect(() => {
-    Schedule_Create();
-  });
+    getDayObject();
+  }, []);
 
   return (
     <SafeAreaView className="bg-[#112044] flex-1">
+      {console.log(dayObject.day)}
       <View>
-        <AddNew
-          title={'Add new workout'}
-          navigateTo={{to: 'WorkoutScreen'}}
-          Schedule_Insert={Schedule_Insert}
-        />
+        <AddNew title={'Add new workout'} navigateTo={{to: 'WorkoutScreen'}} />
         <CalenderRow />
       </View>
       <View style={style.workoutContainerStyle}>
-        <Text style={style.workoutTitleStyle}>Pushup workout</Text>
+        <Text style={style.workoutTitleStyle}>{dayObject.workout?.title}</Text>
         <TouchableOpacity>
           <LinearGradient
             style={style.touchableOpacityStartStyle}

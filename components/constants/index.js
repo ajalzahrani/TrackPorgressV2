@@ -1,5 +1,5 @@
 import assets from './assets';
 import {colors} from './theme';
-import {workoutData, exerciseData, scheduleData} from './dummy';
+import {workoutData, exerciseData, weekDays} from './dummy';
 
-export {assets, colors, workoutData, exerciseData, scheduleData};
+export {assets, colors, workoutData, exerciseData, weekDays};
