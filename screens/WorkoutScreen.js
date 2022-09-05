@@ -13,6 +13,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
+import {store} from '../Store';
 
 // Assets
 import {colors, exerciseData, assets} from '../components/constants';
@@ -29,8 +30,23 @@ const WorkoutScreen = () => {
   const [selectedExercisesNames, setSelectedExercisesNames] = useState([]);
   const [exerciseParam, setExerciseParam] = useState({});
   const [workoutId, setWorkoutId] = useState(-1);
+  const [dayObject, setDayObject] = useState({});
 
   const navigation = useNavigation();
+
+  const getDayObject = () => {
+    var date = new Date();
+    date.setDate(date.getDate() - 0); // add day
+    const todayName = date.toLocaleDateString('en-us', {weekday: 'long'}); // get day name
+
+    const dayObject = JSON.parse(store.getString(todayName));
+    console.log(
+      'Day Object retrieved successfully in workout screen',
+      dayObject.day,
+    );
+
+    setDayObject(dayObject);
+  };
 
   // Workflow functions
   const SaveWorkout = () => {
@@ -86,6 +102,7 @@ const WorkoutScreen = () => {
 
   useEffect(() => {
     console.log('array from workoutscreen: ', exercises);
+    getDayObject();
   }, [exercises]);
 
   return (
@@ -145,8 +162,8 @@ const WorkoutScreen = () => {
         <View style={style.preWorkoutListContainerStyle}>
           <Text className="text-white">Pre-list of workouts</Text>
           <ScrollView contentContainerStyle={{paddingBottom: 72}}>
-            {selectedExercisesNames?.map(element => {
-              return <ExerciseCard key={element.id} exerName={element.name} />;
+            {dayObject.workout?.exercises?.map(element => {
+              return <ExerciseCard key={element.id} exerName={element.title} />;
             })}
             <TouchableOpacity
               onPress={() => {

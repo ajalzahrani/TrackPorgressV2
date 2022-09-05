@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import React, {useEffect, useState} from 'react';
+import {store} from '../Store';
 
 // Assets
 import {colors, exerciseData, assets} from '../components/constants';
@@ -24,7 +25,7 @@ import AddExerciseModle from '../components/AddExerciseModle';
 
 const ExerciseScreen = ({route}) => {
   const navigation = useNavigation();
-  const [exData, setEXData] = useState(exerciseData);
+  const [exData, setEXData] = useState([]);
   const [search, setSearch] = useState('');
   const [searchResult, setSearchResult] = useState();
   const [notFound, setNotFound] = useState(false);
@@ -34,8 +35,6 @@ const ExerciseScreen = ({route}) => {
   // recive the props object >> continue to next component
   const {addExercies} = route.params;
   const {setExercises} = route.params;
-
-  const getExercises = () => {};
 
   const handleSearch = searchText => {
     const filterdExercies = exData.filter((exer, index) => {
@@ -47,6 +46,10 @@ const ExerciseScreen = ({route}) => {
     } else {
       setSearchResult(filterdExercies);
     }
+  };
+
+  const insertNewExercise = () => {
+    console.log('new exercise inserted');
   };
 
   function handleExerciseSelection(id) {
@@ -68,7 +71,9 @@ const ExerciseScreen = ({route}) => {
     }
   }
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    setEXData(JSON.parse(store.getString('exercises')));
+  }, []);
   return (
     <SafeAreaView className="bg-[#112044] flex-1">
       <View style={{paddingHorizontal: 16, flex: 1}}>
@@ -103,7 +108,7 @@ const ExerciseScreen = ({route}) => {
             Not found, Do you want to add
           </Text>
           {/* <Button title="Add" /> */}
-          <TouchableOpacity onPress={() => Exercise_Insert()}>
+          <TouchableOpacity onPress={() => insertNewExercise()}>
             <Image source={assets.icn_add} />
           </TouchableOpacity>
         </View>

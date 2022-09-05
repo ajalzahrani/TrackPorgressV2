@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import type {Node} from 'react';
 import {
   SafeAreaView,
@@ -27,7 +27,13 @@ import TabBar from './components/navigation/TabBar';
 // TailwindCSS
 import {TailwindProvider} from 'tailwindcss-react-native';
 
+// Storage
+import {ImplementDataStructure} from './components/database/ImplementDataStructure';
+
 const App: () => Node = () => {
+  useEffect(() => {
+    ImplementDataStructure();
+  });
   return (
     <NavigationContainer>
       <TailwindProvider>
