@@ -62,10 +62,6 @@ const WorkoutScreen = () => {
     }
   };
 
-  const handleSetExercises = exerciseArray => {
-    setExercises(exerciseArray);
-  };
-
   // if element unchecked remove it from the array
   function checkIfExerSelected(id, array) {
     for (let i = 0; i < array.length; i++) {
@@ -101,9 +97,8 @@ const WorkoutScreen = () => {
   };
 
   useEffect(() => {
-    console.log('array from workoutscreen: ', exercises);
     getDayObject();
-  }, [exercises]);
+  }, []);
 
   return (
     <SafeAreaView className="bg-[#112044] flex-1">
@@ -133,12 +128,6 @@ const WorkoutScreen = () => {
         <AddNewWorkout
           title={'Add new exercise'}
           navigateTo={{to: 'ExerciseScreen'}}
-          // options={{selectExercise: selectExercise()}}
-
-          // Logic how to pass props throw navigation
-          // convert the props to object and pass >> continue to next component
-          // options={{selectExercise: selectExercise}}
-          options={{handleSetExercises: handleSetExercises}}
         />
       </View>
       <View style={{paddingHorizontal: 16, flex: 1}}>

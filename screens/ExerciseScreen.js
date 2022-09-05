@@ -13,6 +13,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import React, {useEffect, useState} from 'react';
 import {store} from '../Store';
+import uuid from 'react-native-uuid';
 
 // Assets
 import {colors, exerciseData, assets} from '../components/constants';
@@ -24,34 +25,63 @@ import {useNavigation} from '@react-navigation/native';
 import AddExerciseModle from '../components/AddExerciseModle';
 
 const ExerciseScreen = ({route}) => {
-  const navigation = useNavigation();
-  const [exData, setEXData] = useState([]);
-  const [search, setSearch] = useState('');
+  const [exData, setEXData] = useState([]); // state holding exercise data.
+  const [search, setSearch] = useState(''); //
   const [searchResult, setSearchResult] = useState();
-  const [notFound, setNotFound] = useState(false);
-  const [exerciseList, setExerciseList] = useState([]);
+  const [notFound, setNotFound] = useState(false); // handle if no exercise found in search
+  const [exerciseList, setExerciseList] = useState([]); // handle user exercises selection.
+  const [dayObject, setDayObject] = useState({}); // hold day object.
 
-  // Logic how to pass props throw navigation
-  // recive the props object >> continue to next component
-  const {addExercies} = route.params;
-  const {setExercises} = route.params;
+  const navigation = useNavigation();
 
+  const getDayObject = () => {
+    var date = new Date();
+    date.setDate(date.getDate() - 0); // add day
+    const todayName = date.toLocaleDateString('en-us', {weekday: 'long'}); // get day name
+
+    const dayObject = JSON.parse(store.getString(todayName));
+    console.log(
+      'Day Object retrieved successfully in workout screen',
+      dayObject.day,
+    );
+
+    setDayObject(dayObject);
+  };
+
+  // search the list of exercises data and eanble the user to add not found exercies.
   const handleSearch = searchText => {
     const filterdExercies = exData.filter((exer, index) => {
       // console.log(exer.title.match(searchText));
       return exer.title.match(searchText);
     });
-    if (searchText === '') {
-      setSearchResult([]);
+    if (searchText.length === 0) {
+      setSearchResult(exData);
+      setNotFound(false);
+    } else if (filterdExercies.length === 0) {
+      setNotFound(true);
     } else {
       setSearchResult(filterdExercies);
+      setNotFound(false);
     }
   };
 
+  // Add new Exercises to exercise data list
   const insertNewExercise = () => {
-    console.log('new exercise inserted');
+    const newExercise = {
+      id: uuid.v4(),
+      title: 'the new exercise',
+    };
+    console.log(newExercise);
+    setNotFound(false);
   };
 
+  // save selected exercises to dayObject.
+  function saveSelectedExercises() {
+    // take exercies array from exerciseList stat
+  }
+
+  // handleExerciseSelection function is taking exercise id and return an array of selected exercises.
+  // to be pass to childeren to collect selected exercise.
   function handleExerciseSelection(id) {
     let array = exerciseList;
     let isRemoved = false;
@@ -72,8 +102,12 @@ const ExerciseScreen = ({route}) => {
   }
 
   useEffect(() => {
-    setEXData(JSON.parse(store.getString('exercises')));
+    const exerciseData = JSON.parse(store.getString('exercises'));
+    setEXData(exerciseData); // get exercise data from DB
+    setSearchResult(exerciseData);
+    getDayObject(); // get a day object
   }, []);
+
   return (
     <SafeAreaView className="bg-[#112044] flex-1">
       <View style={{paddingHorizontal: 16, flex: 1}}>
@@ -81,8 +115,7 @@ const ExerciseScreen = ({route}) => {
         <TextInput
           placeholder="Exercise name"
           placeholderTextColor={colors.offwhite}
-          onChangeText={setSearch}
-          value={search}
+          onChangeText={handleSearch}
           style={{
             backgroundColor: colors.offwhite,
             paddingVertical: 12,
@@ -116,7 +149,7 @@ const ExerciseScreen = ({route}) => {
         <ScrollView contentContainerStyle={{paddingBottom: 72, marginTop: 20}}>
           {/* Exercise List */}
           <View style={style.preListContainerStyle}>
-            {exData?.map(item => (
+            {searchResult?.map(item => (
               <ExerciseSelectRow
                 key={item.id}
                 item={item}
@@ -131,7 +164,7 @@ const ExerciseScreen = ({route}) => {
           {/* OK Button */}
           <TouchableOpacity
             onPress={() => {
-              setExercises.handleSetExercises(exerciseList);
+              saveSelectedExercises();
               navigation.goBack();
             }}>
             <LinearGradient

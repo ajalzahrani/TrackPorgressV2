@@ -27,6 +27,7 @@
     "react-native-sqlite-storage": "^6.0.1",
     "react-native-svg": "^12.4.4",
     "react-native-svg-transformer": "^1.0.0",
+    "react-native-uuid": "^2.0.1",
     "reinput": "^3.7.2",
     "tailwindcss-react-native": "^1.7.10"
   },

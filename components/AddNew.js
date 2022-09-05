@@ -14,7 +14,7 @@ const AddNew = ({title, navigateTo, options}) => {
         // pass the props object throw navigation params in this case to exerciseScreen
         navigation.navigate(navigateTo.to, {
           // FIXME: Change setExercise to be generic name for other components use
-          setExercises: options,
+          options: options,
         });
       }}>
       <Image source={assets.icn_plus} style={{}} />
