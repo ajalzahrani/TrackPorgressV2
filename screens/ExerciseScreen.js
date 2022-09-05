@@ -40,16 +40,13 @@ const ExerciseScreen = ({route}) => {
     const todayName = date.toLocaleDateString('en-us', {weekday: 'long'}); // get day name
 
     const dayObject = JSON.parse(store.getString(todayName));
-    console.log(
-      'Day Object retrieved successfully in workout screen',
-      dayObject.day,
-    );
 
     setDayObject(dayObject);
   };
 
   // search the list of exercises data and eanble the user to add not found exercies.
   const handleSearch = searchText => {
+    setSearch(searchText);
     const filterdExercies = exData.filter((exer, index) => {
       // console.log(exer.title.match(searchText));
       return exer.title.match(searchText);
@@ -69,10 +66,13 @@ const ExerciseScreen = ({route}) => {
   const insertNewExercise = () => {
     const newExercise = {
       id: uuid.v4(),
-      title: 'the new exercise',
+      title: search,
     };
-    console.log(newExercise);
+    exData.push(newExercise);
+    store.set('exercises', JSON.stringify(exData));
     setNotFound(false);
+
+    console.log(newExercise, ' Saved successfully.');
   };
 
   // save selected exercises to dayObject.
@@ -102,10 +102,13 @@ const ExerciseScreen = ({route}) => {
   }
 
   useEffect(() => {
+    // get exercise data from DB
     const exerciseData = JSON.parse(store.getString('exercises'));
-    setEXData(exerciseData); // get exercise data from DB
+    setEXData(exerciseData);
     setSearchResult(exerciseData);
-    getDayObject(); // get a day object
+
+    // get a day object
+    getDayObject();
   }, []);
 
   return (
@@ -116,6 +119,7 @@ const ExerciseScreen = ({route}) => {
           placeholder="Exercise name"
           placeholderTextColor={colors.offwhite}
           onChangeText={handleSearch}
+          value={search}
           style={{
             backgroundColor: colors.offwhite,
             paddingVertical: 12,

@@ -40,10 +40,6 @@ const WorkoutScreen = () => {
     const todayName = date.toLocaleDateString('en-us', {weekday: 'long'}); // get day name
 
     const dayObject = JSON.parse(store.getString(todayName));
-    console.log(
-      'Day Object retrieved successfully in workout screen',
-      dayObject.day,
-    );
 
     setDayObject(dayObject);
   };
