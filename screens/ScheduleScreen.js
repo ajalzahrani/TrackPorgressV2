@@ -25,9 +25,9 @@ const ScheduleScreen = () => {
 
   const getDayObject = () => {
     var date = new Date();
-    date.setDate(date.getDate() - 0); // add day
+    date.setDate(date.getDate() - 3); // add day
     const todayName = date.toLocaleDateString('en-us', {weekday: 'long'}); // get day name
-
+    console.log('Scedule Screen: ', todayName);
     const dayObj = JSON.parse(store.getString(todayName));
     console.log('Day Object retrieved successfully', dayObj.day);
 

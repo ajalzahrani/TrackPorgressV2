@@ -29,16 +29,16 @@ const ExerciseScreen = ({route}) => {
   const [search, setSearch] = useState(''); //
   const [searchResult, setSearchResult] = useState();
   const [notFound, setNotFound] = useState(false); // handle if no exercise found in search
-  const [exerciseList, setExerciseList] = useState([]); // handle user exercises selection.
+  const [selectedExerciseList, setSelectedExerciseList] = useState([]); // handle user exercises selection.
   const [dayObject, setDayObject] = useState({}); // hold day object.
 
   const navigation = useNavigation();
 
   const getDayObject = () => {
     var date = new Date();
-    date.setDate(date.getDate() - 0); // add day
+    date.setDate(date.getDate() - 3); // add day
     const todayName = date.toLocaleDateString('en-us', {weekday: 'long'}); // get day name
-
+    console.log('Exercise Screen: ', todayName);
     const dayObject = JSON.parse(store.getString(todayName));
 
     setDayObject(dayObject);
@@ -77,27 +77,33 @@ const ExerciseScreen = ({route}) => {
 
   // save selected exercises to dayObject.
   function saveSelectedExercises() {
-    // take exercies array from exerciseList stat
+    // take selected exercises array from selectedExerciseList stat
+    setDayObject(prev => {
+      return {...prev, selectedExerciseList};
+    });
+
+    console.log(dayObject);
   }
 
+  // check if the exercises selected then add the list is deselected then remove from the list.
   // handleExerciseSelection function is taking exercise id and return an array of selected exercises.
   // to be pass to childeren to collect selected exercise.
   function handleExerciseSelection(id) {
-    let array = exerciseList;
+    let array = selectedExerciseList;
     let isRemoved = false;
     for (let i = 0; i < array.length; i++) {
       if (array[i] === id) {
         let index = array.indexOf(id);
         if (index !== -1) {
           array.splice(index, 1);
-          setExerciseList(array);
+          setSelectedExerciseList(array);
           isRemoved = true;
         }
         // setExerciseList(prev => prev.filter((_, index) => index !== id));
       }
     }
     if (isRemoved === false) {
-      setExerciseList(prev => [...prev, id]);
+      setSelectedExerciseList(prev => [...prev, id]);
     }
   }
 
@@ -162,6 +168,7 @@ const ExerciseScreen = ({route}) => {
                 // selectExercise={addExercies.selectExercise}
                 checkIfExerSelected
                 handleExerciseSelection={handleExerciseSelection}
+                exercises={dayObject?.workout?.exercises}
               />
             ))}
           </View>
@@ -169,7 +176,7 @@ const ExerciseScreen = ({route}) => {
           <TouchableOpacity
             onPress={() => {
               saveSelectedExercises();
-              navigation.goBack();
+              // navigation.goBack();
             }}>
             <LinearGradient
               style={style.touchableOpacityStartStyle}

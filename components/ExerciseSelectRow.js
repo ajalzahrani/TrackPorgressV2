@@ -1,12 +1,25 @@
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 // Assets
 import {colors, exerciseData, assets} from '../components/constants';
 
-const ExerciseSelectRow = ({item, selectExercise, handleExerciseSelection}) => {
+const ExerciseSelectRow = ({
+  item,
+  selectExercise,
+  handleExerciseSelection,
+  exercises,
+}) => {
   const [isSelected, setIsSelected] = useState(false);
 
+  useEffect(() => {
+    exercises?.find(exer => {
+      if (exer.id === item.id) {
+        setIsSelected(true);
+        handleExerciseSelection(item.id);
+      }
+    });
+  });
   return (
     <View style={style.ExerciseRow}>
       <Text style={style.exerciseTitleStyle}>{item.title}</Text>
