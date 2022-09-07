@@ -6,8 +6,6 @@ import {
   TouchableOpacity,
   StyleSheet,
   TextInput,
-  FlatList,
-  Button,
   ScrollView,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -16,15 +14,15 @@ import {store} from '../Store';
 import uuid from 'react-native-uuid';
 
 // Assets
-import {colors, exerciseData, assets} from '../components/constants';
+import {colors, assets} from '../components/constants';
 
 // components
-import Divider from '../components/Divider';
 import ExerciseSelectRow from '../components/ExerciseSelectRow';
 import {useNavigation} from '@react-navigation/native';
-import AddExerciseModle from '../components/AddExerciseModle';
+import {getDayObject} from '../components/shared';
 
-const ExerciseScreen = ({route}) => {
+const ExerciseScreen = () => {
+  // FIXME: presis exercise selection when search
   const [exData, setEXData] = useState([]); // state holding exercise data.
   const [search, setSearch] = useState(''); //
   const [searchResult, setSearchResult] = useState();
@@ -33,16 +31,6 @@ const ExerciseScreen = ({route}) => {
   const [dayObject, setDayObject] = useState({}); // hold day object.
 
   const navigation = useNavigation();
-
-  const getDayObject = () => {
-    var date = new Date();
-    date.setDate(date.getDate() - 3); // add day
-    const todayName = date.toLocaleDateString('en-us', {weekday: 'long'}); // get day name
-    console.log('Exercise Screen: ', todayName);
-    const dayObject = JSON.parse(store.getString(todayName));
-
-    setDayObject(dayObject);
-  };
 
   // search the list of exercises data and eanble the user to add not found exercies.
   const handleSearch = searchText => {
@@ -76,13 +64,31 @@ const ExerciseScreen = ({route}) => {
   };
 
   // save selected exercises to dayObject.
+  // take selected exercises array from selectedExerciseList stat
   function saveSelectedExercises() {
-    // take selected exercises array from selectedExerciseList stat
-    setDayObject(prev => {
-      return {...prev, selectedExerciseList};
+    let exerciseObjs = selectedExerciseList.map(exerId => {
+      return {
+        id: exerId,
+        freq: [],
+      };
     });
 
-    console.log(dayObject);
+    if ('workout' in dayObject) {
+      dayObject.workout.exercises = exerciseObjs;
+    } else {
+      let workoutObj = {
+        workout: {
+          id: uuid.v4(),
+          title: 'workout 1',
+          exercises: exerciseObjs,
+        },
+      };
+
+      Object.assign(dayObject, workoutObj);
+    }
+
+    // global save
+    store.set(dayObject.day, JSON.stringify(dayObject));
   }
 
   // check if the exercises selected then add the list is deselected then remove from the list.
@@ -114,7 +120,7 @@ const ExerciseScreen = ({route}) => {
     setSearchResult(exerciseData);
 
     // get a day object
-    getDayObject();
+    setDayObject(getDayObject());
   }, []);
 
   return (
@@ -126,17 +132,7 @@ const ExerciseScreen = ({route}) => {
           placeholderTextColor={colors.offwhite}
           onChangeText={handleSearch}
           value={search}
-          style={{
-            backgroundColor: colors.offwhite,
-            paddingVertical: 12,
-            paddingHorizontal: 20,
-            color: colors.white,
-            fontSize: 16,
-            fontWeight: '400',
-            borderRadius: 100,
-            marginHorizontal: 30,
-            marginTop: 47,
-          }}
+          style={style.textInputStyle}
         />
 
         <View
@@ -163,9 +159,6 @@ const ExerciseScreen = ({route}) => {
               <ExerciseSelectRow
                 key={item.id}
                 item={item}
-                // Logic how to pass props throw navigation >> continue to next component
-                // get object propreties and pass them to desired component
-                // selectExercise={addExercies.selectExercise}
                 checkIfExerSelected
                 handleExerciseSelection={handleExerciseSelection}
                 exercises={dayObject?.workout?.exercises}
@@ -176,7 +169,7 @@ const ExerciseScreen = ({route}) => {
           <TouchableOpacity
             onPress={() => {
               saveSelectedExercises();
-              // navigation.goBack();
+              navigation.goBack();
             }}>
             <LinearGradient
               style={style.touchableOpacityStartStyle}
@@ -228,6 +221,17 @@ const style = StyleSheet.create({
     fontWeight: '500',
     fontSize: 20,
     lineHeight: 30,
+  },
+  textInputStyle: {
+    backgroundColor: colors.offwhite,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    color: colors.white,
+    fontSize: 16,
+    fontWeight: '400',
+    borderRadius: 100,
+    marginHorizontal: 30,
+    marginTop: 47,
   },
 });
 

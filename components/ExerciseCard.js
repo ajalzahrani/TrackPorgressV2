@@ -1,24 +1,13 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-} from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import React, {useEffect, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import {View, Text, StyleSheet} from 'react-native';
+import React from 'react';
 
 // Assets
-import {colors, exerciseData, assets} from '../components/constants';
+import {colors} from '../components/constants';
 
 // components
-import AddNewWorkout from '../components/AddNew';
 import SETsController from './SETsController';
 
-const ExerciseCard = ({exerName}) => {
+const ExerciseCard = ({exerName, index, addFreq}) => {
   return (
     <View style={style.cardContainer}>
       {/* Exercise Titile */}

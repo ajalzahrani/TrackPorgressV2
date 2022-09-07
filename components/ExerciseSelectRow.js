@@ -1,4 +1,11 @@
-import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Pressable,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 
 // Assets
@@ -11,15 +18,24 @@ const ExerciseSelectRow = ({
   exercises,
 }) => {
   const [isSelected, setIsSelected] = useState(false);
+  const [preSelected, setPreSelected] = useState(false);
 
-  useEffect(() => {
+  const preSelect = () => {
     exercises?.find(exer => {
       if (exer.id === item.id) {
         setIsSelected(true);
         handleExerciseSelection(item.id);
       }
     });
+    setPreSelected(true);
+  };
+
+  useEffect(() => {
+    if (!preSelected) {
+      preSelect();
+    }
   });
+
   return (
     <View style={style.ExerciseRow}>
       <Text style={style.exerciseTitleStyle}>{item.title}</Text>
@@ -35,7 +51,7 @@ const ExerciseSelectRow = ({
           }}>
           <View
             style={{
-              backgroundColor: isSelected ? colors.red : colors.primary,
+              backgroundColor: isSelected ? colors.secondary : colors.primary,
             }}
             className="p-4 rounded-full"></View>
         </TouchableOpacity>

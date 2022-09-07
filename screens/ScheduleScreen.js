@@ -9,34 +9,26 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import React, {useEffect, useState} from 'react';
-import {store} from '../Store';
+import {useIsFocused} from '@react-navigation/native';
 
 // Components
 import AddNew from '../components/AddNew';
 import CalenderRow from '../components/CalenderRow';
 import WorkoutCard from '../components/WorkoutCard';
+import {getDayObject} from '../components/shared/';
 
 // Assets
-import {colors, workoutData, assets, weekDays} from '../components/constants';
+import {colors, assets} from '../components/constants';
 
 const ScheduleScreen = () => {
   const [woData, setWoData] = useState();
   const [dayObject, setDayObject] = useState({});
 
-  const getDayObject = () => {
-    var date = new Date();
-    date.setDate(date.getDate() - 3); // add day
-    const todayName = date.toLocaleDateString('en-us', {weekday: 'long'}); // get day name
-    console.log('Scedule Screen: ', todayName);
-    const dayObj = JSON.parse(store.getString(todayName));
-    console.log('Day Object retrieved successfully', dayObj.day);
-
-    setDayObject(dayObj);
-  };
+  const isFoucsed = useIsFocused();
 
   useEffect(() => {
-    getDayObject();
-  }, []);
+    setDayObject(getDayObject);
+  }, [isFoucsed]);
 
   return (
     <SafeAreaView className="bg-[#112044] flex-1">

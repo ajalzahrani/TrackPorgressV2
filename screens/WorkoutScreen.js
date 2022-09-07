@@ -12,42 +12,62 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import React, {useEffect, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useIsFocused} from '@react-navigation/native';
 import {store} from '../Store';
+import uuid from 'react-native-uuid';
 
 // Assets
-import {colors, exerciseData, assets} from '../components/constants';
+import {colors, assets} from '../components/constants';
 
 // components
 import AddNewWorkout from '../components/AddNew';
 import ExerciseCard from '../components/ExerciseCard';
-import AddExerciseModle from '../components/AddExerciseModle';
+import {getDayObject} from '../components/shared';
 
 const WorkoutScreen = () => {
+  // FIXME: presis workout name if entered before assigning new exercises.
+  // FIXME: accept workout name if not edited.
   const [workoutName, setWorkoutName] = useState(''); // workout name state
   const [modalVisible, setModalVisible] = useState(false); // workoutname alert modal state
-  const [exercises, setExercises] = useState([]); // exercise list array state
-  const [selectedExercisesNames, setSelectedExercisesNames] = useState([]);
-  const [exerciseParam, setExerciseParam] = useState({});
-  const [workoutId, setWorkoutId] = useState(-1);
+  // const [exercises, setExercises] = useState([]); // exercise list array state
+  const [exData, setEXData] = useState([]); // state holding exercise data.
   const [dayObject, setDayObject] = useState({});
 
   const navigation = useNavigation();
+  const isFoucsed = useIsFocused();
 
-  const getDayObject = () => {
-    var date = new Date();
-    date.setDate(date.getDate() - 3); // add day
-    const todayName = date.toLocaleDateString('en-us', {weekday: 'long'}); // get day name
-    console.log('Workout Screen: ', todayName);
-    const dayObject = JSON.parse(store.getString(todayName));
+  /* UPDATE CURRENT DAY OBJECT PARAMETERS (MAIN METHOD) */
+  const handleScheduleUpdate = ScheduleObj => {
+    // console.log("nothing to save");
+    setDayObject(prev => {
+      return {...prev, ScheduleObj};
+    });
+    console.log('dayObject after update workout: ', dayObject);
 
-    setDayObject(dayObject);
+    // do store save.
+  };
+
+  /* ADD NEW WORKOUT */
+  const handleAddNewWorkout = () => {
+    const workoutObj = {
+      workout: {
+        id: uuid.v4(),
+        title: 'Workout 1',
+        exercises: [],
+      },
+    };
+    let updatedDayObj = Object.assign(dayObject, workoutObj);
+    console.log(updatedDayObj);
+    handleScheduleUpdate(updatedDayObj);
   };
 
   // Workflow functions
   const SaveWorkout = () => {
     if (workoutName.length > 0) {
       // Save the workout parameters and goBack to schedule
+      dayObject.workout.title = workoutName;
+
+      store.set(dayObject.day, JSON.stringify(dayObject));
 
       alert('Workout ' + workoutName + ' saved successfully');
 
@@ -58,43 +78,26 @@ const WorkoutScreen = () => {
     }
   };
 
-  // if element unchecked remove it from the array
-  function checkIfExerSelected(id, array) {
-    for (let i = 0; i < array.length; i++) {
-      if (array[i] === id) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  const handleSetExerciseParam = (exerId, reps) => {
-    setExerciseParam(prev => {
-      return {...prev};
+  /* HOW TO QUERY EXERCISE NAME BY ID FROM EXERCISE LIST */
+  const getExerciseName = id => {
+    let exername = exData.filter(element => {
+      return element.id === id;
     });
+    return exername[0].title;
   };
 
-  // I use this function in previous logic to select exercise and now is just for learn how to pass props throw navigatio.
-  const selectExercise = exerId => {
-    // FIXME: strange if you add curly bracts you will get error undefinded is not object.
-    // setExercises(prev => {
-    //   [...prev, exerId];
-    // });
-    // FIXME: strange this log doesn't print exercise state, but it does in useEffect.
-    // console.log('select function call: ', exercises);
-    // Solution is because this being called before render, so call this in return method will print.
-
-    // check if the added exer already selelcted , if so then return
-    if (checkIfExerSelected(exerId, exercises) === false) {
-      setExercises(state => {
-        return [...state, exerId];
-      });
-    }
+  /* HOW TO ADD FREQUANCY TO AN EXERCISE */
+  const addFreq = freq => {
+    exercise.freq = freq;
+    handleSetToday(exercise);
   };
 
   useEffect(() => {
-    getDayObject();
-  }, []);
+    const exerciseData = JSON.parse(store.getString('exercises'));
+    setEXData(exerciseData);
+
+    setDayObject(getDayObject());
+  }, [isFoucsed]);
 
   return (
     <SafeAreaView className="bg-[#112044] flex-1">
@@ -131,24 +134,22 @@ const WorkoutScreen = () => {
           placeholder="Workout name"
           placeholderTextColor={colors.offwhite}
           onChangeText={setWorkoutName}
-          style={{
-            backgroundColor: colors.offwhite,
-            paddingVertical: 12,
-            paddingHorizontal: 20,
-            color: colors.white,
-            fontSize: 16,
-            fontWeight: '400',
-            borderRadius: 100,
-            marginHorizontal: 30,
-            marginTop: 47,
-          }}
+          defaultValue={dayObject.workout?.title}
+          style={style.textInputStyle}
         />
 
         <View style={style.preWorkoutListContainerStyle}>
           <Text className="text-white">Pre-list of workouts</Text>
           <ScrollView contentContainerStyle={{paddingBottom: 72}}>
             {dayObject.workout?.exercises?.map(element => {
-              return <ExerciseCard key={element.id} exerName={element.title} />;
+              return (
+                <ExerciseCard
+                  key={element.id}
+                  exerName={getExerciseName(element.id)}
+                  index={element.id}
+                  addFreq={addFreq}
+                />
+              );
             })}
             <TouchableOpacity
               onPress={() => {
@@ -167,9 +168,12 @@ const WorkoutScreen = () => {
                 </View>
               </LinearGradient>
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* Test button */}
+            {/* <TouchableOpacity
               onPress={() => {
                 alert('Hello');
+                // handleAddNewWorkout();
+                console.log(dayObject);
               }}>
               <LinearGradient
                 style={style.touchableOpacityStartStyle}
@@ -183,7 +187,7 @@ const WorkoutScreen = () => {
                   </Text>
                 </View>
               </LinearGradient>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </ScrollView>
         </View>
       </View>
@@ -218,6 +222,17 @@ const style = StyleSheet.create({
     borderRadius: 100,
     marginTop: 30,
     marginHorizontal: 24.5,
+  },
+  textInputStyle: {
+    backgroundColor: colors.offwhite,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    color: colors.white,
+    fontSize: 16,
+    fontWeight: '400',
+    borderRadius: 100,
+    marginHorizontal: 30,
+    marginTop: 47,
   },
 
   // modal style

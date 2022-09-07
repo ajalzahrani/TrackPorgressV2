@@ -3,10 +3,11 @@ import {WeekdaysStructure as wds} from './WeekdaysStructure';
 import {ExerciseData} from './ExerciseData';
 
 export function ImplementDataStructure() {
+  // store.delete('Wednesday');
   wds.map(dayObj => {
     if (!store.contains(dayObj.day)) {
       store.set(dayObj.day, JSON.stringify(dayObj));
-      console.log(dayObj.day);
+      console.log(dayObj.day, 'created.');
     }
   });
 
