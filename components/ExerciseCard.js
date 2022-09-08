@@ -1,5 +1,5 @@
 import {View, Text, StyleSheet} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 // Assets
 import {colors} from '../components/constants';
@@ -7,11 +7,21 @@ import {colors} from '../components/constants';
 // components
 import SETsController from './SETsController';
 
-const ExerciseCard = ({exerName, index, addFreq}) => {
+const ExerciseCard = ({exercise, exData}) => {
+  /* HOW TO QUERY EXERCISE NAME BY ID FROM EXERCISE LIST */
+  const getExerciseName = id => {
+    let exername = exData.filter(element => {
+      return element.id === id;
+    });
+    return exername[0].title;
+  };
+
   return (
     <View style={style.cardContainer}>
       {/* Exercise Titile */}
-      <Text style={style.exerciseTitleStyle}>{exerName}</Text>
+      <Text style={style.exerciseTitleStyle}>
+        {getExerciseName(exercise.id)}
+      </Text>
 
       <SETsController indicatorTitle={'Set'} />
 

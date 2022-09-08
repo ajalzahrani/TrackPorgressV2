@@ -27,9 +27,9 @@ import {getDayObject} from '../components/shared';
 const WorkoutScreen = () => {
   // FIXME: presis workout name if entered before assigning new exercises.
   // FIXME: accept workout name if not edited.
+  // FIXME: dont' save workout when go back.
   const [workoutName, setWorkoutName] = useState(''); // workout name state
   const [modalVisible, setModalVisible] = useState(false); // workoutname alert modal state
-  // const [exercises, setExercises] = useState([]); // exercise list array state
   const [exData, setEXData] = useState([]); // state holding exercise data.
   const [dayObject, setDayObject] = useState({});
 
@@ -76,20 +76,6 @@ const WorkoutScreen = () => {
       // Prompet the user to enter workout name
       setModalVisible(true);
     }
-  };
-
-  /* HOW TO QUERY EXERCISE NAME BY ID FROM EXERCISE LIST */
-  const getExerciseName = id => {
-    let exername = exData.filter(element => {
-      return element.id === id;
-    });
-    return exername[0].title;
-  };
-
-  /* HOW TO ADD FREQUANCY TO AN EXERCISE */
-  const addFreq = freq => {
-    exercise.freq = freq;
-    handleSetToday(exercise);
   };
 
   useEffect(() => {
@@ -145,9 +131,9 @@ const WorkoutScreen = () => {
               return (
                 <ExerciseCard
                   key={element.id}
-                  exerName={getExerciseName(element.id)}
-                  index={element.id}
-                  addFreq={addFreq}
+                  exercise={element}
+                  exData={exData}
+                  setDayObject={setDayObject}
                 />
               );
             })}
@@ -169,11 +155,11 @@ const WorkoutScreen = () => {
               </LinearGradient>
             </TouchableOpacity>
             {/* Test button */}
-            {/* <TouchableOpacity
+            <TouchableOpacity
               onPress={() => {
-                alert('Hello');
+                // alert('Hello');
                 // handleAddNewWorkout();
-                console.log(dayObject);
+                // console.log();
               }}>
               <LinearGradient
                 style={style.touchableOpacityStartStyle}
@@ -187,7 +173,7 @@ const WorkoutScreen = () => {
                   </Text>
                 </View>
               </LinearGradient>
-            </TouchableOpacity> */}
+            </TouchableOpacity>
           </ScrollView>
         </View>
       </View>
