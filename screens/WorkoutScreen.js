@@ -83,6 +83,14 @@ const WorkoutScreen = () => {
     }
   };
 
+  /* HOW TO ADD FREQUANCY TO AN EXERCISE */
+  const addFreq = freq => {
+    let exercises = dayObject.workout.exercises;
+    exercises.freq = freq;
+    // handleSetToday(exercise);
+    console.log(dayObject.workout.exercises);
+  };
+
   useEffect(() => {
     const exerciseData = JSON.parse(store.getString('exercises'));
     setEXData(exerciseData);
@@ -138,6 +146,7 @@ const WorkoutScreen = () => {
                   key={element.id}
                   exercise={element}
                   exData={exData}
+                  addFreq={addFreq}
                   setDayObject={setDayObject}
                 />
               );
@@ -164,7 +173,7 @@ const WorkoutScreen = () => {
               onPress={() => {
                 // alert('Hello');
                 // handleAddNewWorkout();
-                // console.log();
+                // console.log(addFreq);
               }}>
               <LinearGradient
                 style={style.touchableOpacityStartStyle}

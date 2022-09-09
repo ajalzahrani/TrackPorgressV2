@@ -6,16 +6,21 @@ import {colors, assets} from '../components/constants';
 
 // components
 import SETsController from './SETsController';
+import LinearGradient from 'react-native-linear-gradient';
 
-const ExerciseCard = ({exercise, exData}) => {
+const ExerciseCard = ({exercise, exData, addFreq}) => {
   const [exerObj, setExerObj] = useState({
     id: exercise.id,
     set: 0,
     rep: 0,
   });
   const [set, setSet] = useState(0);
-  const [rep, setRep] = useState(0);
+  const [rep, setRep] = useState([15, 12, 12, 10]);
   const [showDone, setShowDone] = useState(false);
+
+  const SaveFreq = () => {
+    console.log(set);
+  };
 
   const onChangeSet = () => {
     setExerObj({...exerObj, set: set});
@@ -42,7 +47,15 @@ const ExerciseCard = ({exercise, exData}) => {
   const RepControllerComponent = () => {
     const rows = [];
     for (let i = 0; i < set; i++) {
-      rows.push(<SETsController key={i} indicatorTitle={'SET ' + (i + 1)} />);
+      rows.push(
+        <SETsController
+          key={i}
+          freq={exercise.freq}
+          index={i}
+          addFreq={addFreq}
+          indicatorTitle={'SET ' + (i + 1)}
+        />,
+      );
     }
     return <>{rows}</>;
   };
@@ -100,8 +113,20 @@ const ExerciseCard = ({exercise, exData}) => {
       {RepControllerComponent()}
 
       <View style={{opacity: showDone ? 1 : 0}}>
-        <TouchableOpacity>
-          <Text>Done</Text>
+        <TouchableOpacity
+          onPress={() => {
+            SaveFreq();
+          }}>
+          <LinearGradient
+            style={style.touchableOpacityStartStyle}
+            start={{x: 1, y: 0}}
+            end={{x: 0, y: 0}}
+            colors={['#FA3B89', '#E10D60']}>
+            <View className="flex-row justify-center items-center space-x-2">
+              <Image source={assets.icn_start} />
+              <Text className="text-base font-semibold text-white">Done</Text>
+            </View>
+          </LinearGradient>
         </TouchableOpacity>
       </View>
     </View>
@@ -153,6 +178,18 @@ const style = StyleSheet.create({
     fontWeight: '400',
     fontSize: 16,
     color: colors.white,
+  },
+  touchableOpacityStartStyle: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 5,
+    borderRadius: 100,
+    marginTop: 10,
+    marginBottom: 10,
+    marginHorizontal: 24.5,
   },
 });
 

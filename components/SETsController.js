@@ -4,8 +4,14 @@ import React, {useEffect, useState} from 'react';
 // Assets
 import {colors, assets} from '../components/constants';
 
-const SETsController = ({indicatorTitle}) => {
+const SETsController = ({indicatorTitle, freq, index, addFreq}) => {
   const [number, setNumber] = useState(0);
+
+  const updateFreq = () => {
+    let updatedFreq = freq;
+    updatedFreq[index] = number;
+    addFreq(updatedFreq);
+  };
 
   const addNumber = () => {
     setNumber(number + 1);
@@ -20,7 +26,7 @@ const SETsController = ({indicatorTitle}) => {
   };
 
   useEffect(() => {
-    console.log(indicatorTitle);
+    updateFreq();
   });
 
   return (
