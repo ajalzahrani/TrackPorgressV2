@@ -5,7 +5,7 @@ import React, {useEffect, useState} from 'react';
 import {colors, assets} from '../components/constants';
 
 const SETsController = ({indicatorTitle, freq, index, addFreq}) => {
-  const [number, setNumber] = useState(0);
+  const [number, setNumber] = useState(freq[index]);
 
   const updateFreq = () => {
     let updatedFreq = freq;

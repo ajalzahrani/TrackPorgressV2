@@ -14,7 +14,7 @@ const ExerciseCard = ({exercise, exData, addFreq}) => {
     set: 0,
     rep: 0,
   });
-  const [set, setSet] = useState(0);
+  const [set, setSet] = useState(exercise.freq.length);
   const [rep, setRep] = useState([15, 12, 12, 10]);
   const [showDone, setShowDone] = useState(false);
 

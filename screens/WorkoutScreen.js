@@ -147,7 +147,6 @@ const WorkoutScreen = () => {
                   exercise={element}
                   exData={exData}
                   addFreq={addFreq}
-                  setDayObject={setDayObject}
                 />
               );
             })}
@@ -173,7 +172,7 @@ const WorkoutScreen = () => {
               onPress={() => {
                 // alert('Hello');
                 // handleAddNewWorkout();
-                // console.log(addFreq);
+                console.log(dayObject.workout.exercises);
               }}>
               <LinearGradient
                 style={style.touchableOpacityStartStyle}
