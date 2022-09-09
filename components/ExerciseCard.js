@@ -1,10 +1,6 @@
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import React, {useEffect, useState} from 'react';
 
-import {SafeAreaView, ScrollView} from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import {useNavigation} from '@react-navigation/native';
-
 // Assets
 import {colors, assets} from '../components/constants';
 
@@ -46,9 +42,9 @@ const ExerciseCard = ({exercise, exData}) => {
   const RepControllerComponent = () => {
     const rows = [];
     for (let i = 0; i < set; i++) {
-      rows.push(<SETsController key={i} indicatorTitle={'SET ' + i} />);
+      rows.push(<SETsController key={i} indicatorTitle={'SET ' + (i + 1)} />);
     }
-    return <View>{rows}</View>;
+    return <>{rows}</>;
   };
 
   /* HOW TO QUERY EXERCISE NAME BY ID FROM EXERCISE LIST */
@@ -58,11 +54,6 @@ const ExerciseCard = ({exercise, exData}) => {
     });
     return exername[0].title;
   };
-
-  useEffect(() => {
-    onChangeRep();
-    onChangeSet();
-  }, [set, rep]);
 
   return (
     <View style={style.cardContainer}>
@@ -80,7 +71,7 @@ const ExerciseCard = ({exercise, exData}) => {
             <Text style={{color: colors.white}}>{set}</Text>
           </View>
 
-          <Text style={style.middleTextStyle}>SETs</Text>
+          <Text style={style.middleTextStyle}>Sets</Text>
 
           {/* plus - min buttons */}
           <View style={{flexDirection: 'row'}} className="space-x-10">

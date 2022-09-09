@@ -1,21 +1,8 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-} from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
+import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
 
 // Assets
-import {colors, exerciseData, assets} from '../components/constants';
-
-// components
-import AddNewWorkout from '../components/AddNew';
+import {colors, assets} from '../components/constants';
 
 const SETsController = ({indicatorTitle}) => {
   const [number, setNumber] = useState(0);
@@ -45,7 +32,7 @@ const SETsController = ({indicatorTitle}) => {
           <Text style={{color: colors.white}}>{number}</Text>
         </View>
 
-        <Text style={style.middleTextStyle}>SET</Text>
+        <Text style={style.middleTextStyle}>{indicatorTitle}</Text>
 
         {/* plus - min buttons */}
         <View style={{flexDirection: 'row'}} className="space-x-10">
