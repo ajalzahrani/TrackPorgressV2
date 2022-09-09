@@ -32,6 +32,10 @@ const SETsController = ({indicatorTitle}) => {
     }
   };
 
+  useEffect(() => {
+    console.log(indicatorTitle);
+  });
+
   return (
     <View style={style.containerStyle}>
       {/* inner set container */}
@@ -41,7 +45,7 @@ const SETsController = ({indicatorTitle}) => {
           <Text style={{color: colors.white}}>{number}</Text>
         </View>
 
-        <Text style={style.middleTextStyle}>{indicatorTitle}</Text>
+        <Text style={style.middleTextStyle}>SET</Text>
 
         {/* plus - min buttons */}
         <View style={{flexDirection: 'row'}} className="space-x-10">

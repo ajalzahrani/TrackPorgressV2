@@ -19,6 +19,7 @@ const ExerciseCard = ({exercise, exData}) => {
   });
   const [set, setSet] = useState(0);
   const [rep, setRep] = useState(0);
+  const [showDone, setShowDone] = useState(false);
 
   const onChangeSet = () => {
     setExerObj({...exerObj, set: set});
@@ -30,26 +31,24 @@ const ExerciseCard = ({exercise, exData}) => {
 
   const addSet = () => {
     setSet(set + 1);
-  };
-
-  const addRep = () => {
-    setRep(rep + 1);
+    setShowDone(true);
   };
 
   const minSet = () => {
     if (set === 0) {
       setSet(0);
+      setShowDone(false);
     } else {
       setSet(set - 1);
     }
   };
 
-  const minRep = () => {
-    if (rep === 0) {
-      setRep(0);
-    } else {
-      setRep(rep - 1);
+  const RepControllerComponent = () => {
+    const rows = [];
+    for (let i = 0; i < set; i++) {
+      rows.push(<SETsController key={i} indicatorTitle={'SET ' + i} />);
     }
+    return <View>{rows}</View>;
   };
 
   /* HOW TO QUERY EXERCISE NAME BY ID FROM EXERCISE LIST */
@@ -107,36 +106,13 @@ const ExerciseCard = ({exercise, exData}) => {
         }}
       />
 
-      {/* <SETsController indicatorTitle={'Rep'} /> */}
-      <View style={style.containerStyle}>
-        {/* inner set container */}
-        <View style={style.innerContainerStyle}>
-          {/* Number indicator */}
-          <View style={style.numberIndicator}>
-            <Text style={{color: colors.white}}>{rep}</Text>
-          </View>
+      {RepControllerComponent()}
 
-          <Text style={style.middleTextStyle}>REPs</Text>
-
-          {/* plus - min buttons */}
-          <View style={{flexDirection: 'row'}} className="space-x-10">
-            <TouchableOpacity
-              onPress={() => {
-                minRep();
-              }}>
-              <Image source={assets.icn_min} />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => addRep()}>
-              <Image source={assets.icn_add} />
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
-      {/* <View>
+      <View style={{opacity: showDone ? 1 : 0}}>
         <TouchableOpacity>
           <Text>Done</Text>
         </TouchableOpacity>
-      </View> */}
+      </View>
     </View>
   );
 };

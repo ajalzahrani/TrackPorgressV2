@@ -48,11 +48,11 @@ const WorkoutScreen = () => {
   };
 
   /* ADD NEW WORKOUT */
-  const handleAddNewWorkout = () => {
+  const handleAddNewWorkout = title => {
     const workoutObj = {
       workout: {
         id: uuid.v4(),
-        title: 'Workout 1',
+        title: title,
         exercises: [],
       },
     };
@@ -65,7 +65,12 @@ const WorkoutScreen = () => {
   const SaveWorkout = () => {
     if (workoutName.length > 0) {
       // Save the workout parameters and goBack to schedule
-      dayObject.workout.title = workoutName;
+
+      if ('workout' in dayObject) {
+        dayObject.workout.title = workoutName;
+      } else {
+        handleAddNewWorkout(workoutName);
+      }
 
       store.set(dayObject.day, JSON.stringify(dayObject));
 
