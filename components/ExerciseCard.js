@@ -1,15 +1,13 @@
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 
 // Assets
 import {colors, assets} from '../components/constants';
 
 // components
 import SETsController from './SETsController';
-import LinearGradient from 'react-native-linear-gradient';
 
-const ExerciseCard = ({exercise, exData, addFreq}) => {
-  // FIXME: remove a set is not commited
+const ExerciseCard = ({exercise, exData, addFreq, hadndleDeleteExercise}) => {
   const [set, setSet] = useState(exercise.freq.length);
 
   const addSet = () => {
@@ -36,7 +34,7 @@ const ExerciseCard = ({exercise, exData, addFreq}) => {
           freq={exercise.freq}
           index={i}
           addFreq={addFreq}
-          indicatorTitle={'SET ' + (i + 1)}
+          indicatorTitle={'Set ' + (i + 1)}
         />,
       );
     }
@@ -54,9 +52,14 @@ const ExerciseCard = ({exercise, exData, addFreq}) => {
   return (
     <View style={style.cardContainer}>
       {/* Exercise Titile */}
-      <Text style={style.exerciseTitleStyle}>
-        {getExerciseName(exercise.id)}
-      </Text>
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <Text style={style.exerciseTitleStyle}>
+          {getExerciseName(exercise.id)}
+        </Text>
+        <TouchableOpacity onPress={() => hadndleDeleteExercise(exercise.id)}>
+          <Text>Remove</Text>
+        </TouchableOpacity>
+      </View>
 
       {/* <SETsController indicatorTitle={'Set'} /> */}
       <View style={style.containerStyle}>
@@ -67,7 +70,7 @@ const ExerciseCard = ({exercise, exData, addFreq}) => {
             <Text style={{color: colors.white}}>{set}</Text>
           </View>
 
-          <Text style={style.middleTextStyle}>Sets</Text>
+          <Text style={style.middleTextStyle}>المجموعات</Text>
 
           {/* plus - min buttons */}
           <View style={{flexDirection: 'row'}} className="space-x-10">

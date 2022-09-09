@@ -34,6 +34,7 @@ const WorkoutScreen = () => {
   const [exData, setEXData] = useState([]); // state holding exercise data.
   const [dayObject, setDayObject] = useState({});
   const [workoutName, setWorkoutName] = useState(dayObject?.workout?.title); // workout name state
+  const [isExerRemoved, setIsExerRemoved] = useState(false);
 
   const navigation = useNavigation();
   const isFoucsed = useIsFocused();
@@ -77,15 +78,27 @@ const WorkoutScreen = () => {
     }
 
     // alert('Workout ' + workoutName + ' saved successfully');
-
-    navigation.goBack();
   };
 
   /* HOW TO ADD FREQUANCY TO AN EXERCISE */
   const addFreq = freq => {
     let exercises = dayObject.workout.exercises;
     exercises.freq = freq;
-    console.log(dayObject.workout.exercises);
+    // console.log(dayObject.workout.exercises);
+  };
+
+  const hadndleDeleteExercise = index => {
+    let exercises = dayObject?.workout?.exercises;
+    let indexOf = undefined;
+    for (let i = 0; i < exercises.length; i++) {
+      if (exercises[i].id === index) {
+        indexOf = i;
+      }
+    }
+    exercises.splice(indexOf, 1);
+    console.log(exercises);
+    SaveWorkout();
+    setIsExerRemoved(true);
   };
 
   useEffect(() => {
@@ -93,7 +106,8 @@ const WorkoutScreen = () => {
     setEXData(exerciseData);
 
     setDayObject(getDayObject());
-  }, [isFoucsed]);
+    setIsExerRemoved(false);
+  }, [isFoucsed, isExerRemoved]);
 
   return (
     <SafeAreaView className="bg-[#112044] flex-1">
@@ -144,6 +158,7 @@ const WorkoutScreen = () => {
                     exercise={element}
                     exData={exData}
                     addFreq={addFreq}
+                    hadndleDeleteExercise={hadndleDeleteExercise}
                   />
                 </Animated.View>
               );
@@ -151,6 +166,7 @@ const WorkoutScreen = () => {
             <TouchableOpacity
               onPress={() => {
                 SaveWorkout();
+                navigation.goBack();
               }}>
               <LinearGradient
                 style={style.touchableOpacityStartStyle}
