@@ -9,6 +9,9 @@ import {
   Modal,
   Pressable,
   TextInput,
+  Dimensions,
+  Panresponder,
+  Animated,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import React, {useEffect, useState} from 'react';
@@ -26,12 +29,11 @@ import {getDayObject} from '../components/shared';
 
 const WorkoutScreen = () => {
   // FIXME: presis workout name if entered before assigning new exercises.
-  // FIXME: accept workout name if not edited.
   // FIXME: dont' save workout when go back.
-  const [workoutName, setWorkoutName] = useState(''); // workout name state
   const [modalVisible, setModalVisible] = useState(false); // workoutname alert modal state
   const [exData, setEXData] = useState([]); // state holding exercise data.
   const [dayObject, setDayObject] = useState({});
+  const [workoutName, setWorkoutName] = useState(dayObject?.workout?.title); // workout name state
 
   const navigation = useNavigation();
   const isFoucsed = useIsFocused();
@@ -45,6 +47,7 @@ const WorkoutScreen = () => {
     console.log('dayObject after update workout: ', dayObject);
 
     // do store save.
+    SaveWorkout();
   };
 
   /* ADD NEW WORKOUT */
@@ -63,31 +66,25 @@ const WorkoutScreen = () => {
 
   // Workflow functions
   const SaveWorkout = () => {
-    if (workoutName.length > 0) {
-      // Save the workout parameters and goBack to schedule
-
-      if ('workout' in dayObject) {
+    if ('workout' in dayObject) {
+      if (workoutName !== undefined) {
         dayObject.workout.title = workoutName;
-      } else {
-        handleAddNewWorkout(workoutName);
       }
 
-      store.set(dayObject.day, JSON.stringify(dayObject));
-
-      alert('Workout ' + workoutName + ' saved successfully');
-
-      navigation.goBack();
+      store.set(dayObject.day, JSON.stringify(dayObject)); // Global save
     } else {
-      // Prompet the user to enter workout name
-      setModalVisible(true);
+      handleAddNewWorkout(workoutName);
     }
+
+    // alert('Workout ' + workoutName + ' saved successfully');
+
+    navigation.goBack();
   };
 
   /* HOW TO ADD FREQUANCY TO AN EXERCISE */
   const addFreq = freq => {
     let exercises = dayObject.workout.exercises;
     exercises.freq = freq;
-    // handleSetToday(exercise);
     console.log(dayObject.workout.exercises);
   };
 
@@ -142,12 +139,13 @@ const WorkoutScreen = () => {
           <ScrollView contentContainerStyle={{paddingBottom: 72}}>
             {dayObject.workout?.exercises?.map(element => {
               return (
-                <ExerciseCard
-                  key={element.id}
-                  exercise={element}
-                  exData={exData}
-                  addFreq={addFreq}
-                />
+                <Animated.View key={element.id}>
+                  <ExerciseCard
+                    exercise={element}
+                    exData={exData}
+                    addFreq={addFreq}
+                  />
+                </Animated.View>
               );
             })}
             <TouchableOpacity
@@ -172,7 +170,7 @@ const WorkoutScreen = () => {
               onPress={() => {
                 // alert('Hello');
                 // handleAddNewWorkout();
-                console.log(dayObject.workout.exercises);
+                console.log(dayObject?.workout?.exercises);
               }}>
               <LinearGradient
                 style={style.touchableOpacityStartStyle}

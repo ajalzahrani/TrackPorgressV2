@@ -9,38 +9,21 @@ import SETsController from './SETsController';
 import LinearGradient from 'react-native-linear-gradient';
 
 const ExerciseCard = ({exercise, exData, addFreq}) => {
-  const [exerObj, setExerObj] = useState({
-    id: exercise.id,
-    set: 0,
-    rep: 0,
-  });
+  // FIXME: remove a set is not commited
   const [set, setSet] = useState(exercise.freq.length);
-  const [rep, setRep] = useState([15, 12, 12, 10]);
-  const [showDone, setShowDone] = useState(false);
-
-  const SaveFreq = () => {
-    console.log(set);
-  };
-
-  const onChangeSet = () => {
-    setExerObj({...exerObj, set: set});
-    console.log(exerObj);
-  };
-  const onChangeRep = () => {
-    setExerObj({...exerObj, rep: rep});
-  };
 
   const addSet = () => {
     setSet(set + 1);
-    setShowDone(true);
+    exercise.freq.length = set; // link set count with any update
   };
 
   const minSet = () => {
     if (set === 0) {
       setSet(0);
-      setShowDone(false);
+      exercise.freq.length = set - 1; // link set count with any update
     } else {
       setSet(set - 1);
+      exercise.freq.length = set - 1; // link set count with any update
     }
   };
 
@@ -111,24 +94,6 @@ const ExerciseCard = ({exercise, exData, addFreq}) => {
       />
 
       {RepControllerComponent()}
-
-      <View style={{opacity: showDone ? 1 : 0}}>
-        <TouchableOpacity
-          onPress={() => {
-            SaveFreq();
-          }}>
-          <LinearGradient
-            style={style.touchableOpacityStartStyle}
-            start={{x: 1, y: 0}}
-            end={{x: 0, y: 0}}
-            colors={['#FA3B89', '#E10D60']}>
-            <View className="flex-row justify-center items-center space-x-2">
-              <Image source={assets.icn_start} />
-              <Text className="text-base font-semibold text-white">Done</Text>
-            </View>
-          </LinearGradient>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 };
