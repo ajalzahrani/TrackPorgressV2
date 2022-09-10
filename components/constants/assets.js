@@ -11,6 +11,7 @@ import icn_add from '../../asset/icn_add.png';
 import icn_min from '../../asset/icn_min.png';
 import icn_goback from '../../asset/icn_goback.png';
 import icn_goforward from '../../asset/icn_goforward.png';
+import icn_remove from '../../asset/icn_remove.png';
 
 import AsianBueaty from '../../asset/personalpic.png';
 
@@ -28,6 +29,6 @@ export default {
   icn_min,
   icn_goback,
   icn_goforward,
-
+  icn_remove,
   AsianBueaty,
 };

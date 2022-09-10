@@ -52,12 +52,18 @@ const ExerciseCard = ({exercise, exData, addFreq, hadndleDeleteExercise}) => {
   return (
     <View style={style.cardContainer}>
       {/* Exercise Titile */}
-      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+      <View
+        className="space-x-6"
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
         <Text style={style.exerciseTitleStyle}>
           {getExerciseName(exercise.id)}
         </Text>
         <TouchableOpacity onPress={() => hadndleDeleteExercise(exercise.id)}>
-          <Text>Remove</Text>
+          <Image source={assets.icn_remove} />
         </TouchableOpacity>
       </View>
 
@@ -70,7 +76,7 @@ const ExerciseCard = ({exercise, exData, addFreq, hadndleDeleteExercise}) => {
             <Text style={{color: colors.white}}>{set}</Text>
           </View>
 
-          <Text style={style.middleTextStyle}>المجموعات</Text>
+          <Text style={style.middleTextStyle}>Sets</Text>
 
           {/* plus - min buttons */}
           <View style={{flexDirection: 'row'}} className="space-x-10">

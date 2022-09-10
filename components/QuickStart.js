@@ -15,9 +15,12 @@ const QuickStart = () => {
       <TouchableOpacity>
         <LinearGradient
           className="py-3 px-20 rounded-full mt-10"
-          start={{x: 1, y: 0}}
-          end={{x: 0, y: 0}}
-          colors={['#FA3B89', '#E10D60']}>
+          colors={['#E10D60', '#FA3B89']}
+          start={{x: 0, y: 0}}
+          end={{x: 1, y: 1}}
+          locations={[0.75, 1]}
+          // colors={['rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)']}
+        >
           <Text className="text-base font-semibold text-white">
             Quick start
           </Text>

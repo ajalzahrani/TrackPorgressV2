@@ -9,12 +9,10 @@ import {
   Modal,
   Pressable,
   TextInput,
-  Dimensions,
-  Panresponder,
   Animated,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {useNavigation, useIsFocused} from '@react-navigation/native';
 import {store} from '../Store';
 import uuid from 'react-native-uuid';
@@ -153,14 +151,13 @@ const WorkoutScreen = () => {
           <ScrollView contentContainerStyle={{paddingBottom: 72}}>
             {dayObject.workout?.exercises?.map(element => {
               return (
-                <Animated.View key={element.id}>
-                  <ExerciseCard
-                    exercise={element}
-                    exData={exData}
-                    addFreq={addFreq}
-                    hadndleDeleteExercise={hadndleDeleteExercise}
-                  />
-                </Animated.View>
+                <ExerciseCard
+                  key={element.id}
+                  exercise={element}
+                  exData={exData}
+                  addFreq={addFreq}
+                  hadndleDeleteExercise={hadndleDeleteExercise}
+                />
               );
             })}
             <TouchableOpacity

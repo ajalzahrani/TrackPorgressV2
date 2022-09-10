@@ -9,14 +9,52 @@ import {
   StyleSheet,
   Pressable,
   Alert,
+  Animated,
+  PanResponder,
   TextInput,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {store} from '../Store';
 
 const StatScreen = () => {
   const [userProfile, setUserProfile] = useState({});
   const [userProfileValue, setUserProfileValue] = useState({});
+  const pan = useRef(new Animated.ValueXY()).current;
+
+  let rotate = pan.x.interpolate({
+    inputRange: [-20 / 2, 0, 20 / 2],
+    outputRange: ['-10deg', '0deg', '10deg'],
+    extrapolate: 'clamp',
+  });
+
+  const panResponder = useRef(
+    PanResponder.create({
+      onMoveShouldSetPanResponder: (evt, gestureState) => true,
+      onPanResponderGrant: () => {
+        pan.setOffset({
+          x: pan.x._value,
+          y: pan.y._value,
+        });
+      },
+      onPanResponderMove: Animated.event([null, {dx: pan.x, dy: pan.y}]),
+      onPanResponderRelease: (evt, gestureState) => {
+        //pan.flattenOffset();
+        if (gestureState.dx > 20) {
+          Animated.spring(pan, {
+            toValue: {x: 120 + 100, y: gestureState.dy},
+          }).start(() => {
+            console.log('delete right');
+          });
+        } else if (gestureState.dx < -20) {
+          Animated.spring(this.position, {
+            toValue: {x: -120 - 100, y: gestureState.dy},
+          }).start(() => {
+            console.log('delete left');
+          });
+        }
+      },
+    }),
+  ).current;
 
   const handleSave = () => {
     const fname = store.getString('fname');
@@ -90,9 +128,37 @@ const StatScreen = () => {
         <Text className="mt-2 text-center text-yellow-50 text-xl">
           {userProfileValue?.lname}
         </Text>
+        <Text style={styles.titleText}>Drag this box!</Text>
+        <Text style={styles.titleText}>Drag this box!</Text>
+        <Animated.View
+          style={{
+            // transform: [{translateX: pan.x}, {translateY: pan.y}],
+            transform: [{rotate: rotate}, ...pan.getTranslateTransform()],
+          }}
+          {...panResponder.panHandlers}>
+          <View style={styles.box} />
+        </Animated.View>
       </View>
     </SafeAreaView>
   );
 };
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  titleText: {
+    fontSize: 14,
+    lineHeight: 24,
+    fontWeight: 'bold',
+  },
+  box: {
+    height: 150,
+    width: 150,
+    backgroundColor: 'blue',
+    borderRadius: 5,
+  },
+});
 export default StatScreen;
