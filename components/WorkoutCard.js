@@ -5,7 +5,7 @@ import {colors, assets} from './constants';
 
 import {useNavigation} from '@react-navigation/native';
 
-const WorkoutCard = ({id, title}) => {
+const WorkoutCard = ({id, title, navigateToWorkoutById}) => {
   const navigation = useNavigation();
 
   return (
@@ -15,7 +15,7 @@ const WorkoutCard = ({id, title}) => {
         <TouchableOpacity>
           <Image source={assets.icn_goforward} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('WorkoutScreen')}>
+        <TouchableOpacity onPress={() => navigateToWorkoutById(id)}>
           <Image source={assets.icn_edit} />
         </TouchableOpacity>
       </View>

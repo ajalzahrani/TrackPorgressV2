@@ -21,16 +21,19 @@ import ExerciseSelectRow from '../components/ExerciseSelectRow';
 import {useNavigation} from '@react-navigation/native';
 import {getDayObject} from '../components/shared';
 
-const ExerciseScreen = () => {
+const ExerciseScreen = ({route}) => {
   // FIXME: presis exercise selection when search
   const [exData, setEXData] = useState([]); // state holding exercise data.
   const [search, setSearch] = useState(''); //
   const [searchResult, setSearchResult] = useState();
   const [notFound, setNotFound] = useState(false); // handle if no exercise found in search
   const [selectedExerciseList, setSelectedExerciseList] = useState([]); // handle user exercises selection.
-  const [dayObject, setDayObject] = useState({}); // hold day object.
 
   const navigation = useNavigation();
+
+  const {options} = route.params;
+  let handleWorkoutParams = options.handleWorkoutParams;
+  let exercises = options.exercises;
 
   // search the list of exercises data and eanble the user to add not found exercies.
   const handleSearch = searchText => {
@@ -63,8 +66,8 @@ const ExerciseScreen = () => {
     console.log(newExercise, ' Saved successfully.');
   };
 
-  // save selected exercises to dayObject.
-  // take selected exercises array from selectedExerciseList stat
+  // save selected exercises to workoutObject by calling handleWorkoutParams function from workout screen.
+  // take selected exercises array from selectedExerciseList state
   function saveSelectedExercises() {
     let exerciseObjs = selectedExerciseList.map(exerId => {
       return {
@@ -73,22 +76,7 @@ const ExerciseScreen = () => {
       };
     });
 
-    if ('workout' in dayObject) {
-      dayObject.workout.exercises = exerciseObjs;
-    } else {
-      let workoutObj = {
-        workout: {
-          id: uuid.v4(),
-          title: 'workout 1',
-          exercises: exerciseObjs,
-        },
-      };
-
-      Object.assign(dayObject, workoutObj);
-    }
-
-    // global save
-    store.set(dayObject.day, JSON.stringify(dayObject));
+    handleWorkoutParams(exerciseObjs);
   }
 
   // check if the exercises selected then add the list is deselected then remove from the list.
@@ -118,9 +106,6 @@ const ExerciseScreen = () => {
     const exerciseData = JSON.parse(store.getString('exercises'));
     setEXData(exerciseData);
     setSearchResult(exerciseData);
-
-    // get a day object
-    setDayObject(getDayObject());
   }, []);
 
   return (
@@ -161,7 +146,7 @@ const ExerciseScreen = () => {
                 item={item}
                 checkIfExerSelected
                 handleExerciseSelection={handleExerciseSelection}
-                exercises={dayObject?.workout?.exercises}
+                exercises={exercises}
               />
             ))}
           </View>

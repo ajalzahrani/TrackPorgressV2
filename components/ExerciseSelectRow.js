@@ -20,7 +20,7 @@ const ExerciseSelectRow = ({
   const [isSelected, setIsSelected] = useState(false);
   const [preSelected, setPreSelected] = useState(false);
 
-  const preSelect = () => {
+  const handlePreSelect = () => {
     exercises?.find(exer => {
       if (exer.id === item.id) {
         setIsSelected(true);
@@ -32,9 +32,9 @@ const ExerciseSelectRow = ({
 
   useEffect(() => {
     if (!preSelected) {
-      preSelect();
+      handlePreSelect();
     }
-  });
+  }, []);
 
   return (
     <View style={style.ExerciseRow}>
@@ -43,10 +43,6 @@ const ExerciseSelectRow = ({
         <TouchableOpacity
           onPress={() => {
             setIsSelected(!isSelected);
-            // console.log(item.id);
-            // Logic how to pass props throw navigation
-            // use the props here.
-            // selectExercise(item.id);
             handleExerciseSelection(item.id);
           }}>
           <View

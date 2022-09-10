@@ -61,7 +61,10 @@ const ScheduleScreen = () => {
             <Image source={assets.icn_edit} />
           </TouchableOpacity>
         </View>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            console.log(store.getString('workouts'));
+          }}>
           <LinearGradient
             style={style.touchableOpacityStartStyle}
             start={{x: 1, y: 0}}
@@ -79,7 +82,12 @@ const ScheduleScreen = () => {
           <Text className="text-white">Pre-list of workouts</Text>
           <ScrollView contentContainerStyle={{paddingBottom: 72}}>
             {woData?.map(item => (
-              <WorkoutCard key={item.id} id={item.id} title={item.title} />
+              <WorkoutCard
+                key={item.id}
+                id={item.id}
+                title={item.title}
+                navigateToWorkoutById={navigateToWorkoutById}
+              />
             ))}
           </ScrollView>
         </View>

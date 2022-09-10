@@ -5,22 +5,18 @@ export const WorkoutDataStructure = [
     exercises: [
       {
         id: 1,
-        title: 'pushups',
         freq: [15, 12, 12, 10],
       },
       {
         id: 2,
-        title: 'wide grip pushup',
         freq: [10, 10, 10],
       },
       {
         id: 3,
-        title: 'Diamond pushup',
         freq: [10, 10, 10, 10, 10],
       },
       {
         id: 4,
-        title: 'Reverse pushup',
         freq: [20, 20],
       },
     ],
@@ -31,22 +27,22 @@ export const WorkoutDataStructure = [
     exercises: [
       {
         id: 1,
-        title: 'pushups',
+
         freq: [15, 12, 12, 10],
       },
       {
         id: 2,
-        title: 'wide grip pushup',
+
         freq: [10, 10, 10],
       },
       {
         id: 3,
-        title: 'Diamond pushup',
+
         freq: [10, 10, 10, 10, 10],
       },
       {
         id: 4,
-        title: 'Reverse pushup',
+
         freq: [20, 20],
       },
     ],

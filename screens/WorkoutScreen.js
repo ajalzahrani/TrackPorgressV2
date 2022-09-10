@@ -24,8 +24,9 @@ import {colors, assets} from '../components/constants';
 import AddNewWorkout from '../components/AddNew';
 import ExerciseCard from '../components/ExerciseCard';
 import {getDayObject} from '../components/shared';
+import {getWorkoutObject} from '../components/shared';
 
-const WorkoutScreen = () => {
+const WorkoutScreen = ({route}) => {
   // FIXME: presis workout name if entered before assigning new exercises.
   // FIXME: dont' save workout when go back.
   // FIXME: prompet user to enter workout name if empty
@@ -33,61 +34,81 @@ const WorkoutScreen = () => {
   const [exData, setEXData] = useState([]); // state holding exercise data.
   const [dayObject, setDayObject] = useState({});
   const [workoutName, setWorkoutName] = useState(dayObject?.workout?.title); // workout name state
-  const [isExerRemoved, setIsExerRemoved] = useState(false);
+  const [workoutObject, setWorkoutObject] = useState({});
 
   const navigation = useNavigation();
   const isFoucsed = useIsFocused();
 
-  /* UPDATE CURRENT DAY OBJECT PARAMETERS (MAIN METHOD) */
-  const handleScheduleUpdate = ScheduleObj => {
-    // console.log("nothing to save");
-    setDayObject(prev => {
-      return {...prev, ScheduleObj};
-    });
-    console.log('dayObject after update workout: ', dayObject);
+  const {workoutId} = route.params;
 
-    // do store save.
-    SaveWorkout();
+  const setupObjects = () => {
+    const exerciseData = JSON.parse(store.getString('exercises')); // Use memo hook for better performance
+    setEXData(exerciseData);
+
+    if (workoutId !== undefined) {
+      let workoutObject = getWorkoutObject(workoutId);
+      setWorkoutObject(workoutObject);
+      setWorkoutName(workoutObject?.title);
+    }
+  };
+
+  const saveWokrout = () => {
+    if (workoutName === undefined) {
+      setModalVisible(true);
+      return;
+    }
+
+    // update workout name.
+    setWorkoutObject(prev => {
+      return {...prev, title: workoutName};
+    });
+
+    // Fetch workouts from stroe
+    let workouts = JSON.parse(store.getString('workouts'));
+
+    if (workoutId !== undefined) {
+      // Workout update
+      // Assign saved workout to workoutObject
+      for (let i = 0; i < workouts.length; i++) {
+        if (workouts[i].id === workoutId) {
+          workouts[i] = workoutObject;
+        }
+      }
+    } else {
+      // New workout
+      // Push with new workout object to workouts array
+      workouts.push(workoutObject);
+    }
+
+    // Commit the store
+    store.set('workouts', JSON.stringify(workouts));
+    navigation.goBack();
   };
 
   /* ADD NEW WORKOUT */
-  const handleAddNewWorkout = title => {
-    const workoutObj = {
-      workout: {
+  const handleWorkoutParams = (exercises = []) => {
+    if (workoutId === undefined) {
+      const newWorkoutObj = {
         id: uuid.v4(),
-        title: title,
-        exercises: [],
-      },
-    };
-    let updatedDayObj = Object.assign(dayObject, workoutObj);
-    console.log(updatedDayObj);
-    handleScheduleUpdate(updatedDayObj);
-  };
-
-  // Workflow functions
-  const SaveWorkout = () => {
-    if ('workout' in dayObject) {
-      if (workoutName !== undefined) {
-        dayObject.workout.title = workoutName;
-      }
-
-      store.set(dayObject.day, JSON.stringify(dayObject)); // Global save
+        title: workoutName,
+        exercises: exercises,
+      };
+      setWorkoutObject(newWorkoutObj);
     } else {
-      handleAddNewWorkout(workoutName);
+      setWorkoutObject(prev => {
+        return {...prev, exercises: exercises};
+      });
     }
-
-    // alert('Workout ' + workoutName + ' saved successfully');
   };
 
   /* HOW TO ADD FREQUANCY TO AN EXERCISE */
   const addFreq = freq => {
-    let exercises = dayObject.workout.exercises;
+    let exercises = workoutObject.exercises;
     exercises.freq = freq;
-    // console.log(dayObject.workout.exercises);
   };
 
   const hadndleDeleteExercise = index => {
-    let exercises = dayObject?.workout?.exercises;
+    let exercises = workoutObject?.exercises;
     let indexOf = undefined;
     for (let i = 0; i < exercises.length; i++) {
       if (exercises[i].id === index) {
@@ -95,18 +116,16 @@ const WorkoutScreen = () => {
       }
     }
     exercises.splice(indexOf, 1);
-    console.log(exercises);
-    SaveWorkout();
-    setIsExerRemoved(true);
+    console.log('Exercies here after delete one exercies: ', exercises);
+    setWorkoutObject(prev => {
+      return {...prev, exercises: exercises};
+    });
   };
 
   useEffect(() => {
-    const exerciseData = JSON.parse(store.getString('exercises'));
-    setEXData(exerciseData);
-
+    setupObjects();
     setDayObject(getDayObject());
-    setIsExerRemoved(false);
-  }, [isFoucsed, isExerRemoved]);
+  }, [isFoucsed]);
 
   return (
     <SafeAreaView className="bg-[#112044] flex-1">
@@ -136,6 +155,10 @@ const WorkoutScreen = () => {
         <AddNewWorkout
           title={'Add new exercise'}
           navigateTo={{to: 'ExerciseScreen'}}
+          options={{
+            handleWorkoutParams: handleWorkoutParams,
+            exercises: workoutObject?.exercises,
+          }}
         />
       </View>
       <View style={{paddingHorizontal: 16, flex: 1}}>
@@ -143,14 +166,14 @@ const WorkoutScreen = () => {
           placeholder="Workout name"
           placeholderTextColor={colors.offwhite}
           onChangeText={setWorkoutName}
-          defaultValue={dayObject.workout?.title}
+          defaultValue={workoutObject?.title}
           style={style.textInputStyle}
         />
 
         <View style={style.preWorkoutListContainerStyle}>
           <Text className="text-white">Pre-list of workouts</Text>
           <ScrollView contentContainerStyle={{paddingBottom: 72}}>
-            {dayObject.workout?.exercises?.map(element => {
+            {workoutObject.exercises?.map(element => {
               return (
                 <ExerciseCard
                   key={element.id}
@@ -163,8 +186,8 @@ const WorkoutScreen = () => {
             })}
             <TouchableOpacity
               onPress={() => {
-                SaveWorkout();
-                navigation.goBack();
+                //SaveWorkout();
+                saveWokrout();
               }}>
               <LinearGradient
                 style={style.touchableOpacityStartStyle}
@@ -184,7 +207,8 @@ const WorkoutScreen = () => {
               onPress={() => {
                 // alert('Hello');
                 // handleAddNewWorkout();
-                console.log(dayObject?.workout?.exercises);
+                console.log(workoutObject);
+                // console.log(workoutId);
               }}>
               <LinearGradient
                 style={style.touchableOpacityStartStyle}
