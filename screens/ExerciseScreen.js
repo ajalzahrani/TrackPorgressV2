@@ -31,9 +31,7 @@ const ExerciseScreen = ({route}) => {
 
   const navigation = useNavigation();
 
-  const {options} = route.params;
-  let handleWorkoutParams = options.handleWorkoutParams;
-  let exercises = options.exercises;
+  const {exercises} = route.params;
 
   // search the list of exercises data and eanble the user to add not found exercies.
   const handleSearch = searchText => {
@@ -153,8 +151,11 @@ const ExerciseScreen = ({route}) => {
           {/* OK Button */}
           <TouchableOpacity
             onPress={() => {
-              saveSelectedExercises();
-              navigation.goBack();
+              navigation.navigate({
+                name: 'WorkoutScreen',
+                params: {selectedExercises: selectedExerciseList},
+                merge: true,
+              });
             }}>
             <LinearGradient
               style={style.touchableOpacityStartStyle}

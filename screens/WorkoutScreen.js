@@ -21,7 +21,6 @@ import uuid from 'react-native-uuid';
 import {colors, assets} from '../components/constants';
 
 // components
-import AddNewWorkout from '../components/AddNew';
 import ExerciseCard from '../components/ExerciseCard';
 import {getDayObject} from '../components/shared';
 import {getWorkoutObject} from '../components/shared';
@@ -57,12 +56,13 @@ const WorkoutScreen = ({route}) => {
       setModalVisible(true);
       return;
     }
-
+    console.log(workoutName);
+    console.log(workoutObject);
     // update workout name.
     setWorkoutObject(prev => {
       return {...prev, title: workoutName};
     });
-
+    console.log(workoutObject);
     // Fetch workouts from stroe
     let workouts = JSON.parse(store.getString('workouts'));
 
@@ -122,10 +122,25 @@ const WorkoutScreen = ({route}) => {
     });
   };
 
+  const handleSelectedExercises = selectedExerciseList => {
+    let exerciseObjs = selectedExerciseList.map(exerId => {
+      return {
+        id: exerId,
+        freq: [],
+      };
+    });
+
+    handleWorkoutParams(exerciseObjs);
+  };
+
   useEffect(() => {
     setupObjects();
     setDayObject(getDayObject());
-  }, [isFoucsed]);
+    if (route.params?.selectedExercises) {
+      handleSelectedExercises(route.params?.selectedExercises);
+      // console.log(route.params?.selectedExercises);
+    }
+  }, [isFoucsed, route.params?.selectedExercises]);
 
   return (
     <SafeAreaView className="bg-[#112044] flex-1">
@@ -152,14 +167,16 @@ const WorkoutScreen = ({route}) => {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image source={assets.icn_goback} />
         </TouchableOpacity>
-        <AddNewWorkout
-          title={'Add new exercise'}
-          navigateTo={{to: 'ExerciseScreen'}}
-          options={{
-            handleWorkoutParams: handleWorkoutParams,
-            exercises: workoutObject?.exercises,
-          }}
-        />
+        <TouchableOpacity
+          className="flex-row flex-1 space-x-2 items-center justify-end mt-2 mr-2"
+          onPress={() => {
+            navigation.navigate('ExerciseScreen', {
+              exercises: workoutObject?.exercises,
+            });
+          }}>
+          <Image source={assets.icn_plus} style={{}} />
+          <Text className="text-red-500 text-base">Add new exercise</Text>
+        </TouchableOpacity>
       </View>
       <View style={{paddingHorizontal: 16, flex: 1}}>
         <TextInput
