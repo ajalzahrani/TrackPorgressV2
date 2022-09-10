@@ -3,9 +3,9 @@
   "configurations": [
     {
       "name": "Debug iOS",
-      "cwd": "${workspaceFolder}",
-      "type": "reactnative",
       "request": "launch",
+      "type": "reactnative",
+      "cwd": "${workspaceFolder}",
       "platform": "ios"
     }
   ]

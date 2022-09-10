@@ -1,3 +1,4 @@
 import {getDayObject} from './getDayObject';
+import {getWorkoutObject} from './getWorkoutObject';
 
-export {getDayObject};
+export {getDayObject, getWorkoutObject};

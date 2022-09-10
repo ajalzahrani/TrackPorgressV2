@@ -1,9 +1,13 @@
 import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import {colors, assets} from './constants';
 
+import {useNavigation} from '@react-navigation/native';
+
 const WorkoutCard = ({id, title}) => {
+  const navigation = useNavigation();
+
   return (
     <View style={style.cardContainer}>
       <Text style={style.workoutTitle}>{title}</Text>
@@ -11,7 +15,7 @@ const WorkoutCard = ({id, title}) => {
         <TouchableOpacity>
           <Image source={assets.icn_goforward} />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('WorkoutScreen')}>
           <Image source={assets.icn_edit} />
         </TouchableOpacity>
       </View>

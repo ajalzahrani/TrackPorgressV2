@@ -10,12 +10,14 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import React, {useEffect, useState} from 'react';
 import {useIsFocused} from '@react-navigation/native';
+import {store} from '../Store';
 
 // Components
 import AddNew from '../components/AddNew';
 import CalenderRow from '../components/CalenderRow';
 import WorkoutCard from '../components/WorkoutCard';
 import {getDayObject} from '../components/shared/';
+import {getWorkoutObject} from '../components/shared/';
 
 // Assets
 import {colors, assets} from '../components/constants';
@@ -24,13 +26,25 @@ import {useNavigation} from '@react-navigation/native';
 
 const ScheduleScreen = () => {
   const [woData, setWoData] = useState();
-  const [dayObject, setDayObject] = useState({});
+  const [workoutObject, setWorkoutObject] = useState({});
 
   const navigation = useNavigation();
   const isFoucsed = useIsFocused();
 
+  const setupObjects = () => {
+    let dayObject = getDayObject();
+    let workoutObject = getWorkoutObject(dayObject?.workout[0]);
+    setWorkoutObject(workoutObject);
+  };
+
+  const navigateToWorkoutById = id => {
+    navigation.navigate('WorkoutScreen', {workoutId: id});
+  };
+
   useEffect(() => {
-    setDayObject(getDayObject);
+    setupObjects();
+    const workoutData = JSON.parse(store.getString('workouts'));
+    setWoData(workoutData);
   }, [isFoucsed]);
 
   return (
@@ -41,11 +55,9 @@ const ScheduleScreen = () => {
       </View>
       <View style={style.workoutContainerStyle}>
         <View className="flex-row items-center space-x-5">
-          <Text style={style.workoutTitleStyle}>
-            {dayObject.workout?.title}
-          </Text>
+          <Text style={style.workoutTitleStyle}>{workoutObject?.title}</Text>
           <TouchableOpacity
-            onPress={() => navigation.navigate('WorkoutScreen')}>
+            onPress={() => navigateToWorkoutById(workoutObject.id)}>
             <Image source={assets.icn_edit} />
           </TouchableOpacity>
         </View>

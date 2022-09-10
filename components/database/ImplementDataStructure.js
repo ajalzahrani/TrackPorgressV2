@@ -4,7 +4,7 @@ import {ExerciseData} from './ExerciseData';
 import {WorkoutDataStructure} from './WorkoutDataStructure';
 
 export function ImplementDataStructure() {
-  // store.delete('Wednesday');
+  // store.clearAll();
   wds.map(dayObj => {
     if (!store.contains(dayObj.day)) {
       store.set(dayObj.day, JSON.stringify(dayObj));
