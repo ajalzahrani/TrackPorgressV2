@@ -1,6 +1,7 @@
 import {store} from '../../Store';
 import {WeekdaysStructure as wds} from './WeekdaysStructure';
 import {ExerciseData} from './ExerciseData';
+import {WorkoutDataStructure} from './WorkoutDataStructure';
 
 export function ImplementDataStructure() {
   // store.delete('Wednesday');
@@ -14,6 +15,11 @@ export function ImplementDataStructure() {
   if (!store.contains('exercises')) {
     store.set('exercises', JSON.stringify(ExerciseData));
     console.log('Exercises data implemented successfully');
+  }
+
+  if (!store.contains('workouts')) {
+    store.set('workouts', JSON.stringify(WorkoutDataStructure));
+    console.log('Workouts data implemented successfully ');
   }
 
   console.log('Data Structure Implemented Successfully.');
