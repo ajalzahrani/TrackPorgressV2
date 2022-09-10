@@ -28,6 +28,7 @@ import {getDayObject} from '../components/shared';
 const WorkoutScreen = () => {
   // FIXME: presis workout name if entered before assigning new exercises.
   // FIXME: dont' save workout when go back.
+  // FIXME: prompet user to enter workout name if empty
   const [modalVisible, setModalVisible] = useState(false); // workoutname alert modal state
   const [exData, setEXData] = useState([]); // state holding exercise data.
   const [dayObject, setDayObject] = useState({});

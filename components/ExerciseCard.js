@@ -18,7 +18,7 @@ const ExerciseCard = ({exercise, exData, addFreq, hadndleDeleteExercise}) => {
   const minSet = () => {
     if (set === 0) {
       setSet(0);
-      exercise.freq.length = set - 1; // link set count with any update
+      exercise.freq.length = 0;
     } else {
       setSet(set - 1);
       exercise.freq.length = set - 1; // link set count with any update

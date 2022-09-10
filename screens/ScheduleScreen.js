@@ -20,10 +20,13 @@ import {getDayObject} from '../components/shared/';
 // Assets
 import {colors, assets} from '../components/constants';
 
+import {useNavigation} from '@react-navigation/native';
+
 const ScheduleScreen = () => {
   const [woData, setWoData] = useState();
   const [dayObject, setDayObject] = useState({});
 
+  const navigation = useNavigation();
   const isFoucsed = useIsFocused();
 
   useEffect(() => {
@@ -37,7 +40,15 @@ const ScheduleScreen = () => {
         <CalenderRow />
       </View>
       <View style={style.workoutContainerStyle}>
-        <Text style={style.workoutTitleStyle}>{dayObject.workout?.title}</Text>
+        <View className="flex-row items-center space-x-5">
+          <Text style={style.workoutTitleStyle}>
+            {dayObject.workout?.title}
+          </Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('WorkoutScreen')}>
+            <Image source={assets.icn_edit} />
+          </TouchableOpacity>
+        </View>
         <TouchableOpacity>
           <LinearGradient
             style={style.touchableOpacityStartStyle}
