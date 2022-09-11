@@ -73,7 +73,8 @@ const ScheduleScreen = () => {
         </View>
         <TouchableOpacity
           onPress={() => {
-            console.log(store.getString('workouts'));
+            // console.log(store.getString('workouts'));
+            navigation.navigate('ActiveScreen');
           }}>
           <LinearGradient
             style={style.touchableOpacityStartStyle}
