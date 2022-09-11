@@ -22,5 +22,5 @@ export function ImplementDataStructure() {
     console.log('Workouts data implemented successfully ');
   }
 
-  console.log('Data Structure Implemented Successfully.');
+  // console.log('Data Structure Implemented Successfully.');
 }

@@ -31,8 +31,9 @@ const WorkoutScreen = ({route}) => {
   // FIXME: prompet user to enter workout name if empty
   const [modalVisible, setModalVisible] = useState(false); // workoutname alert modal state
   const [exData, setEXData] = useState([]); // state holding exercise data.
-  const [dayObject, setDayObject] = useState({});
-  const [workoutName, setWorkoutName] = useState(dayObject?.workout?.title); // workout name state
+  const [workoutName, setWorkoutName] = useState(
+    workoutObject?.title || 'UNTITLED',
+  ); // workout name state
   const [workoutObject, setWorkoutObject] = useState({});
 
   const navigation = useNavigation();
@@ -48,21 +49,25 @@ const WorkoutScreen = ({route}) => {
       let workoutObject = getWorkoutObject(workoutId);
       setWorkoutObject(workoutObject);
       setWorkoutName(workoutObject?.title);
+    } else {
+      handleWorkoutParams();
     }
   };
 
   const saveWokrout = () => {
-    if (workoutName === undefined) {
+    if (workoutName === undefined || workoutName == '') {
       setModalVisible(true);
       return;
     }
-    console.log(workoutName);
-    console.log(workoutObject);
+
     // update workout name.
-    setWorkoutObject(prev => {
-      return {...prev, title: workoutName};
-    });
-    console.log(workoutObject);
+    // Check if title proprety exists
+    if ('title' in workoutObject) {
+      workoutObject.title = workoutName;
+    } else {
+      Object.assign(workoutObject, {title: workoutName});
+    }
+
     // Fetch workouts from stroe
     let workouts = JSON.parse(store.getString('workouts'));
 
@@ -116,10 +121,26 @@ const WorkoutScreen = ({route}) => {
       }
     }
     exercises.splice(indexOf, 1);
-    console.log('Exercies here after delete one exercies: ', exercises);
     setWorkoutObject(prev => {
       return {...prev, exercises: exercises};
     });
+  };
+
+  const handleDeleteWorkout = id => {
+    if (workoutId !== undefined) {
+      let workouts = JSON.parse(store.getString('workouts'));
+      let indexOf = undefined;
+      for (let i = 0; i < workouts.length; i++) {
+        if (workouts[i].id === id) {
+          indexOf = i;
+          break;
+        }
+      }
+      workouts.splice(indexOf, 1); // remove workout from workouts array.
+      store.set('workouts', JSON.stringify(workouts)); // commit store.
+      setWorkoutObject({}); // reset workoutObject.
+      navigation.goBack();
+    }
   };
 
   const handleSelectedExercises = selectedExerciseList => {
@@ -135,10 +156,10 @@ const WorkoutScreen = ({route}) => {
 
   useEffect(() => {
     setupObjects();
-    setDayObject(getDayObject());
+
+    // Check for the selected exercises, coming back from exercise screen
     if (route.params?.selectedExercises) {
       handleSelectedExercises(route.params?.selectedExercises);
-      // console.log(route.params?.selectedExercises);
     }
   }, [isFoucsed, route.params?.selectedExercises]);
 
@@ -182,7 +203,7 @@ const WorkoutScreen = ({route}) => {
         <TextInput
           placeholder="Workout name"
           placeholderTextColor={colors.offwhite}
-          onChangeText={setWorkoutName}
+          onChangeText={inpuText => setWorkoutName(inpuText)}
           defaultValue={workoutObject?.title}
           style={style.textInputStyle}
         />
@@ -224,8 +245,9 @@ const WorkoutScreen = ({route}) => {
               onPress={() => {
                 // alert('Hello');
                 // handleAddNewWorkout();
-                console.log(workoutObject);
+                // console.log(workoutObject);
                 // console.log(workoutId);
+                handleDeleteWorkout(workoutId);
               }}>
               <LinearGradient
                 style={style.touchableOpacityStartStyle}
@@ -235,7 +257,7 @@ const WorkoutScreen = ({route}) => {
                 <View className="flex-row justify-center items-center space-x-2">
                   <Image source={assets.icn_start} />
                   <Text className="text-base font-semibold text-white">
-                    Check
+                    Check (del)
                   </Text>
                 </View>
               </LinearGradient>

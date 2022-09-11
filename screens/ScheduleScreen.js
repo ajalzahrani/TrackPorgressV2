@@ -35,6 +35,9 @@ const ScheduleScreen = () => {
     let dayObject = getDayObject();
     let workoutObject = getWorkoutObject(dayObject?.workout[0]);
     setWorkoutObject(workoutObject);
+
+    const workoutData = JSON.parse(store.getString('workouts'));
+    setWoData(workoutData);
   };
 
   const navigateToWorkoutById = id => {
@@ -43,14 +46,21 @@ const ScheduleScreen = () => {
 
   useEffect(() => {
     setupObjects();
-    const workoutData = JSON.parse(store.getString('workouts'));
-    setWoData(workoutData);
   }, [isFoucsed]);
 
   return (
     <SafeAreaView className="bg-[#112044] flex-1">
       <View>
-        <AddNew title={'Add new workout'} navigateTo={{to: 'WorkoutScreen'}} />
+        <TouchableOpacity
+          className="flex-row flex-1 space-x-2 items-center justify-end mt-2 mr-2"
+          onPress={() => {
+            navigation.navigate('WorkoutScreen', {
+              exercises: workoutObject?.exercises,
+            });
+          }}>
+          <Image source={assets.icn_plus} style={{}} />
+          <Text className="text-red-500 text-base">Add new workout</Text>
+        </TouchableOpacity>
         <CalenderRow />
       </View>
       <View style={style.workoutContainerStyle}>
