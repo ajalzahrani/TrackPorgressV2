@@ -2,6 +2,7 @@ import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import React, {useEffect} from 'react';
 
 import {colors, assets} from './constants';
+import {getWorkoutObject} from './shared';
 
 import {useNavigation} from '@react-navigation/native';
 
@@ -12,7 +13,10 @@ const WorkoutCard = ({id, title, navigateToWorkoutById}) => {
     <View style={style.cardContainer}>
       <Text style={style.workoutTitle}>{title}</Text>
       <View style={style.editContainerStyle} className="space-x-2">
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            console.log(getWorkoutObject(id));
+          }}>
           <Image source={assets.icn_goforward} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigateToWorkoutById(id)}>

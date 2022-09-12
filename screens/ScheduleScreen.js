@@ -16,15 +16,18 @@ import {store} from '../Store';
 import AddNew from '../components/AddNew';
 import CalenderRow from '../components/CalenderRow';
 import WorkoutCard from '../components/WorkoutCard';
-import {getDayObject} from '../components/shared/';
-import {getWorkoutObject} from '../components/shared/';
+import {
+  getDayObject,
+  getWorkoutObject,
+  getDayLabel,
+} from '../components/shared/';
 
 // Assets
 import {colors, assets} from '../components/constants';
 
 import {useNavigation} from '@react-navigation/native';
 
-const ScheduleScreen = () => {
+const ScheduleScreen = ({route}) => {
   // FIXME: workout name should'nt take all the space in pre-list of workout
   const [woData, setWoData] = useState();
   const [workoutObject, setWorkoutObject] = useState({});
@@ -45,9 +48,21 @@ const ScheduleScreen = () => {
     navigation.navigate('WorkoutScreen', {workoutId: id});
   };
 
+  const saveSchedule = (dayLabel, workoutId) => {
+    const dayObject = JSON.parse(store.getString(dayLabel));
+    dayObject.workout[0] = workoutId;
+    store.set(dayLabel, JSON.stringify(dayObject));
+    setupObjects();
+  };
+
   useEffect(() => {
     setupObjects();
-  }, [isFoucsed]);
+
+    // Check for the workoutId, coming back from workout screen. (In case of add new workout)
+    if (route.params?.newWorkoutId) {
+      saveSchedule(getDayLabel(), route.params?.newWorkoutId);
+    }
+  }, [isFoucsed, route.params?.newWorkoutId]);
 
   return (
     <SafeAreaView className="bg-[#112044] flex-1">
@@ -55,9 +70,7 @@ const ScheduleScreen = () => {
         <TouchableOpacity
           className="flex-row flex-1 space-x-2 items-center justify-end mt-2 mr-2"
           onPress={() => {
-            navigation.navigate('WorkoutScreen', {
-              exercises: workoutObject?.exercises,
-            });
+            navigateToWorkoutById(undefined);
           }}>
           <Image source={assets.icn_plus} style={{}} />
           <Text className="text-red-500 text-base">Add new workout</Text>

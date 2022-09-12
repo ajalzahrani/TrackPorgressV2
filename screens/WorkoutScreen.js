@@ -33,6 +33,7 @@ const WorkoutScreen = ({route}) => {
   const [exData, setEXData] = useState([]); // state holding exercise data.
   const [workoutName, setWorkoutName] = useState(workoutObject?.title); // workout name state
   const [workoutObject, setWorkoutObject] = useState({});
+  const [newWorkoutId, setNewWorkoutId] = useState('');
 
   const navigation = useNavigation();
   const isFoucsed = useIsFocused();
@@ -91,11 +92,13 @@ const WorkoutScreen = ({route}) => {
   /* ADD NEW WORKOUT */
   const handleWorkoutParams = (exercises = []) => {
     if (workoutId === undefined) {
+      const id = uuid.v4();
       const newWorkoutObj = {
-        id: uuid.v4(),
+        id: id,
         title: workoutName,
         exercises: exercises,
       };
+      setNewWorkoutId(id);
       setWorkoutObject(newWorkoutObj);
     } else {
       setWorkoutObject(prev => {
@@ -224,6 +227,11 @@ const WorkoutScreen = ({route}) => {
               onPress={() => {
                 //SaveWorkout();
                 saveWokrout();
+                navigation.navigate({
+                  name: 'ScheduleScreen',
+                  params: {newWorkoutId: newWorkoutId},
+                  merge: true,
+                });
               }}>
               <LinearGradient
                 style={style.touchableOpacityStartStyle}
@@ -244,8 +252,9 @@ const WorkoutScreen = ({route}) => {
                 // alert('Hello');
                 // handleAddNewWorkout();
                 // console.log(workoutObject);
-                // console.log(workoutId);
-                handleDeleteWorkout(workoutId);
+                console.log('Pre workoutId: ', workoutId);
+                console.log('New WorkoutId: ', newWorkoutId);
+                // handleDeleteWorkout(workoutId);
               }}>
               <LinearGradient
                 style={style.touchableOpacityStartStyle}

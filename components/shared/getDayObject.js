@@ -1,9 +1,8 @@
 import {store} from '../../Store';
+import {getDayLabel} from './getDayLabel';
 
 export const getDayObject = () => {
-  var date = new Date();
-  date.setDate(date.getDate() + 0); // add day
-  const todayName = date.toLocaleDateString('en-us', {weekday: 'long'}); // get day name
+  const todayName = getDayLabel();
   // console.log('Workout Screen: ', todayName);
   const dayObject = JSON.parse(store.getString(todayName));
 
