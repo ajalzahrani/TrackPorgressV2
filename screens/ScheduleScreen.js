@@ -28,6 +28,7 @@ import {colors, assets} from '../components/constants';
 import {useNavigation} from '@react-navigation/native';
 
 const ScheduleScreen = ({route}) => {
+  // FIXME: Assign workout from pre list to schedule
   // FIXME: workout name should'nt take all the space in pre-list of workout
   const [woData, setWoData] = useState();
   const [workoutObject, setWorkoutObject] = useState({});
@@ -94,7 +95,7 @@ const ScheduleScreen = ({route}) => {
         <TouchableOpacity
           onPress={() => {
             // console.log(store.getString('workouts'));
-            navigation.navigate('ActiveScreen');
+            navigation.navigate('ActiveScreen', {workoutObject: workoutObject});
           }}
           style={{opacity: workoutObject?.title ? 1 : 0}}>
           <LinearGradient

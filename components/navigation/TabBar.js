@@ -26,7 +26,11 @@ const ScheduleStackScreen = () => {
     <ScheduleStack.Navigator screenOptions={{headerShown: false}}>
       <ScheduleStack.Screen name="ScheduleScreen" component={ScheduleScreen} />
       <ScheduleStack.Screen name="WorkoutScreen" component={WorkoutScreen} />
-      <ScheduleStack.Screen name="ActiveScreen" component={ActiveScreen} />
+      <ScheduleStack.Screen
+        name="ActiveScreen"
+        component={ActiveScreen}
+        options
+      />
       <ScheduleStack.Screen
         name="ExerciseScreen"
         component={ExerciseScreen}

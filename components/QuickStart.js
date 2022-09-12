@@ -1,8 +1,11 @@
 import {View, Text, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
+import {useNavigation} from '@react-navigation/native';
 
 const QuickStart = () => {
+  const navigation = useNavigation();
+
   return (
     <View className="items-center">
       {/* FIXME: adjust the font and the button as the design */}
@@ -12,7 +15,11 @@ const QuickStart = () => {
         Nunc nullam congue mi suspendisse rhoncus. Fermentum, bibendum tempus,
         ullamcorper.
       </Text>
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          // console.log(store.getString('workouts'));
+          navigation.navigate('ActiveScreen');
+        }}>
         <LinearGradient
           className="py-3 px-20 rounded-full mt-10"
           colors={['#E10D60', '#FA3B89']}
