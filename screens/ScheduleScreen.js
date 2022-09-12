@@ -25,6 +25,7 @@ import {colors, assets} from '../components/constants';
 import {useNavigation} from '@react-navigation/native';
 
 const ScheduleScreen = () => {
+  // FIXME: workout name should'nt take all the space in pre-list of workout
   const [woData, setWoData] = useState();
   const [workoutObject, setWorkoutObject] = useState({});
 
@@ -64,10 +65,16 @@ const ScheduleScreen = () => {
         <CalenderRow />
       </View>
       <View style={style.workoutContainerStyle}>
+        <View style={{opacity: workoutObject?.title ? 0 : 1}}>
+          <Text className="text-yellow-200">
+            Add new workout or select pre-configure one.
+          </Text>
+        </View>
         <View className="flex-row items-center space-x-5">
           <Text style={style.workoutTitleStyle}>{workoutObject?.title}</Text>
           <TouchableOpacity
-            onPress={() => navigateToWorkoutById(workoutObject.id)}>
+            onPress={() => navigateToWorkoutById(workoutObject.id)}
+            style={{opacity: workoutObject?.title ? 1 : 0}}>
             <Image source={assets.icn_edit} />
           </TouchableOpacity>
         </View>
@@ -75,7 +82,8 @@ const ScheduleScreen = () => {
           onPress={() => {
             // console.log(store.getString('workouts'));
             navigation.navigate('ActiveScreen');
-          }}>
+          }}
+          style={{opacity: workoutObject?.title ? 1 : 0}}>
           <LinearGradient
             style={style.touchableOpacityStartStyle}
             start={{x: 1, y: 0}}

@@ -31,9 +31,7 @@ const WorkoutScreen = ({route}) => {
   // FIXME: prompet user to enter workout name if empty
   const [modalVisible, setModalVisible] = useState(false); // workoutname alert modal state
   const [exData, setEXData] = useState([]); // state holding exercise data.
-  const [workoutName, setWorkoutName] = useState(
-    workoutObject?.title || 'UNTITLED',
-  ); // workout name state
+  const [workoutName, setWorkoutName] = useState(workoutObject?.title); // workout name state
   const [workoutObject, setWorkoutObject] = useState({});
 
   const navigation = useNavigation();

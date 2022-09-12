@@ -5,7 +5,7 @@ const sunday = {
 
 const monday = {
   day: 'Monday',
-  workout: [2],
+  workout: [],
 };
 
 const tuesday = {
