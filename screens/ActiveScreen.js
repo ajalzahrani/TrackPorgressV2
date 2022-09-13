@@ -22,6 +22,21 @@ import ExerciseActiveCard from '../components/ExerciseActiveCard';
 
 import {useNavigation} from '@react-navigation/native';
 
+const SetRestTimeCompo = () => {
+  return (
+    <View className="p-2 mx-5 bg-yellow-500 items-center justify-center">
+      <Text className="text-gray-900">SET Rest Time</Text>
+    </View>
+  );
+};
+const ExrRestTimeCompo = () => {
+  return (
+    <View className="p-5 mx-5 bg-red-500 items-center justify-center">
+      <Text className="text-gray-900">Exercise Rest Time</Text>
+    </View>
+  );
+};
+
 const ActiveScreen = ({route}) => {
   const [exData, setEXData] = useState([]); // state holding exercise data.
   const navigation = useNavigation();
@@ -33,9 +48,51 @@ const ActiveScreen = ({route}) => {
     setEXData(exerciseData);
   };
 
+  /* HOW TO QUERY EXERCISE NAME BY ID FROM EXERCISE LIST */
+  const getExerciseName = id => {
+    let exername = exData.filter(element => {
+      return element.id === id;
+    });
+    return exername[0]?.title;
+  };
+
+  const ExerciseActiveCardComponents = () => {
+    const exers = workoutObject.exercises;
+    console.log('Exercises length: ', exers.length);
+    console.log('Freq lenth: ', exers[0].freq.length);
+
+    const rows = [];
+    let keyCounter = 0;
+    for (let i = 0; i < exers.length; i++) {
+      let exername = getExerciseName(exers[i].id);
+      for (let j = 0; j < exers[i].freq.length; j++) {
+        rows.push(
+          <TouchableOpacity key={keyCounter}>
+            <ExerciseActiveCard
+              // key={keyCounter}
+              exername={exername}
+            />
+          </TouchableOpacity>,
+        );
+        keyCounter++;
+
+        if (exers[i].freq.length - j > 1) {
+          rows.push(<SetRestTimeCompo key={keyCounter} />);
+        }
+        keyCounter++;
+      }
+      if (exers.length - i > 1) {
+        rows.push(<ExrRestTimeCompo key={keyCounter} />);
+      }
+      keyCounter++;
+    }
+    console.log('rows count: ', rows.length);
+    console.log('keyCounter : ', keyCounter);
+    return <>{rows}</>;
+  };
+
   useEffect(() => {
     setupObjects();
-    console.log('done setupObjects');
     navigation.getParent()?.setOptions({
       tabBarStyle: {
         display: 'none',
@@ -52,6 +109,7 @@ const ActiveScreen = ({route}) => {
   return (
     <SafeAreaView className="bg-[#112044] flex-1">
       <View style={style.workoutContainerStyle}>
+        <Text className="text-red-600">Total time: 1:29:44</Text>
         <View className="flex-row items-center space-x-5">
           <Text style={style.workoutTitleStyle}>{workoutObject.title}</Text>
         </View>
@@ -73,13 +131,26 @@ const ActiveScreen = ({route}) => {
         </TouchableOpacity>
       </View>
       <ScrollView>
-        <View>
-          {workoutObject.exercises.map(exercise => {
-            return exercise.freq.map(set => {
-              return <ExerciseActiveCard exercise={exercise} exData={exData} />;
+        {/* apply for loop here same as exercise card parented by workoutScreen */}
+        {ExerciseActiveCardComponents()}
+        {/* {workoutObject.exercises.map(exercise => {
+            return exercise.freq.map((set, index) => {
+              return (
+                <View>
+                  <TouchableOpacity>
+                    <ExerciseActiveCard
+                      key={index}
+                      exercise={exercise}
+                      exData={exData}
+                    />
+                  </TouchableOpacity>
+                  <View className="p-5 mx-5 bg-slate-500 items-center justify-center">
+                    <Text className="text-gray-900">Time between sets</Text>
+                  </View>
+                </View>
+              );
             });
-          })}
-        </View>
+          })} */}
       </ScrollView>
     </SafeAreaView>
   );

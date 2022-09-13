@@ -4,24 +4,13 @@ import React, {useState} from 'react';
 // Assets
 import {colors, assets} from './constants';
 
-const ExerciseActiveCard = ({exercise, exData}) => {
-  /* HOW TO QUERY EXERCISE NAME BY ID FROM EXERCISE LIST */
-  const getExerciseName = id => {
-    let exername = exData.filter(element => {
-      return element.id === id;
-    });
-    return exername[0]?.title;
-  };
-
+const ExerciseActiveCard = ({exername}) => {
   return (
     <View style={style.cardContainer}>
-      <Text style={style.workoutTitle}>{getExerciseName(exercise.id)}</Text>
+      <Text style={style.workoutTitle}>{exername}</Text>
       <View style={style.editContainerStyle} className="space-x-2">
         <TouchableOpacity onPress={() => {}}>
-          <Image source={assets.icn_goforward} />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Image source={assets.icn_edit} />
+          <Image source={assets.icn_add} />
         </TouchableOpacity>
       </View>
     </View>

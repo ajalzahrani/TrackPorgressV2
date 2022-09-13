@@ -252,9 +252,9 @@ const WorkoutScreen = ({route}) => {
                 // alert('Hello');
                 // handleAddNewWorkout();
                 // console.log(workoutObject);
-                console.log('Pre workoutId: ', workoutId);
-                console.log('New WorkoutId: ', newWorkoutId);
-                // handleDeleteWorkout(workoutId);
+                // console.log('Pre workoutId: ', workoutId);
+                // console.log('New WorkoutId: ', newWorkoutId);
+                handleDeleteWorkout(workoutId);
               }}>
               <LinearGradient
                 style={style.touchableOpacityStartStyle}
