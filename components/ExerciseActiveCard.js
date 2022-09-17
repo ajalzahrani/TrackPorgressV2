@@ -4,10 +4,12 @@ import React, {useState} from 'react';
 // Assets
 import {colors, assets} from './constants';
 
-const ExerciseActiveCard = ({exername}) => {
+const ExerciseActiveCard = ({exername, id}) => {
   return (
     <View style={style.cardContainer}>
-      <Text style={style.workoutTitle}>{exername}</Text>
+      <Text style={style.workoutTitle}>
+        ID: {id} {exername}
+      </Text>
       <View style={style.editContainerStyle} className="space-x-2">
         <TouchableOpacity onPress={() => {}}>
           <Image source={assets.icn_add} />

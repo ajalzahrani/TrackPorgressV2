@@ -6,8 +6,9 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
-  Modal,
+  Button,
   Pressable,
+  Modal,
   TextInput,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
@@ -19,26 +20,25 @@ import {colors, assets} from '../components/constants';
 
 // Components
 import ExerciseActiveCard from '../components/ExerciseActiveCard';
+import SetRestTimeCompo from '../components/SetRestTimeCompo';
+import ExrRestTimeCompo from '../components/ExrRestTimeCompo';
 
 import {useNavigation} from '@react-navigation/native';
 
-const SetRestTimeCompo = () => {
-  return (
-    <View className="p-2 mx-5 bg-yellow-500 items-center justify-center">
-      <Text className="text-gray-900">SET Rest Time</Text>
-    </View>
-  );
-};
-const ExrRestTimeCompo = () => {
-  return (
-    <View className="p-5 mx-5 bg-red-500 items-center justify-center">
-      <Text className="text-gray-900">Exercise Rest Time</Text>
-    </View>
-  );
-};
+// const ExrRestTimeCompo = ({id}) => {
+//   return (
+//     <View className="p-5 mx-5 bg-red-500 items-center justify-center">
+//       <Text className="text-gray-900">ID: {id} Exercise Rest Time</Text>
+//     </View>
+//   );
+// };
 
 const ActiveScreen = ({route}) => {
+  // FIXME: ExerciseActiveCard render twice ???? need to fix this
   const [exData, setEXData] = useState([]); // state holding exercise data.
+  const [visible, setVisible] = useState(false);
+  const [isStarted, setIsStarted] = useState(false);
+  const [compoAddress, setCompoAddress] = useState({});
   const navigation = useNavigation();
 
   const {workoutObject} = route.params;
@@ -56,10 +56,29 @@ const ActiveScreen = ({route}) => {
     return exername[0]?.title;
   };
 
+  const Modal_View = () => (
+    <Modal
+      transparent={true}
+      animationType={'slide'}
+      visible={visible}
+      onRequestClose={() => setVisible(!visible)}>
+      <View style={style.MainContainer}>
+        <View style={style.modalView}>
+          {/* <Text style={style.text}>Example of Modal in React native </Text> */}
+          <TextInput
+            className="border-2 border-white h-10 w-1/2 text-black px-5"
+            keyboardType="numeric"
+          />
+          <Button title="Register" onPress={() => setVisible(!visible)} />
+        </View>
+      </View>
+    </Modal>
+  );
+
   const ExerciseActiveCardComponents = () => {
     const exers = workoutObject.exercises;
-    console.log('Exercises length: ', exers.length);
-    console.log('Freq lenth: ', exers[0].freq.length);
+    // console.log('Exercises length: ', exers.length);
+    // console.log('Freq lenth: ', exers[0].freq.length);
 
     const rows = [];
     let keyCounter = 0;
@@ -67,9 +86,22 @@ const ActiveScreen = ({route}) => {
       let exername = getExerciseName(exers[i].id);
       for (let j = 0; j < exers[i].freq.length; j++) {
         rows.push(
-          <TouchableOpacity key={keyCounter}>
+          <TouchableOpacity
+            onPress={() => {
+              // setVisible(!visible);
+              console.log('Exercise: ', i + 1, ' SET: ', j + 1);
+
+              if (exers[i].freq.length - j == 1) {
+                setCompoAddress({i: i + 1, j: undefined});
+              } else {
+                setCompoAddress({i: i + 1, j: j + 1});
+              }
+              setIsStarted(true);
+            }}
+            key={keyCounter}>
             <ExerciseActiveCard
               // key={keyCounter}
+              id={keyCounter}
               exername={exername}
             />
           </TouchableOpacity>,
@@ -77,19 +109,56 @@ const ActiveScreen = ({route}) => {
         keyCounter++;
 
         if (exers[i].freq.length - j > 1) {
-          rows.push(<SetRestTimeCompo key={keyCounter} />);
+          rows.push(
+            <TouchableOpacity
+              key={keyCounter}
+              onPress={() => {
+                console.log('Time Exercise: ', i + 1, ' Time SET: ', j + 1);
+              }}>
+              <SetRestTimeCompo
+                id={keyCounter}
+                isStarted={isStarted}
+                setIsStarted={setIsStarted}
+                compoAddress={compoAddress}
+                i={i + 1}
+                j={j + 1}
+              />
+            </TouchableOpacity>,
+          );
+          keyCounter++;
         }
-        keyCounter++;
       }
       if (exers.length - i > 1) {
-        rows.push(<ExrRestTimeCompo key={keyCounter} />);
+        rows.push(
+          <TouchableOpacity
+            key={keyCounter}
+            onPress={() => {
+              console.log('Exercise Rest Time: ', i + 1);
+            }}>
+            <ExrRestTimeCompo
+              id={keyCounter}
+              i={i + 1}
+              compoAddress={compoAddress}
+              isStarted={isStarted}
+              setIsStarted={setIsStarted}
+            />
+          </TouchableOpacity>,
+        );
       }
       keyCounter++;
     }
-    console.log('rows count: ', rows.length);
-    console.log('keyCounter : ', keyCounter);
+    // console.log('rows count: ', rows.length);
+    // console.log('keyCounter : ', keyCounter);
     return <>{rows}</>;
   };
+
+  const toggleStart = () => {
+    setIsStarted(!isStarted);
+  };
+
+  useEffect(() => {
+    ExerciseActiveCardComponents();
+  }, [isStarted]);
 
   useEffect(() => {
     setupObjects();
@@ -108,6 +177,7 @@ const ActiveScreen = ({route}) => {
   }, [navigation]);
   return (
     <SafeAreaView className="bg-[#112044] flex-1">
+      <Modal_View />
       <View style={style.workoutContainerStyle}>
         <Text className="text-red-600">Total time: 1:29:44</Text>
         <View className="flex-row items-center space-x-5">
@@ -127,6 +197,25 @@ const ActiveScreen = ({route}) => {
             // colors={['rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)']}
           >
             <Text className="text-base font-semibold text-white">Quite</Text>
+          </LinearGradient>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            toggleStart();
+            // console.log('toogle go', isStarted);
+          }}>
+          <LinearGradient
+            className="py-3 px-20 rounded-full mt-1"
+            colors={['#E10D60', '#FA3B89']}
+            start={{x: 0, y: 0}}
+            end={{x: 1, y: 1}}
+            locations={[0.75, 1]}
+            // colors={['rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)']}
+          >
+            <Text className="text-base font-semibold text-white">
+              Toogle Go {isStarted ? ' Enabled' : ' Disabled'} to address{' '}
+              {compoAddress.i} - {compoAddress.j}
+            </Text>
           </LinearGradient>
         </TouchableOpacity>
       </View>
@@ -208,5 +297,31 @@ const style = StyleSheet.create({
     padding: 10,
     borderRadius: 100,
     backgroundColor: colors.secondary,
+  },
+
+  // modal style
+  MainContainer: {
+    flex: 1,
+    padding: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  modalView: {
+    width: 300,
+    height: 240,
+    backgroundColor: colors.greeny,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: 'white',
+  },
+
+  text: {
+    fontSize: 28,
+    textAlign: 'center',
+    color: 'white',
+    padding: 10,
   },
 });
