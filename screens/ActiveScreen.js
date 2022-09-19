@@ -96,7 +96,8 @@ const ActiveScreen = ({route}) => {
               } else {
                 setCompoAddress({i: i + 1, j: j + 1});
               }
-              setIsStarted(true);
+              setVisible(true);
+              // setIsStarted(true);
             }}
             key={keyCounter}>
             <ExerciseActiveCard
@@ -254,7 +255,7 @@ const style = StyleSheet.create({
     alignItems: 'center',
     padding: 0,
     gap: 30,
-    marginTop: 56,
+    marginTop: 10,
     marginBottom: 10,
   },
   workoutTitleStyle: {
