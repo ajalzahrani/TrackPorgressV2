@@ -28,8 +28,8 @@ import {colors, assets} from '../components/constants';
 import {useNavigation} from '@react-navigation/native';
 
 const ScheduleScreen = ({route}) => {
-  // FIXME: Assign workout from pre list to schedule
   // FIXME: workout name should'nt take all the space in pre-list of workout
+  // FIXME: Hidden start button can be clicked ??
   const [woData, setWoData] = useState();
   const [workoutObject, setWorkoutObject] = useState({});
 
@@ -115,12 +115,15 @@ const ScheduleScreen = ({route}) => {
           <Text className="text-white">Pre-list of workouts</Text>
           <ScrollView contentContainerStyle={{paddingBottom: 72}}>
             {woData?.map(item => (
-              <WorkoutCard
+              <TouchableOpacity
                 key={item.id}
-                id={item.id}
-                title={item.title}
-                navigateToWorkoutById={navigateToWorkoutById}
-              />
+                onPress={() => saveSchedule(getDayLabel(), item.id)}>
+                <WorkoutCard
+                  id={item.id}
+                  title={item.title}
+                  navigateToWorkoutById={navigateToWorkoutById}
+                />
+              </TouchableOpacity>
             ))}
           </ScrollView>
         </View>

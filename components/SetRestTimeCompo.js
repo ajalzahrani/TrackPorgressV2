@@ -31,7 +31,10 @@ const SetRestTimeCompo = ({
   }, [time, isStarted]);
 
   return (
-    <View className="p-2 mx-5 bg-yellow-500 items-center justify-center">
+    <View
+      style={styles.containerStyle}
+      // className="p-2 mx-5 bg-yellow-500 items-center justify-center"
+    >
       <Text className="text-gray-900">
         ID: {id} SET Rest Time: {time}
       </Text>
@@ -41,4 +44,13 @@ const SetRestTimeCompo = ({
 
 export default SetRestTimeCompo;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  containerStyle: {
+    padding: 5,
+    marginHorizontal: 20,
+    backgroundColor: 'red',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 8,
+  },
+});
