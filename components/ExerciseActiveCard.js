@@ -7,9 +7,12 @@ import {colors, assets} from './constants';
 const ExerciseActiveCard = ({exername, id}) => {
   return (
     <View style={style.cardContainer}>
-      <Text style={style.workoutTitle}>
-        ID: {id} {exername}
-      </Text>
+      <View className="flex-col space-y-2">
+        <Text style={style.workoutTitle}>
+          ID: {id} {exername}
+        </Text>
+        <Text className="text-white text-lg">1:30 s</Text>
+      </View>
       <View style={style.editContainerStyle} className="space-x-2">
         <TouchableOpacity onPress={() => {}}>
           <Image source={assets.icn_add} />

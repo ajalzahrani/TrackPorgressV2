@@ -30,6 +30,7 @@ import {useNavigation} from '@react-navigation/native';
 const ScheduleScreen = ({route}) => {
   // FIXME: workout name should'nt take all the space in pre-list of workout
   // FIXME: Hidden start button can be clicked ??
+  // FIXME: Unassign schedule workout
   const [woData, setWoData] = useState();
   const [workoutObject, setWorkoutObject] = useState({});
 

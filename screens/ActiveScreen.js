@@ -23,6 +23,8 @@ import ExerciseActiveCard from '../components/ExerciseActiveCard';
 import SetRestTimeCompo from '../components/SetRestTimeCompo';
 import ExrRestTimeCompo from '../components/ExrRestTimeCompo';
 
+// import { getExerciseName } from '../components/shared';
+
 import {useNavigation} from '@react-navigation/native';
 
 // const ExrRestTimeCompo = ({id}) => {
@@ -56,7 +58,7 @@ const ActiveScreen = ({route}) => {
     return exername[0]?.title;
   };
 
-  const Modal_View = () => (
+  const Modal_View0 = () => (
     <Modal
       transparent={true}
       animationType={'slide'}
@@ -75,6 +77,136 @@ const ActiveScreen = ({route}) => {
     </Modal>
   );
 
+  const Modal_View = () => (
+    <Modal
+      transparent={true}
+      animationType={'slide'}
+      visible={visible}
+      onRequestClose={() => setVisible(!visible)}>
+      <View style={style.cardContainer}>
+        {/* Exercise Titile */}
+        <View
+          className="space-x-6"
+          style={{
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <TouchableOpacity onPress={() => setVisible(!visible)}>
+            <Image source={assets.icn_remove} />
+          </TouchableOpacity>
+          <Text style={style.exerciseTitleStyle}>
+            {/* {getExerciseName(exercise.id)} */}
+            Wide grip pushup SET 1
+          </Text>
+        </View>
+
+        {/* <SETsController indicatorTitle={'Set'} /> */}
+        <View style={style.containerStyle}>
+          {/* inner set container */}
+          <View style={style.innerContainerStyle}>
+            {/* Number indicator */}
+            <View style={style.numberIndicator}>
+              <Text style={{color: colors.white}}>120 kg</Text>
+            </View>
+
+            <Text style={style.middleTextStyle}>Weight</Text>
+
+            {/* plus - min buttons */}
+            <View style={{flexDirection: 'row'}} className="space-x-10">
+              <TouchableOpacity>
+                <Image source={assets.icn_min} />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Image source={assets.icn_add} />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+
+        {/* Dividor */}
+        <View
+          style={{
+            borderWidth: 1,
+            width: 300,
+            borderColor: colors.secondaryow,
+          }}
+        />
+        {/* <SETsController indicatorTitle={'Set'} /> */}
+        <View style={style.containerStyle}>
+          {/* inner set container */}
+          <View style={style.innerContainerStyle}>
+            {/* Number indicator */}
+            <View style={style.numberIndicator}>
+              <Text style={{color: colors.white}}>6 r</Text>
+            </View>
+
+            <Text style={style.middleTextStyle}>Reps</Text>
+
+            {/* plus - min buttons */}
+            <View style={{flexDirection: 'row'}} className="space-x-10">
+              <TouchableOpacity>
+                <Image source={assets.icn_min} />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Image source={assets.icn_add} />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+
+        {/* Dividor */}
+        <View
+          style={{
+            borderWidth: 1,
+            width: 300,
+            borderColor: colors.secondaryow,
+          }}
+        />
+        {/* <SETsController indicatorTitle={'Set'} /> */}
+        <View style={style.containerStyle}>
+          {/* inner set container */}
+          <View style={style.innerContainerStyle}>
+            {/* Number indicator */}
+            <View style={style.numberIndicator}>
+              <Text style={{color: colors.white}}>90 s</Text>
+            </View>
+
+            <Text style={style.middleTextStyle}>TUT</Text>
+
+            {/* plus - min buttons */}
+            <View style={{flexDirection: 'row'}} className="space-x-10">
+              <TouchableOpacity>
+                <Image source={assets.icn_min} />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Image source={assets.icn_add} />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+
+        <TouchableOpacity
+          className="mb-3"
+          onPress={() => {
+            // Register user entry data
+            setVisible(false);
+          }}>
+          <LinearGradient
+            className="py-3 px-10 rounded-full mt-10"
+            colors={['#E10D60', '#FA3B89']}
+            start={{x: 0, y: 0}}
+            end={{x: 1, y: 1}}
+            locations={[0.75, 1]}
+            // colors={['rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)']}
+          >
+            <Text className="text-base font-semibold text-white">Register</Text>
+          </LinearGradient>
+        </TouchableOpacity>
+      </View>
+    </Modal>
+  );
+
   const ExerciseActiveCardComponents = () => {
     const exers = workoutObject.exercises;
     // console.log('Exercises length: ', exers.length);
@@ -89,7 +221,7 @@ const ActiveScreen = ({route}) => {
           <TouchableOpacity
             onPress={() => {
               // setVisible(!visible);
-              console.log('Exercise: ', i + 1, ' SET: ', j + 1);
+              // console.log('Exercise: ', i + 1, ' SET: ', j + 1);
 
               if (exers[i].freq.length - j == 1) {
                 setCompoAddress({i: i + 1, j: undefined});
@@ -97,7 +229,7 @@ const ActiveScreen = ({route}) => {
                 setCompoAddress({i: i + 1, j: j + 1});
               }
               setVisible(true);
-              // setIsStarted(true);
+              setIsStarted(true);
             }}
             key={keyCounter}>
             <ExerciseActiveCard
@@ -111,39 +243,29 @@ const ActiveScreen = ({route}) => {
 
         if (exers[i].freq.length - j > 1) {
           rows.push(
-            <TouchableOpacity
+            <SetRestTimeCompo
               key={keyCounter}
-              onPress={() => {
-                console.log('Time Exercise: ', i + 1, ' Time SET: ', j + 1);
-              }}>
-              <SetRestTimeCompo
-                id={keyCounter}
-                isStarted={isStarted}
-                setIsStarted={setIsStarted}
-                compoAddress={compoAddress}
-                i={i + 1}
-                j={j + 1}
-              />
-            </TouchableOpacity>,
+              id={keyCounter}
+              isStarted={isStarted}
+              setIsStarted={setIsStarted}
+              compoAddress={compoAddress}
+              i={i + 1}
+              j={j + 1}
+            />,
           );
           keyCounter++;
         }
       }
       if (exers.length - i > 1) {
         rows.push(
-          <TouchableOpacity
+          <ExrRestTimeCompo
             key={keyCounter}
-            onPress={() => {
-              console.log('Exercise Rest Time: ', i + 1);
-            }}>
-            <ExrRestTimeCompo
-              id={keyCounter}
-              i={i + 1}
-              compoAddress={compoAddress}
-              isStarted={isStarted}
-              setIsStarted={setIsStarted}
-            />
-          </TouchableOpacity>,
+            id={keyCounter}
+            i={i + 1}
+            compoAddress={compoAddress}
+            isStarted={isStarted}
+            setIsStarted={setIsStarted}
+          />,
         );
       }
       keyCounter++;
@@ -180,10 +302,10 @@ const ActiveScreen = ({route}) => {
     <SafeAreaView className="bg-[#112044] flex-1">
       <Modal_View />
       <View style={style.workoutContainerStyle}>
-        <Text className="text-red-600">Total time: 1:29:44</Text>
         <View className="flex-row items-center space-x-5">
           <Text style={style.workoutTitleStyle}>{workoutObject.title}</Text>
         </View>
+        <Text className="text-red-600 mt-10">Total time: 1:29:44</Text>
         <TouchableOpacity
           onPress={() => {
             // console.log(exData);
@@ -324,5 +446,64 @@ const style = StyleSheet.create({
     textAlign: 'center',
     color: 'white',
     padding: 10,
+  },
+  cardContainer: {
+    // display: 'flex',
+    // flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 300,
+    marginHorizontal: 20,
+    backgroundColor: colors.semiPrimary,
+    borderRadius: 20,
+  },
+  exerciseTitleStyle: {
+    color: colors.white,
+    fontWeight: '500',
+    fontSize: 20,
+    // lineHeight: 30,
+    marginTop: 10,
+  },
+  containerStyle: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  innerContainerStyle: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 24,
+    paddingVertical: 14,
+  },
+  numberIndicator: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 100,
+    backgroundColor: colors.secondaryow,
+    width: 80,
+    height: 29,
+  },
+  middleTextStyle: {
+    fontWeight: '400',
+    fontSize: 16,
+    color: colors.white,
+  },
+  touchableOpacityStartStyle: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 5,
+    borderRadius: 100,
+    marginTop: 10,
+    marginBottom: 10,
+    marginHorizontal: 24.5,
   },
 });
