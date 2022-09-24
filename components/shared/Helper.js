@@ -1,4 +1,4 @@
-import {scheduleData} from './constants';
+import {scheduleData} from '../constants';
 // get today object from Schedule main object
 export function getTodayObject() {
   let date = new Date();

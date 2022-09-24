@@ -77,7 +77,7 @@ const ActiveScreen = ({route}) => {
     </Modal>
   );
 
-  const Modal_View = () => (
+  const Modal_View1 = () => (
     <Modal
       transparent={true}
       animationType={'slide'}
@@ -218,26 +218,28 @@ const ActiveScreen = ({route}) => {
       let exername = getExerciseName(exers[i].id);
       for (let j = 0; j < exers[i].freq.length; j++) {
         rows.push(
-          <TouchableOpacity
-            onPress={() => {
-              // setVisible(!visible);
-              // console.log('Exercise: ', i + 1, ' SET: ', j + 1);
+          <>
+            <TouchableOpacity
+              onPress={() => {
+                // setVisible(!visible);
+                // console.log('Exercise: ', i + 1, ' SET: ', j + 1);
 
-              if (exers[i].freq.length - j == 1) {
-                setCompoAddress({i: i + 1, j: undefined});
-              } else {
-                setCompoAddress({i: i + 1, j: j + 1});
-              }
-              setVisible(true);
-              setIsStarted(true);
-            }}
-            key={keyCounter}>
-            <ExerciseActiveCard
-              // key={keyCounter}
-              id={keyCounter}
-              exername={exername}
-            />
-          </TouchableOpacity>,
+                if (exers[i].freq.length - j == 1) {
+                  setCompoAddress({i: i + 1, j: undefined});
+                } else {
+                  setCompoAddress({i: i + 1, j: j + 1});
+                }
+                setVisible(true);
+                setIsStarted(true);
+              }}
+              key={keyCounter}>
+              <ExerciseActiveCard
+                // key={keyCounter}
+                id={keyCounter}
+                exername={exername}
+              />
+            </TouchableOpacity>
+          </>,
         );
         keyCounter++;
 
@@ -300,7 +302,7 @@ const ActiveScreen = ({route}) => {
   }, [navigation]);
   return (
     <SafeAreaView className="bg-[#112044] flex-1">
-      <Modal_View />
+      {/* <Modal_View /> */}
       <View style={style.workoutContainerStyle}>
         <View className="flex-row items-center space-x-5">
           <Text style={style.workoutTitleStyle}>{workoutObject.title}</Text>

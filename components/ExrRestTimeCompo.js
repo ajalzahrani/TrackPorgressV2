@@ -24,7 +24,7 @@ const ExrRestTimeCompo = ({id, isStarted, setIsStarted, i, compoAddress}) => {
   }, [time, isStarted]);
 
   return (
-    <View className="p-5 mx-5 bg-red-500 items-center justify-center">
+    <View className="p-5 mx-5 bg-red-500 items-center justify-center mt-3">
       <Text className="text-gray-900">
         ID: {id} Exercise Rest Time: {time}
       </Text>
