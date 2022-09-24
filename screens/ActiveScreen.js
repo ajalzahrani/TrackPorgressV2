@@ -230,13 +230,14 @@ const ActiveScreen = ({route}) => {
                   setCompoAddress({i: i + 1, j: j + 1});
                 }
                 setVisible(true);
-                setIsStarted(true);
+                // setIsStarted(true);
               }}
               key={keyCounter}>
               <ExerciseActiveCard
                 // key={keyCounter}
                 id={keyCounter}
                 exername={exername}
+                reps={exers[i].freq[j]}
               />
             </TouchableOpacity>
           </>,

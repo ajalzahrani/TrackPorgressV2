@@ -165,6 +165,12 @@ const style = StyleSheet.create({
     marginBottom: 10,
     marginHorizontal: 24.5,
   },
+  editContainerStyle: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
 });
 
 export default ExerciseCard;
