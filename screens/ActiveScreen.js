@@ -17,6 +17,7 @@ import {colors} from '../components/constants';
 import ExerciseActiveCard from '../components/ExerciseActiveCard';
 import SetRestTimeCompo from '../components/SetRestTimeCompo';
 import ExrRestTimeCompo from '../components/ExrRestTimeCompo';
+import SessionController from '../components/SessionController';
 
 // import { getExerciseName } from '../components/shared';
 
@@ -134,8 +135,8 @@ const ActiveScreen = ({route}) => {
         <View className="flex-row items-center space-x-5">
           <Text style={style.workoutTitleStyle}>{workoutObject.title}</Text>
         </View>
-        <Text className="text-red-600 mt-10">Total time: 1:29:44</Text>
-        <TouchableOpacity
+        {/* <Text className="text-red-600 mt-10">Total time: 1:29:44</Text> */}
+        {/* <TouchableOpacity
           onPress={() => {
             navigation.goBack();
           }}>
@@ -147,8 +148,8 @@ const ActiveScreen = ({route}) => {
             locations={[0.75, 1]}>
             <Text className="text-base font-semibold text-white">Quite</Text>
           </LinearGradient>
-        </TouchableOpacity>
-        <TouchableOpacity
+        </TouchableOpacity> */}
+        {/* <TouchableOpacity
           onPress={() => {
             toggleStart();
           }}>
@@ -163,12 +164,13 @@ const ActiveScreen = ({route}) => {
               {compoAddress.i} - {compoAddress.j}
             </Text>
           </LinearGradient>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
-      <ScrollView>
+      <ScrollView style={{marginBottom: 55}}>
         {/* apply for loop here same as exercise card parented by workoutScreen */}
         {ExerciseActiveCardComponents()}
       </ScrollView>
+      <SessionController />
     </SafeAreaView>
   );
 };
