@@ -35,7 +35,6 @@ const ExerciseActiveCard = ({exername, id, reps}) => {
           <Text style={style.workoutTitle}>
             ID: {id} {exername}
           </Text>
-          {/* <Text className="text-white text-lg">{time} s</Text> */}
           <TimerLabel
             seconds={seconds}
             setSeconds={setSeconds}
@@ -144,8 +143,6 @@ const ExerciseActiveCard = ({exername, id, reps}) => {
           <TouchableOpacity
             className="mb-1"
             onPress={() => {
-              // Register user entry data
-              // setIsPressed(!isPressed);
               toggle();
             }}>
             <LinearGradient
@@ -153,9 +150,7 @@ const ExerciseActiveCard = ({exername, id, reps}) => {
               colors={['#E10D60', '#FA3B89']}
               start={{x: 0, y: 0}}
               end={{x: 1, y: 1}}
-              locations={[0.75, 1]}
-              // colors={['rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)']}
-            >
+              locations={[0.75, 1]}>
               <Text className="text-base font-semibold text-white">
                 Register
               </Text>
@@ -206,7 +201,6 @@ const style = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
-    // paddingVertical: 15,
     paddingBottom: 15,
     marginHorizontal: 20,
     backgroundColor: colors.secondaryow,

@@ -2,21 +2,16 @@ import {
   View,
   Text,
   SafeAreaView,
-  Image,
   TouchableOpacity,
   StyleSheet,
   ScrollView,
-  Button,
-  Pressable,
-  Modal,
-  TextInput,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {store} from '../Store';
 
 // Assets
-import {colors, assets} from '../components/constants';
+import {colors} from '../components/constants';
 
 // Components
 import ExerciseActiveCard from '../components/ExerciseActiveCard';
@@ -26,14 +21,6 @@ import ExrRestTimeCompo from '../components/ExrRestTimeCompo';
 // import { getExerciseName } from '../components/shared';
 
 import {useNavigation} from '@react-navigation/native';
-
-// const ExrRestTimeCompo = ({id}) => {
-//   return (
-//     <View className="p-5 mx-5 bg-red-500 items-center justify-center">
-//       <Text className="text-gray-900">ID: {id} Exercise Rest Time</Text>
-//     </View>
-//   );
-// };
 
 const ActiveScreen = ({route}) => {
   // FIXME: ExerciseActiveCard render twice ???? need to fix this
@@ -58,160 +45,8 @@ const ActiveScreen = ({route}) => {
     return exername[0]?.title;
   };
 
-  const Modal_View0 = () => (
-    <Modal
-      transparent={true}
-      animationType={'slide'}
-      visible={visible}
-      onRequestClose={() => setVisible(!visible)}>
-      <View style={style.MainContainer}>
-        <View style={style.modalView}>
-          {/* <Text style={style.text}>Example of Modal in React native </Text> */}
-          <TextInput
-            className="border-2 border-white h-10 w-1/2 text-black px-5"
-            keyboardType="numeric"
-          />
-          <Button title="Register" onPress={() => setVisible(!visible)} />
-        </View>
-      </View>
-    </Modal>
-  );
-
-  const Modal_View1 = () => (
-    <Modal
-      transparent={true}
-      animationType={'slide'}
-      visible={visible}
-      onRequestClose={() => setVisible(!visible)}>
-      <View style={style.cardContainer}>
-        {/* Exercise Titile */}
-        <View
-          className="space-x-6"
-          style={{
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <TouchableOpacity onPress={() => setVisible(!visible)}>
-            <Image source={assets.icn_remove} />
-          </TouchableOpacity>
-          <Text style={style.exerciseTitleStyle}>
-            {/* {getExerciseName(exercise.id)} */}
-            Wide grip pushup SET 1
-          </Text>
-        </View>
-
-        {/* <SETsController indicatorTitle={'Set'} /> */}
-        <View style={style.containerStyle}>
-          {/* inner set container */}
-          <View style={style.innerContainerStyle}>
-            {/* Number indicator */}
-            <View style={style.numberIndicator}>
-              <Text style={{color: colors.white}}>120 kg</Text>
-            </View>
-
-            <Text style={style.middleTextStyle}>Weight</Text>
-
-            {/* plus - min buttons */}
-            <View style={{flexDirection: 'row'}} className="space-x-10">
-              <TouchableOpacity>
-                <Image source={assets.icn_min} />
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <Image source={assets.icn_add} />
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-
-        {/* Dividor */}
-        <View
-          style={{
-            borderWidth: 1,
-            width: 300,
-            borderColor: colors.secondaryow,
-          }}
-        />
-        {/* <SETsController indicatorTitle={'Set'} /> */}
-        <View style={style.containerStyle}>
-          {/* inner set container */}
-          <View style={style.innerContainerStyle}>
-            {/* Number indicator */}
-            <View style={style.numberIndicator}>
-              <Text style={{color: colors.white}}>6 r</Text>
-            </View>
-
-            <Text style={style.middleTextStyle}>Reps</Text>
-
-            {/* plus - min buttons */}
-            <View style={{flexDirection: 'row'}} className="space-x-10">
-              <TouchableOpacity>
-                <Image source={assets.icn_min} />
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <Image source={assets.icn_add} />
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-
-        {/* Dividor */}
-        <View
-          style={{
-            borderWidth: 1,
-            width: 300,
-            borderColor: colors.secondaryow,
-          }}
-        />
-        {/* <SETsController indicatorTitle={'Set'} /> */}
-        <View style={style.containerStyle}>
-          {/* inner set container */}
-          <View style={style.innerContainerStyle}>
-            {/* Number indicator */}
-            <View style={style.numberIndicator}>
-              <Text style={{color: colors.white}}>90 s</Text>
-            </View>
-
-            <Text style={style.middleTextStyle}>TUT</Text>
-
-            {/* plus - min buttons */}
-            <View style={{flexDirection: 'row'}} className="space-x-10">
-              <TouchableOpacity>
-                <Image source={assets.icn_min} />
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <Image source={assets.icn_add} />
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-
-        <TouchableOpacity
-          className="mb-3"
-          onPress={() => {
-            // Register user entry data
-            setVisible(false);
-          }}>
-          <LinearGradient
-            className="py-3 px-10 rounded-full mt-10"
-            colors={['#E10D60', '#FA3B89']}
-            start={{x: 0, y: 0}}
-            end={{x: 1, y: 1}}
-            locations={[0.75, 1]}
-            // colors={['rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)']}
-          >
-            <Text className="text-base font-semibold text-white">Register</Text>
-          </LinearGradient>
-        </TouchableOpacity>
-      </View>
-    </Modal>
-  );
-
   const ExerciseActiveCardComponents = () => {
     const exers = workoutObject.exercises;
-    // console.log('Exercises length: ', exers.length);
-    // console.log('Freq lenth: ', exers[0].freq.length);
-
     const rows = [];
     let keyCounter = 0;
     for (let i = 0; i < exers.length; i++) {
@@ -220,20 +55,15 @@ const ActiveScreen = ({route}) => {
         rows.push(
           <TouchableOpacity
             onPress={() => {
-              // setVisible(!visible);
-              // console.log('Exercise: ', i + 1, ' SET: ', j + 1);
-
               if (exers[i].freq.length - j == 1) {
                 setCompoAddress({i: i + 1, j: undefined});
               } else {
                 setCompoAddress({i: i + 1, j: j + 1});
               }
               setVisible(true);
-              // setIsStarted(true);
             }}
             key={keyCounter}>
             <ExerciseActiveCard
-              // key={keyCounter}
               id={keyCounter}
               exername={exername}
               reps={exers[i].freq[j]}
@@ -271,8 +101,6 @@ const ActiveScreen = ({route}) => {
       }
       keyCounter++;
     }
-    // console.log('rows count: ', rows.length);
-    // console.log('keyCounter : ', keyCounter);
     return <>{rows}</>;
   };
 
@@ -309,7 +137,6 @@ const ActiveScreen = ({route}) => {
         <Text className="text-red-600 mt-10">Total time: 1:29:44</Text>
         <TouchableOpacity
           onPress={() => {
-            // console.log(exData);
             navigation.goBack();
           }}>
           <LinearGradient
@@ -317,25 +144,20 @@ const ActiveScreen = ({route}) => {
             colors={['#E10D60', '#FA3B89']}
             start={{x: 0, y: 0}}
             end={{x: 1, y: 1}}
-            locations={[0.75, 1]}
-            // colors={['rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)']}
-          >
+            locations={[0.75, 1]}>
             <Text className="text-base font-semibold text-white">Quite</Text>
           </LinearGradient>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
             toggleStart();
-            // console.log('toogle go', isStarted);
           }}>
           <LinearGradient
             className="py-3 px-20 rounded-full mt-1"
             colors={['#E10D60', '#FA3B89']}
             start={{x: 0, y: 0}}
             end={{x: 1, y: 1}}
-            locations={[0.75, 1]}
-            // colors={['rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)']}
-          >
+            locations={[0.75, 1]}>
             <Text className="text-base font-semibold text-white">
               Toogle Go {isStarted ? ' Enabled' : ' Disabled'} to address{' '}
               {compoAddress.i} - {compoAddress.j}
@@ -346,24 +168,6 @@ const ActiveScreen = ({route}) => {
       <ScrollView>
         {/* apply for loop here same as exercise card parented by workoutScreen */}
         {ExerciseActiveCardComponents()}
-        {/* {workoutObject.exercises.map(exercise => {
-            return exercise.freq.map((set, index) => {
-              return (
-                <View>
-                  <TouchableOpacity>
-                    <ExerciseActiveCard
-                      key={index}
-                      exercise={exercise}
-                      exData={exData}
-                    />
-                  </TouchableOpacity>
-                  <View className="p-5 mx-5 bg-slate-500 items-center justify-center">
-                    <Text className="text-gray-900">Time between sets</Text>
-                  </View>
-                </View>
-              );
-            });
-          })} */}
       </ScrollView>
     </SafeAreaView>
   );

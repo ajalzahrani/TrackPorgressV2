@@ -1,14 +1,7 @@
 import {View, Text} from 'react-native';
 import React, {useEffect} from 'react';
 
-const TimerLabel = ({
-  seconds,
-  setSeconds,
-  isActive,
-  setIsActive,
-  reset,
-  toggle,
-}) => {
+const TimerLabel = ({seconds, setSeconds, isActive, toggle}) => {
   useEffect(() => {
     let interval = null;
     if (isActive) {
@@ -21,10 +14,6 @@ const TimerLabel = ({
         console.log(`secon fi ${seconds}, ${isActive}`);
       }
     }
-    // else if (!isActive && seconds === 0) {
-    //   toggle();
-    //   clearInterval(interval);
-    // }
 
     return () => clearInterval(interval);
   }, [isActive, seconds]);
