@@ -5,22 +5,23 @@ import LinearGradient from 'react-native-linear-gradient';
 // Assets
 import {colors, assets} from './constants';
 
+// compo
+import TimerLabel from './TimerLabel';
+
 const ExerciseActiveCard = ({exername, id, reps}) => {
   const [isPressed, setIsPressed] = useState(false);
-  const [time, setTime] = useState(10);
 
-  const startTimer = useCallback(() => {}, []);
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setTime(prev => prev - 1);
-    }, 1000);
+  const [seconds, setSeconds] = useState(10);
+  const [isActive, setIsActive] = useState(false);
 
-    if (time === 1) {
-      // setIsStarted(false);
-      // setTime(10);
-      clearTimeout(timer);
-    }
-  }, [time]);
+  function toggle() {
+    setIsActive(!isActive);
+  }
+
+  function reset() {
+    setSeconds(0);
+    setIsActive(false);
+  }
 
   return (
     <>
@@ -34,7 +35,15 @@ const ExerciseActiveCard = ({exername, id, reps}) => {
           <Text style={style.workoutTitle}>
             ID: {id} {exername}
           </Text>
-          <Text className="text-white text-lg">{time} s</Text>
+          {/* <Text className="text-white text-lg">{time} s</Text> */}
+          <TimerLabel
+            seconds={seconds}
+            setSeconds={setSeconds}
+            isActive={isActive}
+            setIsActive={setIsActive}
+            reset={reset}
+            toggle={toggle}
+          />
         </View>
         <View style={style.editContainerStyle} className="space-x-2">
           <TouchableOpacity
@@ -137,7 +146,7 @@ const ExerciseActiveCard = ({exername, id, reps}) => {
             onPress={() => {
               // Register user entry data
               // setIsPressed(!isPressed);
-              startTimer();
+              toggle();
             }}>
             <LinearGradient
               className="py-3 px-10 rounded-full"
