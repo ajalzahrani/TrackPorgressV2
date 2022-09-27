@@ -30,6 +30,7 @@ const ExerciseActiveCard = ({exername, id, reps}) => {
           style.cardContainer,
           {borderBottomEndRadius: isPressed ? 0 : 10},
           {borderBottomStartRadius: isPressed ? 0 : 10},
+          {marginBottom: isPressed ? 0 : 7},
         ]}>
         <View className="flex-col space-y-2">
           <Text style={style.workoutTitle}>
@@ -49,7 +50,7 @@ const ExerciseActiveCard = ({exername, id, reps}) => {
             onPress={() => {
               setIsPressed(!isPressed);
             }}>
-            <Image source={assets.icn_add} />
+            <Image source={isPressed ? assets.icn_min : assets.icn_add} />
           </TouchableOpacity>
         </View>
       </View>
@@ -168,11 +169,13 @@ const style = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 10,
-    paddingHorizontal: 20,
-    paddingVertical: 15,
+    // marginVertical: 5,
+    marginBottom: 7,
+    marginTop: 7,
     marginHorizontal: 20,
-    // marginVertical: 10,
+    // marginTop: 10,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
     backgroundColor: colors.secondaryow,
     borderTopEndRadius: 10,
     borderTopStartRadius: 10,
@@ -200,11 +203,11 @@ const style = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingBottom: 15,
+    marginBottom: 7,
     marginHorizontal: 20,
+    paddingBottom: 15,
+    paddingHorizontal: 20,
     backgroundColor: colors.secondaryow,
-    marginBottom: 10,
     borderBottomEndRadius: 10,
     borderBottomStartRadius: 10,
   },

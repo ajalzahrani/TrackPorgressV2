@@ -60,7 +60,7 @@ const style = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    paddingVertical: 25,
+    paddingVertical: 20,
     alignItems: 'center',
     backgroundColor: colors.offwhite,
   },

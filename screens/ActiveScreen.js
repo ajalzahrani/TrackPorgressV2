@@ -7,7 +7,6 @@ import {
   ScrollView,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import LinearGradient from 'react-native-linear-gradient';
 import {store} from '../Store';
 
 // Assets
@@ -15,9 +14,8 @@ import {colors} from '../components/constants';
 
 // Components
 import ExerciseActiveCard from '../components/ExerciseActiveCard';
-import SetRestTimeCompo from '../components/SetRestTimeCompo';
-import ExrRestTimeCompo from '../components/ExrRestTimeCompo';
 import SessionController from '../components/SessionController';
+import Divider from '../components/Divider';
 
 // import { getExerciseName } from '../components/shared';
 
@@ -26,9 +24,6 @@ import {useNavigation} from '@react-navigation/native';
 const ActiveScreen = ({route}) => {
   // FIXME: ExerciseActiveCard render twice ???? need to fix this
   const [exData, setEXData] = useState([]); // state holding exercise data.
-  const [visible, setVisible] = useState(false);
-  const [isStarted, setIsStarted] = useState(false);
-  const [compoAddress, setCompoAddress] = useState({});
   const navigation = useNavigation();
 
   const {workoutObject} = route.params;
@@ -73,30 +68,39 @@ const ActiveScreen = ({route}) => {
         );
         keyCounter++;
 
-        if (exers[i].freq.length - j > 1) {
-          rows.push(
-            <SetRestTimeCompo
-              key={keyCounter}
-              id={keyCounter}
-              isStarted={isStarted}
-              setIsStarted={setIsStarted}
-              compoAddress={compoAddress}
-              i={i + 1}
-              j={j + 1}
-            />,
-          );
-          keyCounter++;
-        }
+        // SET END CHECKER
+        // if (exers[i].freq.length - j > 1) {
+        //   rows.push(
+        //     <SetRestTimeCompo
+        //       key={keyCounter}
+        //       id={keyCounter}
+        //       isStarted={isStarted}
+        //       setIsStarted={setIsStarted}
+        //       compoAddress={compoAddress}
+        //       i={i + 1}
+        //       j={j + 1}
+        //     />,
+        //   );
+        //   keyCounter++;
+        // }
       }
+      // EXERCISE END CHECKER
       if (exers.length - i > 1) {
         rows.push(
-          <ExrRestTimeCompo
-            key={keyCounter}
-            id={keyCounter}
-            i={i + 1}
-            compoAddress={compoAddress}
-            isStarted={isStarted}
-            setIsStarted={setIsStarted}
+          // <ExrRestTimeCompo
+          //   key={keyCounter}
+          //   id={keyCounter}
+          //   i={i + 1}
+          //   compoAddress={compoAddress}
+          //   isStarted={isStarted}
+          //   setIsStarted={setIsStarted}
+          // />,
+          <View
+            style={{
+              borderWidth: 1,
+              // width: 300,
+              borderColor: colors.secondaryow,
+            }}
           />,
         );
       }
@@ -104,14 +108,6 @@ const ActiveScreen = ({route}) => {
     }
     return <>{rows}</>;
   };
-
-  const toggleStart = () => {
-    setIsStarted(!isStarted);
-  };
-
-  useEffect(() => {
-    ExerciseActiveCardComponents();
-  }, [isStarted]);
 
   useEffect(() => {
     setupObjects();
@@ -135,36 +131,6 @@ const ActiveScreen = ({route}) => {
         <View className="flex-row items-center space-x-5">
           <Text style={style.workoutTitleStyle}>{workoutObject.title}</Text>
         </View>
-        {/* <Text className="text-red-600 mt-10">Total time: 1:29:44</Text> */}
-        {/* <TouchableOpacity
-          onPress={() => {
-            navigation.goBack();
-          }}>
-          <LinearGradient
-            className="py-3 px-20 rounded-full mt-10"
-            colors={['#E10D60', '#FA3B89']}
-            start={{x: 0, y: 0}}
-            end={{x: 1, y: 1}}
-            locations={[0.75, 1]}>
-            <Text className="text-base font-semibold text-white">Quite</Text>
-          </LinearGradient>
-        </TouchableOpacity> */}
-        {/* <TouchableOpacity
-          onPress={() => {
-            toggleStart();
-          }}>
-          <LinearGradient
-            className="py-3 px-20 rounded-full mt-1"
-            colors={['#E10D60', '#FA3B89']}
-            start={{x: 0, y: 0}}
-            end={{x: 1, y: 1}}
-            locations={[0.75, 1]}>
-            <Text className="text-base font-semibold text-white">
-              Toogle Go {isStarted ? ' Enabled' : ' Disabled'} to address{' '}
-              {compoAddress.i} - {compoAddress.j}
-            </Text>
-          </LinearGradient>
-        </TouchableOpacity> */}
       </View>
       <ScrollView style={{marginBottom: 55}}>
         {/* apply for loop here same as exercise card parented by workoutScreen */}
