@@ -49,32 +49,32 @@ const ActiveScreen = ({route}) => {
     for (let i = 0; i < exers.length; i++) {
       let exername = getExerciseName(exers[i].id);
       for (let j = 0; j < exers[i].freq.length; j++) {
-        rows.push(
-          <TouchableOpacity
-            onPress={() => {
-              if (exers[i].freq.length - j == 1) {
-                setCompoAddress({i: i + 1, j: undefined});
-              } else {
-                setCompoAddress({i: i + 1, j: j + 1});
-              }
-              setVisible(true);
-            }}
-            key={keyCounter}>
+        // SET END CHECKER
+        if (exers[i].freq.length - j == 1) {
+          rows.push(
             <ExerciseActiveCard
+              key={keyCounter}
               id={keyCounter}
               exername={exername}
               reps={exers[i].freq[j]}
-            />
-          </TouchableOpacity>,
-        );
-        keyCounter++;
-
-        // SET END CHECKER
-        // if (exers[i].freq.length - j > 1) {
-        //   rows.push(
-        //   );
-        //   keyCounter++;
-        // }
+              resttimeId={1}
+              resttime={workoutObject.resttime}
+            />,
+          );
+          keyCounter++;
+        } else {
+          rows.push(
+            <ExerciseActiveCard
+              key={keyCounter}
+              id={keyCounter}
+              exername={exername}
+              reps={exers[i].freq[j]}
+              resttimeId={0}
+              resttime={workoutObject.resttime}
+            />,
+          );
+          keyCounter++;
+        }
       }
       // EXERCISE END CHECKER
       if (exers.length - i > 1) {

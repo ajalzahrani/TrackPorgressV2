@@ -8,10 +8,13 @@ import {colors, assets} from './constants';
 // compo
 import TimerLabel from './TimerLabel';
 
-const ExerciseActiveCard = ({exername, id, reps}) => {
+const ExerciseActiveCard = ({exername, id, reps, resttime, resttimeId}) => {
   const [isPressed, setIsPressed] = useState(false);
 
-  const [seconds, setSeconds] = useState(10);
+  const [seconds, setSeconds] = useState(() => {
+    if (resttimeId === 0) return resttime[0];
+    else return resttime[1];
+  });
   const [isActive, setIsActive] = useState(false);
 
   function toggle() {
@@ -33,9 +36,7 @@ const ExerciseActiveCard = ({exername, id, reps}) => {
           {marginBottom: isPressed ? 0 : 7},
         ]}>
         <View className="flex-col space-y-2">
-          <Text style={style.workoutTitle}>
-            ID: {id} {exername}
-          </Text>
+          <Text style={style.workoutTitle}>{exername}</Text>
           <TimerLabel
             seconds={seconds}
             setSeconds={setSeconds}
