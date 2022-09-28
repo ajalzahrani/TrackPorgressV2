@@ -24,11 +24,13 @@ import {colors, assets} from '../components/constants';
 import ExerciseCard from '../components/ExerciseCard';
 import {getDayObject} from '../components/shared';
 import {getWorkoutObject} from '../components/shared';
+import RestTimeController from '../components/RestTimeController';
 
 const WorkoutScreen = ({route}) => {
   // FIXME: presis workout name if entered before assigning new exercises.
   // FIXME: dont' save workout when go back.
   // FIXME: prompet user to enter workout name if empty
+  // FIXME: Re-design Rest time controllers
   const [modalVisible, setModalVisible] = useState(false); // workoutname alert modal state
   const [exData, setEXData] = useState([]); // state holding exercise data.
   const [workoutName, setWorkoutName] = useState(workoutObject?.title); // workout name state
@@ -97,6 +99,7 @@ const WorkoutScreen = ({route}) => {
         id: id,
         title: workoutName,
         exercises: exercises,
+        resttime: [0, 0],
       };
       setNewWorkoutId(id);
       setWorkoutObject(newWorkoutObj);
@@ -154,6 +157,56 @@ const WorkoutScreen = ({route}) => {
 
     handleWorkoutParams(exerciseObjs);
   };
+
+  const handleAddRestTime = (id, timeValue) => {
+    let updateRestTime = workoutObject?.resttime;
+    if (id == 0) {
+      updateRestTime[0] = timeValue;
+    } else {
+      updateRestTime[1] = timeValue;
+    }
+
+    setWorkoutObject(prev => {
+      return {...prev, resttime: updateRestTime};
+    });
+  };
+
+  const RestTimeDrawer = () => {
+    let exercises = workoutObject?.exercises?.length;
+    if (exercises === 1) {
+      return (
+        <RestTimeController
+          id={0}
+          indicatorTitle="Set rest time"
+          resttime={workoutObject?.resttime}
+          handleAddRestTime={handleAddRestTime}
+        />
+      );
+    } else if (exercises > 1) {
+      return (
+        <>
+          <RestTimeController
+            id={0}
+            resttime={workoutObject?.resttime}
+            handleAddRestTime={handleAddRestTime}
+            indicatorTitle="Set rest time"
+          />
+          <RestTimeController
+            id={1}
+            resttime={workoutObject?.resttime}
+            handleAddRestTime={handleAddRestTime}
+            indicatorTitle="Exercise rest time"
+          />
+        </>
+      );
+    } else {
+      return <></>;
+    }
+  };
+
+  useEffect(() => {
+    RestTimeDrawer();
+  }, []);
 
   useEffect(() => {
     setupObjects();
@@ -223,6 +276,7 @@ const WorkoutScreen = ({route}) => {
                 />
               );
             })}
+            {RestTimeDrawer()}
             <TouchableOpacity
               onPress={() => {
                 //SaveWorkout();
@@ -251,10 +305,10 @@ const WorkoutScreen = ({route}) => {
               onPress={() => {
                 // alert('Hello');
                 // handleAddNewWorkout();
-                // console.log(workoutObject);
+                console.log(workoutObject);
                 // console.log('Pre workoutId: ', workoutId);
                 // console.log('New WorkoutId: ', newWorkoutId);
-                handleDeleteWorkout(workoutId);
+                // handleDeleteWorkout(workoutId);
               }}>
               <LinearGradient
                 style={style.touchableOpacityStartStyle}

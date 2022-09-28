@@ -20,6 +20,7 @@ export const WorkoutDataStructure = [
         freq: [20, 20],
       },
     ],
+    resttime: [5, 10],
   },
   {
     id: 2,
@@ -46,10 +47,12 @@ export const WorkoutDataStructure = [
         freq: [20, 20],
       },
     ],
+    resttime: [7, 7],
   },
   {
     id: 3,
     title: 'Legs workout',
     exercises: [],
+    resttime: [0, 0],
   },
 ];

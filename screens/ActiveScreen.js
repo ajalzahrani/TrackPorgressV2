@@ -23,6 +23,7 @@ import {useNavigation} from '@react-navigation/native';
 
 const ActiveScreen = ({route}) => {
   // FIXME: ExerciseActiveCard render twice ???? need to fix this
+  // FIXME: workout name should'nt take all the space in pre-list of workout
   const [exData, setEXData] = useState([]); // state holding exercise data.
   const navigation = useNavigation();
 
@@ -71,15 +72,6 @@ const ActiveScreen = ({route}) => {
         // SET END CHECKER
         // if (exers[i].freq.length - j > 1) {
         //   rows.push(
-        //     <SetRestTimeCompo
-        //       key={keyCounter}
-        //       id={keyCounter}
-        //       isStarted={isStarted}
-        //       setIsStarted={setIsStarted}
-        //       compoAddress={compoAddress}
-        //       i={i + 1}
-        //       j={j + 1}
-        //     />,
         //   );
         //   keyCounter++;
         // }
@@ -87,15 +79,8 @@ const ActiveScreen = ({route}) => {
       // EXERCISE END CHECKER
       if (exers.length - i > 1) {
         rows.push(
-          // <ExrRestTimeCompo
-          //   key={keyCounter}
-          //   id={keyCounter}
-          //   i={i + 1}
-          //   compoAddress={compoAddress}
-          //   isStarted={isStarted}
-          //   setIsStarted={setIsStarted}
-          // />,
           <View
+            key={keyCounter}
             style={{
               borderWidth: 1,
               // width: 300,

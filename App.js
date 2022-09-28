@@ -33,7 +33,7 @@ import {ImplementDataStructure} from './components/database/ImplementDataStructu
 const App: () => Node = () => {
   useEffect(() => {
     ImplementDataStructure();
-  });
+  }, []);
   return (
     <NavigationContainer>
       <TailwindProvider>
