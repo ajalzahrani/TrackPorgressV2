@@ -18,7 +18,7 @@ const QuickStart = () => {
       <TouchableOpacity
         onPress={() => {
           // console.log(store.getString('workouts'));
-          navigation.navigate('ActiveScreen');
+          //navigation.navigate('ActiveScreen');
         }}>
         <LinearGradient
           className="py-3 px-20 rounded-full mt-10"

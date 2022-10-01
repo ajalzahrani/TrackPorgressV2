@@ -24,6 +24,7 @@ import {useNavigation} from '@react-navigation/native';
 const ActiveScreen = ({route}) => {
   // FIXME: ExerciseActiveCard render twice ???? need to fix this
   // FIXME: workout name should'nt take all the space in pre-list of workout
+  // FIXME: Add scrollto function to every ExerciseActiveCard to let the card to start from the beginning of screen.
   const [exData, setEXData] = useState([]); // state holding exercise data.
   const navigation = useNavigation();
 

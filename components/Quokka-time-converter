@@ -1,0 +1,24 @@
+
+
+
+const time = new Date();
+
+const min = 1;
+const sec = 30;
+
+const convertToSecons = (min, sec) => {
+  return min * 60 + sec;
+};
+
+console.log(convertToSecons(min, sec))
+
+const convertToTimeObj = (number = 0) => {
+  let timeObj = {sec: 0, min: 0}
+
+  timeObj.min = Math.floor(number / 60)
+  timeObj.sec = number % 60
+
+  return timeObj
+}
+
+console.log(convertToTimeObj(40));

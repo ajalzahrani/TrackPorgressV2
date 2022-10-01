@@ -1,4 +1,11 @@
-import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  CheckBox,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 
 // Assets
@@ -33,9 +40,14 @@ const SETsController = ({indicatorTitle, freq, index, addFreq}) => {
     <View style={style.containerStyle}>
       {/* inner set container */}
       <View style={style.innerContainerStyle}>
-        {/* Number indicator */}
-        <View style={style.numberIndicator}>
-          <Text style={{color: colors.white}}>{number}</Text>
+        <View style={{flexDirection: 'row'}}>
+          {/* Number indicator */}
+          <View style={style.numberIndicator}>
+            <Text style={{color: colors.white}}>{number}</Text>
+          </View>
+
+          {/* FIXME: Add check box to copy first set reps to other sets reps */}
+          {index == 0 ? <Text>CheckBox copy</Text> : ''}
         </View>
 
         <Text style={style.middleTextStyle}>{indicatorTitle}</Text>

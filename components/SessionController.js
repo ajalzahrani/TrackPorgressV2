@@ -41,14 +41,15 @@ const SessionController = () => {
         <Text style={style.timerLabelStyle}>
           {hours}:{minutes}:{seconds}
         </Text>
-
-        <TouchableOpacity onPress={toggleSession}>
-          <Image
-            source={isActive ? assets.icn_pause : assets.icn_start}
-            style={{width: 20, height: 20}}
-            tintColor="black"
-          />
-        </TouchableOpacity>
+        <View style={{flexDirection: 'row'}}>
+          <TouchableOpacity onPress={toggleSession}>
+            <Image
+              source={isActive ? assets.icn_pause : assets.icn_start}
+              style={{width: 20, height: 20}}
+              tintColor="black"
+            />
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -56,7 +57,7 @@ const SessionController = () => {
 
 const style = StyleSheet.create({
   innerContainer: {
-    display: 'flex',
+    // display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 20,

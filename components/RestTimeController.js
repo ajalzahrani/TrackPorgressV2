@@ -1,5 +1,14 @@
-import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  TextInput,
+  Pressable,
+} from 'react-native';
+import React, {useEffect, useState, useCallback} from 'react';
+import {TimePicker, ValueMap} from 'react-native-simple-time-picker';
 
 // Assets
 import {colors, assets} from '../components/constants';
@@ -15,45 +24,72 @@ const RestTimeController = ({
     else return resttime[1];
   });
 
-  const addNumber = () => {
-    setNumber(number + 1);
+  const [value, setValue] = useState({
+    hours: 1,
+    minutes: 0,
+    seconds: 0,
+  });
+
+  const [isPressed, setIsPressed] = useState(false);
+
+  const handleChange = newValue => {
+    setValue(newValue);
   };
 
-  const minNumber = () => {
-    if (number === 0) {
-      setNumber(0);
-    } else {
-      setNumber(number - 1);
-    }
+  const convertTimeToSeconds = (min, sec) => {
+    return min * 60 + sec;
   };
+
+  const convertToTimeObj = (number = 0) => {
+    let timeObj = {hours: 0, minutes: 0, seconds: 0};
+
+    timeObj.minutes = Math.floor(number / 60);
+    timeObj.seconds = number % 60;
+
+    return timeObj;
+  };
+
+  useEffect(() => {
+    setNumber(convertTimeToSeconds(value.minutes, value.seconds));
+  }, [value]);
 
   useEffect(() => {
     handleAddRestTime(id, number);
   }, [number]);
 
+  useEffect(() => {
+    setValue(convertToTimeObj(number));
+  }, []);
+
   return (
     <View style={style.containerStyle}>
-      {/* inner set container */}
       <View style={style.innerContainerStyle}>
-        {/* Number indicator */}
-        <View style={style.numberIndicator}>
-          <Text style={{color: colors.white}}>{number}</Text>
-        </View>
-
-        <Text style={style.middleTextStyle}>{indicatorTitle}</Text>
-
-        {/* plus - min buttons */}
-        <View style={{flexDirection: 'row'}} className="space-x-10">
-          <TouchableOpacity
-            onPress={() => {
-              minNumber();
+        <TouchableOpacity onPress={() => setIsPressed(!isPressed)}>
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              flexDirection: 'row',
             }}>
-            <Image source={assets.icn_min} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => addNumber()}>
-            <Image source={assets.icn_add} />
-          </TouchableOpacity>
-        </View>
+            <Text style={style.middleTextStyle}>{indicatorTitle}</Text>
+            {/* <ChevronDownIcon /> */}
+            <Image
+              source={isPressed ? assets.icn_min : assets.icn_add}
+              style={{height: 20, width: 20}}
+            />
+          </View>
+        </TouchableOpacity>
+        {isPressed && (
+          <TimePicker
+            value={value}
+            onChange={handleChange}
+            textColor={colors.white}
+            pickerShows={['minutes', 'seconds']}
+            secondsUnit="Sec"
+            minutesUnit="Min"
+            secondsInterval={5}
+          />
+        )}
       </View>
     </View>
   );
@@ -71,7 +107,7 @@ const style = StyleSheet.create({
   },
   innerContainerStyle: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 24,
@@ -88,6 +124,7 @@ const style = StyleSheet.create({
     height: 29,
   },
   middleTextStyle: {
+    marginRight: 10,
     fontWeight: '400',
     fontSize: 16,
     color: colors.white,
