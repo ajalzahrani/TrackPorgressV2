@@ -2,6 +2,7 @@ import {View, Text} from 'react-native';
 import React, {useEffect} from 'react';
 
 const TimerLabel = ({seconds, setSeconds, isActive, toggle}) => {
+  // FIXME: use timer-hook here
   useEffect(() => {
     let interval = null;
     if (isActive) {

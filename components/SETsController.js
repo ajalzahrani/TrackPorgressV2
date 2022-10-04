@@ -47,7 +47,7 @@ const SETsController = ({indicatorTitle, freq, index, addFreq}) => {
           </View>
 
           {/* FIXME: Add check box to copy first set reps to other sets reps */}
-          {index == 0 ? <Text>CheckBox copy</Text> : ''}
+          {/* {index == 0 ? <Text>CheckBox copy</Text> : ''} */}
         </View>
 
         <Text style={style.middleTextStyle}>{indicatorTitle}</Text>

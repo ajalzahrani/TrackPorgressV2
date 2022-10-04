@@ -118,6 +118,7 @@ const ExerciseScreen = ({route}) => {
           style={style.textInputStyle}
         />
 
+        {/* FIXME: use notFound ?? () pattern */}
         <View
           style={{
             flexDirection: 'row',
