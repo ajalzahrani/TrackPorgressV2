@@ -5,6 +5,8 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  VirtualizedList,
+  FlatList,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {store} from '../Store';
@@ -27,6 +29,8 @@ const ActiveScreen = ({route}) => {
   // FIXME: Add scrollto function to every ExerciseActiveCard to let the card to start from the beginning of screen. follow the link: https://reactnative.dev/docs/scrollview#scrollto
   // FIXME: Adjust the design
   const [exData, setEXData] = useState([]); // state holding exercise data.
+  const [selectedId, setSelectedId] = useState(null);
+  const [ref, setRef] = useState(null); // ref to flatlist
   const navigation = useNavigation();
 
   const {workoutObject} = route.params;
@@ -44,23 +48,25 @@ const ActiveScreen = ({route}) => {
     return exername[0]?.title;
   };
 
-  const ExerciseActiveCardComponents = () => {
-    const exers = workoutObject.exercises;
+  const ExerciseActiveCardComponents = ({item, index, separators}) => {
+    // const exers = workoutObject.exercises;
     const rows = [];
     let keyCounter = 0;
-    for (let i = 0; i < exers.length; i++) {
-      let exername = getExerciseName(exers[i].id);
-      for (let j = 0; j < exers[i].freq.length; j++) {
+    for (let i = 0; i < item.length; i++) {
+      let exername = getExerciseName(item[i].id);
+      for (let j = 0; j < item[i].freq.length; j++) {
         // SET END CHECKER
-        if (exers[i].freq.length - j == 1) {
+        if (item[i].freq.length - j == 1) {
           rows.push(
             <ExerciseActiveCard
               key={keyCounter}
               id={keyCounter}
               exername={exername}
-              reps={exers[i].freq[j]}
+              reps={item[i].freq[j]}
               resttimeId={1}
               resttime={workoutObject.resttime}
+              exerciseId={item.id}
+              setSelectedId={setSelectedId}
             />,
           );
           keyCounter++;
@@ -70,7 +76,7 @@ const ActiveScreen = ({route}) => {
               key={keyCounter}
               id={keyCounter}
               exername={exername}
-              reps={exers[i].freq[j]}
+              reps={item[i].freq[j]}
               resttimeId={0}
               resttime={workoutObject.resttime}
             />,
@@ -79,7 +85,7 @@ const ActiveScreen = ({route}) => {
         }
       }
       // EXERCISE END CHECKER
-      if (exers.length - i > 1) {
+      if (item.length - i > 1) {
         rows.push(
           <View
             key={keyCounter}
@@ -94,6 +100,63 @@ const ActiveScreen = ({route}) => {
       keyCounter++;
     }
     return <>{rows}</>;
+  };
+
+  const ExerciseActiveCardComponents2 = ({item, index, separators}) => {
+    console.log(item);
+    console.log(index);
+    let exername = getExerciseName(item.id);
+    const rows = [];
+    console.log(exername);
+    let key = 0;
+    for (let j = 0; j < item.freq.length; j++) {
+      // SET END CHECKER
+      if (item.freq.length - j == 1) {
+        rows.push(
+          <ExerciseActiveCard
+            key={key}
+            exername={exername}
+            reps={item.freq[j]}
+            resttimeId={1}
+            resttime={workoutObject.resttime}
+          />,
+        );
+      } else {
+        rows.push(
+          <ExerciseActiveCard
+            key={key}
+            exername={exername}
+            reps={item.freq[j]}
+            resttimeId={0}
+            resttime={workoutObject.resttime}
+          />,
+        );
+      }
+      key++;
+    }
+
+    return <>{rows}</>;
+  };
+
+  const rednerItem = ({item}) => {
+    console.log('hi');
+    let arr = [];
+    arr.push(
+      <View
+        style={{
+          backgroundColor: '#f9c2ff',
+          padding: 20,
+          marginVertical: 8,
+          marginHorizontal: 16,
+        }}
+        key={item.id}>
+        <Text style={{color: colors.red, fontSize: 32, textAlign: 'left'}}>
+          {getExerciseName(item.id)}
+        </Text>
+      </View>,
+    );
+    console.log(arr.length);
+    return <>{arr}</>;
   };
 
   useEffect(() => {
@@ -119,10 +182,13 @@ const ActiveScreen = ({route}) => {
           <Text style={style.workoutTitleStyle}>{workoutObject.title}</Text>
         </View>
       </View>
-      <ScrollView style={{marginBottom: 55}}>
-        {/* apply for loop here same as exercise card parented by workoutScreen */}
-        {ExerciseActiveCardComponents()}
-      </ScrollView>
+      <FlatList
+        data={workoutObject.exercises}
+        ref={ref => setRef(ref)}
+        renderItem={ExerciseActiveCardComponents2}
+        keyExtractor={item => item.id}
+        extraData={selectedId}
+      />
       <SessionController />
     </SafeAreaView>
   );

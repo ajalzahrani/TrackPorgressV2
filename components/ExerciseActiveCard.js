@@ -8,7 +8,15 @@ import {colors, assets} from './constants';
 // compo
 import TimerLabel from './TimerLabel';
 
-const ExerciseActiveCard = ({exername, id, reps, resttime, resttimeId}) => {
+const ExerciseActiveCard = ({
+  exername,
+  id,
+  reps,
+  resttime,
+  resttimeId,
+  exerciseId,
+  setSelectedId,
+}) => {
   const [isPressed, setIsPressed] = useState(false);
 
   const [seconds, setSeconds] = useState(() => {
@@ -145,6 +153,7 @@ const ExerciseActiveCard = ({exername, id, reps, resttime, resttimeId}) => {
           <TouchableOpacity
             className="mb-1"
             onPress={() => {
+              // setSelectedId(exerciseId);
               toggle();
             }}>
             <LinearGradient
