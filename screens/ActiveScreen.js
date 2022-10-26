@@ -198,6 +198,7 @@ const ActiveScreen = ({route}) => {
         </View>
       </View>
       <FlatList
+        contentContainerStyle={{paddingBottom: 72}}
         data={workoutObject.exercises}
         ref={ref => setRef(ref)}
         renderItem={ExerciseActiveCardComponents2}
