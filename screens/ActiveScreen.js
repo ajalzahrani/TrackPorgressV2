@@ -102,12 +102,22 @@ const ActiveScreen = ({route}) => {
     return <>{rows}</>;
   };
 
+  const scrollToNextCard = index => {
+    index++;
+    index *= 100;
+    console.log('current index: ', index);
+    ref.scrollToOffset({animated: true, offset: index + 2});
+    // ref.scrollToIndex({
+    //   animated: true,
+    //   index: index + 1,0
+    //   viewPosition: 0,
+    // });
+  };
+
+  let scrollKey = 0;
   const ExerciseActiveCardComponents2 = ({item, index, separators}) => {
-    console.log(item);
-    console.log(index);
     let exername = getExerciseName(item.id);
     const rows = [];
-    console.log(exername);
     let key = 0;
     for (let j = 0; j < item.freq.length; j++) {
       // SET END CHECKER
@@ -119,6 +129,8 @@ const ActiveScreen = ({route}) => {
             reps={item.freq[j]}
             resttimeId={1}
             resttime={workoutObject.resttime}
+            index={scrollKey}
+            scrollToNextCard={scrollToNextCard}
           />,
         );
       } else {
@@ -129,10 +141,13 @@ const ActiveScreen = ({route}) => {
             reps={item.freq[j]}
             resttimeId={0}
             resttime={workoutObject.resttime}
+            index={scrollKey}
+            scrollToNextCard={scrollToNextCard}
           />,
         );
       }
       key++;
+      scrollKey++;
     }
 
     return <>{rows}</>;

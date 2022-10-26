@@ -1,7 +1,16 @@
 import {View, Text} from 'react-native';
 import React, {useEffect} from 'react';
 
-const TimerLabel = ({seconds, setSeconds, isActive, toggle}) => {
+const TimerLabel = ({
+  seconds,
+  setSeconds,
+  isActive,
+  toggle,
+  scrollToNextCard,
+  setIsPressed,
+  index,
+  isPressed,
+}) => {
   // FIXME: use timer-hook here
   useEffect(() => {
     let interval = null;
@@ -12,6 +21,8 @@ const TimerLabel = ({seconds, setSeconds, isActive, toggle}) => {
 
       if (seconds === 0) {
         toggle();
+        scrollToNextCard(index);
+        setIsPressed(!isPressed);
         console.log(`secon fi ${seconds}, ${isActive}`);
       }
     }

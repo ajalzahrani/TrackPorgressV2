@@ -63,7 +63,7 @@ const style = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 20,
     alignItems: 'center',
-    backgroundColor: colors.offwhite,
+    backgroundColor: colors.semiPrimary,
   },
   timerLabelStyle: {
     textAlign: 'center',

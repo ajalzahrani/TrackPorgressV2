@@ -11,9 +11,11 @@ import TimerLabel from './TimerLabel';
 const ExerciseActiveCard = ({
   exername,
   id,
+  index,
   reps,
   resttime,
   resttimeId,
+  scrollToNextCard,
   exerciseId,
   setSelectedId,
 }) => {
@@ -52,6 +54,10 @@ const ExerciseActiveCard = ({
             setIsActive={setIsActive}
             reset={reset}
             toggle={toggle}
+            isPressed={isPressed}
+            setIsPressed={setIsPressed}
+            index={index}
+            scrollToNextCard={scrollToNextCard}
           />
         </View>
         <View style={style.editContainerStyle} className="space-x-2">
@@ -155,6 +161,7 @@ const ExerciseActiveCard = ({
             onPress={() => {
               // setSelectedId(exerciseId);
               toggle();
+              // console.log(index);
             }}>
             <LinearGradient
               className="py-3 px-10 rounded-full"
