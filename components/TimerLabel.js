@@ -6,10 +6,11 @@ const TimerLabel = ({
   setSeconds,
   isActive,
   toggle,
-  scrollToNextCard,
-  setIsPressed,
   index,
+  scrollToNextCard,
   isPressed,
+  setIsPressed,
+  setSkitchTitle,
 }) => {
   // FIXME: use timer-hook here
   useEffect(() => {
@@ -23,6 +24,7 @@ const TimerLabel = ({
         toggle();
         scrollToNextCard(index);
         setIsPressed(!isPressed);
+        setSkitchTitle(true);
         // console.log(`secon fi ${seconds}, ${isActive}`);
       }
     }

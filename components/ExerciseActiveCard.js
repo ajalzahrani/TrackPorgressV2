@@ -22,13 +22,15 @@ const ExerciseActiveCard = ({
   scrollToNextCard,
   setSelectedId,
 }) => {
-  const [isPressed, setIsPressed] = useState(false);
+  // try to hide card after it's timeout
   const registerSet = useGstore(state => state.registerSet);
+  const [isActive, setIsActive] = useState(false);
+  const [isPressed, setIsPressed] = useState(false);
+  const [skitchTitle, setSkitchTitle] = useState(false);
   const [seconds, setSeconds] = useState(() => {
     if (resttimeId === 0) return resttime[0];
     else return resttime[1];
   });
-  const [isActive, setIsActive] = useState(false);
 
   function toggle() {
     setIsActive(!isActive);
@@ -49,7 +51,10 @@ const ExerciseActiveCard = ({
           {marginBottom: isPressed ? 0 : 7},
         ]}>
         <View className="flex-col space-y-2">
-          <Text style={style.workoutTitle}>{exername}</Text>
+          <Text
+            style={skitchTitle ? style.workoutTitleDone : style.workoutTitle}>
+            {exername}
+          </Text>
           <TimerLabel
             seconds={seconds}
             setSeconds={setSeconds}
@@ -59,6 +64,7 @@ const ExerciseActiveCard = ({
             toggle={toggle}
             isPressed={isPressed}
             setIsPressed={setIsPressed}
+            setSkitchTitle={setSkitchTitle}
             index={index}
             scrollToNextCard={scrollToNextCard}
           />
@@ -206,6 +212,14 @@ const style = StyleSheet.create({
     fontSize: 20,
     lineHeight: 30,
     color: colors.white,
+  },
+  workoutTitleDone: {
+    fontStyle: 'normal',
+    fontWeight: '500',
+    fontSize: 20,
+    lineHeight: 30,
+    color: colors.offwhite,
+    textDecorationLine: 'line-through',
   },
   editContainerStyle: {
     display: 'flex',
