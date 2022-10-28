@@ -23,6 +23,9 @@ import Divider from '../components/Divider';
 
 import {useNavigation} from '@react-navigation/native';
 
+// gstore
+import {useGstore} from '../gstore';
+
 const ActiveScreen = ({route}) => {
   // FIXME: ExerciseActiveCard render twice ???? need to fix this
   // FIXME: workout name should'nt take all the space in pre-list of workout
@@ -31,6 +34,7 @@ const ActiveScreen = ({route}) => {
   const [exData, setEXData] = useState([]); // state holding exercise data.
   const [selectedId, setSelectedId] = useState(null);
   const [ref, setRef] = useState(null); // ref to flatlist
+  const printVol = useGstore(state => state.printVol);
   const navigation = useNavigation();
 
   const {workoutObject} = route.params;
@@ -48,64 +52,10 @@ const ActiveScreen = ({route}) => {
     return exername[0]?.title;
   };
 
-  const ExerciseActiveCardComponents = ({item, index, separators}) => {
-    // const exers = workoutObject.exercises;
-    const rows = [];
-    let keyCounter = 0;
-    for (let i = 0; i < item.length; i++) {
-      let exername = getExerciseName(item[i].id);
-      for (let j = 0; j < item[i].freq.length; j++) {
-        // SET END CHECKER
-        if (item[i].freq.length - j == 1) {
-          rows.push(
-            <ExerciseActiveCard
-              key={keyCounter}
-              id={keyCounter}
-              exername={exername}
-              reps={item[i].freq[j]}
-              resttimeId={1}
-              resttime={workoutObject.resttime}
-              exerciseId={item.id}
-              setSelectedId={setSelectedId}
-            />,
-          );
-          keyCounter++;
-        } else {
-          rows.push(
-            <ExerciseActiveCard
-              key={keyCounter}
-              id={keyCounter}
-              exername={exername}
-              reps={item[i].freq[j]}
-              resttimeId={0}
-              resttime={workoutObject.resttime}
-            />,
-          );
-          keyCounter++;
-        }
-      }
-      // EXERCISE END CHECKER
-      if (item.length - i > 1) {
-        rows.push(
-          <View
-            key={keyCounter}
-            style={{
-              borderWidth: 1,
-              // width: 300,
-              borderColor: colors.secondaryow,
-            }}
-          />,
-        );
-      }
-      keyCounter++;
-    }
-    return <>{rows}</>;
-  };
-
   const scrollToNextCard = index => {
     index++;
     index *= 100;
-    console.log('current index: ', index);
+    // console.log('current index: ', index);
     ref.scrollToOffset({animated: true, offset: index + 2});
     // ref.scrollToIndex({
     //   animated: true,
@@ -125,6 +75,7 @@ const ActiveScreen = ({route}) => {
         rows.push(
           <ExerciseActiveCard
             key={key}
+            exerid={item.id}
             exername={exername}
             reps={item.freq[j]}
             resttimeId={1}
@@ -137,6 +88,7 @@ const ActiveScreen = ({route}) => {
         rows.push(
           <ExerciseActiveCard
             key={key}
+            exerid={item.id}
             exername={exername}
             reps={item.freq[j]}
             resttimeId={0}
@@ -195,6 +147,9 @@ const ActiveScreen = ({route}) => {
       <View style={style.workoutContainerStyle}>
         <View className="flex-row items-center space-x-5">
           <Text style={style.workoutTitleStyle}>{workoutObject.title}</Text>
+          <TouchableOpacity onPress={() => console.log(printVol())}>
+            <Text>Show vol</Text>
+          </TouchableOpacity>
         </View>
       </View>
       <FlatList

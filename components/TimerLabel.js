@@ -23,7 +23,7 @@ const TimerLabel = ({
         toggle();
         scrollToNextCard(index);
         setIsPressed(!isPressed);
-        console.log(`secon fi ${seconds}, ${isActive}`);
+        // console.log(`secon fi ${seconds}, ${isActive}`);
       }
     }
 

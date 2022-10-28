@@ -1,6 +1,7 @@
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import React, {useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
+import uuid from 'react-native-uuid';
 
 // Assets
 import {colors, assets} from './constants';
@@ -8,19 +9,21 @@ import {colors, assets} from './constants';
 // compo
 import TimerLabel from './TimerLabel';
 
+// gstore
+import {useGstore} from '../gstore';
+
 const ExerciseActiveCard = ({
   exername,
-  id,
+  exerid,
   index,
   reps,
   resttime,
   resttimeId,
   scrollToNextCard,
-  exerciseId,
   setSelectedId,
 }) => {
   const [isPressed, setIsPressed] = useState(false);
-
+  const registerSet = useGstore(state => state.registerSet);
   const [seconds, setSeconds] = useState(() => {
     if (resttimeId === 0) return resttime[0];
     else return resttime[1];
@@ -159,8 +162,15 @@ const ExerciseActiveCard = ({
           <TouchableOpacity
             className="mb-1"
             onPress={() => {
-              // setSelectedId(exerciseId);
               toggle();
+              // Register set to exercises array
+              registerSet(exerid, {
+                setno: uuid.v4(),
+                leftedWeight: 120,
+                reps: 6,
+                TUT: 20,
+              });
+              // setSelectedId(exerciseId);
               // console.log(index);
             }}>
             <LinearGradient
