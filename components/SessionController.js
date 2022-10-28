@@ -9,6 +9,8 @@ import {useStopwatch} from '../components/timer-hook/';
 
 import {useNavigation} from '@react-navigation/native';
 
+import {useGstore} from '../gstore';
+
 const SessionController = () => {
   const [isActive, setIsActive] = useState(false);
   const navigation = useNavigation();
@@ -30,6 +32,9 @@ const SessionController = () => {
       <View style={style.innerContainer}>
         <TouchableOpacity
           onPress={() => {
+            // Stop timer
+            // Ask user if wants quite
+            // Register session
             navigation.goBack();
           }}>
           <Image

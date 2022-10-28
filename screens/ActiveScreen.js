@@ -34,6 +34,7 @@ const ActiveScreen = ({route}) => {
   const [exData, setEXData] = useState([]); // state holding exercise data.
   const [selectedId, setSelectedId] = useState(null);
   const [ref, setRef] = useState(null); // ref to flatlist
+  const registerSession = useGstore(state => state.registerSession);
   const printVol = useGstore(state => state.printVol);
   const navigation = useNavigation();
 
@@ -147,7 +148,11 @@ const ActiveScreen = ({route}) => {
       <View style={style.workoutContainerStyle}>
         <View className="flex-row items-center space-x-5">
           <Text style={style.workoutTitleStyle}>{workoutObject.title}</Text>
-          <TouchableOpacity onPress={() => console.log(printVol())}>
+          <TouchableOpacity
+            onPress={() => {
+              registerSession('1:30:00', workoutObject.id);
+              console.log(printVol());
+            }}>
             <Text>Show vol</Text>
           </TouchableOpacity>
         </View>

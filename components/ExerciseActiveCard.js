@@ -164,14 +164,7 @@ const ExerciseActiveCard = ({
             onPress={() => {
               toggle();
               // Register set to exercises array
-              registerSet(exerid, {
-                setno: uuid.v4(),
-                leftedWeight: 120,
-                reps: 6,
-                TUT: 20,
-              });
-              // setSelectedId(exerciseId);
-              // console.log(index);
+              registerSet(exerid, '120', 6, '20');
             }}>
             <LinearGradient
               className="py-3 px-10 rounded-full"
