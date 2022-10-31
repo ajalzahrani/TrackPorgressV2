@@ -32,6 +32,43 @@ const ExerciseActiveCard = ({
     else return resttime[1];
   });
 
+  const [weight, setWeight] = useState(0);
+  const [rep, setRep] = useState(reps);
+  const [tut, setTut] = useState(0);
+
+  const addWeight = () => {
+    setWeight(weight + 5);
+  };
+  const minWeight = () => {
+    if (weight === 0) {
+      setWeight(0);
+    } else {
+      setWeight(weight - 1);
+    }
+  };
+
+  const addRep = () => {
+    setRep(rep + 1);
+  };
+  const minRep = () => {
+    if (rep === 0) {
+      setRep(0);
+    } else {
+      setRep(rep - 1);
+    }
+  };
+
+  const addTut = () => {
+    setTut(tut + 5);
+  };
+  const minTut = () => {
+    if (tut === 0) {
+      setTut(0);
+    } else {
+      setTut(tut - 1);
+    }
+  };
+
   function toggle() {
     setIsActive(!isActive);
   }
@@ -86,17 +123,17 @@ const ExerciseActiveCard = ({
             <View style={style.controllerRowInnerStyle}>
               {/* Number indicator */}
               <View style={style.controllerNumberIndicator}>
-                <Text style={{color: colors.white}}>120 kg</Text>
+                <Text style={{color: colors.white}}>{weight} kg</Text>
               </View>
 
               <Text style={style.controllerMiddleTextStyle}>Weight</Text>
 
               {/* plus - min buttons */}
               <View style={{flexDirection: 'row'}} className="space-x-10">
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => minWeight()}>
                   <Image source={assets.icn_min} />
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => addWeight()}>
                   <Image source={assets.icn_add} />
                 </TouchableOpacity>
               </View>
@@ -117,17 +154,17 @@ const ExerciseActiveCard = ({
             <View style={style.controllerRowInnerStyle}>
               {/* Number indicator */}
               <View style={style.controllerNumberIndicator}>
-                <Text style={{color: colors.white}}>{reps} r</Text>
+                <Text style={{color: colors.white}}>{rep} r</Text>
               </View>
 
               <Text style={style.controllerMiddleTextStyle}>Reps</Text>
 
               {/* plus - min buttons */}
               <View style={{flexDirection: 'row'}} className="space-x-10">
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => minRep()}>
                   <Image source={assets.icn_min} />
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => addRep()}>
                   <Image source={assets.icn_add} />
                 </TouchableOpacity>
               </View>
@@ -148,17 +185,17 @@ const ExerciseActiveCard = ({
             <View style={style.controllerRowInnerStyle}>
               {/* Number indicator */}
               <View style={style.controllerNumberIndicator}>
-                <Text style={{color: colors.white}}>90 s</Text>
+                <Text style={{color: colors.white}}>{tut} s</Text>
               </View>
 
               <Text style={style.controllerMiddleTextStyle}>TUT</Text>
 
               {/* plus - min buttons */}
               <View style={{flexDirection: 'row'}} className="space-x-10">
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => minTut()}>
                   <Image source={assets.icn_min} />
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => addTut()}>
                   <Image source={assets.icn_add} />
                 </TouchableOpacity>
               </View>
@@ -170,7 +207,7 @@ const ExerciseActiveCard = ({
             onPress={() => {
               toggle();
               // Register set to exercises array
-              registerSet(exerid, index, '120', 6, '20');
+              registerSet(exerid, index, weight, rep, tut);
             }}>
             <LinearGradient
               className="py-3 px-10 rounded-full"

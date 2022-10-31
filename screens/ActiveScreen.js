@@ -29,13 +29,13 @@ import {useGstore} from '../gstore';
 const ActiveScreen = ({route}) => {
   // FIXME: ExerciseActiveCard render twice ???? need to fix this
   // FIXME: workout name should'nt take all the space in pre-list of workout
-  // FIXME: Add scrollto function to every ExerciseActiveCard to let the card to start from the beginning of screen. follow the link: https://reactnative.dev/docs/scrollview#scrollto
   // FIXME: Adjust the design
   const [exData, setEXData] = useState([]); // state holding exercise data.
   const [selectedId, setSelectedId] = useState(null);
   const [ref, setRef] = useState(null); // ref to flatlist
   const registerSession = useGstore(state => state.registerSession);
   const printVol = useGstore(state => state.printVol);
+  const printExer = useGstore(state => state.printExer);
   const navigation = useNavigation();
 
   const {workoutObject} = route.params;
@@ -151,7 +151,7 @@ const ActiveScreen = ({route}) => {
           <TouchableOpacity
             onPress={() => {
               registerSession('1:30:00', workoutObject.id);
-              console.log(JSON.stringify(printVol()));
+              console.log(JSON.stringify(printExer()));
             }}>
             <Text>Show vol</Text>
           </TouchableOpacity>
