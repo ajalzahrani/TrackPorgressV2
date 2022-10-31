@@ -34,7 +34,7 @@ const TimerLabel = ({
 
   return (
     <View>
-      <Text className="text-white text-lg">{seconds}</Text>
+      <Text className="text-white text-lg">{seconds > 0 ? seconds : '--'}</Text>
     </View>
   );
 };
