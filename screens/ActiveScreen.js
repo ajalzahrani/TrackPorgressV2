@@ -151,7 +151,7 @@ const ActiveScreen = ({route}) => {
           <TouchableOpacity
             onPress={() => {
               registerSession('1:30:00', workoutObject.id);
-              console.log(printVol());
+              console.log(JSON.stringify(printVol()));
             }}>
             <Text>Show vol</Text>
           </TouchableOpacity>

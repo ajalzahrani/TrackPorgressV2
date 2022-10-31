@@ -170,7 +170,7 @@ const ExerciseActiveCard = ({
             onPress={() => {
               toggle();
               // Register set to exercises array
-              registerSet(exerid, '120', 6, '20');
+              registerSet(exerid, index, '120', 6, '20');
             }}>
             <LinearGradient
               className="py-3 px-10 rounded-full"
@@ -179,7 +179,7 @@ const ExerciseActiveCard = ({
               end={{x: 1, y: 1}}
               locations={[0.75, 1]}>
               <Text className="text-base font-semibold text-white">
-                Register
+                {skitchTitle ? 'Edit' : 'Register'}
               </Text>
             </LinearGradient>
           </TouchableOpacity>

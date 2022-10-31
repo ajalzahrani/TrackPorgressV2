@@ -5,20 +5,32 @@ import uuid from 'react-native-uuid';
 let gstore = (set, get) => ({
   sessions: [],
   exercise: [],
-  registerSet: (exerId, leftedWeight, reps, TUT) =>
+  registerSet: (exerId, setId, leftedWeight, reps, TUT) =>
     set(
       produce(draft => {
         let exercises = draft.exercise;
         let setData = {
-          setno: uuid.v4(),
+          setno: setId,
           leftedWeight: leftedWeight,
           reps: reps,
           TUT: TUT,
         };
         let isFound = false;
         for (let i = 0; i < exercises.length; i++) {
+          let isSetFound = false;
+          let sets = exercises[i].set;
           if (exercises[i].exerciseID === exerId) {
-            exercises[i].set.push(setData);
+            for (let j = 0; j < sets.length; j++) {
+              if (sets[j].setno === setId) {
+                sets.splice(j, 1, setData);
+                isSetFound = true;
+              }
+            }
+            if (!isSetFound) {
+              sets.push(setData);
+            }
+
+            exercises[i].set = sets;
             isFound = true;
           }
         }
