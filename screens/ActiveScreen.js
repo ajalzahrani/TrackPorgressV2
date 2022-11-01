@@ -30,6 +30,9 @@ const ActiveScreen = ({route}) => {
   // FIXME: ExerciseActiveCard render twice ???? need to fix this
   // FIXME: workout name should'nt take all the space in pre-list of workout
   // FIXME: Adjust the design
+  // FIXME: start session timer when onMount
+  // FIXME: Prsice session data
+  // FIXME: Print report by session data in Modal View
   const [exData, setEXData] = useState([]); // state holding exercise data.
   const [selectedId, setSelectedId] = useState(null);
   const [ref, setRef] = useState(null); // ref to flatlist
@@ -150,8 +153,7 @@ const ActiveScreen = ({route}) => {
           <Text style={style.workoutTitleStyle}>{workoutObject.title}</Text>
           <TouchableOpacity
             onPress={() => {
-              registerSession('1:30:00', workoutObject.id);
-              console.log(JSON.stringify(printExer()));
+              console.log(JSON.stringify(printVol()));
             }}>
             <Text>Show vol</Text>
           </TouchableOpacity>
@@ -165,7 +167,7 @@ const ActiveScreen = ({route}) => {
         keyExtractor={item => item.id}
         extraData={selectedId}
       />
-      <SessionController />
+      <SessionController workoutId={workoutObject.id} />
     </SafeAreaView>
   );
 };

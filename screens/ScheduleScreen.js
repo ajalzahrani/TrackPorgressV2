@@ -31,6 +31,7 @@ const ScheduleScreen = ({route}) => {
   // FIXME: workout name should'nt take all the space in pre-list of workout
   // FIXME: Hidden start button can be clicked ??
   // FIXME: Unassign schedule workout
+  // FIXME: Add Routine screen before schedule screen
   const [woData, setWoData] = useState();
   const [workoutObject, setWorkoutObject] = useState({});
 
