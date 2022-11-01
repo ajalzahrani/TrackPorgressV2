@@ -17,6 +17,7 @@ import StatScreen from '../../screens/StatScreen';
 import SettingsScreen from '../../screens/SettingsScreen';
 import ExerciseScreen from '../../screens/ExerciseScreen';
 import ActiveScreen from '../../screens/ActiveScreen';
+import VReportScreen from '../../screens/VReportScreen';
 
 // componetns
 import {colors, assets} from '../constants';
@@ -36,6 +37,14 @@ const ScheduleStackScreen = () => {
         component={ExerciseScreen}
         options={{
           presentation: 'modal',
+          headerShown: false,
+        }}
+      />
+      <ScheduleStack.Screen
+        name="VReportScreen"
+        component={VReportScreen}
+        options={{
+          presentation: 'fullScreenModal',
           headerShown: false,
         }}
       />

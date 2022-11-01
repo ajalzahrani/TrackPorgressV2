@@ -7,7 +7,7 @@ import {
   Modal,
   Pressable,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 // Assets
 import {colors, assets} from '../components/constants';
 
@@ -37,6 +37,10 @@ const SessionController = ({workoutId}) => {
     setIsActive(!isActive);
   }
 
+  useEffect(() => {
+    start();
+  }, []);
+
   return (
     <>
       <Modal
@@ -55,7 +59,7 @@ const SessionController = ({workoutId}) => {
               onPress={() => {
                 setModalVisible(!modalVisible);
                 // stop session timer
-                toggleSession();
+                pause();
                 // Register session
                 registerSession(
                   {
@@ -66,6 +70,7 @@ const SessionController = ({workoutId}) => {
                   workoutId,
                 );
                 // Show report modal
+                navigation.navigate('VReportScreen');
               }}>
               <Text style={style.textStyle}>Yes</Text>
             </Pressable>
