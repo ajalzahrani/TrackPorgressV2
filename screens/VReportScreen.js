@@ -95,6 +95,8 @@ const style = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: colors.yellow,
+    marginHorizontal: 20,
+    borderRadius: 10,
   },
 });
 
