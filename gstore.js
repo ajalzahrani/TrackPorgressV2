@@ -63,6 +63,7 @@ let gstore = (set, get) => ({
           workoutId: workoutId,
           exercises: get().exercise,
         });
+        draft.exercise = [];
       }),
     ),
 });
