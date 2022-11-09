@@ -21,6 +21,7 @@ import {useGstore} from '../gstore';
 
 const SessionController = ({workoutId}) => {
   const registerSession = useGstore(state => state.registerSession);
+  const setTime = useGstore(state => state.setTime);
   const [isActive, setIsActive] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
@@ -39,6 +40,7 @@ const SessionController = ({workoutId}) => {
 
   useEffect(() => {
     start();
+    setTime(new Date(Date.now()));
   }, []);
 
   return (
@@ -53,7 +55,9 @@ const SessionController = ({workoutId}) => {
         }}>
         <View style={style.centeredView}>
           <View style={style.modalView}>
-            <Text style={style.modalText}>Are you sure you want quit?</Text>
+            <Text style={style.modalText}>
+              Are you sure you want to end your Workout Session?
+            </Text>
             <Pressable
               style={[style.button, style.buttonClose]}
               onPress={() => {

@@ -5,6 +5,13 @@ import uuid from 'react-native-uuid';
 let gstore = (set, get) => ({
   sessions: [],
   exercise: [],
+  startTime: new Date(),
+  setTime: timeNow =>
+    set(
+      produce(draft => {
+        draft.startTime = timeNow;
+      }),
+    ),
   registerSet: (exerId, setId, leftedWeight, reps, TUT) =>
     set(
       produce(draft => {
@@ -43,12 +50,15 @@ let gstore = (set, get) => ({
     ),
   printExer: () => get().exercise,
   printVol: () => get().sessions,
+  lastSession: () => get().sessions[get().sessions.length - 1],
   registerSession: (duration, workoutId) =>
     set(
       produce(draft => {
         draft.sessions.push({
           session_id: uuid.v4(),
-          datetime: Date.now(),
+          datetime: new Date(Date.now()),
+          startTime: get().startTime,
+          endTime: new Date(Date.now()),
           duration: duration,
           workoutId: workoutId,
           exercises: get().exercise,
