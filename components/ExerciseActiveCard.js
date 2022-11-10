@@ -22,7 +22,7 @@ const ExerciseActiveCard = ({
   scrollToNextCard,
   setSelectedId,
 }) => {
-  // try to hide card after it's timeout
+  // FIXME: Add value picker for weight and time
   const registerSet = useGstore(state => state.registerSet);
   const [isActive, setIsActive] = useState(false);
   const [isPressed, setIsPressed] = useState(false);

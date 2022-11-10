@@ -9,9 +9,10 @@ const Divider = () => {
     <View>
       <View
         style={{
-          borderWidth: 1,
-          width: '80%',
+          borderWidth: 0.5,
+          width: '100%',
           borderColor: colors.secondaryow,
+          marginVertical: 15,
         }}
       />
     </View>

@@ -16,6 +16,7 @@ import {getExerciseName} from '../components/shared';
 import {getWorkoutObject} from '../components/shared';
 import {SparklesIcon as SparklesIconOutline} from 'react-native-heroicons/outline';
 import * as Icons from 'react-native-heroicons/outline';
+import Divider from '../components/Divider';
 
 const VReportScreen = () => {
   const lastSession = useGstore(state => state.lastSession);
@@ -28,6 +29,7 @@ const VReportScreen = () => {
         <Text style={style.headerTextStyle}>Workout Summary</Text>
       </View>
       <ScrollView style={style.ScrollViewStyle}>
+        <Divider />
         <Text style={style.generalFontSize}>
           {lastSession().datetime.toDateString()}
         </Text>
@@ -35,16 +37,19 @@ const VReportScreen = () => {
           {lastSession().startTime.toLocaleTimeString()} -{' '}
           {lastSession().endTime.toLocaleTimeString()}
         </Text>
+        <Divider />
         <Text style={style.generalFontSize}>Total Time</Text>
         <Text style={{color: colors.yellow, fontSize: 35, fontWeight: 'bold'}}>
           {lastSession().duration.hours.hours}:
           {lastSession().duration.minutes.minutes}:
           {lastSession().duration.seconds.seconds}
         </Text>
+        <Divider />
+        <Text style={style.generalFontSize}>Routine Name</Text>
         <Text style={style.generalFontSize}>
-          Routine Name || {getWorkoutObject(lastSession().workoutId).title}
+          {getWorkoutObject(lastSession().workoutId).title}
         </Text>
-        <Text style={style.generalFontSize}>A List of exercies</Text>
+        <Divider />
         {lastSession().exercises.map((e, i) => {
           return (
             <View key={i}>
@@ -54,6 +59,14 @@ const VReportScreen = () => {
               <Text style={style.generalFontSize}>
                 {e.set.length} {e.set.length > 1 ? 'Sets' : 'Set'}
               </Text>
+              {e.set.map((s, i) => {
+                return (
+                  <Text key={i} style={{color: 'white'}}>
+                    {s.reps}
+                  </Text>
+                );
+              })}
+              <Divider />
             </View>
           );
         })}

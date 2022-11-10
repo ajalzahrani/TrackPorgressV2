@@ -1,6 +1,7 @@
 import create from 'zustand';
 import {produce} from 'immer';
 import uuid from 'react-native-uuid';
+import {store} from './Store';
 
 let gstore = (set, get) => ({
   sessions: [],
@@ -22,7 +23,7 @@ let gstore = (set, get) => ({
           reps: reps,
           TUT: TUT,
         };
-        let isFound = false;
+        let isExFound = false;
         for (let i = 0; i < exercises.length; i++) {
           let isSetFound = false;
           let sets = exercises[i].set;
@@ -38,10 +39,10 @@ let gstore = (set, get) => ({
             }
 
             exercises[i].set = sets;
-            isFound = true;
+            isExFound = true;
           }
         }
-        if (!isFound) {
+        if (!isExFound) {
           exercises.push({exerciseID: exerId, set: [setData]});
         }
 
@@ -64,8 +65,25 @@ let gstore = (set, get) => ({
           exercises: get().exercise,
         });
         draft.exercise = [];
+        setSession(draft.sessions);
       }),
     ),
 });
 
 export const useGstore = create(gstore);
+
+const globalKey = 'session';
+// store.delete(globalKey);
+const getSession = () => {
+  if (store.contains(globalKey)) {
+    return JSON.parse(store.getString(globalKey));
+  } else {
+    return [];
+  }
+};
+
+const setSession = sessions => {
+  store.set(globalKey, JSON.stringify(sessions));
+};
+
+useGstore.setState(() => ({sessions: getSession()}));
