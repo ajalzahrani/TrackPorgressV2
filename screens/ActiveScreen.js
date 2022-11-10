@@ -30,6 +30,11 @@ const ActiveScreen = ({route}) => {
   // FIXME: ExerciseActiveCard render twice ???? need to fix this
   // FIXME: workout name should'nt take all the space in pre-list of workout
   // FIXME: Adjust the design
+  // FIXME: Open next card
+  // FIXME: Show set order number
+  // FIXME: Fix Scrolling tips
+  // FIXME: Scroll to next active card not skitch card
+  // FIXME: Fix last cards on screen when opened
   const [exData, setEXData] = useState([]); // state holding exercise data.
   const [selectedId, setSelectedId] = useState(null);
   const [ref, setRef] = useState(null); // ref to flatlist

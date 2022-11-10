@@ -19,6 +19,7 @@ import * as Icons from 'react-native-heroicons/outline';
 import Divider from '../components/Divider';
 
 const VReportScreen = () => {
+  // FIXME: Adjust the design to be consist
   const lastSession = useGstore(state => state.lastSession);
   const navigation = useNavigation();
   return (
