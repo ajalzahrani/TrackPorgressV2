@@ -2,6 +2,7 @@ import create from 'zustand';
 import {produce} from 'immer';
 import uuid from 'react-native-uuid';
 import {store} from './Store';
+import moment from 'moment';
 
 let gstore = (set, get) => ({
   sessions: [],
@@ -51,7 +52,21 @@ let gstore = (set, get) => ({
     ),
   printExer: () => get().exercise,
   printVol: () => get().sessions,
-  lastSession: () => get().sessions[get().sessions.length - 1],
+  getLastSession: () => get().sessions[get().sessions.length - 1],
+  getSessionByDate: date =>
+    set(
+      produce(draft => {
+        let daySession = [];
+        for (let i = 0; i < draft.sessions.length; i++) {
+          if (
+            moment(draft.sessions[i].datetime).format('YYYY-MM-DD') === date
+          ) {
+            daySession.push(draft.sessions[i]);
+          }
+        }
+        return daySession;
+      }),
+    ),
   registerSession: (duration, workoutId) =>
     set(
       produce(draft => {

@@ -4,7 +4,7 @@ const convertDate = dateObj => {
   var mo = date.getMonth() + 1;
   var day = date.getDate();
 
-  return day + mo + yr;
+  return yr + '-' + mo + '-' + day;
 };
 
 export {convertDate};
