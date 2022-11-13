@@ -6,9 +6,8 @@ import {useGstore} from '../gstore';
 import {convertDate} from './shared';
 import moment from 'moment';
 
-const Calendars = () => {
+const Calendars = ({setSelectedDate}) => {
   const sessions = useGstore(state => state.sessions);
-  const getSessionByDate = useGstore(state => state.getSessionByDate);
   const [selected, setSelected] = useState(initDate); // hold selected day
   const initDate = '2022-11-01';
   const [markedDate, setMarkedDate] = useState({}); // hold datetime
@@ -64,7 +63,7 @@ const Calendars = () => {
         enableSwipeMonths={true}
         onDayPress={day => {
           setSelected(day.dateString);
-          getSessionByDate(day.dateString);
+          setSelectedDate(day.dateString);
         }}
         style={{
           borderRadius: 10,

@@ -53,20 +53,15 @@ let gstore = (set, get) => ({
   printExer: () => get().exercise,
   printVol: () => get().sessions,
   getLastSession: () => get().sessions[get().sessions.length - 1],
-  getSessionByDate: date =>
-    set(
-      produce(draft => {
-        let daySession = [];
-        for (let i = 0; i < draft.sessions.length; i++) {
-          if (
-            moment(draft.sessions[i].datetime).format('YYYY-MM-DD') === date
-          ) {
-            daySession.push(draft.sessions[i]);
-          }
-        }
-        return daySession;
-      }),
-    ),
+  getSessionByDate: date => {
+    let daySession = [];
+    for (let i = 0; i < get().sessions.length; i++) {
+      if (moment(get().sessions[i].datetime).format('YYYY-MM-DD') === date) {
+        daySession.push(get().sessions[i]);
+      }
+    }
+    return daySession;
+  },
   registerSession: (duration, workoutId) =>
     set(
       produce(draft => {

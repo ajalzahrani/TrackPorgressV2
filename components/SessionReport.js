@@ -17,60 +17,63 @@ import {convertDate} from '../components/shared';
 import moment from 'moment';
 
 const SessionReport = ({session}) => {
-  const getLastSession = session || useGstore(state => state.getLastSession);
+  console.log(session);
+  const getLastSession = session; //|| useGstore(state => state.getLastSession);
   return (
-    <ScrollView style={style.ScrollViewStyle}>
-      <Divider />
-      <Text style={style.generalFontSize}>
-        {moment(getLastSession().datetime).format('DD MMM YYYY  h:mm:ss a')}
-      </Text>
-      <Text style={style.generalFontSize}>
-        {moment(getLastSession().startTime).format('h:mm:ss a')} -{' '}
-        {moment(getLastSession().endTime).format('h:mm:ss a')}
-      </Text>
-      <Divider />
-      <Text style={style.generalFontSize}>Total Time</Text>
-      <Text style={{color: colors.yellow, fontSize: 35, fontWeight: 'bold'}}>
-        {getLastSession().duration.hours.hours}:
-        {getLastSession().duration.minutes.minutes}:
-        {getLastSession().duration.seconds.seconds}
-      </Text>
-      <Divider />
-      <Text style={style.generalFontSize}>Routine Name</Text>
-      <Text style={style.generalFontSize}>
-        {getWorkoutObject(getLastSession().workoutId).title}
-      </Text>
-      <Divider />
-      {getLastSession().exercises.map((e, i) => {
-        return (
-          <View key={i}>
-            <Text style={style.generalFontSize}>
-              {getExerciseName(e.exerciseID)}
-            </Text>
-            <Text style={style.generalFontSize}>
-              {e.set.length} {e.set.length > 1 ? 'Sets' : 'Set'}
-            </Text>
-            {e.set.map((s, i) => {
-              return (
-                <Text key={i} style={{color: 'white'}}>
-                  {s.reps}
-                </Text>
-              );
-            })}
-            <Divider />
-          </View>
-        );
-      })}
-    </ScrollView>
+    <View style={{}}>
+      <ScrollView contentContainerStyle={{paddingBottom: 72, marginTop: 20}}>
+        <Divider />
+        <Text style={style.generalFontSize}>
+          {moment(getLastSession.datetime).format('DD MMM YYYY  h:mm:ss a')}
+        </Text>
+        <Text style={style.generalFontSize}>
+          {moment(getLastSession.startTime).format('h:mm:ss a')} -{' '}
+          {moment(getLastSession.endTime).format('h:mm:ss a')}
+        </Text>
+        <Divider />
+        <Text style={style.generalFontSize}>Total Time</Text>
+        <Text style={{color: colors.yellow, fontSize: 35, fontWeight: 'bold'}}>
+          {getLastSession.duration.hours.hours}:
+          {getLastSession.duration.minutes.minutes}:
+          {getLastSession.duration.seconds.seconds}
+        </Text>
+        <Divider />
+        <Text style={style.generalFontSize}>Routine Name</Text>
+        <Text style={style.generalFontSize}>
+          {getWorkoutObject(getLastSession.workoutId).title}
+        </Text>
+        <Divider />
+        {getLastSession.exercises.map((e, i) => {
+          return (
+            <View key={i}>
+              <Text style={style.generalFontSize}>
+                {getExerciseName(e.exerciseID)}
+              </Text>
+              <Text style={style.generalFontSize}>
+                {e.set.length} {e.set.length > 1 ? 'Sets' : 'Set'}
+              </Text>
+              {e.set.map((s, i) => {
+                return (
+                  <Text key={i} style={{color: 'white'}}>
+                    {s.reps}
+                  </Text>
+                );
+              })}
+              <Divider />
+            </View>
+          );
+        })}
+      </ScrollView>
+    </View>
   );
 };
 
 export default SessionReport;
 
 const style = StyleSheet.create({
-  ScrollViewStyle: {
-    padding: 20,
-  },
+  // ScrollViewStyle: {
+  //   padding: 20,
+  // },
   headerStyle: {
     marginTop: 20,
     alignItems: 'center',

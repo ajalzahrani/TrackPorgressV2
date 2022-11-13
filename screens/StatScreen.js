@@ -1,26 +1,49 @@
-import {View, Text, SafeAreaView, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import React, {useEffect, useState, useRef} from 'react';
 import {colors} from '../components/constants';
 import {sizes} from '../components/constants';
 import {useGstore} from '../gstore';
 import Calendars from '../components/Calendars';
 import SessionReport from '../components/SessionReport';
+import moment from 'moment';
 
 const StatScreen = () => {
-  const sss = useGstore(state => state.sessions);
-  const lastSession = useGstore(state => state.lastSession);
+  const [selectedDate, setSelectedDate] = useState();
+  const getSessionByDate = useGstore(state => state.getSessionByDate);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [sess, setSess] = useState();
+
+  useEffect(() => {
+    console.log('selectedDay: ', selectedDate);
+    if (selectedDate !== undefined) {
+      setSess(getSessionByDate(selectedDate));
+      setIsLoaded(state => !state);
+    }
+  }, [selectedDate]);
+
   return (
     <SafeAreaView style={style.safeViewStyle}>
       <View className="p-5">
-        <View style={style.titleViewStyle}>
+        <TouchableOpacity
+          onPress={() => console.log('sess: ', sess)}
+          style={style.titleViewStyle}>
           <Text style={style.titleStyle}>Statistics</Text>
-        </View>
-        <Calendars />
+        </TouchableOpacity>
+        <Calendars setSelectedDate={setSelectedDate} />
         {/* <Text style={style.supTitleStyle}>Sessions done</Text>
         <Text style={style.detailStyle}>
           {sss.length} {sss.length === 1 ? 'session' : 'sessions'}
         </Text> */}
-        <SessionReport />
+        {isLoaded &&
+          sess.map((item, i) => {
+            return <SessionReport key={i} session={item} />;
+          })}
       </View>
     </SafeAreaView>
   );
