@@ -2,6 +2,7 @@ import {
   View,
   Text,
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
@@ -17,19 +18,18 @@ const StatScreen = () => {
   const [selectedDate, setSelectedDate] = useState();
   const getSessionByDate = useGstore(state => state.getSessionByDate);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [sess, setSess] = useState();
+  const [sess, setSess] = useState([]);
 
   useEffect(() => {
     console.log('selectedDay: ', selectedDate);
     if (selectedDate !== undefined) {
       setSess(getSessionByDate(selectedDate));
-      setIsLoaded(state => !state);
     }
   }, [selectedDate]);
 
   return (
     <SafeAreaView style={style.safeViewStyle}>
-      <View className="p-5">
+      <View className="p-5 flex-1">
         <TouchableOpacity
           onPress={() => console.log('sess: ', sess)}
           style={style.titleViewStyle}>
@@ -40,10 +40,12 @@ const StatScreen = () => {
         <Text style={style.detailStyle}>
           {sss.length} {sss.length === 1 ? 'session' : 'sessions'}
         </Text> */}
-        {isLoaded &&
-          sess.map((item, i) => {
-            return <SessionReport key={i} session={item} />;
-          })}
+        <ScrollView contentCScrollViewontainerStyle={{paddingBottom: 72}}>
+          {sess.length > 0 &&
+            sess.map((item, i) => {
+              return <SessionReport key={i} session={item} />;
+            })}
+        </ScrollView>
       </View>
     </SafeAreaView>
   );
