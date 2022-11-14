@@ -6,7 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {colors} from '../components/constants';
 import {useGstore} from '../gstore';
 import {getExerciseName} from '../components/shared';
@@ -17,32 +17,30 @@ import {convertDate} from '../components/shared';
 import moment from 'moment';
 
 const SessionReport = ({session}) => {
-  console.log(session);
-  const getLastSession = session; //|| useGstore(state => state.getLastSession);
+  console.log(session.length);
   return (
     <View>
-      <Divider />
+      <Text style={{color: colors.white}}>{session.length}</Text>
       <Text style={style.generalFontSize}>
-        {moment(getLastSession.datetime).format('DD MMM YYYY  h:mm:ss a')}
+        {moment(session.datetime).format('DD MMM YYYY  h:mm:ss a')}
       </Text>
       <Text style={style.generalFontSize}>
-        {moment(getLastSession.startTime).format('h:mm:ss a')} -{' '}
-        {moment(getLastSession.endTime).format('h:mm:ss a')}
+        {moment(session.startTime).format('h:mm:ss a')} -{' '}
+        {moment(session.endTime).format('h:mm:ss a')}
       </Text>
       <Divider />
       <Text style={style.generalFontSize}>Total Time</Text>
       <Text style={{color: colors.yellow, fontSize: 35, fontWeight: 'bold'}}>
-        {getLastSession.duration.hours.hours}:
-        {getLastSession.duration.minutes.minutes}:
-        {getLastSession.duration.seconds.seconds}
+        {session.duration.hours.hours}:{session.duration.minutes.minutes}:
+        {session.duration.seconds.seconds}
       </Text>
       <Divider />
       <Text style={style.generalFontSize}>Routine Name</Text>
       <Text style={style.generalFontSize}>
-        {getWorkoutObject(getLastSession.workoutId).title}
+        {getWorkoutObject(session.workoutId).title}
       </Text>
       <Divider />
-      {getLastSession.exercises.map((e, i) => {
+      {session.exercises.map((e, i) => {
         return (
           <View key={i}>
             <Text style={style.generalFontSize}>

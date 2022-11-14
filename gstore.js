@@ -52,7 +52,9 @@ let gstore = (set, get) => ({
     ),
   printExer: () => get().exercise,
   printVol: () => get().sessions,
-  getLastSession: () => get().sessions[get().sessions.length - 1],
+  getLastSession: () => {
+    return get().sessions[get().sessions.length - 1];
+  },
   getSessionByDate: date => {
     let daySession = [];
     for (let i = 0; i < get().sessions.length; i++) {
