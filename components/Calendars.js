@@ -67,7 +67,7 @@ const Calendars = ({setSelectedDate}) => {
         }}
         style={{
           borderRadius: 10,
-          marginVertical: 12,
+          marginVertical: 0,
           // elevation: 5,
           // borderWidth: 4,
           // borderColor: 'rgba(100, 100, 100, 0.2)',
