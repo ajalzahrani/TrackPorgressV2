@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="LFts4NEywVVVXwXT6H-4" name="Page-1">
-        <mxGraphModel dx="847" dy="688" grid="1" gridSize="20" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="1287" dy="958" grid="1" gridSize="20" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -54,69 +54,72 @@
         </mxGraphModel>
     </diagram>
     <diagram id="vD-F4QPM9ea-zPyu3Sf1" name="Stat Screen Design">
-        <mxGraphModel dx="1087" dy="688" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="1287" dy="958" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="ks2DN8RvO9VlwT8dZLte-0"/>
                 <mxCell id="ks2DN8RvO9VlwT8dZLte-1" parent="ks2DN8RvO9VlwT8dZLte-0"/>
-                <mxCell id="ks2DN8RvO9VlwT8dZLte-7" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="ks2DN8RvO9VlwT8dZLte-1">
+                <mxCell id="ks2DN8RvO9VlwT8dZLte-7" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="ks2DN8RvO9VlwT8dZLte-1" vertex="1">
                     <mxGeometry x="630" y="40" width="370" height="650" as="geometry"/>
                 </mxCell>
-                <mxCell id="ks2DN8RvO9VlwT8dZLte-10" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="ks2DN8RvO9VlwT8dZLte-1">
+                <mxCell id="ks2DN8RvO9VlwT8dZLte-10" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="ks2DN8RvO9VlwT8dZLte-1" vertex="1">
                     <mxGeometry x="650" y="360" width="330" height="310" as="geometry"/>
                 </mxCell>
-                <mxCell id="ks2DN8RvO9VlwT8dZLte-3" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="ks2DN8RvO9VlwT8dZLte-1">
+                <mxCell id="ks2DN8RvO9VlwT8dZLte-3" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="ks2DN8RvO9VlwT8dZLte-1" vertex="1">
                     <mxGeometry x="220" y="40" width="370" height="650" as="geometry"/>
                 </mxCell>
-                <mxCell id="ks2DN8RvO9VlwT8dZLte-4" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="ks2DN8RvO9VlwT8dZLte-1">
+                <mxCell id="ks2DN8RvO9VlwT8dZLte-4" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="ks2DN8RvO9VlwT8dZLte-1" vertex="1">
                     <mxGeometry x="240" y="90" width="330" height="190" as="geometry"/>
                 </mxCell>
-                <mxCell id="ks2DN8RvO9VlwT8dZLte-6" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="ks2DN8RvO9VlwT8dZLte-1">
+                <mxCell id="ks2DN8RvO9VlwT8dZLte-6" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="ks2DN8RvO9VlwT8dZLte-1" vertex="1">
                     <mxGeometry x="1040" y="40" width="330" height="650" as="geometry"/>
                 </mxCell>
-                <mxCell id="ks2DN8RvO9VlwT8dZLte-8" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="ks2DN8RvO9VlwT8dZLte-1">
+                <mxCell id="ks2DN8RvO9VlwT8dZLte-8" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="ks2DN8RvO9VlwT8dZLte-1" vertex="1">
                     <mxGeometry x="650" y="150" width="330" height="190" as="geometry"/>
                 </mxCell>
-                <mxCell id="ks2DN8RvO9VlwT8dZLte-9" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="ks2DN8RvO9VlwT8dZLte-1">
+                <mxCell id="ks2DN8RvO9VlwT8dZLte-9" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="ks2DN8RvO9VlwT8dZLte-1" vertex="1">
                     <mxGeometry x="660" y="95" width="290" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="ks2DN8RvO9VlwT8dZLte-11" value="Calendar" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="ks2DN8RvO9VlwT8dZLte-1">
+                <mxCell id="ks2DN8RvO9VlwT8dZLte-11" value="Calendar" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="ks2DN8RvO9VlwT8dZLte-1" vertex="1">
                     <mxGeometry x="375" y="100" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="ks2DN8RvO9VlwT8dZLte-14" value="Lift Weight Graph" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="ks2DN8RvO9VlwT8dZLte-1">
+                <mxCell id="ks2DN8RvO9VlwT8dZLte-14" value="Lift Weight Graph" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="ks2DN8RvO9VlwT8dZLte-1" vertex="1">
                     <mxGeometry x="650" y="100" width="95" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="ks2DN8RvO9VlwT8dZLte-15" value="Loss weight Graph" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="ks2DN8RvO9VlwT8dZLte-1">
+                <mxCell id="ks2DN8RvO9VlwT8dZLte-15" value="Loss weight Graph" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="ks2DN8RvO9VlwT8dZLte-1" vertex="1">
                     <mxGeometry x="757.5" y="100" width="95" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="ks2DN8RvO9VlwT8dZLte-16" value="Increase volume graph" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="ks2DN8RvO9VlwT8dZLte-1">
+                <mxCell id="ks2DN8RvO9VlwT8dZLte-16" value="Increase volume graph" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="ks2DN8RvO9VlwT8dZLte-1" vertex="1">
                     <mxGeometry x="850" y="100" width="95" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="ks2DN8RvO9VlwT8dZLte-18" value="&lt;h1&gt;Statistic compos&lt;br&gt;&lt;/h1&gt;&lt;div&gt;How many sessions done&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;How many exercises done&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;How many times a mucsule group trained&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;How many times an exercises done&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="ks2DN8RvO9VlwT8dZLte-1">
+                <mxCell id="ks2DN8RvO9VlwT8dZLte-18" value="&lt;h1&gt;Statistic compos&lt;br&gt;&lt;/h1&gt;&lt;div&gt;How many sessions done&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;How many exercises done&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;How many times a mucsule group trained&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;How many times an exercises done&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" parent="ks2DN8RvO9VlwT8dZLte-1" vertex="1">
                     <mxGeometry x="1047.5" y="50" width="315" height="340" as="geometry"/>
                 </mxCell>
-                <mxCell id="ks2DN8RvO9VlwT8dZLte-19" value="History" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="ks2DN8RvO9VlwT8dZLte-1">
+                <mxCell id="ks2DN8RvO9VlwT8dZLte-19" value="History" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="ks2DN8RvO9VlwT8dZLte-1" vertex="1">
                     <mxGeometry x="375" y="50" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="ks2DN8RvO9VlwT8dZLte-20" value="Graph" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="ks2DN8RvO9VlwT8dZLte-1">
+                <mxCell id="ks2DN8RvO9VlwT8dZLte-20" value="Graph" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="ks2DN8RvO9VlwT8dZLte-1" vertex="1">
                     <mxGeometry x="775" y="50" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="ks2DN8RvO9VlwT8dZLte-21" value="&lt;h1&gt;Day Session info&lt;br&gt;&lt;/h1&gt;&lt;div&gt;Date&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Routine&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Workout&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Start time - end time&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Duration&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;List of exercies&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="ks2DN8RvO9VlwT8dZLte-1">
+                <mxCell id="ks2DN8RvO9VlwT8dZLte-21" value="&lt;h1&gt;Day Session info&lt;br&gt;&lt;/h1&gt;&lt;div&gt;Date&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Routine&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Workout&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Start time - end time&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Duration&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;List of exercies&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" parent="ks2DN8RvO9VlwT8dZLte-1" vertex="1">
                     <mxGeometry x="247.5" y="305" width="315" height="340" as="geometry"/>
                 </mxCell>
-                <mxCell id="ks2DN8RvO9VlwT8dZLte-22" value="" style="endArrow=none;html=1;entryX=1;entryY=0;entryDx=0;entryDy=0;exitX=1;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="ks2DN8RvO9VlwT8dZLte-1" source="ks2DN8RvO9VlwT8dZLte-14" target="ks2DN8RvO9VlwT8dZLte-14">
+                <mxCell id="ks2DN8RvO9VlwT8dZLte-22" value="" style="endArrow=none;html=1;entryX=1;entryY=0;entryDx=0;entryDy=0;exitX=1;exitY=1;exitDx=0;exitDy=0;" parent="ks2DN8RvO9VlwT8dZLte-1" source="ks2DN8RvO9VlwT8dZLte-14" target="ks2DN8RvO9VlwT8dZLte-14" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="690" y="370" as="sourcePoint"/>
                         <mxPoint x="740" y="320" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="ks2DN8RvO9VlwT8dZLte-23" value="" style="endArrow=none;html=1;entryX=0.911;entryY=-0.167;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.911;exitY=1.067;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="ks2DN8RvO9VlwT8dZLte-1" source="ks2DN8RvO9VlwT8dZLte-15" target="ks2DN8RvO9VlwT8dZLte-15">
+                <mxCell id="ks2DN8RvO9VlwT8dZLte-23" value="" style="endArrow=none;html=1;entryX=0.911;entryY=-0.167;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.911;exitY=1.067;exitDx=0;exitDy=0;exitPerimeter=0;" parent="ks2DN8RvO9VlwT8dZLte-1" source="ks2DN8RvO9VlwT8dZLte-15" target="ks2DN8RvO9VlwT8dZLte-15" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="690" y="370" as="sourcePoint"/>
                         <mxPoint x="740" y="320" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="ks2DN8RvO9VlwT8dZLte-24" value="&lt;h1&gt;Graph info&lt;br&gt;&lt;/h1&gt;&lt;div&gt;Date&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Routine&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Workout&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Start time - end time&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Duration&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;List of exercies&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="ks2DN8RvO9VlwT8dZLte-1">
+                <mxCell id="ks2DN8RvO9VlwT8dZLte-24" value="&lt;h1&gt;Bar char&lt;/h1&gt;&lt;div&gt;How many sets per each muscle group&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" parent="ks2DN8RvO9VlwT8dZLte-1" vertex="1">
                     <mxGeometry x="657.5" y="360" width="315" height="300" as="geometry"/>
+                </mxCell>
+                <mxCell id="HiSAnTDZVnZRa4iLjAeZ-0" value="&lt;h1&gt;Bar char&lt;/h1&gt;&lt;div&gt;How many sets per each muscle group&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" parent="ks2DN8RvO9VlwT8dZLte-1" vertex="1">
+                    <mxGeometry x="657.5" y="150" width="315" height="300" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>

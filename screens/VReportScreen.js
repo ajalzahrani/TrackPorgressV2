@@ -24,7 +24,9 @@ const VReportScreen = () => {
         <Icons.CheckCircleIcon color={colors.yellow} size={200} />
         <Text style={style.headerTextStyle}>Workout Summary</Text>
       </View>
-      <SessionReport session={getLastSession()} />
+      <View className="p-5">
+        <SessionReport session={getLastSession()} />
+      </View>
       <TouchableOpacity
         style={style.doneButtonStyle}
         onPress={() => {

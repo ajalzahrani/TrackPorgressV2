@@ -17,11 +17,10 @@ import {convertDate} from '../components/shared';
 import moment from 'moment';
 
 const SessionReport = ({session}) => {
-  console.log(session.length);
   return (
     <View>
       <Text style={{color: colors.white}}>{session.length}</Text>
-      <Text style={style.generalFontSize}>
+      <Text style={{fontSize: 30, color: colors.white}}>
         {moment(session.datetime).format('DD MMM YYYY  h:mm:ss a')}
       </Text>
       <Text style={style.generalFontSize}>
