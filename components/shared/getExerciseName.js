@@ -6,5 +6,5 @@ export const getExerciseName = id => {
   let exername = exerciseData.filter(element => {
     return element.id === id;
   });
-  return exername[0].title;
+  return exername[0]?.title;
 };

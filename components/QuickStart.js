@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import {useGstore} from '../gstore';
+import {store} from '../Store';
 
 const QuickStart = () => {
   const navigation = useNavigation();
@@ -18,7 +19,9 @@ const QuickStart = () => {
       </Text>
       <TouchableOpacity
         onPress={() => {
-          console.log(JSON.stringify(sessions));
+          const exercises = JSON.parse(store.getString('exercises'));
+          // console.log(JSON.stringify(sessions));
+          console.log(exercises);
         }}>
         <LinearGradient
           className="py-3 px-20 rounded-full mt-10"
