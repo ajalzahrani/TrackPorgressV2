@@ -38,12 +38,17 @@ const Calendars = ({setSelectedDate}) => {
 
   useEffect(() => {
     let marked = {};
+    // select sessions dates
     sessions.forEach(item => {
       marked[moment(item.datetime).format('YYYY-MM-DD')] = {
         selected: 'true',
         selectedColor: '#222222',
       };
     });
+    // mark today
+    marked[moment(new Date()).format('YYYY-MM-DD')] = {
+      marked: 'true',
+    };
     setMarkedDate(marked);
   }, []);
 
