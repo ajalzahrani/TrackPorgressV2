@@ -4,6 +4,7 @@ import {
   SafeAreaView,
   StyleSheet,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
@@ -24,9 +25,15 @@ const VReportScreen = () => {
         <Icons.CheckCircleIcon color={colors.yellow} size={200} />
         <Text style={style.headerTextStyle}>Workout Summary</Text>
       </View>
-      <View className="p-5">
+      {/* <View className="p-5">
         <SessionReport session={getLastSession()} />
-      </View>
+      </View> */}
+      <ScrollView
+        style={{padding: 20}}
+        contentCScrollViewontainerStyle={{paddingBottom: 72}}>
+        <SessionReport session={getLastSession()} />
+      </ScrollView>
+
       <TouchableOpacity
         style={style.doneButtonStyle}
         onPress={() => {
@@ -53,11 +60,11 @@ const style = StyleSheet.create({
     color: colors.white,
   },
   doneButtonStyle: {
-    padding: 20,
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
+    margin: 20,
+    padding: 20,
     backgroundColor: colors.yellow,
-    marginHorizontal: 20,
     borderRadius: 10,
   },
 });

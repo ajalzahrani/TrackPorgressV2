@@ -2,10 +2,11 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
+import {useGstore} from '../gstore';
 
 const QuickStart = () => {
   const navigation = useNavigation();
-
+  const sessions = useGstore(state => state.sessions);
   return (
     <View className="items-center">
       {/* FIXME: adjust the font and the button as the design */}
@@ -17,8 +18,7 @@ const QuickStart = () => {
       </Text>
       <TouchableOpacity
         onPress={() => {
-          // console.log(store.getString('workouts'));
-          //navigation.navigate('ActiveScreen');
+          console.log(JSON.stringify(sessions));
         }}>
         <LinearGradient
           className="py-3 px-20 rounded-full mt-10"

@@ -1,5 +1,6 @@
 import {Text, View, SafeAreaView, Image} from 'react-native';
 import React from 'react';
+import {useGstore} from '../gstore';
 
 // Components
 import QuickStart from '../components/QuickStart';

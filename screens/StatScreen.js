@@ -1,8 +1,6 @@
 import {View, SafeAreaView, StyleSheet} from 'react-native';
-import React, {useEffect, useState, useRef, useCallback} from 'react';
+import React, {useState} from 'react';
 import {colors} from '../components/constants';
-import {sizes} from '../components/constants';
-import Calendars from '../components/Calendars';
 import ProgressView from '../components/statScreenCompo/ProgressView';
 import HistoryView from '../components/statScreenCompo/HistoryView';
 import StatisticView from '../components/statScreenCompo/StatisticView';
@@ -25,16 +23,18 @@ const StatScreen = () => {
   return (
     <SafeAreaView style={style.safeViewStyle}>
       <View className="flex-1">
-        <SegmentedControl
-          values={['History', 'Progress', 'Statistic']}
-          selectedIndex={selectedIndex}
-          onChange={event => {
-            setSelectedIndex(event.nativeEvent.selectedSegmentIndex);
-          }}
-          backgroundColor={colors.offwhite}
-          appearance="light"
-          style={{margin: 20}}
-        />
+        <View className="mx-5">
+          <SegmentedControl
+            values={['History', 'Progress', 'Statistic']}
+            selectedIndex={selectedIndex}
+            onChange={event => {
+              setSelectedIndex(event.nativeEvent.selectedSegmentIndex);
+            }}
+            backgroundColor={colors.offwhite}
+            appearance="light"
+            style={{marginTop: 10, marginHorizontal: 50, marginBottom: 15}}
+          />
+        </View>
         {renderView()}
       </View>
     </SafeAreaView>

@@ -69,7 +69,7 @@ let gstore = (set, get) => ({
       produce(draft => {
         draft.sessions.push({
           session_id: uuid.v4(),
-          datetime: new Date(Date.now()),
+          datetime: get().startTime,
           startTime: get().startTime,
           endTime: new Date(Date.now()),
           duration: duration,
@@ -85,7 +85,7 @@ let gstore = (set, get) => ({
 export const useGstore = create(gstore);
 
 const globalKey = 'session';
-// store.delete(globalKey);
+// store.delete(globalKey); // Delete session data from main store.
 const getSession = () => {
   if (store.contains(globalKey)) {
     return JSON.parse(store.getString(globalKey));
