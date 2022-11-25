@@ -20,7 +20,7 @@ const wednesday = {
 
 const thursday = {
   day: 'Thursday',
-  workout: [],
+  workout: [2],
 };
 
 const firday = {

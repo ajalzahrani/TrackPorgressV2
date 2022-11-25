@@ -20,8 +20,9 @@ const QuickStart = () => {
       <TouchableOpacity
         onPress={() => {
           const exercises = JSON.parse(store.getString('exercises'));
+          const workouts = JSON.parse(store.getString('workouts'));
           // console.log(JSON.stringify(sessions));
-          console.log(exercises);
+          console.log(JSON.stringify(workouts));
         }}>
         <LinearGradient
           className="py-3 px-20 rounded-full mt-10"
