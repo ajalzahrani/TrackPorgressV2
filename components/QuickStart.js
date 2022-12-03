@@ -1,22 +1,32 @@
-import {View, Text, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Pressable,
+  StyleSheet,
+} from 'react-native';
 import React, {useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import {useGstore} from '../gstore';
 import {store} from '../Store';
 
+import {colors} from './constants';
+import {useTranslation} from 'react-i18next';
+
 const QuickStart = () => {
   const navigation = useNavigation();
   const sessions = useGstore(state => state.sessions);
+  const {t} = useTranslation();
+
   return (
     <View className="items-center">
       {/* FIXME: adjust the font and the button as the design */}
+
       <Text className="text-white mt-12 font-normal text-sm text-center">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
-        malesuada pellentesque pharetra libero. Cras proin posuere risus, ut.
-        Nunc nullam congue mi suspendisse rhoncus. Fermentum, bibendum tempus,
-        ullamcorper.
+        {t('home.introduction')}
       </Text>
+
       <TouchableOpacity
         onPress={() => {
           const exercises = JSON.parse(store.getString('exercises'));
@@ -33,7 +43,7 @@ const QuickStart = () => {
           // colors={['rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)']}
         >
           <Text className="text-base font-semibold text-white">
-            Quick start
+            {t('home.btnQuickStart')}
           </Text>
         </LinearGradient>
       </TouchableOpacity>

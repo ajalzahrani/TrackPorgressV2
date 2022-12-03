@@ -30,6 +30,10 @@ import {TailwindProvider} from 'tailwindcss-react-native';
 // Storage
 import {ImplementDataStructure} from './components/database/ImplementDataStructure';
 
+// Translation
+import i18n from './Translation/i18n';
+import {I18nextProvider} from 'react-i18next';
+
 const App: () => Node = () => {
   useEffect(() => {
     ImplementDataStructure();
@@ -42,7 +46,9 @@ const App: () => Node = () => {
           barStyle="light-content"
           translucent={true}
         />
-        <TabBar />
+        <I18nextProvider>
+          <TabBar />
+        </I18nextProvider>
       </TailwindProvider>
     </NavigationContainer>
   );

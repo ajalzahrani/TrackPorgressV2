@@ -1,0 +1,24 @@
+{
+  "home": {
+    "title": "Welcome",
+    "introduction": "This text comes from i18next and is provided in en",
+    "btnQuickStart": "Quick Start"
+  },
+  "schedule": {
+    "addNewWorkout": "Add new workout",
+    "preListOfWorkouts": "Pre-list of workouts"
+  },
+  "settings": {
+    "gender": "Gender",
+    "dob": "Date of birth",
+    "location": "Location",
+    "email": "Email"
+  },
+  "common": {
+    "currentLanguage": "The current language is ",
+    "actions": {
+      "toggleToEnglish": "English",
+      "toggleToArabic": "Arabic"
+    }
+  }
+}
