@@ -5,7 +5,7 @@ import {store} from '../../Store';
 const exerciseSlice = (set, get) => ({
   exercisesMaster: [],
 
-  addNewExerciseMaster: exerciseTitle =>
+  SaveNewExerciseMaster: exerciseTitle =>
     set(
       produce(draft => {
         const newExercise = {

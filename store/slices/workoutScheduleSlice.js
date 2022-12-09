@@ -1,5 +1,6 @@
 import {produce} from 'immer';
 import uuid from 'react-native-uuid';
+import {store} from '../../Store';
 
 const workoutScheudleSlice = (set, get) => ({
   routines: [],
@@ -143,14 +144,19 @@ const workoutScheudleSlice = (set, get) => ({
           return routine.id === draft.currentRoutine.id;
         });
 
-        draft.saveWorkout();
+        draft.saveWorkouts();
         draft.saveWorkoutDay();
+
+        draft.currentRoutine.workouts = draft.workouts;
+        draft.currentRoutine.weekdays = draft.weekdays;
 
         if (indexOf === -1) {
           draft.routines.push(draft.currentRoutine);
         } else {
           draft.routines[indexOf] = draft.currentRoutine;
         }
+
+        store.set('routines', JSON.stringify(draft.routines));
       }),
     ),
 
@@ -164,14 +170,4 @@ const workoutScheudleSlice = (set, get) => ({
         draft.routines.splice(indexOf, 1);
       }),
     ),
-
-  // helper functions
-  getRoutineIndex: routineObj => {
-    let routines = get().routines;
-    let routineIndex = routines.findIndex(routine => {
-      routine.id == routineObj.id;
-    });
-
-    return routineIndex;
-  },
 });
