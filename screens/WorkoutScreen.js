@@ -161,8 +161,10 @@ const WorkoutScreen = ({route}) => {
   const handleAddRestTime = (id, timeValue) => {
     let updateRestTime = workoutObject?.resttime;
     if (id == 0) {
+      // Update rest time for set
       updateRestTime[0] = timeValue;
     } else {
+      // Update rest time for exercise
       updateRestTime[1] = timeValue;
     }
 

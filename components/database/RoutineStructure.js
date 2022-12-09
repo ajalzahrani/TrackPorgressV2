@@ -5,6 +5,8 @@ const routine = [
     startdate: '24-11-2022',
     endate: '24-12-2022',
     level: 'beginner',
+    description:
+      'This routine fouces on bieceps training and concentrating on.',
     workouts: [],
     weekdays: [
       {

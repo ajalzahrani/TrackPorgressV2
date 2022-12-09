@@ -27,7 +27,7 @@ const SettingsScreen = () => {
       style={[styles.button]}
       onPress={() => {
         i18n.changeLanguage(name); //changes the app language
-        console.log(i18n.language);
+        // console.log(i18n.language);
       }}>
       <Text style={styles.textStyle}>
         {t(`common.actions.toggleTo${label}`)}
