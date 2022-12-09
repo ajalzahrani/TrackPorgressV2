@@ -2,7 +2,7 @@ import {produce} from 'immer';
 import uuid from 'react-native-uuid';
 import {store} from '../../Store';
 
-const exerciseSlice = (set, get) => ({
+export default exerciseSlice = (set, get) => ({
   exercisesMaster: [],
 
   SaveNewExerciseMaster: exerciseTitle =>

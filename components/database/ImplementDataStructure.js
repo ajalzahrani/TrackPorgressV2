@@ -1,26 +1,22 @@
 import {store} from '../../Store';
-import {WeekdaysStructure as wds} from './WeekdaysStructure';
-import {ExerciseData} from './ExerciseData';
-import {WorkoutDataStructure} from './WorkoutDataStructure';
+
+import routines from './routines';
+import workouts from './workouts';
+import exercisesMaster from './exercisesMaster';
+import weekdays from './weekdays';
 
 export function ImplementDataStructure() {
   // store.clearAll();
-  wds.map(dayObj => {
-    if (!store.contains(dayObj.day)) {
-      store.set(dayObj.day, JSON.stringify(dayObj));
-      console.log(dayObj.day, 'created.');
-    }
-  });
+  routines[0].workouts = workouts;
+  routines[0].weekdays = weekdays;
 
   if (!store.contains('exercises')) {
-    store.set('exercises', JSON.stringify(ExerciseData));
+    store.set('exercises', JSON.stringify(exercisesMaster));
     console.log('Exercises data implemented successfully');
   }
 
-  if (!store.contains('workouts')) {
-    store.set('workouts', JSON.stringify(WorkoutDataStructure));
+  if (!store.contains('routines')) {
+    store.set('routines', JSON.stringify(routines));
     console.log('Workouts data implemented successfully ');
   }
-
-  // console.log('Data Structure Implemented Successfully.');
 }

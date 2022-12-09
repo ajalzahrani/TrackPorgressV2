@@ -1,4 +1,4 @@
-export const WorkoutDataStructure = [
+const workouts = [
   {
     id: 1,
     title: 'pushup workout',
@@ -56,3 +56,5 @@ export const WorkoutDataStructure = [
     resttime: [0, 0],
   },
 ];
+
+export default workouts;

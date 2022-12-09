@@ -1,4 +1,4 @@
-export const ExerciseData = [
+const exercisesMaster = [
   {
     id: 1,
     title: 'Diamond pushup',
@@ -80,3 +80,5 @@ export const ExerciseData = [
     title: 'DCable Crossover',
   },
 ];
+
+export default exercisesMaster;

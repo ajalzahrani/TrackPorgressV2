@@ -2,7 +2,7 @@ import {produce} from 'immer';
 import uuid from 'react-native-uuid';
 import {store} from '../../Store';
 
-const workoutScheudleSlice = (set, get) => ({
+export default workoutScheudleSlice = (set, get) => ({
   routines: [],
   currentRoutine: {},
   workouts: [],

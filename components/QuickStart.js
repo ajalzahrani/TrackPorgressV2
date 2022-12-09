@@ -9,6 +9,7 @@ import React, {useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import {useGstore} from '../gstore';
+import useStore from '../store/useStore';
 import {store} from '../Store';
 
 import {colors} from './constants';
@@ -16,6 +17,9 @@ import {useTranslation} from 'react-i18next';
 
 const QuickStart = () => {
   const navigation = useNavigation();
+  const routines = useStore(state => state.routines);
+  const currentRoutine = useStore(state => state.currentRoutine);
+  const exercisesMaster = useStore(state => state.exercisesMaster);
   const sessions = useGstore(state => state.sessions);
   const {t} = useTranslation();
 
@@ -32,7 +36,7 @@ const QuickStart = () => {
           const exercises = JSON.parse(store.getString('exercises'));
           const workouts = JSON.parse(store.getString('workouts'));
           // console.log(JSON.stringify(sessions));
-          console.log(JSON.stringify(workouts));
+          console.log(JSON.stringify(currentRoutine));
         }}>
         <LinearGradient
           className="py-3 px-20 rounded-full mt-10"

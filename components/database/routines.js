@@ -1,4 +1,4 @@
-const routine = [
+const routines = [
   {
     id: 1,
     title: 'Big bie',
@@ -40,3 +40,5 @@ const routine = [
     ],
   },
 ];
+
+export default routines;

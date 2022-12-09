@@ -20,8 +20,6 @@ import {
 
 // Navigation
 import {NavigationContainer} from '@react-navigation/native';
-
-// TabBar
 import TabBar from './components/navigation/TabBar';
 
 // TailwindCSS
