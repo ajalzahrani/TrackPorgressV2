@@ -25,6 +25,9 @@ import {
 // Assets
 import {colors, assets} from '../components/constants';
 
+// Store
+import useStore from '../store/useStore';
+
 import {useNavigation} from '@react-navigation/native';
 
 const ScheduleScreen = ({route}) => {
@@ -32,35 +35,20 @@ const ScheduleScreen = ({route}) => {
   // FIXME: Hidden start button can be clicked ??
   // FIXME: Unassign schedule workout
   // FIXME: Add Routine screen before schedule screen
-  const [woData, setWoData] = useState();
-  const [workoutObject, setWorkoutObject] = useState({});
+  const workouts = useStore(s => s.workouts);
+  const currentWorkout = useStore(s => s.currentWorkout);
+  const saveWorkoutDay = useStore(s => s.saveWorkoutDay);
+  const addWorkoutDay = useStore(s => s.addWorkoutDay);
+  const currentDay = useStore(s => s.currentDay);
 
   const navigation = useNavigation();
   const isFoucsed = useIsFocused();
-
-  const setupObjects = () => {
-    let dayObject = getDayObject();
-    let workoutObject = getWorkoutObject(dayObject?.workout[0]);
-    setWorkoutObject(workoutObject);
-
-    const workoutData = JSON.parse(store.getString('workouts'));
-    setWoData(workoutData);
-  };
 
   const navigateToWorkoutById = id => {
     navigation.navigate('WorkoutScreen', {workoutId: id});
   };
 
-  const saveSchedule = (dayLabel, workoutId) => {
-    const dayObject = JSON.parse(store.getString(dayLabel));
-    dayObject.workout[0] = workoutId;
-    store.set(dayLabel, JSON.stringify(dayObject));
-    setupObjects();
-  };
-
   useEffect(() => {
-    setupObjects();
-
     // Check for the workoutId, coming back from workout screen. (In case of add new workout)
     if (route.params?.newWorkoutId) {
       saveSchedule(getDayLabel(), route.params?.newWorkoutId);
@@ -81,25 +69,27 @@ const ScheduleScreen = ({route}) => {
         <CalenderRow />
       </View>
       <View style={style.workoutContainerStyle}>
-        <View style={{opacity: workoutObject?.title ? 0 : 1}}>
+        <View style={{opacity: currentWorkout?.title ? 0 : 1}}>
           <Text className="text-yellow-200">
             Add new workout or select pre-configure one.
           </Text>
         </View>
         <View className="flex-row items-center space-x-5">
-          <Text style={style.workoutTitleStyle}>{workoutObject?.title}</Text>
+          <Text style={style.workoutTitleStyle}>{currentWorkout?.title}</Text>
           <TouchableOpacity
-            onPress={() => navigateToWorkoutById(workoutObject.id)}
-            style={{opacity: workoutObject?.title ? 1 : 0}}>
+            onPress={() => navigateToWorkoutById(currentWorkout?.id)}
+            style={{opacity: currentWorkout?.title ? 1 : 0}}>
             <Image source={assets.icn_edit} />
           </TouchableOpacity>
         </View>
         <TouchableOpacity
           onPress={() => {
             // console.log(store.getString('workouts'));
-            navigation.navigate('ActiveScreen', {workoutObject: workoutObject});
+            navigation.navigate('ActiveScreen', {
+              workoutObject: currentWorkout,
+            });
           }}
-          style={{opacity: workoutObject?.title ? 1 : 0}}>
+          style={{opacity: currentWorkout?.title ? 1 : 0}}>
           <LinearGradient
             style={style.touchableOpacityStartStyle}
             start={{x: 1, y: 0}}
@@ -116,10 +106,10 @@ const ScheduleScreen = ({route}) => {
         <View style={style.preWorkoutListContainerStyle}>
           <Text className="text-white">Pre-list of workouts</Text>
           <ScrollView contentContainerStyle={{paddingBottom: 72}}>
-            {woData?.map(item => (
+            {workouts?.map(item => (
               <TouchableOpacity
                 key={item.id}
-                onPress={() => saveSchedule(getDayLabel(), item.id)}>
+                onPress={() => addWorkoutDay(currentDay.id)}>
                 <WorkoutCard
                   id={item.id}
                   title={item.title}

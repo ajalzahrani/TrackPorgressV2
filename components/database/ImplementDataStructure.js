@@ -6,6 +6,7 @@ import exercisesMaster from './exercisesMaster';
 import weekdays from './weekdays';
 
 export function ImplementDataStructure() {
+  // store.delete('routines');
   // store.clearAll();
   routines[0].workouts = workouts;
   routines[0].weekdays = weekdays;

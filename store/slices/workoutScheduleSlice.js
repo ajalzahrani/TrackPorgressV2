@@ -24,15 +24,93 @@ export default workoutScheudleSlice = (set, get) => ({
       }),
     ),
 
-  deleteWorkout: workoutId =>
+  addNewExerciseWorkout: exerciseId =>
     set(
       produce(draft => {
-        if (workoutId !== undefined) {
-          let indexOf = draft.workouts.findIndex(workout => {
-            return workout.id === workoutId;
-          });
-          draft.workouts.splice(indexOf, 1);
+        let indexOf = draft.exercises.findIndex(exercise => {
+          return exercise.id === exerciseId;
+        });
+        if (indexOf === -1) {
+          draft.exercises.push({id: exerciseId, freq: []});
+        } else {
+          draft.exercises.splice(indexOf, 1);
         }
+      }),
+    ),
+
+  addFreq: freq =>
+    set(
+      produce(draft => {
+        draft.currentExercise.freq = freq;
+      }),
+    ),
+
+  addWorkoutDay: dayId =>
+    set(
+      produce(draft => {
+        draft.currentDay = {
+          id: dayId,
+          workout: [...prev, draft.currentWorkout.id],
+        };
+      }),
+    ),
+
+  addNewRoutine: (routineTitle, startDate, endDate, level) =>
+    set(
+      produce(draft => {
+        draft.currentRoutine = {
+          id: uuid.v4(),
+          title: routineTitle,
+          startdate: startDate,
+          endate: endDate,
+          level: level,
+          workouts: draft.workouts,
+          weekdays: draft.weekdays,
+        };
+      }),
+    ),
+
+  selectCurrentWorkout: workoutId =>
+    set(
+      produce(draft => {
+        draft.currentWorkout = draft.workouts[workoutId];
+        console.log('I amm select workout form store', draft.workouts[0]);
+      }),
+    ),
+
+  selectCurrentDay: dayId =>
+    set(
+      produce(draft => {
+        let indexOf = draft.weekdays.findIndex(day => day.id === dayId);
+
+        draft.currentDay = draft.weekdays[indexOf];
+      }),
+    ),
+
+  selectCurrentRoutine: routineId =>
+    set(
+      produce(draft => {
+        let indexOf = draft.routines.findIndex(
+          routine => routine.id === routineId,
+        );
+        draft.currentRoutine = draft.routines[indexOf];
+        draft.workouts = draft.currentRoutine.workouts;
+        draft.weekdays = draft.currentRoutine.weekdays;
+      }),
+    ),
+
+  saveExercises: () =>
+    set(
+      produce(draft => {
+        let indexOf = draft.exercises.findIndex(exercise => {
+          return exercise.id === draft.currentExercise.id;
+        });
+        if (indexOf === -1) {
+          draft.exercises.push(draft.currentExercise);
+        } else {
+          draft.exercises[indexOf] = draft.currentExercise;
+        }
+        draft.currentWorkout.exercises = draft.exercises;
       }),
     ),
 
@@ -53,60 +131,6 @@ export default workoutScheudleSlice = (set, get) => ({
       }),
     ),
 
-  addNewExerciseWorkout: exerciseId =>
-    set(
-      produce(draft => {
-        let indexOf = draft.exercises.findIndex(exercise => {
-          return exercise.id === exerciseId;
-        });
-        if (indexOf === -1) {
-          draft.exercises.push({id: exerciseId, freq: []});
-        } else {
-          draft.exercises.splice(indexOf, 1);
-        }
-      }),
-    ),
-
-  saveExercises: () =>
-    set(
-      produce(draft => {
-        let indexOf = draft.exercises.findIndex(exercise => {
-          return exercise.id === draft.currentExercise.id;
-        });
-        if (indexOf === -1) {
-          draft.exercises.push(draft.currentExercise);
-        } else {
-          draft.exercises[indexOf] = draft.currentExercise;
-        }
-        draft.currentWorkout.exercises = draft.exercises;
-      }),
-    ),
-
-  deleteExercise: exerciseId =>
-    set(
-      produce(draft => {
-        let indexOf = draft.exercises.findIndex(exercise => {
-          return exercise.id === exerciseId;
-        });
-
-        draft.exercises.splice(indexOf, 1);
-      }),
-    ),
-
-  addFreq: freq =>
-    set(
-      produce(draft => {
-        draft.currentExercise.freq = freq;
-      }),
-    ),
-
-  addWorkoutDay: dayId =>
-    set(
-      produce(draft => {
-        draft.currentDay = {id: dayId, workout: draft.currentWorkout.id};
-      }),
-    ),
-
   saveWorkoutDay: () =>
     set(
       produce(draft => {
@@ -119,21 +143,6 @@ export default workoutScheudleSlice = (set, get) => ({
         } else {
           draft.weekdays[indexOf] = draft.currentDay;
         }
-      }),
-    ),
-
-  addNewRoutine: (routineTitle, startDate, endDate, level) =>
-    set(
-      produce(draft => {
-        draft.currentRoutine = {
-          id: uuid.v4(),
-          title: routineTitle,
-          startdate: startDate,
-          endate: endDate,
-          level: level,
-          workouts: draft.workouts,
-          weekdays: draft.weekdays,
-        };
       }),
     ),
 
@@ -157,6 +166,29 @@ export default workoutScheudleSlice = (set, get) => ({
         }
 
         store.set('routines', JSON.stringify(draft.routines));
+      }),
+    ),
+
+  deleteExercise: exerciseId =>
+    set(
+      produce(draft => {
+        let indexOf = draft.exercises.findIndex(exercise => {
+          return exercise.id === exerciseId;
+        });
+
+        draft.exercises.splice(indexOf, 1);
+      }),
+    ),
+
+  deleteWorkout: workoutId =>
+    set(
+      produce(draft => {
+        if (workoutId !== undefined) {
+          let indexOf = draft.workouts.findIndex(workout => {
+            return workout.id === workoutId;
+          });
+          draft.workouts.splice(indexOf, 1);
+        }
       }),
     ),
 

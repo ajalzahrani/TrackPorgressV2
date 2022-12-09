@@ -36,7 +36,7 @@ const QuickStart = () => {
           const exercises = JSON.parse(store.getString('exercises'));
           const workouts = JSON.parse(store.getString('workouts'));
           // console.log(JSON.stringify(sessions));
-          console.log(JSON.stringify(currentRoutine));
+          console.log(JSON.stringify(routines));
         }}>
         <LinearGradient
           className="py-3 px-20 rounded-full mt-10"

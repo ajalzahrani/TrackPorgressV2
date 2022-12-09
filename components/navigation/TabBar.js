@@ -18,6 +18,7 @@ import SettingsScreen from '../../screens/SettingsScreen';
 import ExerciseScreen from '../../screens/ExerciseScreen';
 import ActiveScreen from '../../screens/ActiveScreen';
 import VReportScreen from '../../screens/VReportScreen';
+import RoutineScreen from '../../screens/RoutineScreen';
 
 // componetns
 import {colors, assets} from '../constants';
@@ -25,6 +26,7 @@ import {colors, assets} from '../constants';
 const ScheduleStackScreen = () => {
   return (
     <ScheduleStack.Navigator screenOptions={{headerShown: false}}>
+      <ScheduleStack.Screen name="RoutineScreen" component={RoutineScreen} />
       <ScheduleStack.Screen name="ScheduleScreen" component={ScheduleScreen} />
       <ScheduleStack.Screen name="WorkoutScreen" component={WorkoutScreen} />
       <ScheduleStack.Screen

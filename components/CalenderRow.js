@@ -3,6 +3,9 @@ import React, {useEffect, useState} from 'react';
 
 import {colors} from './constants';
 
+// Store
+import useStore from '../store/useStore';
+
 const weekObj = {
   Saturday: false,
   Sunday: false,
@@ -14,11 +17,14 @@ const weekObj = {
 };
 
 const CalenderRow = () => {
+  const weekdays = useStore(s => s.weekdays);
+  const selectCurrentWorkout = useStore(s => s.selectCurrentWorkout);
+  const selectCurrentDay = useStore(s => s.selectCurrentDay);
   const [isOn, setisOn] = useState(weekObj);
 
-  useEffect(() => {
-    handleWhichDay();
-  }, []);
+  // useEffect(() => {
+  //   handleWhichDay();
+  // }, []);
 
   const handleWhichDay = () => {
     var date = new Date();
@@ -40,106 +46,31 @@ const CalenderRow = () => {
   return (
     // <View className="flex-row justify-around pt-5 mx-3">
     <View style={style.containerStyle}>
-      <TouchableOpacity
-        style={{
-          display: 'flex',
-          backgroundColor: isOn.Sunday ? colors.secondary : colors.offwhite,
-          justifyContent: 'center',
-          alignItems: 'center',
-          borderRadius: 30,
-          height: 44,
-          width: 44,
-          order: 6,
-          flexGrow: 0,
-        }}>
-        <Text style={style.textSytle}>S</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={{
-          display: 'flex',
-          backgroundColor: isOn.Monday ? colors.secondary : colors.offwhite,
-          justifyContent: 'center',
-          alignItems: 'center',
-          borderRadius: 30,
-          height: 44,
-          width: 44,
-          order: 6,
-          flexGrow: 0,
-        }}>
-        <Text style={style.textSytle}>M</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={{
-          display: 'flex',
-          backgroundColor: isOn.Tuesday ? colors.secondary : colors.offwhite,
-          justifyContent: 'center',
-          alignItems: 'center',
-          borderRadius: 30,
-          height: 44,
-          width: 44,
-          order: 6,
-          flexGrow: 0,
-        }}>
-        <Text style={style.textSytle}>T</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={{
-          display: 'flex',
-          backgroundColor: isOn.Wednesday ? colors.secondary : colors.offwhite,
-          justifyContent: 'center',
-          alignItems: 'center',
-          borderRadius: 30,
-          height: 44,
-          width: 44,
-          order: 6,
-          flexGrow: 0,
-        }}>
-        <Text style={style.textSytle}>W</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={{
-          display: 'flex',
-          backgroundColor: isOn.Thursday ? colors.secondary : colors.offwhite,
-          justifyContent: 'center',
-          alignItems: 'center',
-          borderRadius: 30,
-          height: 44,
-          width: 44,
-          order: 6,
-          flexGrow: 0,
-        }}>
-        <Text style={style.textSytle}>T</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={{
-          display: 'flex',
-          backgroundColor: isOn.Friday ? colors.secondary : colors.offwhite,
-          justifyContent: 'center',
-          alignItems: 'center',
-          borderRadius: 30,
-          height: 44,
-          width: 44,
-          order: 6,
-          flexGrow: 0,
-        }}>
-        <Text style={style.textSytle}>F</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={{
-          display: 'flex',
-          backgroundColor: isOn.Saturday ? colors.secondary : colors.offwhite,
-          justifyContent: 'center',
-          alignItems: 'center',
-          borderRadius: 30,
-          height: 44,
-          width: 44,
-          order: 6,
-          flexGrow: 0,
-        }}
-        // onPress={() => handleWhichDay()}
-      >
-        <Text style={style.textSytle}>S</Text>
-      </TouchableOpacity>
+      {weekdays.map(day => {
+        return (
+          <TouchableOpacity
+            key={day.id}
+            onPress={() => {
+              console.log(day);
+              selectCurrentDay(day.id);
+              selectCurrentWorkout(day.workout[0]);
+            }}
+            // onPress={() => console.log(day.workout[0])}
+            style={{
+              display: 'flex',
+              backgroundColor: day.workday ? colors.secondary : colors.offwhite,
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: 30,
+              height: 44,
+              width: 44,
+              order: 6,
+              flexGrow: 0,
+            }}>
+            <Text style={style.textSytle}>{day.id}</Text>
+          </TouchableOpacity>
+        );
+      })}
     </View>
   );
 };

@@ -26,15 +26,19 @@ import {getDayObject} from '../components/shared';
 import {getWorkoutObject} from '../components/shared';
 import RestTimeController from '../components/RestTimeController';
 
+// Store
+import useStore from '../store/useStore';
+
 const WorkoutScreen = ({route}) => {
   // FIXME: presis workout name if entered before assigning new exercises.
   // FIXME: dont' save workout when go back.
   // FIXME: prompet user to enter workout name if empty
   // FIXME: Re-design Rest time controllers
+  const currentWorkout = useStore(s => s.currentWorkout);
   const [modalVisible, setModalVisible] = useState(false); // workoutname alert modal state
   const [exData, setEXData] = useState([]); // state holding exercise data.
   const [workoutName, setWorkoutName] = useState(workoutObject?.title); // workout name state
-  const [workoutObject, setWorkoutObject] = useState({});
+  const [workoutObject, setWorkoutObject] = useState(currentWorkout);
   const [newWorkoutId, setNewWorkoutId] = useState('');
 
   const navigation = useNavigation();
@@ -48,7 +52,7 @@ const WorkoutScreen = ({route}) => {
 
     if (workoutId !== undefined) {
       let workoutObject = getWorkoutObject(workoutId);
-      setWorkoutObject(workoutObject);
+      setWorkoutObject(currentWorkout);
       setWorkoutName(workoutObject?.title);
     } else {
       handleWorkoutParams();
