@@ -28,7 +28,7 @@ import RestTimeController from '../components/RestTimeController';
 // Store
 import useStore from '../store/useStore';
 
-const WorkoutScreen = ({route}) => {
+const WorkoutScreen = () => {
   // FIXME: presis workout name if entered before assigning new exercises.
   // FIXME: dont' save workout when go back.
   // FIXME: prompet user to enter workout name if empty
@@ -38,7 +38,6 @@ const WorkoutScreen = ({route}) => {
   const saveWorkout = useStore(s => s.saveWorkout);
 
   const [modalVisible, setModalVisible] = useState(false); // workoutname alert modal state
-  const [exData, setEXData] = useState([]); // state holding exercise data.
   const [workoutName, setWorkoutName] = useState(currentWorkout?.title); // workout name state
   const [workoutObject, setWorkoutObject] = useState(currentWorkout);
   const [newWorkoutId, setNewWorkoutId] = useState('');
@@ -46,54 +45,15 @@ const WorkoutScreen = ({route}) => {
   const navigation = useNavigation();
   const isFoucsed = useIsFocused();
 
-  const {workoutId} = route.params;
-
-  const setupObjects = () => {
-    setEXData(exercisesMaster);
-
-    if (workoutId !== undefined) {
-      setWorkoutObject(currentWorkout);
-      setWorkoutName(currentWorkout?.title);
-    } else {
-      handleWorkoutParams();
-    }
-  };
-
-  const saveWokrout = () => {
-    if (workoutName === undefined || workoutName == '') {
-      setModalVisible(true);
-      return;
-    }
-
-    // update workout name.
-    // Check if title proprety exists
-    if ('title' in currentWorkout) {
-      currentWorkout.title = workoutName;
-    } else {
-      Object.assign(currentWorkout, {title: workoutName});
-    }
-    saveWorkout();
-    // save work
-    navigation.goBack();
-  };
-
   /* ADD NEW WORKOUT */
   const handleWorkoutParams = (exercises = []) => {
-    if (workoutId === undefined) {
-      const id = uuid.v4();
-      const newWorkoutObj = {
-        id: id,
-        title: workoutName,
-        exercises: exercises,
-        resttime: [0, 0],
-      };
-      setNewWorkoutId(id);
-      setWorkoutObject(newWorkoutObj);
-    } else {
-      setWorkoutObject(prev => {
-        return {...prev, exercises: exercises};
-      });
-    }
+    const id = uuid.v4();
+    const newWorkoutObj = {
+      id: id,
+      title: workoutName,
+      exercises: exercises,
+      resttime: [0, 0],
+    };
   };
 
   /* HOW TO ADD FREQUANCY TO AN EXERCISE */
@@ -117,20 +77,18 @@ const WorkoutScreen = ({route}) => {
   };
 
   const handleDeleteWorkout = id => {
-    if (workoutId !== undefined) {
-      let workouts = JSON.parse(store.getString('workouts'));
-      let indexOf = undefined;
-      for (let i = 0; i < workouts.length; i++) {
-        if (workouts[i].id === id) {
-          indexOf = i;
-          break;
-        }
+    let workouts = JSON.parse(store.getString('workouts'));
+    let indexOf = undefined;
+    for (let i = 0; i < workouts.length; i++) {
+      if (workouts[i].id === id) {
+        indexOf = i;
+        break;
       }
-      workouts.splice(indexOf, 1); // remove workout from workouts array.
-      store.set('workouts', JSON.stringify(workouts)); // commit store.
-      setWorkoutObject({}); // reset workoutObject.
-      navigation.goBack();
     }
+    workouts.splice(indexOf, 1); // remove workout from workouts array.
+    store.set('workouts', JSON.stringify(workouts)); // commit store.
+    setWorkoutObject({}); // reset workoutObject.
+    navigation.goBack();
   };
 
   const handleSelectedExercises = selectedExerciseList => {
@@ -147,26 +105,12 @@ const WorkoutScreen = ({route}) => {
   const RestTimeDrawer = () => {
     let exercises = currentWorkout?.exercises?.length;
     if (exercises === 1) {
-      return (
-        <RestTimeController
-          id={0}
-          indicatorTitle="Set rest time"
-          resttime={currentWorkout?.resttime}
-        />
-      );
+      return <RestTimeController id={0} indicatorTitle="Set rest time" />;
     } else if (exercises > 1) {
       return (
         <>
-          <RestTimeController
-            id={0}
-            resttime={currentWorkout?.resttime}
-            indicatorTitle="Set rest time"
-          />
-          <RestTimeController
-            id={1}
-            resttime={currentWorkout?.resttime}
-            indicatorTitle="Exercise rest time"
-          />
+          <RestTimeController id={0} indicatorTitle="Set rest time" />
+          <RestTimeController id={1} indicatorTitle="Exercise rest time" />
         </>
       );
     } else {
@@ -177,15 +121,6 @@ const WorkoutScreen = ({route}) => {
   useEffect(() => {
     RestTimeDrawer();
   }, []);
-
-  useEffect(() => {
-    setupObjects();
-
-    // Check for the selected exercises, coming back from exercise screen
-    if (route.params?.selectedExercises) {
-      handleSelectedExercises(route.params?.selectedExercises);
-    }
-  }, [isFoucsed, route.params?.selectedExercises]);
 
   return (
     <SafeAreaView className="bg-[#112044] flex-1">
@@ -249,8 +184,7 @@ const WorkoutScreen = ({route}) => {
             {RestTimeDrawer()}
             <TouchableOpacity
               onPress={() => {
-                //SaveWorkout();
-                saveWokrout();
+                saveWorkout();
                 navigation.navigate({
                   name: 'ScheduleScreen',
                   params: {newWorkoutId: newWorkoutId},

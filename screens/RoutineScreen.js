@@ -2,25 +2,12 @@ import {
   View,
   Text,
   SafeAreaView,
-  Image,
   TouchableOpacity,
   StyleSheet,
   ScrollView,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {useIsFocused} from '@react-navigation/native';
-import {store} from '../Store';
-
-// Components
-import AddNew from '../components/AddNew';
-import CalenderRow from '../components/CalenderRow';
-import WorkoutCard from '../components/WorkoutCard';
-import {
-  getDayObject,
-  getWorkoutObject,
-  getDayLabel,
-} from '../components/shared/';
 
 // Assets
 import {colors, assets} from '../components/constants';
@@ -37,7 +24,17 @@ import RoutineCard from '../components/RoutineCard';
 const RoutineScreen = () => {
   const routines = useStore(s => s.routines);
   const selectCurrentRoutine = useStore(s => s.selectCurrentRoutine);
+  const unselectCurrentRoutine = useStore(s => s.unselectCurrentRoutine);
+  const unselectCurrentWorkout = useStore(s => s.unselectCurrentWorkout);
+
   const navigation = useNavigation();
+  const isFoucsed = useIsFocused();
+
+  useEffect(() => {
+    // unselectCurrentRoutine();
+    unselectCurrentWorkout();
+  }, [isFoucsed]);
+
   return (
     <SafeAreaView className="bg-[#112044] flex-1">
       <View style={{paddingHorizontal: 20, marginTop: 20}}>
@@ -54,8 +51,8 @@ const RoutineScreen = () => {
               key={item.id}
               onPress={() => {
                 // console.log(JSON.stringify(item));
-                selectCurrentRoutine(item.id);
                 navigation.navigate('ScheduleScreen');
+                selectCurrentRoutine(item.id);
               }}>
               <RoutineCard id={item.id} title={item.title} />
             </TouchableOpacity>

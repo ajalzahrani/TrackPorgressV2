@@ -93,7 +93,11 @@ export default workoutScheudleSlice = (set, get) => ({
         let indexOf = draft.workouts.findIndex(
           workout => workout.id === workoutId,
         );
-        draft.currentWorkout = draft.workouts[indexOf];
+        if (indexOf !== -1) {
+          draft.currentWorkout = draft.workouts[indexOf];
+        } else {
+          draft.currentWorkout = {};
+        }
       }),
     ),
 
@@ -102,7 +106,25 @@ export default workoutScheudleSlice = (set, get) => ({
       produce(draft => {
         let indexOf = draft.weekdays.findIndex(day => day.id === dayId);
 
-        draft.currentDay = draft.weekdays[indexOf];
+        if (indexOf !== -1) {
+          draft.currentDay = draft.weekdays[indexOf];
+        } else {
+          draft.currentDay = {};
+        }
+      }),
+    ),
+
+  selectCurrentRoutine: routineId =>
+    set(
+      produce(draft => {
+        let indexOf = draft.routines.findIndex(
+          routine => routine.id === routineId,
+        );
+        if (indexOf !== -1) {
+          draft.currentRoutine = draft.routines[indexOf];
+          draft.workouts = draft.currentRoutine.workouts;
+          draft.weekdays = draft.currentRoutine.weekdays;
+        }
       }),
     ),
 
@@ -121,20 +143,28 @@ export default workoutScheudleSlice = (set, get) => ({
         if (indexOf !== -1) {
           draft.weekdays[indexOf].workday = false;
           draft.weekdays[indexOf].workout = -1;
-          draft.currentWorkout = {};
         }
       }),
     ),
 
-  selectCurrentRoutine: routineId =>
+  unselectCurrentRoutine: () =>
     set(
       produce(draft => {
-        let indexOf = draft.routines.findIndex(
-          routine => routine.id === routineId,
-        );
-        draft.currentRoutine = draft.routines[indexOf];
-        draft.workouts = draft.currentRoutine.workouts;
-        draft.weekdays = draft.currentRoutine.weekdays;
+        console.log('I am here');
+        draft.exercises = [];
+        draft.currentExercise = {};
+        draft.workouts = [];
+        draft.currentWorkout = {};
+        draft.currentDay = {};
+        draft.currentRoutine = {};
+
+        console.log('Exercises', draft.exercises);
+        console.log('CurrentExercise', draft.currentExercise);
+        console.log('workouts', draft.workouts);
+        console.log('currentWorkout', draft.currentWorkout);
+        console.log('weekdays', draft.weekdays);
+        console.log('currentday', draft.currentDay);
+        console.log('currentroutine', draft.currentRoutine);
       }),
     ),
 

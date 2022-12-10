@@ -16,8 +16,11 @@ import {colors, assets} from '../components/constants';
 // Store
 import useStore from '../store/useStore';
 
-const RestTimeController = ({indicatorTitle, resttime, id}) => {
+const RestTimeController = ({indicatorTitle, id}) => {
   const addRestTime = useStore(s => s.addRestTime);
+  const currentWorkout = useStore(s => s.currentWorkout);
+  const resttime = currentWorkout.resttime;
+
   const [number, setNumber] = useState(() => {
     if (id === 0) return resttime[0];
     else return resttime[1];

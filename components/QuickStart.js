@@ -33,8 +33,8 @@ const QuickStart = () => {
 
       <TouchableOpacity
         onPress={() => {
-          const exercises = JSON.parse(store.getString('exercises'));
-          const workouts = JSON.parse(store.getString('workouts'));
+          // const exercises = JSON.parse(store.getString('exercises'));
+          // const workouts = JSON.parse(store.getString('workouts'));
           // console.log(JSON.stringify(sessions));
           console.log(JSON.stringify(routines));
         }}>

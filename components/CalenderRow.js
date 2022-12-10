@@ -25,68 +25,78 @@ const CalenderRow = () => {
   const [db, setDB] = useState(dayButton);
 
   const generateWorkdays = () => {
-    const array = weekdays.map(day => {
+    const array = weekdays?.map(day => {
       return (
-        <TouchableOpacity
+        <View
           key={day.id}
-          onPress={() => {
-            selectCurrentDay(day.id);
-            selectCurrentWorkout(day.workout);
-            setDB(
-              produce(draft => {
-                draft.forEach(day => (day.ispicked = false));
-                draft[day.id].ispicked = true;
-              }),
-            );
-          }}
-          style={[
-            {
-              display: 'flex',
-              backgroundColor: day.workday ? colors.secondary : colors.offwhite,
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: 30,
+          style={{justifyContent: 'center', alignItems: 'center'}}>
+          <TouchableOpacity
+            key={day.id}
+            onPress={() => {
+              selectCurrentDay(day.id);
+              selectCurrentWorkout(day.workout);
+              setDB(
+                produce(draft => {
+                  draft.forEach(day => (day.ispicked = false));
+                  draft[day.id].ispicked = true;
+                }),
+              );
+            }}
+            style={[
+              {
+                display: 'flex',
+                backgroundColor: day.workday
+                  ? colors.secondary
+                  : colors.offwhite,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 30,
 
-              height: db[day.id].ispicked ? 44 : 44,
-              width: db[day.id].ispicked ? 65 : 44,
-              order: 6,
-              flexGrow: 0,
-            },
-            {
-              // shadowColor: db[day.id].ispicked ? '#fff' : '#000',
-              // shadowOffset: {width: 0, height: 20},
-              // shadowOpacity: 0.58,
-              // shadowRadius: 16.0,
-              // elevation: 24,
-            },
-          ]}>
-          <Text style={style.textSytle}>{day.symbol}</Text>
-        </TouchableOpacity>
+                height: db[day.id].ispicked ? 44 : 44,
+                width: db[day.id].ispicked ? 65 : 44,
+                order: 6,
+                flexGrow: 0,
+              },
+              {
+                // shadowColor: db[day.id].ispicked ? '#fff' : '#000',
+                // shadowOffset: {width: 0, height: 20},
+                // shadowOpacity: 0.58,
+                // shadowRadius: 16.0,
+                // elevation: 24,
+              },
+            ]}>
+            <Text style={style.textSytle}>{day.symbol}</Text>
+          </TouchableOpacity>
+          <View
+            style={
+              db[day.id].istoday
+                ? {
+                    marginTop: 2,
+                    padding: 2,
+                    backgroundColor: colors.secondary,
+                    borderRadius: 20,
+                  }
+                : {}
+            }></View>
+        </View>
       );
     });
     return <>{array}</>;
   };
 
-  // useEffect(() => {
-  //   handleWhichDay();
-  // }, []);
+  useEffect(() => {
+    handleWhichDay();
+  }, []);
 
-  // const handleWhichDay = () => {
-  //   var date = new Date();
-  //   date.setDate(date.getDate() + 0); // add day
-  //   const todayName = date.toLocaleDateString('en-us', {weekday: 'long'}); // get day name
-
-  //   date.setDate(date.getDate() - 1); // min day
-  //   const yesterdayName = date.toLocaleDateString('en-us', {weekday: 'long'}); // get day name
-
-  //   const udpateToday = {[todayName]: true}; // this is how to use variable as object key with {[variable]: value}
-  //   const updateYesterday = {[yesterdayName]: false};
-
-  //   // set it to state
-  //   setisOn(prev => {
-  //     return {prev, ...udpateToday, ...updateYesterday: false},;
-  //   });
-  // };
+  const handleWhichDay = () => {
+    let date = new Date().getDay();
+    setDB(
+      produce(draft => {
+        draft.forEach(day => (day.istoday = false));
+        draft[date].istoday = true;
+      }),
+    );
+  };
 
   return (
     // <View className="flex-row justify-around pt-5 mx-3">

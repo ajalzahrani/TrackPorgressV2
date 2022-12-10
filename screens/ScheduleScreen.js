@@ -8,19 +8,11 @@ import {
   ScrollView,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import React, {useEffect, useState} from 'react';
-import {useIsFocused} from '@react-navigation/native';
-import {store} from '../Store';
+import React, {useEffect} from 'react';
 
 // Components
-import AddNew from '../components/AddNew';
 import CalenderRow from '../components/CalenderRow';
 import WorkoutCard from '../components/WorkoutCard';
-import {
-  getDayObject,
-  getWorkoutObject,
-  getDayLabel,
-} from '../components/shared/';
 
 // Assets
 import {colors, assets} from '../components/constants';
@@ -30,13 +22,12 @@ import useStore from '../store/useStore';
 
 import {useNavigation} from '@react-navigation/native';
 
-const ScheduleScreen = ({route}) => {
+const ScheduleScreen = () => {
   // FIXME: workout name should'nt take all the space in pre-list of workout
   // FIXME: Hidden start button can be clicked ??
   // FIXME: Unassign schedule workout
   const workouts = useStore(s => s.workouts);
   const currentWorkout = useStore(s => s.currentWorkout);
-  const saveWorkoutDay = useStore(s => s.saveWorkoutDay);
   const addWorkoutDay = useStore(s => s.addWorkoutDay);
   const currentDay = useStore(s => s.currentDay);
   const unselectCurrentDay = useStore(s => s.unselectCurrentDay);
@@ -44,22 +35,10 @@ const ScheduleScreen = ({route}) => {
   const selectCurrentWorkout = useStore(s => s.selectCurrentWorkout);
 
   const navigation = useNavigation();
-  const isFoucsed = useIsFocused();
 
   const navigateToWorkoutById = id => {
     navigation.navigate('WorkoutScreen', {workoutId: id});
   };
-
-  useEffect(() => {
-    unselectCurrentDay();
-  }, [currentWorkout]);
-
-  useEffect(() => {
-    // Check for the workoutId, coming back from workout screen. (In case of add new workout)
-    if (route.params?.newWorkoutId) {
-      saveSchedule(getDayLabel(), route.params?.newWorkoutId);
-    }
-  }, [isFoucsed, route.params?.newWorkoutId]);
 
   return (
     <SafeAreaView className="bg-[#112044] flex-1">
@@ -72,8 +51,6 @@ const ScheduleScreen = ({route}) => {
             className="flex-row flex-1 space-x-2 items-center justify-end mt-2 mr-2"
             onPress={() => {
               navigation.navigate('WorkoutScreen');
-              // console.log(currentDay);
-              // console.log(currentWorkout);
             }}>
             <Image source={assets.icn_plus} style={{}} />
             <Text className="text-red-500 text-base">Add new workout</Text>
@@ -96,7 +73,10 @@ const ScheduleScreen = ({route}) => {
             <Image source={assets.icn_edit} />
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => unselectCurrentDay(currentDay.id)}
+            onPress={() => {
+              unselectCurrentDay(currentDay.id);
+              unselectCurrentWorkout();
+            }}
             style={{opacity: currentWorkout?.title ? 1 : 0}}>
             <Image source={assets.icn_remove} />
           </TouchableOpacity>
