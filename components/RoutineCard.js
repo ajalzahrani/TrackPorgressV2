@@ -8,22 +8,14 @@ import {useNavigation} from '@react-navigation/native';
 
 const RoutineCard = ({id, title}) => {
   const navigation = useNavigation();
-
+  // FIXME: Add routine descripton drop down view
   return (
     <View style={style.cardContainer}>
       <Text style={style.workoutTitle}>
         {title} - {id}
       </Text>
       <View style={style.editContainerStyle} className="space-x-2">
-        <TouchableOpacity
-          onPress={() => {
-            console.log({title});
-          }}>
-          <Image source={assets.icn_goforward} />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Image source={assets.icn_edit} />
-        </TouchableOpacity>
+        <Image source={assets.icn_start} />
       </View>
     </View>
   );

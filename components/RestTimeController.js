@@ -13,12 +13,11 @@ import {TimePicker, ValueMap} from 'react-native-simple-time-picker';
 // Assets
 import {colors, assets} from '../components/constants';
 
-const RestTimeController = ({
-  indicatorTitle,
-  handleAddRestTime,
-  resttime,
-  id,
-}) => {
+// Store
+import useStore from '../store/useStore';
+
+const RestTimeController = ({indicatorTitle, resttime, id}) => {
+  const addRestTime = useStore(s => s.addRestTime);
   const [number, setNumber] = useState(() => {
     if (id === 0) return resttime[0];
     else return resttime[1];
@@ -54,7 +53,7 @@ const RestTimeController = ({
   }, [value]);
 
   useEffect(() => {
-    handleAddRestTime(id, number);
+    addRestTime(id, number);
   }, [number]);
 
   useEffect(() => {

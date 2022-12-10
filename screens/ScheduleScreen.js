@@ -34,12 +34,14 @@ const ScheduleScreen = ({route}) => {
   // FIXME: workout name should'nt take all the space in pre-list of workout
   // FIXME: Hidden start button can be clicked ??
   // FIXME: Unassign schedule workout
-  // FIXME: Add Routine screen before schedule screen
   const workouts = useStore(s => s.workouts);
   const currentWorkout = useStore(s => s.currentWorkout);
   const saveWorkoutDay = useStore(s => s.saveWorkoutDay);
   const addWorkoutDay = useStore(s => s.addWorkoutDay);
   const currentDay = useStore(s => s.currentDay);
+  const unselectCurrentDay = useStore(s => s.unselectCurrentDay);
+  const unselectCurrentWorkout = useStore(s => s.unselectCurrentWorkout);
+  const selectCurrentWorkout = useStore(s => s.selectCurrentWorkout);
 
   const navigation = useNavigation();
   const isFoucsed = useIsFocused();
@@ -47,6 +49,10 @@ const ScheduleScreen = ({route}) => {
   const navigateToWorkoutById = id => {
     navigation.navigate('WorkoutScreen', {workoutId: id});
   };
+
+  useEffect(() => {
+    unselectCurrentDay();
+  }, [currentWorkout]);
 
   useEffect(() => {
     // Check for the workoutId, coming back from workout screen. (In case of add new workout)
@@ -58,14 +64,22 @@ const ScheduleScreen = ({route}) => {
   return (
     <SafeAreaView className="bg-[#112044] flex-1">
       <View>
-        <TouchableOpacity
-          className="flex-row flex-1 space-x-2 items-center justify-end mt-2 mr-2"
-          onPress={() => {
-            navigateToWorkoutById(undefined);
-          }}>
-          <Image source={assets.icn_plus} style={{}} />
-          <Text className="text-red-500 text-base">Add new workout</Text>
-        </TouchableOpacity>
+        <View style={style.goBackStyle}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Image source={assets.icn_goback} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            className="flex-row flex-1 space-x-2 items-center justify-end mt-2 mr-2"
+            onPress={() => {
+              navigation.navigate('WorkoutScreen');
+              // console.log(currentDay);
+              // console.log(currentWorkout);
+            }}>
+            <Image source={assets.icn_plus} style={{}} />
+            <Text className="text-red-500 text-base">Add new workout</Text>
+          </TouchableOpacity>
+        </View>
+
         <CalenderRow />
       </View>
       <View style={style.workoutContainerStyle}>
@@ -80,6 +94,11 @@ const ScheduleScreen = ({route}) => {
             onPress={() => navigateToWorkoutById(currentWorkout?.id)}
             style={{opacity: currentWorkout?.title ? 1 : 0}}>
             <Image source={assets.icn_edit} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => unselectCurrentDay(currentDay.id)}
+            style={{opacity: currentWorkout?.title ? 1 : 0}}>
+            <Image source={assets.icn_remove} />
           </TouchableOpacity>
         </View>
         <TouchableOpacity
@@ -106,13 +125,16 @@ const ScheduleScreen = ({route}) => {
         <View style={style.preWorkoutListContainerStyle}>
           <Text className="text-white">Pre-list of workouts</Text>
           <ScrollView contentContainerStyle={{paddingBottom: 72}}>
-            {workouts?.map(item => (
+            {workouts?.map(workout => (
               <TouchableOpacity
-                key={item.id}
-                onPress={() => addWorkoutDay(currentDay.id)}>
+                key={workout.id}
+                onPress={() => {
+                  selectCurrentWorkout(workout.id);
+                  addWorkoutDay(currentDay.id);
+                }}>
                 <WorkoutCard
-                  id={item.id}
-                  title={item.title}
+                  id={workout.id}
+                  title={workout.title}
                   navigateToWorkoutById={navigateToWorkoutById}
                 />
               </TouchableOpacity>
@@ -135,6 +157,11 @@ const style = StyleSheet.create({
     padding: 0,
     gap: 30,
     marginTop: 56,
+  },
+  goBackStyle: {
+    flexDirection: 'row',
+    marginHorizontal: 16,
+    alignItems: 'center',
   },
   workoutTitleStyle: {
     fontStyle: 'normal',

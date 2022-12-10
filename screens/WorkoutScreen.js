@@ -23,7 +23,6 @@ import {colors, assets} from '../components/constants';
 // components
 import ExerciseCard from '../components/ExerciseCard';
 import {getDayObject} from '../components/shared';
-import {getWorkoutObject} from '../components/shared';
 import RestTimeController from '../components/RestTimeController';
 
 // Store
@@ -35,9 +34,12 @@ const WorkoutScreen = ({route}) => {
   // FIXME: prompet user to enter workout name if empty
   // FIXME: Re-design Rest time controllers
   const currentWorkout = useStore(s => s.currentWorkout);
+  const exercisesMaster = useStore(s => s.exercisesMaster);
+  const saveWorkout = useStore(s => s.saveWorkout);
+
   const [modalVisible, setModalVisible] = useState(false); // workoutname alert modal state
   const [exData, setEXData] = useState([]); // state holding exercise data.
-  const [workoutName, setWorkoutName] = useState(workoutObject?.title); // workout name state
+  const [workoutName, setWorkoutName] = useState(currentWorkout?.title); // workout name state
   const [workoutObject, setWorkoutObject] = useState(currentWorkout);
   const [newWorkoutId, setNewWorkoutId] = useState('');
 
@@ -47,13 +49,11 @@ const WorkoutScreen = ({route}) => {
   const {workoutId} = route.params;
 
   const setupObjects = () => {
-    const exerciseData = JSON.parse(store.getString('exercises')); // Use memo hook for better performance
-    setEXData(exerciseData);
+    setEXData(exercisesMaster);
 
     if (workoutId !== undefined) {
-      let workoutObject = getWorkoutObject(workoutId);
       setWorkoutObject(currentWorkout);
-      setWorkoutName(workoutObject?.title);
+      setWorkoutName(currentWorkout?.title);
     } else {
       handleWorkoutParams();
     }
@@ -67,31 +67,13 @@ const WorkoutScreen = ({route}) => {
 
     // update workout name.
     // Check if title proprety exists
-    if ('title' in workoutObject) {
-      workoutObject.title = workoutName;
+    if ('title' in currentWorkout) {
+      currentWorkout.title = workoutName;
     } else {
-      Object.assign(workoutObject, {title: workoutName});
+      Object.assign(currentWorkout, {title: workoutName});
     }
-
-    // Fetch workouts from stroe
-    let workouts = JSON.parse(store.getString('workouts'));
-
-    if (workoutId !== undefined) {
-      // Workout update
-      // Assign saved workout to workoutObject
-      for (let i = 0; i < workouts.length; i++) {
-        if (workouts[i].id === workoutId) {
-          workouts[i] = workoutObject;
-        }
-      }
-    } else {
-      // New workout
-      // Push with new workout object to workouts array
-      workouts.push(workoutObject);
-    }
-
-    // Commit the store
-    store.set('workouts', JSON.stringify(workouts));
+    saveWorkout();
+    // save work
     navigation.goBack();
   };
 
@@ -116,12 +98,12 @@ const WorkoutScreen = ({route}) => {
 
   /* HOW TO ADD FREQUANCY TO AN EXERCISE */
   const addFreq = freq => {
-    let exercises = workoutObject.exercises;
+    let exercises = currentWorkout.exercises;
     exercises.freq = freq;
   };
 
   const hadndleDeleteExercise = index => {
-    let exercises = workoutObject?.exercises;
+    let exercises = currentWorkout?.exercises;
     let indexOf = undefined;
     for (let i = 0; i < exercises.length; i++) {
       if (exercises[i].id === index) {
@@ -162,30 +144,14 @@ const WorkoutScreen = ({route}) => {
     handleWorkoutParams(exerciseObjs);
   };
 
-  const handleAddRestTime = (id, timeValue) => {
-    let updateRestTime = workoutObject?.resttime;
-    if (id == 0) {
-      // Update rest time for set
-      updateRestTime[0] = timeValue;
-    } else {
-      // Update rest time for exercise
-      updateRestTime[1] = timeValue;
-    }
-
-    setWorkoutObject(prev => {
-      return {...prev, resttime: updateRestTime};
-    });
-  };
-
   const RestTimeDrawer = () => {
-    let exercises = workoutObject?.exercises?.length;
+    let exercises = currentWorkout?.exercises?.length;
     if (exercises === 1) {
       return (
         <RestTimeController
           id={0}
           indicatorTitle="Set rest time"
-          resttime={workoutObject?.resttime}
-          handleAddRestTime={handleAddRestTime}
+          resttime={currentWorkout?.resttime}
         />
       );
     } else if (exercises > 1) {
@@ -193,14 +159,12 @@ const WorkoutScreen = ({route}) => {
         <>
           <RestTimeController
             id={0}
-            resttime={workoutObject?.resttime}
-            handleAddRestTime={handleAddRestTime}
+            resttime={currentWorkout?.resttime}
             indicatorTitle="Set rest time"
           />
           <RestTimeController
             id={1}
-            resttime={workoutObject?.resttime}
-            handleAddRestTime={handleAddRestTime}
+            resttime={currentWorkout?.resttime}
             indicatorTitle="Exercise rest time"
           />
         </>
@@ -252,7 +216,7 @@ const WorkoutScreen = ({route}) => {
           className="flex-row flex-1 space-x-2 items-center justify-end mt-2 mr-2"
           onPress={() => {
             navigation.navigate('ExerciseScreen', {
-              exercises: workoutObject?.exercises,
+              exercises: currentWorkout?.exercises,
             });
           }}>
           <Image source={assets.icn_plus} style={{}} />
@@ -264,19 +228,19 @@ const WorkoutScreen = ({route}) => {
           placeholder="Workout name"
           placeholderTextColor={colors.offwhite}
           onChangeText={inpuText => setWorkoutName(inpuText)}
-          defaultValue={workoutObject?.title}
+          defaultValue={currentWorkout?.title}
           style={style.textInputStyle}
         />
 
         <View style={style.preWorkoutListContainerStyle}>
           <Text className="text-white">Pre-list of workouts</Text>
           <ScrollView contentContainerStyle={{paddingBottom: 72}}>
-            {workoutObject.exercises?.map(element => {
+            {currentWorkout.exercises?.map(element => {
               return (
                 <ExerciseCard
                   key={element.id}
                   exercise={element}
-                  exData={exData}
+                  exData={exercisesMaster}
                   addFreq={addFreq}
                   hadndleDeleteExercise={hadndleDeleteExercise}
                 />
@@ -311,7 +275,7 @@ const WorkoutScreen = ({route}) => {
               onPress={() => {
                 // alert('Hello');
                 // handleAddNewWorkout();
-                console.log(workoutObject);
+                console.log(currentWorkout);
                 // console.log('Pre workoutId: ', workoutId);
                 // console.log('New WorkoutId: ', newWorkoutId);
                 // handleDeleteWorkout(workoutId);

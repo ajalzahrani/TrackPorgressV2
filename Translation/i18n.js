@@ -33,7 +33,7 @@ const resources = {
 };
 
 i18n.use(initReactI18next).init({
-  fallbackLng: 'ar',
+  fallbackLng: 'en',
   resources,
 
   // have a common namespace used around the full app

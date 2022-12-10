@@ -53,6 +53,7 @@ const RoutineScreen = () => {
             <TouchableOpacity
               key={item.id}
               onPress={() => {
+                // console.log(JSON.stringify(item));
                 selectCurrentRoutine(item.id);
                 navigation.navigate('ScheduleScreen');
               }}>

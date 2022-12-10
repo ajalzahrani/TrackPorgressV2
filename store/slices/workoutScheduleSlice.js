@@ -45,13 +45,30 @@ export default workoutScheudleSlice = (set, get) => ({
       }),
     ),
 
+  addRestTime: (id, timeValue) =>
+    set(
+      produce(draft => {
+        let updateRestTime = draft.currentWorkout?.resttime;
+        if (id == 0) {
+          // Update rest time for set
+          updateRestTime[0] = timeValue;
+        } else {
+          // Update rest time for exercise
+          updateRestTime[1] = timeValue;
+        }
+
+        draft.currentWorkout.resttime = updateRestTime;
+      }),
+    ),
+
   addWorkoutDay: dayId =>
     set(
       produce(draft => {
-        draft.currentDay = {
-          id: dayId,
-          workout: [...prev, draft.currentWorkout.id],
-        };
+        let indexOf = draft.weekdays.findIndex(day => day.id === dayId);
+        if (indexOf !== -1) {
+          draft.weekdays[indexOf].workday = true;
+          draft.weekdays[indexOf].workout = draft.currentWorkout.id;
+        }
       }),
     ),
 
@@ -73,8 +90,10 @@ export default workoutScheudleSlice = (set, get) => ({
   selectCurrentWorkout: workoutId =>
     set(
       produce(draft => {
-        draft.currentWorkout = draft.workouts[workoutId];
-        console.log('I amm select workout form store', draft.workouts[0]);
+        let indexOf = draft.workouts.findIndex(
+          workout => workout.id === workoutId,
+        );
+        draft.currentWorkout = draft.workouts[indexOf];
       }),
     ),
 
@@ -84,6 +103,26 @@ export default workoutScheudleSlice = (set, get) => ({
         let indexOf = draft.weekdays.findIndex(day => day.id === dayId);
 
         draft.currentDay = draft.weekdays[indexOf];
+      }),
+    ),
+
+  unselectCurrentWorkout: () =>
+    set(
+      produce(draft => {
+        draft.currentWorkout = {};
+      }),
+    ),
+
+  unselectCurrentDay: dayId =>
+    set(
+      produce(draft => {
+        let indexOf = draft.weekdays.findIndex(day => day.id === dayId);
+
+        if (indexOf !== -1) {
+          draft.weekdays[indexOf].workday = false;
+          draft.weekdays[indexOf].workout = -1;
+          draft.currentWorkout = {};
+        }
       }),
     ),
 
@@ -137,12 +176,10 @@ export default workoutScheudleSlice = (set, get) => ({
         let indexOf = draft.weekdays.findIndex(day => {
           return day.id === draft.currentDay.id;
         });
-
-        if (indexOf === -1) {
-          draft.weekdays.push(draft.currentDay);
-        } else {
-          draft.weekdays[indexOf] = draft.currentDay;
-        }
+        console.log('current day ', draft.currentDay);
+        console.log('before ', draft.weekdays);
+        draft.weekdays[indexOf] = draft.currentDay;
+        console.log('after  ', draft.weekdays);
       }),
     ),
 
