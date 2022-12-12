@@ -11,12 +11,12 @@ import React, {useEffect, useState} from 'react';
 // Assets
 import {colors, exerciseData, assets} from '../components/constants';
 
-const ExerciseSelectRow = ({
-  item,
-  selectExercise,
-  handleExerciseSelection,
-  exercises,
-}) => {
+// Store
+import useStore from '../store/useStore';
+
+const ExerciseSelectRow = ({item, handleExerciseSelection}) => {
+  const exercises = useStore(s => s.currentWorkout.exercises);
+  const addNewExerciseWorkout = useStore(s => s.addNewExerciseWorkout);
   const [isSelected, setIsSelected] = useState(false);
   const [preSelected, setPreSelected] = useState(false);
 
@@ -24,7 +24,7 @@ const ExerciseSelectRow = ({
     exercises?.find(exer => {
       if (exer.id === item.id) {
         setIsSelected(true);
-        handleExerciseSelection(item.id);
+        // selectExercise(item.id);
       }
     });
     setPreSelected(true);
@@ -43,7 +43,7 @@ const ExerciseSelectRow = ({
         <TouchableOpacity
           onPress={() => {
             setIsSelected(!isSelected);
-            handleExerciseSelection(item.id);
+            addNewExerciseWorkout(item.id);
           }}>
           <View
             style={{

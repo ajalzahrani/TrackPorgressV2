@@ -26,21 +26,19 @@ const ScheduleScreen = () => {
   // FIXME: workout name should'nt take all the space in pre-list of workout
   // FIXME: Hidden start button can be clicked ??
   // FIXME: Unassign schedule workout
+  // FIXME: select scheduled workout selection
   const workouts = useStore(s => s.workouts);
   const currentWorkout = useStore(s => s.currentWorkout);
+  const scheduledWorkout = useStore(s => s.scheduledWorkout);
   const addWorkoutDay = useStore(s => s.addWorkoutDay);
   const currentDay = useStore(s => s.currentDay);
-  const weekdays = useStore(s => s.weekdays);
   const unselectCurrentDay = useStore(s => s.unselectCurrentDay);
   const unselectCurrentWorkout = useStore(s => s.unselectCurrentWorkout);
   const selectCurrentWorkout = useStore(s => s.selectCurrentWorkout);
+  const selectScheduledWorkout = useStore(s => s.selectScheduledWorkout);
 
   const navigation = useNavigation();
   const isFoucsed = useIsFocused();
-
-  useEffect(() => {
-    console.log('current workout from ScheduleScreen', currentWorkout);
-  }, [isFoucsed]);
 
   const navigateToWorkoutById = id => {
     navigation.navigate('WorkoutScreen', {workoutId: id});
@@ -66,16 +64,19 @@ const ScheduleScreen = () => {
         <CalenderRow />
       </View>
       <View style={style.workoutContainerStyle}>
-        <View style={{opacity: currentWorkout.title ? 0 : 1}}>
+        <View style={{opacity: scheduledWorkout?.title ? 0 : 1}}>
           <Text className="text-yellow-200">
             Add new workout or select pre-configure one.
           </Text>
         </View>
         <View className="flex-row items-center space-x-5">
-          <Text style={style.workoutTitleStyle}>{currentWorkout.title}</Text>
+          <Text style={style.workoutTitleStyle}>{scheduledWorkout.title}</Text>
           <TouchableOpacity
-            onPress={() => navigateToWorkoutById(currentWorkout?.id)}
-            style={{opacity: currentWorkout?.title ? 1 : 0}}>
+            onPress={() => {
+              selectCurrentWorkout(scheduledWorkout.id);
+              navigation.navigate('WorkoutScreen');
+            }}
+            style={{opacity: scheduledWorkout?.title ? 1 : 0}}>
             <Image source={assets.icn_edit} />
           </TouchableOpacity>
           <TouchableOpacity
@@ -83,7 +84,7 @@ const ScheduleScreen = () => {
               unselectCurrentDay(currentDay.id);
               unselectCurrentWorkout();
             }}
-            style={{opacity: currentWorkout?.title ? 1 : 0}}>
+            style={{opacity: scheduledWorkout?.title ? 1 : 0}}>
             <Image source={assets.icn_remove} />
           </TouchableOpacity>
         </View>
@@ -91,10 +92,10 @@ const ScheduleScreen = () => {
           onPress={() => {
             // console.log(store.getString('workouts'));
             navigation.navigate('ActiveScreen', {
-              workoutObject: currentWorkout,
+              workoutObject: scheduledWorkout,
             });
           }}
-          style={{opacity: currentWorkout?.title ? 1 : 0}}>
+          style={{opacity: scheduledWorkout?.title ? 1 : 0}}>
           <LinearGradient
             style={style.touchableOpacityStartStyle}
             start={{x: 1, y: 0}}
@@ -115,7 +116,9 @@ const ScheduleScreen = () => {
               <TouchableOpacity
                 key={workout.id}
                 onPress={() => {
-                  selectCurrentWorkout(workout.id);
+                  // console.log(workout.id);
+                  console.log(currentDay.id);
+                  selectScheduledWorkout(workout.id);
                   addWorkoutDay(currentDay.id);
                 }}>
                 <WorkoutCard id={workout.id} title={workout.title} />

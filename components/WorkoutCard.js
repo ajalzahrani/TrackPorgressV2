@@ -6,7 +6,11 @@ import {getWorkoutObject} from './shared';
 
 import {useNavigation} from '@react-navigation/native';
 
+// Store
+import useStore from '../store/useStore';
+
 const WorkoutCard = ({id, title}) => {
+  const selectCurrentWorkout = useStore(s => s.selectCurrentWorkout);
   const navigation = useNavigation();
 
   return (
@@ -20,7 +24,10 @@ const WorkoutCard = ({id, title}) => {
           <Image source={assets.icn_goforward} />
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigation.navigate('WorkoutScreen', {workoutId: id})}>
+          onPress={() => {
+            selectCurrentWorkout(id);
+            navigation.navigate('WorkoutScreen');
+          }}>
           <Image source={assets.icn_edit} />
         </TouchableOpacity>
       </View>

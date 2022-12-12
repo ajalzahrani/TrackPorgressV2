@@ -5,13 +5,14 @@ import {store} from '../../Store';
 export default exerciseSlice = (set, get) => ({
   exercisesMaster: [],
 
-  SaveNewExerciseMaster: exerciseTitle =>
+  saveNewExerciseMaster: exerciseTitle =>
     set(
       produce(draft => {
         const newExercise = {
           id: uuid.v4(),
           title: exerciseTitle,
         };
+        console.log(newExercise);
 
         draft.exercisesMaster.push(newExercise);
         store.set('exercises', JSON.stringify(draft.exercisesMaster));

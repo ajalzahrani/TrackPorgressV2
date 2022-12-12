@@ -7,7 +7,12 @@ import {colors, assets} from '../components/constants';
 // components
 import SETsController from './SETsController';
 
-const ExerciseCard = ({exercise, exData, addFreq, hadndleDeleteExercise}) => {
+// Store
+import useStore from '../store/useStore';
+
+const ExerciseCard = ({exercise, addFreq}) => {
+  const exercisesMaster = useStore(s => s.exercisesMaster);
+  const deleteExercise = useStore(s => s.deleteExercise);
   const [set, setSet] = useState(exercise.freq.length);
 
   const addSet = () => {
@@ -43,7 +48,7 @@ const ExerciseCard = ({exercise, exData, addFreq, hadndleDeleteExercise}) => {
 
   /* HOW TO QUERY EXERCISE NAME BY ID FROM EXERCISE LIST */
   const getExerciseName = id => {
-    let exername = exData.filter(element => {
+    let exername = exercisesMaster.filter(element => {
       return element.id === id;
     });
     return exername[0].title;
@@ -62,7 +67,10 @@ const ExerciseCard = ({exercise, exData, addFreq, hadndleDeleteExercise}) => {
         <Text style={style.exerciseTitleStyle}>
           {getExerciseName(exercise.id)}
         </Text>
-        <TouchableOpacity onPress={() => hadndleDeleteExercise(exercise.id)}>
+        <TouchableOpacity
+          onPress={() => {
+            deleteExercise(exercise.id);
+          }}>
           <Image source={assets.icn_remove} />
         </TouchableOpacity>
       </View>

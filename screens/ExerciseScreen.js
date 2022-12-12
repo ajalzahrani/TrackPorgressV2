@@ -21,13 +21,16 @@ import ExerciseSelectRow from '../components/ExerciseSelectRow';
 import {useNavigation} from '@react-navigation/native';
 import {getDayObject} from '../components/shared';
 
+// Store
+import useStore from '../store/useStore';
+
 const ExerciseScreen = ({route}) => {
   // FIXME: presis exercise selection when search
-  const [exData, setEXData] = useState([]); // state holding exercise data.
+  const exercisesMaster = useStore(s => s.exercisesMaster);
+  const saveNewExerciseMaster = useStore(s => s.saveNewExerciseMaster);
   const [search, setSearch] = useState(''); //
-  const [searchResult, setSearchResult] = useState();
+  const [searchResult, setSearchResult] = useState(exercisesMaster);
   const [notFound, setNotFound] = useState(false); // handle if no exercise found in search
-  const [selectedExerciseList, setSelectedExerciseList] = useState([]); // handle user exercises selection.
 
   const navigation = useNavigation();
 
@@ -36,12 +39,12 @@ const ExerciseScreen = ({route}) => {
   // search the list of exercises data and eanble the user to add not found exercies.
   const handleSearch = searchText => {
     setSearch(searchText);
-    const filterdExercies = exData.filter((exer, index) => {
+    const filterdExercies = exercisesMaster.filter((exer, index) => {
       // console.log(exer.title.match(searchText));
       return exer.title.match(searchText);
     });
     if (searchText.length === 0) {
-      setSearchResult(exData);
+      setSearchResult(exercisesMaster);
       setNotFound(false);
     } else if (filterdExercies.length === 0) {
       setNotFound(true);
@@ -50,61 +53,6 @@ const ExerciseScreen = ({route}) => {
       setNotFound(false);
     }
   };
-
-  // Add new Exercises to exercise data list
-  const insertNewExercise = () => {
-    const newExercise = {
-      id: uuid.v4(),
-      title: search,
-    };
-    exData.push(newExercise);
-    store.set('exercises', JSON.stringify(exData));
-    setNotFound(false);
-
-    console.log(newExercise, ' Saved successfully.');
-  };
-
-  // save selected exercises to workoutObject by calling handleWorkoutParams function from workout screen.
-  // take selected exercises array from selectedExerciseList state
-  function saveSelectedExercises() {
-    let exerciseObjs = selectedExerciseList.map(exerId => {
-      return {
-        id: exerId,
-        freq: [],
-      };
-    });
-
-    handleWorkoutParams(exerciseObjs);
-  }
-
-  // check if the exercises selected then add the list is deselected then remove from the list.
-  // handleExerciseSelection function is taking exercise id and return an array of selected exercises.
-  // to be pass to childeren to collect selected exercise.
-  function handleExerciseSelection(id) {
-    let array = selectedExerciseList;
-    let isRemoved = false;
-    for (let i = 0; i < array.length; i++) {
-      if (array[i] === id) {
-        let index = array.indexOf(id);
-        if (index !== -1) {
-          array.splice(index, 1);
-          setSelectedExerciseList(array);
-          isRemoved = true;
-        }
-        // setExerciseList(prev => prev.filter((_, index) => index !== id));
-      }
-    }
-    if (isRemoved === false) {
-      setSelectedExerciseList(prev => [...prev, id]);
-    }
-  }
-
-  useEffect(() => {
-    // get exercise data from DB
-    const exerciseData = JSON.parse(store.getString('exercises'));
-    setEXData(exerciseData);
-    setSearchResult(exerciseData);
-  }, []);
 
   return (
     <SafeAreaView className="bg-[#112044] flex-1">
@@ -131,7 +79,8 @@ const ExerciseScreen = ({route}) => {
             Not found, Do you want to add
           </Text>
           {/* <Button title="Add" /> */}
-          <TouchableOpacity onPress={() => insertNewExercise()}>
+          {/* FIXME: after save delete search and show the list again */}
+          <TouchableOpacity onPress={() => saveNewExerciseMaster(search)}>
             <Image source={assets.icn_add} />
           </TouchableOpacity>
         </View>
@@ -144,7 +93,6 @@ const ExerciseScreen = ({route}) => {
                 key={item.id}
                 item={item}
                 checkIfExerSelected
-                handleExerciseSelection={handleExerciseSelection}
                 exercises={exercises}
               />
             ))}
@@ -152,11 +100,7 @@ const ExerciseScreen = ({route}) => {
           {/* OK Button */}
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate({
-                name: 'WorkoutScreen',
-                params: {selectedExercises: selectedExerciseList},
-                merge: true,
-              });
+              navigation.goBack();
             }}>
             <LinearGradient
               style={style.touchableOpacityStartStyle}

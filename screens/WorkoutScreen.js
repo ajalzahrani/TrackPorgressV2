@@ -36,11 +36,11 @@ const WorkoutScreen = () => {
   const currentWorkout = useStore(s => s.currentWorkout);
   const exercisesMaster = useStore(s => s.exercisesMaster);
   const saveWorkout = useStore(s => s.saveWorkout);
+  const deleteWorkout = useStore(s => s.deleteWorkout);
+  const deleteExercise = useStore(s => s.deleteExercise);
 
   const [modalVisible, setModalVisible] = useState(false); // workoutname alert modal state
   const [workoutName, setWorkoutName] = useState(currentWorkout?.title); // workout name state
-  const [workoutObject, setWorkoutObject] = useState(currentWorkout);
-  const [newWorkoutId, setNewWorkoutId] = useState('');
 
   const navigation = useNavigation();
   const isFoucsed = useIsFocused();
@@ -60,46 +60,6 @@ const WorkoutScreen = () => {
   const addFreq = freq => {
     let exercises = currentWorkout.exercises;
     exercises.freq = freq;
-  };
-
-  const hadndleDeleteExercise = index => {
-    let exercises = currentWorkout?.exercises;
-    let indexOf = undefined;
-    for (let i = 0; i < exercises.length; i++) {
-      if (exercises[i].id === index) {
-        indexOf = i;
-      }
-    }
-    exercises.splice(indexOf, 1);
-    setWorkoutObject(prev => {
-      return {...prev, exercises: exercises};
-    });
-  };
-
-  const handleDeleteWorkout = id => {
-    let workouts = JSON.parse(store.getString('workouts'));
-    let indexOf = undefined;
-    for (let i = 0; i < workouts.length; i++) {
-      if (workouts[i].id === id) {
-        indexOf = i;
-        break;
-      }
-    }
-    workouts.splice(indexOf, 1); // remove workout from workouts array.
-    store.set('workouts', JSON.stringify(workouts)); // commit store.
-    setWorkoutObject({}); // reset workoutObject.
-    navigation.goBack();
-  };
-
-  const handleSelectedExercises = selectedExerciseList => {
-    let exerciseObjs = selectedExerciseList.map(exerId => {
-      return {
-        id: exerId,
-        freq: [],
-      };
-    });
-
-    handleWorkoutParams(exerciseObjs);
   };
 
   const RestTimeDrawer = () => {
@@ -175,9 +135,7 @@ const WorkoutScreen = () => {
                 <ExerciseCard
                   key={element.id}
                   exercise={element}
-                  exData={exercisesMaster}
                   addFreq={addFreq}
-                  hadndleDeleteExercise={hadndleDeleteExercise}
                 />
               );
             })}
@@ -185,11 +143,7 @@ const WorkoutScreen = () => {
             <TouchableOpacity
               onPress={() => {
                 saveWorkout();
-                navigation.navigate({
-                  name: 'ScheduleScreen',
-                  params: {newWorkoutId: newWorkoutId},
-                  merge: true,
-                });
+                navigation.goBack();
               }}>
               <LinearGradient
                 style={style.touchableOpacityStartStyle}
@@ -207,12 +161,9 @@ const WorkoutScreen = () => {
             {/* Test button */}
             <TouchableOpacity
               onPress={() => {
-                // alert('Hello');
-                // handleAddNewWorkout();
-                console.log(currentWorkout);
-                // console.log('Pre workoutId: ', workoutId);
-                // console.log('New WorkoutId: ', newWorkoutId);
-                // handleDeleteWorkout(workoutId);
+                // console.log(currentWorkout);
+                deleteWorkout(currentWorkout.id);
+                navigation.goBack();
               }}>
               <LinearGradient
                 style={style.touchableOpacityStartStyle}

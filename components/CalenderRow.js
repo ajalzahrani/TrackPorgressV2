@@ -21,9 +21,8 @@ const CalenderRow = () => {
   let date = new Date().getDay();
   const weekdays = useStore(s => s.weekdays);
   const selectCurrentWorkout = useStore(s => s.selectCurrentWorkout);
+  const selectScheduledWorkout = useStore(s => s.selectScheduledWorkout);
   const selectCurrentDay = useStore(s => s.selectCurrentDay);
-  const currentWorkout = useStore(s => s.currentWorkout);
-  const [isOn, setisOn] = useState();
   const [db, setDB] = useState(dayButton);
 
   const generateWorkdays = () => {
@@ -37,6 +36,7 @@ const CalenderRow = () => {
             onPress={() => {
               selectCurrentDay(day.id);
               selectCurrentWorkout(day.workout);
+              selectScheduledWorkout(day.workout);
               setDB(
                 produce(draft => {
                   draft.forEach(day => (day.ispicked = false));
@@ -91,13 +91,13 @@ const CalenderRow = () => {
     setDB(
       produce(draft => {
         draft.forEach(day => (day.istoday = false));
-        draft[date + 1].istoday = true;
+        draft[date].istoday = true;
       }),
     );
 
     // if current day has scheduled workout then select workout
-    const currentDayWorkout = weekdays[new Date().getDay() + 1].workout;
-    selectCurrentWorkout(currentDayWorkout);
+    const currentDayWorkout = weekdays[new Date().getDay()]?.workout;
+    selectScheduledWorkout(currentDayWorkout);
   };
 
   useEffect(() => {

@@ -7,6 +7,7 @@ export default workoutScheudleSlice = (set, get) => ({
   currentRoutine: {},
   workouts: [],
   currentWorkout: {},
+  scheduledWorkout: {},
   exercises: [],
   currentExercise: {},
   weekdays: [],
@@ -27,13 +28,14 @@ export default workoutScheudleSlice = (set, get) => ({
   addNewExerciseWorkout: exerciseId =>
     set(
       produce(draft => {
-        let indexOf = draft.exercises.findIndex(exercise => {
+        let indexOf = draft.currentWorkout.exercises.findIndex(exercise => {
           return exercise.id === exerciseId;
         });
+
         if (indexOf === -1) {
-          draft.exercises.push({id: exerciseId, freq: []});
+          draft.currentWorkout.exercises.push({id: exerciseId, freq: []});
         } else {
-          draft.exercises.splice(indexOf, 1);
+          draft.currentWorkout.exercises.splice(indexOf, 1);
         }
       }),
     ),
@@ -97,6 +99,20 @@ export default workoutScheudleSlice = (set, get) => ({
           draft.currentWorkout = draft.workouts[indexOf];
         } else {
           draft.currentWorkout = {};
+        }
+      }),
+    ),
+
+  selectScheduledWorkout: workoutId =>
+    set(
+      produce(draft => {
+        let indexOf = draft.workouts.findIndex(
+          workout => workout.id === workoutId,
+        );
+        if (indexOf !== -1) {
+          draft.scheduledWorkout = draft.workouts[indexOf];
+        } else {
+          draft.scheduledWorkout = {};
         }
       }),
     ),
@@ -244,21 +260,22 @@ export default workoutScheudleSlice = (set, get) => ({
   deleteExercise: exerciseId =>
     set(
       produce(draft => {
-        let indexOf = draft.exercises.findIndex(exercise => {
+        let indexOf = draft.currentWorkout.exercises.findIndex(exercise => {
           return exercise.id === exerciseId;
         });
 
-        draft.exercises.splice(indexOf, 1);
+        draft.currentWorkout.exercises.splice(indexOf, 1);
       }),
     ),
 
   deleteWorkout: workoutId =>
     set(
       produce(draft => {
-        if (workoutId !== undefined) {
-          let indexOf = draft.workouts.findIndex(workout => {
-            return workout.id === workoutId;
-          });
+        let indexOf = draft.workouts.findIndex(workout => {
+          return workout.id === workoutId;
+        });
+
+        if (indexOf !== -1) {
           draft.workouts.splice(indexOf, 1);
         }
       }),
