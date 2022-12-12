@@ -9,20 +9,16 @@ import {
   Modal,
   Pressable,
   TextInput,
-  Animated,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import React, {useEffect, useState, useRef} from 'react';
-import {useNavigation, useIsFocused} from '@react-navigation/native';
-import {store} from '../Store';
-import uuid from 'react-native-uuid';
+import React, {useEffect, useState} from 'react';
+import {useNavigation} from '@react-navigation/native';
 
 // Assets
 import {colors, assets} from '../components/constants';
 
 // components
 import ExerciseCard from '../components/ExerciseCard';
-import {getDayObject} from '../components/shared';
 import RestTimeController from '../components/RestTimeController';
 
 // Store
@@ -34,27 +30,13 @@ const WorkoutScreen = () => {
   // FIXME: prompet user to enter workout name if empty
   // FIXME: Re-design Rest time controllers
   const currentWorkout = useStore(s => s.currentWorkout);
-  const exercisesMaster = useStore(s => s.exercisesMaster);
   const saveWorkout = useStore(s => s.saveWorkout);
   const deleteWorkout = useStore(s => s.deleteWorkout);
-  const deleteExercise = useStore(s => s.deleteExercise);
 
   const [modalVisible, setModalVisible] = useState(false); // workoutname alert modal state
   const [workoutName, setWorkoutName] = useState(currentWorkout?.title); // workout name state
 
   const navigation = useNavigation();
-  const isFoucsed = useIsFocused();
-
-  /* ADD NEW WORKOUT */
-  const handleWorkoutParams = (exercises = []) => {
-    const id = uuid.v4();
-    const newWorkoutObj = {
-      id: id,
-      title: workoutName,
-      exercises: exercises,
-      resttime: [0, 0],
-    };
-  };
 
   /* HOW TO ADD FREQUANCY TO AN EXERCISE */
   const addFreq = freq => {

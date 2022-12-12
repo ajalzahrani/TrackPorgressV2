@@ -8,33 +8,24 @@ import {
   TextInput,
   ScrollView,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import React, {useEffect, useState} from 'react';
-import {store} from '../Store';
-import uuid from 'react-native-uuid';
 
 // Assets
 import {colors, assets} from '../components/constants';
 
 // components
 import ExerciseSelectRow from '../components/ExerciseSelectRow';
-import {useNavigation} from '@react-navigation/native';
-import {getDayObject} from '../components/shared';
 
 // Store
 import useStore from '../store/useStore';
 
-const ExerciseScreen = ({route}) => {
+const ExerciseScreen = () => {
   // FIXME: presis exercise selection when search
   const exercisesMaster = useStore(s => s.exercisesMaster);
   const saveNewExerciseMaster = useStore(s => s.saveNewExerciseMaster);
   const [search, setSearch] = useState(''); //
   const [searchResult, setSearchResult] = useState(exercisesMaster);
   const [notFound, setNotFound] = useState(false); // handle if no exercise found in search
-
-  const navigation = useNavigation();
-
-  const {exercises} = route.params;
 
   // search the list of exercises data and eanble the user to add not found exercies.
   const handleSearch = searchText => {
@@ -89,30 +80,9 @@ const ExerciseScreen = ({route}) => {
           {/* Exercise List */}
           <View style={style.preListContainerStyle}>
             {searchResult?.map(item => (
-              <ExerciseSelectRow
-                key={item.id}
-                item={item}
-                checkIfExerSelected
-                exercises={exercises}
-              />
+              <ExerciseSelectRow key={item.id} item={item} />
             ))}
           </View>
-          {/* OK Button */}
-          <TouchableOpacity
-            onPress={() => {
-              navigation.goBack();
-            }}>
-            <LinearGradient
-              style={style.touchableOpacityStartStyle}
-              start={{x: 1, y: 0}}
-              end={{x: 0, y: 0}}
-              colors={['#FA3B89', '#E10D60']}>
-              <View className="flex-row justify-center items-center space-x-2">
-                <Image source={assets.icn_start} />
-                <Text className="text-base font-semibold text-white">Done</Text>
-              </View>
-            </LinearGradient>
-          </TouchableOpacity>
         </ScrollView>
       </View>
     </SafeAreaView>

@@ -40,10 +40,6 @@ const ScheduleScreen = () => {
   const navigation = useNavigation();
   const isFoucsed = useIsFocused();
 
-  const navigateToWorkoutById = id => {
-    navigation.navigate('WorkoutScreen', {workoutId: id});
-  };
-
   return (
     <SafeAreaView className="bg-[#112044] flex-1">
       <View>

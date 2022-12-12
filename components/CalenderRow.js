@@ -18,7 +18,6 @@ const dayButton = [
 ];
 
 const CalenderRow = () => {
-  let date = new Date().getDay();
   const weekdays = useStore(s => s.weekdays);
   const selectCurrentWorkout = useStore(s => s.selectCurrentWorkout);
   const selectScheduledWorkout = useStore(s => s.selectScheduledWorkout);

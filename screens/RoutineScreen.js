@@ -24,8 +24,6 @@ import RoutineCard from '../components/RoutineCard';
 const RoutineScreen = () => {
   const routines = useStore(s => s.routines);
   const selectCurrentRoutine = useStore(s => s.selectCurrentRoutine);
-  const unselectCurrentRoutine = useStore(s => s.unselectCurrentRoutine);
-  const unselectCurrentWorkout = useStore(s => s.unselectCurrentWorkout);
 
   const navigation = useNavigation();
   const isFoucsed = useIsFocused();

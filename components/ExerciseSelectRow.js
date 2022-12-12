@@ -1,20 +1,13 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-  Pressable,
-} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import React, {useEffect, useState} from 'react';
 
 // Assets
-import {colors, exerciseData, assets} from '../components/constants';
+import {colors, assets} from '../components/constants';
 
 // Store
 import useStore from '../store/useStore';
 
-const ExerciseSelectRow = ({item, handleExerciseSelection}) => {
+const ExerciseSelectRow = ({item}) => {
   const exercises = useStore(s => s.currentWorkout.exercises);
   const addNewExerciseWorkout = useStore(s => s.addNewExerciseWorkout);
   const [isSelected, setIsSelected] = useState(false);
@@ -24,7 +17,6 @@ const ExerciseSelectRow = ({item, handleExerciseSelection}) => {
     exercises?.find(exer => {
       if (exer.id === item.id) {
         setIsSelected(true);
-        // selectExercise(item.id);
       }
     });
     setPreSelected(true);
