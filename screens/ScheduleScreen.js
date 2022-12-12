@@ -8,7 +8,7 @@ import {
   ScrollView,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import React, {useEffect} from 'react';
+import React, {useEffect, useMemo} from 'react';
 
 // Components
 import CalenderRow from '../components/CalenderRow';
@@ -20,7 +20,7 @@ import {colors, assets} from '../components/constants';
 // Store
 import useStore from '../store/useStore';
 
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 
 const ScheduleScreen = () => {
   // FIXME: workout name should'nt take all the space in pre-list of workout
@@ -30,11 +30,17 @@ const ScheduleScreen = () => {
   const currentWorkout = useStore(s => s.currentWorkout);
   const addWorkoutDay = useStore(s => s.addWorkoutDay);
   const currentDay = useStore(s => s.currentDay);
+  const weekdays = useStore(s => s.weekdays);
   const unselectCurrentDay = useStore(s => s.unselectCurrentDay);
   const unselectCurrentWorkout = useStore(s => s.unselectCurrentWorkout);
   const selectCurrentWorkout = useStore(s => s.selectCurrentWorkout);
 
   const navigation = useNavigation();
+  const isFoucsed = useIsFocused();
+
+  useEffect(() => {
+    console.log('current workout from ScheduleScreen', currentWorkout);
+  }, [isFoucsed]);
 
   const navigateToWorkoutById = id => {
     navigation.navigate('WorkoutScreen', {workoutId: id});
@@ -60,13 +66,13 @@ const ScheduleScreen = () => {
         <CalenderRow />
       </View>
       <View style={style.workoutContainerStyle}>
-        <View style={{opacity: currentWorkout?.title ? 0 : 1}}>
+        <View style={{opacity: currentWorkout.title ? 0 : 1}}>
           <Text className="text-yellow-200">
             Add new workout or select pre-configure one.
           </Text>
         </View>
         <View className="flex-row items-center space-x-5">
-          <Text style={style.workoutTitleStyle}>{currentWorkout?.title}</Text>
+          <Text style={style.workoutTitleStyle}>{currentWorkout.title}</Text>
           <TouchableOpacity
             onPress={() => navigateToWorkoutById(currentWorkout?.id)}
             style={{opacity: currentWorkout?.title ? 1 : 0}}>
@@ -112,11 +118,7 @@ const ScheduleScreen = () => {
                   selectCurrentWorkout(workout.id);
                   addWorkoutDay(currentDay.id);
                 }}>
-                <WorkoutCard
-                  id={workout.id}
-                  title={workout.title}
-                  navigateToWorkoutById={navigateToWorkoutById}
-                />
+                <WorkoutCard id={workout.id} title={workout.title} />
               </TouchableOpacity>
             ))}
           </ScrollView>

@@ -1,5 +1,5 @@
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState, useLayoutEffect} from 'react';
 import produce from 'immer';
 
 import {colors} from './constants';
@@ -18,9 +18,11 @@ const dayButton = [
 ];
 
 const CalenderRow = () => {
+  let date = new Date().getDay();
   const weekdays = useStore(s => s.weekdays);
   const selectCurrentWorkout = useStore(s => s.selectCurrentWorkout);
   const selectCurrentDay = useStore(s => s.selectCurrentDay);
+  const currentWorkout = useStore(s => s.currentWorkout);
   const [isOn, setisOn] = useState();
   const [db, setDB] = useState(dayButton);
 
@@ -84,19 +86,23 @@ const CalenderRow = () => {
     return <>{array}</>;
   };
 
-  useEffect(() => {
-    handleWhichDay();
-  }, []);
-
   const handleWhichDay = () => {
     let date = new Date().getDay();
     setDB(
       produce(draft => {
         draft.forEach(day => (day.istoday = false));
-        draft[date].istoday = true;
+        draft[date + 1].istoday = true;
       }),
     );
+
+    // if current day has scheduled workout then select workout
+    const currentDayWorkout = weekdays[new Date().getDay() + 1].workout;
+    selectCurrentWorkout(currentDayWorkout);
   };
+
+  useEffect(() => {
+    handleWhichDay();
+  }, []);
 
   return (
     // <View className="flex-row justify-around pt-5 mx-3">

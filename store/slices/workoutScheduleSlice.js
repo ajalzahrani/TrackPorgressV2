@@ -124,6 +124,11 @@ export default workoutScheudleSlice = (set, get) => ({
           draft.currentRoutine = draft.routines[indexOf];
           draft.workouts = draft.currentRoutine.workouts;
           draft.weekdays = draft.currentRoutine.weekdays;
+
+          // const currentDayWorkout =
+          //   draft.weekdays[new Date().getDay() + 1].workout;
+
+          // draft.currentWorkout = draft.workouts[currentDayWorkout];
         }
       }),
     ),

@@ -32,7 +32,7 @@ const RoutineScreen = () => {
 
   useEffect(() => {
     // unselectCurrentRoutine();
-    unselectCurrentWorkout();
+    // unselectCurrentWorkout();
   }, [isFoucsed]);
 
   return (
