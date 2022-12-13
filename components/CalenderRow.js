@@ -89,8 +89,12 @@ const CalenderRow = () => {
     let date = new Date().getDay();
     setDB(
       produce(draft => {
-        draft.forEach(day => (day.istoday = false));
+        draft.forEach(day => {
+          day.ispicked = false;
+          day.istoday = false;
+        });
         draft[date].istoday = true;
+        draft[date].ispicked = true;
       }),
     );
 

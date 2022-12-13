@@ -26,9 +26,7 @@ const ScheduleScreen = () => {
   // FIXME: workout name should'nt take all the space in pre-list of workout
   // FIXME: Hidden start button can be clicked ??
   // FIXME: Unassign schedule workout
-  // FIXME: select scheduled workout selection
   const workouts = useStore(s => s.workouts);
-  const currentWorkout = useStore(s => s.currentWorkout);
   const scheduledWorkout = useStore(s => s.scheduledWorkout);
   const addWorkoutDay = useStore(s => s.addWorkoutDay);
   const currentDay = useStore(s => s.currentDay);
@@ -36,6 +34,7 @@ const ScheduleScreen = () => {
   const unselectCurrentWorkout = useStore(s => s.unselectCurrentWorkout);
   const selectCurrentWorkout = useStore(s => s.selectCurrentWorkout);
   const selectScheduledWorkout = useStore(s => s.selectScheduledWorkout);
+  const addNewWorkout = useStore(s => s.addNewWorkout);
 
   const navigation = useNavigation();
   const isFoucsed = useIsFocused();
@@ -50,6 +49,7 @@ const ScheduleScreen = () => {
           <TouchableOpacity
             className="flex-row flex-1 space-x-2 items-center justify-end mt-2 mr-2"
             onPress={() => {
+              addNewWorkout('');
               navigation.navigate('WorkoutScreen');
             }}>
             <Image source={assets.icn_plus} style={{}} />

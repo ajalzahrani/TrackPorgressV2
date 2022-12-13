@@ -25,13 +25,11 @@ import RestTimeController from '../components/RestTimeController';
 import useStore from '../store/useStore';
 
 const WorkoutScreen = () => {
-  // FIXME: presis workout name if entered before assigning new exercises.
-  // FIXME: dont' save workout when go back.
-  // FIXME: prompet user to enter workout name if empty
   // FIXME: Re-design Rest time controllers
   const currentWorkout = useStore(s => s.currentWorkout);
   const saveWorkout = useStore(s => s.saveWorkout);
   const deleteWorkout = useStore(s => s.deleteWorkout);
+  const addWorkoutTitle = useStore(s => s.addWorkoutTitle);
 
   const [modalVisible, setModalVisible] = useState(false); // workoutname alert modal state
   const [workoutName, setWorkoutName] = useState(currentWorkout?.title); // workout name state
@@ -42,6 +40,16 @@ const WorkoutScreen = () => {
   const addFreq = freq => {
     let exercises = currentWorkout.exercises;
     exercises.freq = freq;
+  };
+
+  const savewo = () => {
+    addWorkoutTitle(workoutName);
+    if (workoutName.length === 0) {
+      setModalVisible(true);
+    } else {
+      saveWorkout();
+      navigation.goBack();
+    }
   };
 
   const RestTimeDrawer = () => {
@@ -124,8 +132,7 @@ const WorkoutScreen = () => {
             {RestTimeDrawer()}
             <TouchableOpacity
               onPress={() => {
-                saveWorkout();
-                navigation.goBack();
+                savewo();
               }}>
               <LinearGradient
                 style={style.touchableOpacityStartStyle}
@@ -143,7 +150,7 @@ const WorkoutScreen = () => {
             {/* Test button */}
             <TouchableOpacity
               onPress={() => {
-                // console.log(currentWorkout);
+                console.log(currentWorkout);
                 deleteWorkout(currentWorkout.id);
                 navigation.goBack();
               }}>

@@ -25,6 +25,13 @@ export default workoutScheudleSlice = (set, get) => ({
       }),
     ),
 
+  addWorkoutTitle: workoutTitle =>
+    set(
+      produce(draft => {
+        draft.currentWorkout.title = workoutTitle;
+      }),
+    ),
+
   addNewExerciseWorkout: exerciseId =>
     set(
       produce(draft => {
@@ -277,6 +284,8 @@ export default workoutScheudleSlice = (set, get) => ({
 
         if (indexOf !== -1) {
           draft.workouts.splice(indexOf, 1);
+          draft.currentWorkout = {};
+          draft.scheduledWorkout = {};
         }
       }),
     ),

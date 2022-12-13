@@ -11,9 +11,7 @@ const RoutineCard = ({id, title}) => {
   // FIXME: Add routine descripton drop down view
   return (
     <View style={style.cardContainer}>
-      <Text style={style.workoutTitle}>
-        {title} - {id}
-      </Text>
+      <Text style={style.workoutTitle}>{title}</Text>
       <View style={style.editContainerStyle} className="space-x-2">
         <Image source={assets.icn_start} />
       </View>
