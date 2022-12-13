@@ -76,7 +76,7 @@ export default workoutScheudleSlice = (set, get) => ({
         let indexOf = draft.weekdays.findIndex(day => day.id === dayId);
         if (indexOf !== -1) {
           draft.weekdays[indexOf].workday = true;
-          draft.weekdays[indexOf].workout = draft.currentWorkout.id;
+          draft.weekdays[indexOf].workout = draft.scheduledWorkout.id;
         }
       }),
     ),
@@ -218,8 +218,6 @@ export default workoutScheudleSlice = (set, get) => ({
           return workout.id === draft.currentWorkout.id;
         });
 
-        draft.saveExercises();
-
         if (indexOf === -1) {
           draft.workouts.push(draft.currentWorkout);
         } else {
@@ -248,8 +246,8 @@ export default workoutScheudleSlice = (set, get) => ({
           return routine.id === draft.currentRoutine.id;
         });
 
-        draft.saveWorkouts();
-        draft.saveWorkoutDay();
+        // draft.saveWorkouts();
+        // draft.saveWorkoutDay();
 
         draft.currentRoutine.workouts = draft.workouts;
         draft.currentRoutine.weekdays = draft.weekdays;

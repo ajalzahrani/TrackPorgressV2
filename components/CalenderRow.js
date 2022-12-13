@@ -99,7 +99,9 @@ const CalenderRow = () => {
     );
 
     // if current day has scheduled workout then select workout
-    const currentDayWorkout = weekdays[new Date().getDay()]?.workout;
+    const dayId = new Date().getDay();
+    const currentDayWorkout = weekdays[dayId]?.workout;
+    selectCurrentDay(dayId);
     selectScheduledWorkout(currentDayWorkout);
   };
 

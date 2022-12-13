@@ -21,6 +21,7 @@ import useStore from '../store/useStore';
 
 const ExerciseScreen = () => {
   // FIXME: presis exercise selection when search
+  // FIXME: auto select new added exercise
   const exercisesMaster = useStore(s => s.exercisesMaster);
   const saveNewExerciseMaster = useStore(s => s.saveNewExerciseMaster);
   const [search, setSearch] = useState(''); //
@@ -71,7 +72,13 @@ const ExerciseScreen = () => {
           </Text>
           {/* <Button title="Add" /> */}
           {/* FIXME: after save delete search and show the list again */}
-          <TouchableOpacity onPress={() => saveNewExerciseMaster(search)}>
+          <TouchableOpacity
+            onPress={() => {
+              setNotFound(false);
+              setSearch('');
+              saveNewExerciseMaster(search);
+              setSearchResult(exercisesMaster);
+            }}>
             <Image source={assets.icn_add} />
           </TouchableOpacity>
         </View>

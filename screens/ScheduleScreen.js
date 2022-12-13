@@ -35,15 +35,19 @@ const ScheduleScreen = () => {
   const selectCurrentWorkout = useStore(s => s.selectCurrentWorkout);
   const selectScheduledWorkout = useStore(s => s.selectScheduledWorkout);
   const addNewWorkout = useStore(s => s.addNewWorkout);
+  const saveRoutine = useStore(s => s.saveRoutine);
 
   const navigation = useNavigation();
-  const isFoucsed = useIsFocused();
 
   return (
     <SafeAreaView className="bg-[#112044] flex-1">
       <View>
         <View style={style.goBackStyle}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity
+            onPress={() => {
+              saveRoutine();
+              navigation.goBack();
+            }}>
             <Image source={assets.icn_goback} />
           </TouchableOpacity>
           <TouchableOpacity
