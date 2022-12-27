@@ -25,7 +25,6 @@ import {useIsFocused, useNavigation} from '@react-navigation/native';
 const ScheduleScreen = () => {
   // FIXME: workout name should'nt take all the space in pre-list of workout
   // FIXME: Hidden start button can be clicked ??
-  // FIXME: Unassign schedule workout
   const workouts = useStore(s => s.workouts);
   const scheduledWorkout = useStore(s => s.scheduledWorkout);
   const addWorkoutDay = useStore(s => s.addWorkoutDay);
@@ -45,6 +44,7 @@ const ScheduleScreen = () => {
         <View style={style.goBackStyle}>
           <TouchableOpacity
             onPress={() => {
+              // FIXME: save routine only if there are changes
               saveRoutine();
               navigation.goBack();
             }}>
@@ -64,49 +64,61 @@ const ScheduleScreen = () => {
         <CalenderRow />
       </View>
       <View style={style.workoutContainerStyle}>
-        <View style={{opacity: scheduledWorkout?.title ? 0 : 1}}>
-          <Text className="text-yellow-200">
-            Add new workout or select pre-configure one.
-          </Text>
-        </View>
-        <View className="flex-row items-center space-x-5">
-          <Text style={style.workoutTitleStyle}>{scheduledWorkout.title}</Text>
-          <TouchableOpacity
-            onPress={() => {
-              selectCurrentWorkout(scheduledWorkout.id);
-              navigation.navigate('WorkoutScreen');
-            }}
-            style={{opacity: scheduledWorkout?.title ? 1 : 0}}>
-            <Image source={assets.icn_edit} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              unselectCurrentDay(currentDay.id);
-              unselectCurrentWorkout();
-            }}
-            style={{opacity: scheduledWorkout?.title ? 1 : 0}}>
-            <Image source={assets.icn_remove} />
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity
-          onPress={() => {
-            // console.log(store.getString('workouts'));
-            navigation.navigate('ActiveScreen', {
-              workoutObject: scheduledWorkout,
-            });
-          }}
-          style={{opacity: scheduledWorkout?.title ? 1 : 0}}>
-          <LinearGradient
-            style={style.touchableOpacityStartStyle}
-            start={{x: 1, y: 0}}
-            end={{x: 0, y: 0}}
-            colors={['#FA3B89', '#E10D60']}>
-            <View className="flex-row justify-center items-center space-x-2">
-              <Image source={assets.icn_start} />
-              <Text className="text-base font-semibold text-white">Start</Text>
+        {scheduledWorkout?.title && (
+          <View>
+            <View style={{opacity: scheduledWorkout?.title ? 0 : 1}}>
+              <Text className="text-yellow-200">
+                Add new workout or select pre-configure one.
+              </Text>
             </View>
-          </LinearGradient>
-        </TouchableOpacity>
+            <View className="flex-row items-center space-x-5">
+              <Text style={style.workoutTitleStyle}>
+                {scheduledWorkout.title}
+              </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  selectCurrentWorkout(scheduledWorkout.id);
+                  navigation.navigate('WorkoutScreen');
+                }}
+                // style={{opacity: scheduledWorkout?.title ? 1 : 0}}
+              >
+                <Image source={assets.icn_edit} />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  unselectCurrentDay(currentDay.id);
+                  unselectCurrentWorkout();
+                }}
+                // style={{opacity: scheduledWorkout?.title ? 1 : 0}}
+              >
+                <Image source={assets.icn_remove} />
+              </TouchableOpacity>
+            </View>
+
+            <TouchableOpacity
+              onPress={() => {
+                // console.log(store.getString('workouts'));
+                navigation.navigate('ActiveScreen', {
+                  workoutObject: scheduledWorkout,
+                });
+              }}
+              // style={{opacity: scheduledWorkout?.title ? 1 : 0}}
+            >
+              <LinearGradient
+                style={style.touchableOpacityStartStyle}
+                start={{x: 1, y: 0}}
+                end={{x: 0, y: 0}}
+                colors={['#FA3B89', '#E10D60']}>
+                <View className="flex-row justify-center items-center space-x-2">
+                  <Image source={assets.icn_start} />
+                  <Text className="text-base font-semibold text-white">
+                    Start
+                  </Text>
+                </View>
+              </LinearGradient>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
       <View style={{paddingHorizontal: 16, flex: 1}}>
         <View style={style.preWorkoutListContainerStyle}>

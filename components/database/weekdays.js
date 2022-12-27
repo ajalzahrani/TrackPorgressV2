@@ -2,14 +2,14 @@ const weekdays = [
   {
     id: 0,
     symbol: 'S',
-    workday: true,
-    workout: 1,
+    workday: false,
+    workout: -1,
   },
   {
     id: 1,
     symbol: 'M',
-    workday: true,
-    workout: 2,
+    workday: false,
+    workout: -1,
   },
   {
     id: 2,
@@ -20,14 +20,14 @@ const weekdays = [
   {
     id: 3,
     symbol: 'W',
-    workday: true,
-    workout: 3,
+    workday: false,
+    workout: -1,
   },
   {
     id: 4,
     symbol: 'T',
-    workday: true,
-    workout: 3,
+    workday: false,
+    workout: -1,
   },
   {
     id: 5,

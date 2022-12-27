@@ -4,9 +4,13 @@ import {
   SafeAreaView,
   TouchableOpacity,
   StyleSheet,
+  Modal,
   ScrollView,
+  Image,
+  Pressable,
+  TextInput,
 } from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useIsFocused} from '@react-navigation/native';
 
 // Assets
@@ -24,6 +28,11 @@ import RoutineCard from '../components/RoutineCard';
 const RoutineScreen = () => {
   const routines = useStore(s => s.routines);
   const selectCurrentRoutine = useStore(s => s.selectCurrentRoutine);
+  const unselectCurrentDay = useStore(s => s.unselectCurrentDay);
+  const unselectCurrentWorkout = useStore(s => s.unselectCurrentWorkout);
+  const addNewRoutine = useStore(s => s.addNewRoutine);
+  const [modalVisible, setModalVisible] = useState(false); // workoutname alert modal state
+  const [routienTitle, setRoutienTitle] = useState('');
 
   const navigation = useNavigation();
   const isFoucsed = useIsFocused();
@@ -35,11 +44,82 @@ const RoutineScreen = () => {
 
   return (
     <SafeAreaView className="bg-[#112044] flex-1">
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={style.centeredView}>
+          <View style={style.modalView}>
+            <Text style={style.modalText}>Type in workout name</Text>
+            <TextInput
+              style={style.modalInput}
+              placeholder="useless placeholder"
+              keyboardType="numeric"
+              onChangeText={text => setRoutienTitle(text)}
+            />
+
+            <View style={{flexDirection: 'row'}}>
+              <Pressable
+                style={[style.button, style.buttonClose, {marginRight: 10}]}
+                onPress={() => {
+                  if (routienTitle.length !== 0) {
+                    addNewRoutine(routienTitle);
+                    setModalVisible(!modalVisible);
+                    navigation.navigate('ScheduleScreen');
+                  }
+                }}>
+                <Text style={style.textStyle}>Okey</Text>
+              </Pressable>
+              <Pressable
+                style={[style.button, style.buttonClose]}
+                onPress={() => setModalVisible(!modalVisible)}>
+                <Text style={style.textStyle}>Cancel</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
       <View style={{paddingHorizontal: 20, marginTop: 20}}>
-        <View className="items-center">
-          <Text style={{fontSize: 30, fontWeight: '700', color: colors.white}}>
-            Routines
-          </Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginTop: 10,
+            paddingHorizontal: 20,
+            paddingVertical: 15,
+            borderRadius: 10,
+          }}>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text
+              style={{fontSize: 30, fontWeight: '700', color: colors.white}}>
+              Routines
+            </Text>
+          </View>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}>
+            <TouchableOpacity
+              onPress={() => {
+                setModalVisible(true);
+              }}>
+              <Image source={assets.icn_add} />
+            </TouchableOpacity>
+          </View>
         </View>
         <ScrollView
           contentContainerStyle={{paddingBottom: 72}}
@@ -102,5 +182,54 @@ const style = StyleSheet.create({
   },
   titleButtonContainerStyle: {
     marginHorizontal: 72,
+  },
+
+  // modal style
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalView: {
+    margin: 10,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  modalInput: {
+    // height: 40,
+    padding: 10,
+    margin: 10,
+    borderRadius: 10,
+    borderWidth: 0.2,
   },
 });

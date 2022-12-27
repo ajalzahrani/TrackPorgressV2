@@ -87,7 +87,9 @@ const WorkoutScreen = () => {
             <Text style={style.modalText}>Type in workout name</Text>
             <Pressable
               style={[style.button, style.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}>
+              onPress={() => {
+                setModalVisible(!modalVisible);
+              }}>
               <Text style={style.textStyle}>Okey</Text>
             </Pressable>
           </View>

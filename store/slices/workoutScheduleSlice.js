@@ -1,6 +1,7 @@
 import {produce} from 'immer';
 import uuid from 'react-native-uuid';
 import {store} from '../../Store';
+import DefaultWeekdays from '../../components/database/weekdays';
 
 export default workoutScheudleSlice = (set, get) => ({
   routines: [],
@@ -81,7 +82,12 @@ export default workoutScheudleSlice = (set, get) => ({
       }),
     ),
 
-  addNewRoutine: (routineTitle, startDate, endDate, level) =>
+  addNewRoutine: (
+    routineTitle,
+    startDate = new Date(),
+    endDate = new Date(),
+    level = 'beginner',
+  ) =>
     set(
       produce(draft => {
         draft.currentRoutine = {
@@ -90,9 +96,13 @@ export default workoutScheudleSlice = (set, get) => ({
           startdate: startDate,
           endate: endDate,
           level: level,
-          workouts: draft.workouts,
-          weekdays: draft.weekdays,
+          workouts: [],
+          weekdays: DefaultWeekdays,
         };
+
+        draft.weekdays = DefaultWeekdays;
+        draft.currentDay = {};
+        draft.currentWorkout = {};
       }),
     ),
 
@@ -160,6 +170,7 @@ export default workoutScheudleSlice = (set, get) => ({
     set(
       produce(draft => {
         draft.currentWorkout = {};
+        draft.scheduledWorkout = {};
       }),
     ),
 
