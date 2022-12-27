@@ -57,31 +57,31 @@ const ExerciseScreen = () => {
           value={search}
           style={style.textInputStyle}
         />
-
-        {/* FIXME: use notFound ?? () pattern */}
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginTop: 10,
-            opacity: notFound ? 1 : 0,
-          }}>
-          <Text style={{color: 'white', marginRight: 10}}>
-            Not found, Do you want to add
-          </Text>
-          {/* <Button title="Add" /> */}
-          {/* FIXME: after save delete search and show the list again */}
-          <TouchableOpacity
-            onPress={() => {
-              setNotFound(false);
-              setSearch('');
-              saveNewExerciseMaster(search);
-              setSearchResult(exercisesMaster);
+        {notFound && (
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: 10,
+              // opacity: notFound ? 1 : 0,
             }}>
-            <Image source={assets.icn_add} />
-          </TouchableOpacity>
-        </View>
+            <Text style={{color: 'white', marginRight: 10}}>
+              Not found, Do you want to add
+            </Text>
+            {/* <Button title="Add" /> */}
+            {/* FIXME: after save delete search and show the list again */}
+            <TouchableOpacity
+              onPress={() => {
+                setNotFound(false);
+                setSearch('');
+                saveNewExerciseMaster(search);
+                setSearchResult(exercisesMaster);
+              }}>
+              <Image source={assets.icn_add} />
+            </TouchableOpacity>
+          </View>
+        )}
 
         <ScrollView contentContainerStyle={{paddingBottom: 72, marginTop: 20}}>
           {/* Exercise List */}
