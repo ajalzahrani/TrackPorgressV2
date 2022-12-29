@@ -22,6 +22,7 @@ const CalenderRow = () => {
   const selectCurrentWorkout = useStore(s => s.selectCurrentWorkout);
   const selectScheduledWorkout = useStore(s => s.selectScheduledWorkout);
   const selectCurrentDay = useStore(s => s.selectCurrentDay);
+  const {currentDay} = useState();
   const [db, setDB] = useState(dayButton);
 
   const generateWorkdays = () => {

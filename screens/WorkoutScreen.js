@@ -30,6 +30,7 @@ const WorkoutScreen = () => {
   const saveWorkout = useStore(s => s.saveWorkout);
   const deleteWorkout = useStore(s => s.deleteWorkout);
   const addWorkoutTitle = useStore(s => s.addWorkoutTitle);
+  const assignWorkout = useStore(s => s.assignWorkout);
 
   const [modalVisible, setModalVisible] = useState(false); // workoutname alert modal state
   const [workoutName, setWorkoutName] = useState(currentWorkout?.title); // workout name state
@@ -48,6 +49,7 @@ const WorkoutScreen = () => {
       setModalVisible(true);
     } else {
       saveWorkout();
+      assignWorkout(currentWorkout.id);
       navigation.goBack();
     }
   };

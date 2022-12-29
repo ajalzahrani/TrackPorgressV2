@@ -6,7 +6,11 @@ import {getWorkoutObject} from './shared';
 
 import {useNavigation} from '@react-navigation/native';
 
+// Store
+import useStore from '../store/useStore';
+
 const RoutineCard = ({id, title}) => {
+  const deleteRoutine = useStore(s => s.deleteRoutine);
   const navigation = useNavigation();
   // FIXME: Add routine descripton drop down view
   return (
@@ -14,6 +18,13 @@ const RoutineCard = ({id, title}) => {
       <Text style={style.workoutTitle}>{title}</Text>
       <View style={style.editContainerStyle} className="space-x-2">
         <Image source={assets.icn_start} />
+        <TouchableOpacity
+          onPress={() => {
+            // delete routine
+            deleteRoutine(id);
+          }}>
+          <Image source={assets.icn_remove} />
+        </TouchableOpacity>
       </View>
     </View>
   );

@@ -82,6 +82,16 @@ export default workoutScheudleSlice = (set, get) => ({
       }),
     ),
 
+  assignWorkout: workoutId => {
+    if (
+      get().currentDay.workout === -1 &&
+      get().scheduledWorkout?.title !== ''
+    ) {
+      get().selectScheduledWorkout(workoutId);
+      get().addWorkoutDay(get().currentDay.id);
+    }
+  },
+
   addNewRoutine: (
     routineTitle,
     startDate = new Date(),
@@ -99,11 +109,8 @@ export default workoutScheudleSlice = (set, get) => ({
           workouts: [],
           weekdays: DefaultWeekdays,
         };
-
-        draft.weekdays = DefaultWeekdays;
-        draft.currentDay = {};
-        draft.currentWorkout = {};
       }),
+      get().unselectAll(),
     ),
 
   selectCurrentWorkout: workoutId =>
@@ -163,6 +170,16 @@ export default workoutScheudleSlice = (set, get) => ({
 
           // draft.currentWorkout = draft.workouts[currentDayWorkout];
         }
+      }),
+    ),
+
+  unselectAll: () =>
+    set(
+      produce(draft => {
+        draft.weekdays = DefaultWeekdays;
+        draft.currentDay = {};
+        draft.currentWorkout = {};
+        draft.workouts = [];
       }),
     ),
 
@@ -244,9 +261,9 @@ export default workoutScheudleSlice = (set, get) => ({
           return day.id === draft.currentDay.id;
         });
         console.log('current day ', draft.currentDay);
-        console.log('before ', draft.weekdays);
+        console.log('weekdays before ', draft.weekdays);
         draft.weekdays[indexOf] = draft.currentDay;
-        console.log('after  ', draft.weekdays);
+        console.log('weekdays after  ', draft.weekdays);
       }),
     ),
 
@@ -256,9 +273,12 @@ export default workoutScheudleSlice = (set, get) => ({
         let indexOf = draft.routines.findIndex(routine => {
           return routine.id === draft.currentRoutine.id;
         });
-
-        // draft.saveWorkouts();
-        // draft.saveWorkoutDay();
+        console.log(
+          'Object comparing',
+          JSON.stringify(draft.currentRoutine) !==
+            JSON.stringify(draft.routines[indexOf]),
+        );
+        // compare currentRoutine with saved routien
 
         draft.currentRoutine.workouts = draft.workouts;
         draft.currentRoutine.weekdays = draft.weekdays;
@@ -307,6 +327,7 @@ export default workoutScheudleSlice = (set, get) => ({
         });
 
         draft.routines.splice(indexOf, 1);
+        store.set('routines', JSON.stringify(draft.routines));
       }),
     ),
 });

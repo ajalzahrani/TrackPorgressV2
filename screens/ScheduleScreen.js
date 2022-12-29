@@ -6,9 +6,12 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  Modal,
+  TextInput,
+  Pressable,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import React, {useEffect, useMemo} from 'react';
+import React, {useEffect, useState} from 'react';
 
 // Components
 import CalenderRow from '../components/CalenderRow';
@@ -24,7 +27,7 @@ import {useIsFocused, useNavigation} from '@react-navigation/native';
 
 const ScheduleScreen = () => {
   // FIXME: workout name should'nt take all the space in pre-list of workout
-  // FIXME: Hidden start button can be clicked ??
+  // FIXME: Auto select new added workout.
   const workouts = useStore(s => s.workouts);
   const scheduledWorkout = useStore(s => s.scheduledWorkout);
   const addWorkoutDay = useStore(s => s.addWorkoutDay);
@@ -40,6 +43,50 @@ const ScheduleScreen = () => {
 
   return (
     <SafeAreaView className="bg-[#112044] flex-1">
+      {/* FIXME: Compare routines object if there is changes then ask the user to confirm */}
+      {/* <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={style.centeredView}>
+          <View style={style.modalView}>
+            <Text style={style.modalText}>Type in workout name</Text>
+            <TextInput
+              style={style.modalInput}
+              placeholder="useless placeholder"
+              keyboardType="numeric"
+              onChangeText={text => setRoutienTitle(text)}
+            />
+
+            <View style={{flexDirection: 'row'}}>
+              <Pressable
+                style={[style.button, style.buttonClose, {marginRight: 10}]}
+                onPress={() => {
+                  if (routienTitle.length !== 0) {
+                    setModalVisible(!modalVisible);
+                    console.log('save routine');
+                    navigation.navigate('RoutineScreen');
+                  }
+                }}>
+                <Text style={style.textStyle}>Yes</Text>
+              </Pressable>
+              <Pressable
+                style={[style.button, style.buttonClose]}
+                onPress={() => {
+                  setModalVisible(!modalVisible);
+                  console.log('dont save routine');
+                  navigation.navigate('RoutineScreen');
+                }}>
+                <Text style={style.textStyle}>No</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal> */}
       <View>
         <View style={style.goBackStyle}>
           <TouchableOpacity
@@ -187,6 +234,55 @@ const style = StyleSheet.create({
   },
   titleButtonContainerStyle: {
     marginHorizontal: 72,
+  },
+
+  // modal style
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalView: {
+    margin: 10,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  modalInput: {
+    // height: 40,
+    padding: 10,
+    margin: 10,
+    borderRadius: 10,
+    borderWidth: 0.2,
   },
 });
 

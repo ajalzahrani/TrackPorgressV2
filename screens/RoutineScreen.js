@@ -31,6 +31,7 @@ const RoutineScreen = () => {
   const unselectCurrentDay = useStore(s => s.unselectCurrentDay);
   const unselectCurrentWorkout = useStore(s => s.unselectCurrentWorkout);
   const addNewRoutine = useStore(s => s.addNewRoutine);
+
   const [modalVisible, setModalVisible] = useState(false); // workoutname alert modal state
   const [routienTitle, setRoutienTitle] = useState('');
 
@@ -124,16 +125,18 @@ const RoutineScreen = () => {
         <ScrollView
           contentContainerStyle={{paddingBottom: 72}}
           style={{marginTop: 20}}>
-          {routines?.map(item => (
-            <TouchableOpacity
-              key={item.id}
-              onPress={() => {
-                // console.log(JSON.stringify(item));
-                navigation.navigate('ScheduleScreen');
-                selectCurrentRoutine(item.id);
-              }}>
-              <RoutineCard id={item.id} title={item.title} />
-            </TouchableOpacity>
+          {routines?.map((item, i) => (
+            <View key={i} style={{flexDirection: 'row', alignItems: 'center'}}>
+              <TouchableOpacity
+                style={{flex: 1}}
+                onPress={() => {
+                  // console.log(JSON.stringify(item));
+                  navigation.navigate('ScheduleScreen');
+                  selectCurrentRoutine(item.id);
+                }}>
+                <RoutineCard id={item.id} title={item.title} />
+              </TouchableOpacity>
+            </View>
           ))}
         </ScrollView>
       </View>
