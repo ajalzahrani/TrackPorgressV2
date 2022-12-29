@@ -6,7 +6,8 @@
   },
   "schedule": {
     "addNewWorkout": "أضف تمرين جديد",
-    "preListOfWorkouts": "التمارين المنسقة"
+    "preListOfWorkouts": "التمارين المنسقة",
+    "addNewWorkoutOrChoose": "أضف تمرينًا جديدًا أو حدد واحدًا تم تكوينه مسبقًا."
   },
   "settings": {
     "gender": "الجنس",

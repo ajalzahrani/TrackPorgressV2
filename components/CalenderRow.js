@@ -107,7 +107,6 @@ const CalenderRow = () => {
   };
 
   useEffect(() => {
-    console.log(weekdays);
     handleWhichDay();
   }, []);
 

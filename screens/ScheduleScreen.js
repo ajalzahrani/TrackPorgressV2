@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import React, {useEffect, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 
 // Components
 import CalenderRow from '../components/CalenderRow';
@@ -38,13 +39,16 @@ const ScheduleScreen = () => {
   const selectScheduledWorkout = useStore(s => s.selectScheduledWorkout);
   const addNewWorkout = useStore(s => s.addNewWorkout);
   const saveRoutine = useStore(s => s.saveRoutine);
+  const compareRoutinesObj = useStore(s => s.compareRoutinesObj);
+  const {t} = useTranslation();
+
+  const [modalVisible, setModalVisible] = useState(false);
 
   const navigation = useNavigation();
 
   return (
     <SafeAreaView className="bg-[#112044] flex-1">
-      {/* FIXME: Compare routines object if there is changes then ask the user to confirm */}
-      {/* <Modal
+      <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
@@ -54,46 +58,46 @@ const ScheduleScreen = () => {
         }}>
         <View style={style.centeredView}>
           <View style={style.modalView}>
-            <Text style={style.modalText}>Type in workout name</Text>
-            <TextInput
-              style={style.modalInput}
-              placeholder="useless placeholder"
-              keyboardType="numeric"
-              onChangeText={text => setRoutienTitle(text)}
-            />
+            <Text style={style.modalText}>Save changes ?</Text>
 
             <View style={{flexDirection: 'row'}}>
               <Pressable
                 style={[style.button, style.buttonClose, {marginRight: 10}]}
                 onPress={() => {
-                  if (routienTitle.length !== 0) {
-                    setModalVisible(!modalVisible);
-                    console.log('save routine');
-                    navigation.navigate('RoutineScreen');
-                  }
+                  setModalVisible(!modalVisible);
+                  saveRoutine();
+                  navigation.navigate('RoutineScreen');
                 }}>
                 <Text style={style.textStyle}>Yes</Text>
+              </Pressable>
+              <Pressable
+                style={[style.button, style.buttonClose, {marginRight: 10}]}
+                onPress={() => {
+                  setModalVisible(!modalVisible);
+                  navigation.navigate('RoutineScreen');
+                }}>
+                <Text style={style.textStyle}>No</Text>
               </Pressable>
               <Pressable
                 style={[style.button, style.buttonClose]}
                 onPress={() => {
                   setModalVisible(!modalVisible);
-                  console.log('dont save routine');
-                  navigation.navigate('RoutineScreen');
                 }}>
-                <Text style={style.textStyle}>No</Text>
+                <Text style={style.textStyle}>Cancel</Text>
               </Pressable>
             </View>
           </View>
         </View>
-      </Modal> */}
+      </Modal>
       <View>
         <View style={style.goBackStyle}>
           <TouchableOpacity
             onPress={() => {
-              // FIXME: save routine only if there are changes
-              saveRoutine();
-              navigation.goBack();
+              if (compareRoutinesObj() === false) {
+                setModalVisible(!modalVisible);
+              } else {
+                navigation.navigate('RoutineScreen');
+              }
             }}>
             <Image source={assets.icn_goback} />
           </TouchableOpacity>
@@ -104,20 +108,17 @@ const ScheduleScreen = () => {
               navigation.navigate('WorkoutScreen');
             }}>
             <Image source={assets.icn_plus} style={{}} />
-            <Text className="text-red-500 text-base">Add new workout</Text>
+            <Text className="text-red-500 text-base">
+              {t('schedule.addNewWorkout')}
+            </Text>
           </TouchableOpacity>
         </View>
 
         <CalenderRow />
       </View>
       <View style={style.workoutContainerStyle}>
-        {scheduledWorkout?.title && (
-          <View>
-            <View style={{opacity: scheduledWorkout?.title ? 0 : 1}}>
-              <Text className="text-yellow-200">
-                Add new workout or select pre-configure one.
-              </Text>
-            </View>
+        {scheduledWorkout?.title ? (
+          <>
             <View className="flex-row items-center space-x-5">
               <Text style={style.workoutTitleStyle}>
                 {scheduledWorkout.title}
@@ -126,18 +127,14 @@ const ScheduleScreen = () => {
                 onPress={() => {
                   selectCurrentWorkout(scheduledWorkout.id);
                   navigation.navigate('WorkoutScreen');
-                }}
-                // style={{opacity: scheduledWorkout?.title ? 1 : 0}}
-              >
+                }}>
                 <Image source={assets.icn_edit} />
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
                   unselectCurrentDay(currentDay.id);
                   unselectCurrentWorkout();
-                }}
-                // style={{opacity: scheduledWorkout?.title ? 1 : 0}}
-              >
+                }}>
                 <Image source={assets.icn_remove} />
               </TouchableOpacity>
             </View>
@@ -148,9 +145,7 @@ const ScheduleScreen = () => {
                 navigation.navigate('ActiveScreen', {
                   workoutObject: scheduledWorkout,
                 });
-              }}
-              // style={{opacity: scheduledWorkout?.title ? 1 : 0}}
-            >
+              }}>
               <LinearGradient
                 style={style.touchableOpacityStartStyle}
                 start={{x: 1, y: 0}}
@@ -164,12 +159,16 @@ const ScheduleScreen = () => {
                 </View>
               </LinearGradient>
             </TouchableOpacity>
-          </View>
+          </>
+        ) : (
+          <Text className="text-yellow-200">
+            {t('schedule.addNewWorkoutOrChoose')}
+          </Text>
         )}
       </View>
       <View style={{paddingHorizontal: 16, flex: 1}}>
         <View style={style.preWorkoutListContainerStyle}>
-          <Text className="text-white">Pre-list of workouts</Text>
+          <Text className="text-white">{t('schedule.preListOfWorkouts')}</Text>
           <ScrollView contentContainerStyle={{paddingBottom: 72}}>
             {workouts?.map(workout => (
               <TouchableOpacity
@@ -198,7 +197,8 @@ const style = StyleSheet.create({
     display: 'flex',
     flexdirection: 'column',
     alignItems: 'center',
-    padding: 0,
+    justifyContent: 'center',
+    paddingHorizontal: 24,
     gap: 30,
     marginTop: 56,
   },

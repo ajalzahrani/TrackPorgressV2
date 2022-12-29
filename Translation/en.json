@@ -6,7 +6,8 @@
   },
   "schedule": {
     "addNewWorkout": "Add new workout",
-    "preListOfWorkouts": "Pre-list of workouts"
+    "preListOfWorkouts": "Pre-list of workouts",
+    "addNewWorkoutOrChoose": "Add new workout or select pre-configure one."
   },
   "settings": {
     "gender": "Gender",

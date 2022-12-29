@@ -160,15 +160,11 @@ export default workoutScheudleSlice = (set, get) => ({
         let indexOf = draft.routines.findIndex(
           routine => routine.id === routineId,
         );
+
         if (indexOf !== -1) {
           draft.currentRoutine = draft.routines[indexOf];
           draft.workouts = draft.currentRoutine.workouts;
           draft.weekdays = draft.currentRoutine.weekdays;
-
-          // const currentDayWorkout =
-          //   draft.weekdays[new Date().getDay() + 1].workout;
-
-          // draft.currentWorkout = draft.workouts[currentDayWorkout];
         }
       }),
     ),
@@ -267,21 +263,36 @@ export default workoutScheudleSlice = (set, get) => ({
       }),
     ),
 
+  commitRoutine: () =>
+    set(
+      produce(draft => {
+        draft.currentRoutine.workouts = draft.workouts;
+        draft.currentRoutine.weekdays = draft.weekdays;
+      }),
+    ),
+
+  compareRoutinesObj: () => {
+    let indexOf = get().routines.findIndex(routine => {
+      return routine.id === get().currentRoutine.id;
+    });
+
+    get().commitRoutine();
+
+    return (
+      JSON.stringify(get().currentRoutine) ===
+      JSON.stringify(get().routines[indexOf])
+    );
+  },
+
   saveRoutine: () =>
     set(
       produce(draft => {
         let indexOf = draft.routines.findIndex(routine => {
           return routine.id === draft.currentRoutine.id;
         });
-        console.log(
-          'Object comparing',
-          JSON.stringify(draft.currentRoutine) !==
-            JSON.stringify(draft.routines[indexOf]),
-        );
-        // compare currentRoutine with saved routien
 
-        draft.currentRoutine.workouts = draft.workouts;
-        draft.currentRoutine.weekdays = draft.weekdays;
+        // draft.currentRoutine.workouts = draft.workouts;
+        // draft.currentRoutine.weekdays = draft.weekdays;
 
         if (indexOf === -1) {
           draft.routines.push(draft.currentRoutine);
