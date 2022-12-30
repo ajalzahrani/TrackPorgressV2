@@ -23,6 +23,7 @@ import RestTimeController from '../components/RestTimeController';
 
 // Store
 import useStore from '../store/useStore';
+import PressableButton from '../components/PressableButton';
 
 const WorkoutScreen = () => {
   // FIXME: Re-design Rest time controllers
@@ -134,43 +135,22 @@ const WorkoutScreen = () => {
               );
             })}
             {RestTimeDrawer()}
-            <TouchableOpacity
+
+            <PressableButton
+              label={'Skitch'}
+              iconSource={assets.icn_edit}
               onPress={() => {
                 savewo();
-              }}>
-              <LinearGradient
-                style={style.touchableOpacityStartStyle}
-                start={{x: 1, y: 0}}
-                end={{x: 0, y: 0}}
-                colors={['#FA3B89', '#E10D60']}>
-                <View className="flex-row justify-center items-center space-x-2">
-                  <Image source={assets.icn_start} />
-                  <Text className="text-base font-semibold text-white">
-                    Sketch
-                  </Text>
-                </View>
-              </LinearGradient>
-            </TouchableOpacity>
+              }}
+            />
             {/* Test button */}
-            <TouchableOpacity
+            <PressableButton
+              label={'Delete'}
               onPress={() => {
-                console.log(currentWorkout);
                 deleteWorkout(currentWorkout.id);
                 navigation.goBack();
-              }}>
-              <LinearGradient
-                style={style.touchableOpacityStartStyle}
-                start={{x: 1, y: 0}}
-                end={{x: 0, y: 0}}
-                colors={['#FA3B89', '#E10D60']}>
-                <View className="flex-row justify-center items-center space-x-2">
-                  <Image source={assets.icn_start} />
-                  <Text className="text-base font-semibold text-white">
-                    Check (del)
-                  </Text>
-                </View>
-              </LinearGradient>
-            </TouchableOpacity>
+              }}
+            />
           </ScrollView>
         </View>
       </View>
