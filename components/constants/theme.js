@@ -8,6 +8,7 @@ export const colors = {
   red: 'red',
   white: '#FFF',
   yellow: 'yellow',
+  blue: 'blue,',
 };
 
 export const sizes = {

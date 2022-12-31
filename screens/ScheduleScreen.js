@@ -29,6 +29,7 @@ import {useIsFocused, useNavigation} from '@react-navigation/native';
 const ScheduleScreen = () => {
   // FIXME: workout name should'nt take all the space in pre-list of workout
   // FIXME: Auto select new added workout.
+  // FIXME: Clicking on navigation button should prsiste configurations.
   const workouts = useStore(s => s.workouts);
   const scheduledWorkout = useStore(s => s.scheduledWorkout);
   const addWorkoutDay = useStore(s => s.addWorkoutDay);

@@ -36,7 +36,7 @@ const SessionReport = ({session}) => {
       <Divider />
       <Text style={style.generalFontSize}>Routine Name</Text>
       <Text style={style.generalFontSize}>
-        {getWorkoutObject(session.workoutId).title}
+        {/* {getWorkoutObject(session.workoutId).title} */}
       </Text>
       <Divider />
       {session.exercises.map((e, i) => {

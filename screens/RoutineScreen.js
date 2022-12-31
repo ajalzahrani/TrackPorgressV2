@@ -32,6 +32,10 @@ const RoutineScreen = () => {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
 
+  useEffect(() => {
+    setModalVisible(true);
+  }, []);
+
   return (
     <SafeAreaView className="bg-[#112044] flex-1">
       <RoutineFormSheetModal

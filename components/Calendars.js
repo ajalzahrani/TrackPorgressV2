@@ -24,9 +24,9 @@ const Calendars = ({setSelectedDate}) => {
   );
 
   const marked = {
-    '2022-11-02': {marked: 'true'},
-    '2022-11-04': {marked: 'true'},
-    '2022-11-06': {selected: 'true', selectedColor: '#aa2222'},
+    '2022-11-02': {marked: true},
+    '2022-11-04': {marked: true},
+    '2022-11-06': {selected: true, selectedColor: '#aa2222'},
     '2022-11-13': {
       marked: true,
       selected: true,
@@ -41,13 +41,13 @@ const Calendars = ({setSelectedDate}) => {
     // select sessions dates
     sessions.forEach(item => {
       marked[moment(item.datetime).format('YYYY-MM-DD')] = {
-        selected: 'true',
+        selected: true,
         selectedColor: '#222222',
       };
     });
     // mark today
     marked[moment(new Date()).format('YYYY-MM-DD')] = {
-      marked: 'true',
+      marked: true,
     };
     setMarkedDate(marked);
   }, []);

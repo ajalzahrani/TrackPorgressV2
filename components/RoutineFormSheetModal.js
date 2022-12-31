@@ -1,17 +1,14 @@
 import {
   View,
   Text,
-  SafeAreaView,
-  TouchableOpacity,
   StyleSheet,
   Modal,
-  ScrollView,
-  Image,
-  Pressable,
   TextInput,
   Alert,
+  Button,
 } from 'react-native';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
+import SegmentedControl from '@react-native-segmented-control/segmented-control';
 
 // Store
 import useStore from '../store/useStore';
@@ -20,14 +17,22 @@ import useStore from '../store/useStore';
 import {useNavigation} from '@react-navigation/native';
 
 // Assets
-import {colors, assets} from '../components/constants';
+import {colors} from '../components/constants';
 
 // Components
 import PressableButton from './PressableButton';
+import DateTimePickers from './DateTimePickers';
+import Calendars2 from './Calendars2';
 
 const RoutineFormSheetModal = ({modalVisible, setModalVisible}) => {
   const addNewRoutine = useStore(s => s.addNewRoutine);
   const [routienTitle, setRoutienTitle] = useState('');
+  const [routineDescription, setRoutineDescription] = useState('');
+  const [date, setDate] = useState(new Date(2030, 10, 20));
+  const [startDay, setStartDay] = useState(null);
+  const [endDay, setEndDay] = useState(null);
+  const [isSelectDateClick, setIsSelectDateClick] = useState(false);
+  const [selectLevelIndex, setSelectLevelIndex] = useState(0);
 
   const navigation = useNavigation();
 
@@ -45,7 +50,6 @@ const RoutineFormSheetModal = ({modalVisible, setModalVisible}) => {
       transparent={false}
       visible={modalVisible}
       onRequestClose={() => {
-        Alert.alert('Modal has been closed.');
         setModalVisible(!modalVisible);
       }}
       presentationStyle={'formSheet'}>
@@ -58,6 +62,45 @@ const RoutineFormSheetModal = ({modalVisible, setModalVisible}) => {
           style={style.textInputStyle}
         />
 
+        <Button
+          style={style.selectText}
+          title="Select start & end date"
+          onPress={() => setIsSelectDateClick(true)}
+        />
+
+        {isSelectDateClick && (
+          <Calendars2
+            startDay={startDay}
+            setStartDay={setStartDay}
+            endDay={endDay}
+            setEndDay={setEndDay}
+          />
+        )}
+
+        {/* <DateTimePickers /> */}
+        {/* <Text style={{color: colors.white, marginTop: 20}}>
+          Start Date: {startDay}
+        </Text>
+        <Text style={{color: colors.white}}>End Date: {endDay}</Text> */}
+
+        <SegmentedControl
+          values={['Beginner', 'Intermediate', 'Professional']}
+          selectedIndex={selectLevelIndex}
+          onChange={event => {
+            setSelectLevelIndex(event.nativeEvent.selectedSegmentIndex);
+          }}
+          backgroundColor={colors.offwhite}
+          appearance="light"
+          style={{marginTop: 20, marginHorizontal: 50, marginBottom: 15}}
+        />
+        <TextInput
+          style={[style.textInputStyle, style.richBox]}
+          placeholder="Description"
+          value={routineDescription}
+          onChangeText={text => setRoutineDescription(text)}
+          multiline={true}
+          underlineColorAndroid="transparent"
+        />
         <PressableButton onPress={onPress} label="Okey" />
       </View>
     </Modal>
@@ -69,8 +112,9 @@ export default RoutineFormSheetModal;
 const style = StyleSheet.create({
   centeredView: {
     flex: 1,
-    alignItems: 'center',
+    padding: 16,
     backgroundColor: colors.primary,
+    // alignItems: 'center',
   },
   button: {
     borderRadius: 20,
@@ -89,8 +133,16 @@ const style = StyleSheet.create({
     textAlign: 'center',
   },
   modalText: {
-    marginBottom: 20,
+    marginVertical: 20,
     textAlign: 'center',
+    color: colors.white,
+    fontSize: 24,
+    fontSize: 30,
+    fontWeight: '700',
+    color: colors.white,
+  },
+  selectText: {
+    color: colors.white,
   },
   textInputStyle: {
     backgroundColor: colors.offwhite,
@@ -101,6 +153,11 @@ const style = StyleSheet.create({
     fontWeight: '400',
     borderRadius: 100,
     marginHorizontal: 30,
-    marginTop: 47,
+    marginVertical: 20,
+  },
+  richBox: {
+    borderRadius: 10,
+    paddingTop: 20,
+    paddingBottom: 20,
   },
 });
