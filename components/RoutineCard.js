@@ -1,26 +1,35 @@
 import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useState, useMemo} from 'react';
 
 import {colors, assets} from './constants';
-import {getWorkoutObject} from './shared';
 
 import {useNavigation} from '@react-navigation/native';
 
 // Store
 import useStore from '../store/useStore';
+import PressableButton from './PressableButton';
+
+import RoutineFormScreen from '../screens/RoutineFormScreen';
 
 const RoutineCard = ({id, title}) => {
   const deleteRoutine = useStore(s => s.deleteRoutine);
+  const routines = useStore(s => s.routines);
+  const selectCurrentRoutine = useStore(s => s.selectCurrentRoutine);
   const navigation = useNavigation();
-  // FIXME: Add routine descripton drop down view
+
   return (
     <View style={style.cardContainer}>
       <Text style={style.workoutTitle}>{title}</Text>
-      <View style={style.editContainerStyle} className="space-x-2">
-        <Image source={assets.icn_start} />
+      <View style={style.editContainerStyle} className="space-x-4">
         <TouchableOpacity
           onPress={() => {
-            // delete routine
+            selectCurrentRoutine(id);
+            navigation.navigate('RoutineFormScreen');
+          }}>
+          <Image source={assets.icn_plus} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
             deleteRoutine(id);
           }}>
           <Image source={assets.icn_remove} />

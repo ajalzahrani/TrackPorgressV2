@@ -24,24 +24,19 @@ import useStore from '../store/useStore';
 
 // Componenets
 import RoutineCard from '../components/RoutineCard';
-import RoutineFormSheetModal from '../components/RoutineFormSheetModal';
+import RoutineFormSheetModal from './RoutineFormScreen';
 
 const RoutineScreen = () => {
   const routines = useStore(s => s.routines);
   const selectCurrentRoutine = useStore(s => s.selectCurrentRoutine);
   const navigation = useNavigation();
-  const [modalVisible, setModalVisible] = useState(false);
 
-  useEffect(() => {
-    setModalVisible(true);
-  }, []);
+  // useEffect(() => {
+  //   setModalVisible(true);
+  // }, []);
 
   return (
     <SafeAreaView className="bg-[#112044] flex-1">
-      <RoutineFormSheetModal
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-      />
       <View style={{paddingHorizontal: 20, marginTop: 20}}>
         <View
           style={{
@@ -73,7 +68,7 @@ const RoutineScreen = () => {
             }}>
             <TouchableOpacity
               onPress={() => {
-                setModalVisible(true);
+                navigation.navigate('RoutineFormScreen');
               }}>
               <Image source={assets.icn_add} />
             </TouchableOpacity>

@@ -26,6 +26,9 @@ import {useNavigation} from '@react-navigation/native';
 // gstore
 import {useGstore} from '../gstore';
 
+// Store
+import useStore from '../store/useStore';
+
 const ActiveScreen = ({route}) => {
   // FIXME: ExerciseActiveCard render twice ???? need to fix this
   // FIXME: workout name should'nt take all the space in pre-list of workout
@@ -42,8 +45,9 @@ const ActiveScreen = ({route}) => {
   const printVol = useGstore(state => state.printVol);
   const printExer = useGstore(state => state.printExer);
   const navigation = useNavigation();
+  const workoutObject = useStore(s => s.scheduledWorkout);
 
-  const {workoutObject} = route.params;
+  // const {workoutObject} = route.params;
 
   const setupObjects = () => {
     const exerciseData = JSON.parse(store.getString('exercises')); // Use memo hook for better performance

@@ -10,13 +10,13 @@ import {
   TextInput,
   Pressable,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 
 // Components
 import CalenderRow from '../components/CalenderRow';
 import WorkoutCard from '../components/WorkoutCard';
+import PressableButton from '../components/PressableButton';
 
 // Assets
 import {colors, assets} from '../components/constants';
@@ -140,26 +140,16 @@ const ScheduleScreen = () => {
               </TouchableOpacity>
             </View>
 
-            <TouchableOpacity
+            <PressableButton
+              label={'Start'}
+              iconSource={assets.icn_start}
               onPress={() => {
                 // console.log(store.getString('workouts'));
                 navigation.navigate('ActiveScreen', {
                   workoutObject: scheduledWorkout,
                 });
-              }}>
-              <LinearGradient
-                style={style.touchableOpacityStartStyle}
-                start={{x: 1, y: 0}}
-                end={{x: 0, y: 0}}
-                colors={['#FA3B89', '#E10D60']}>
-                <View className="flex-row justify-center items-center space-x-2">
-                  <Image source={assets.icn_start} />
-                  <Text className="text-base font-semibold text-white">
-                    Start
-                  </Text>
-                </View>
-              </LinearGradient>
-            </TouchableOpacity>
+              }}
+            />
           </>
         ) : (
           <Text className="text-yellow-200">

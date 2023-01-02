@@ -2,7 +2,7 @@ import {StyleSheet, Text, View, Pressable, Image} from 'react-native';
 import React, {useCallback, useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 
-function PressableButton({label, onPress, iconSource}) {
+function PressableButton({label, onPress, iconSource, customStyle}) {
   return (
     <Pressable
       onPress={onPress}
@@ -11,7 +11,7 @@ function PressableButton({label, onPress, iconSource}) {
         {opacity: pressed ? 0.5 : 1},
       ]}>
       <LinearGradient
-        style={styles.linearGradientStyle}
+        style={[styles.linearGradientStyle, customStyle]}
         start={{x: 1, y: 0}}
         end={{x: 0, y: 0}}
         colors={['#FA3B89', '#E10D60']}>
