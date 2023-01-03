@@ -97,6 +97,7 @@ export default workoutScheudleSlice = (set, get) => ({
     startDate = new Date(),
     endDate = new Date(),
     level = 'beginner',
+    description = '',
   ) =>
     set(
       produce(draft => {
@@ -106,6 +107,7 @@ export default workoutScheudleSlice = (set, get) => ({
           startdate: startDate,
           endate: endDate,
           level: level,
+          description: description,
           workouts: [],
           weekdays: DefaultWeekdays,
         };
@@ -165,6 +167,10 @@ export default workoutScheudleSlice = (set, get) => ({
           draft.currentRoutine = draft.routines[indexOf];
           draft.workouts = draft.currentRoutine.workouts;
           draft.weekdays = draft.currentRoutine.weekdays;
+        } else {
+          draft.currentRoutine = {};
+          draft.workouts = [];
+          draft.weekdays = [];
         }
       }),
     ),

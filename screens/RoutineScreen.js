@@ -68,6 +68,7 @@ const RoutineScreen = () => {
             }}>
             <TouchableOpacity
               onPress={() => {
+                selectCurrentRoutine(-1);
                 navigation.navigate('RoutineFormScreen');
               }}>
               <Image source={assets.icn_add} />

@@ -4,7 +4,7 @@ const routines = [
     title: 'Big bie',
     startdate: '24-11-2022',
     endate: '24-12-2022',
-    level: 'beginner',
+    level: 0,
     description:
       'This routine fouces on bieceps training and concentrating on.',
     workouts: [
@@ -115,8 +115,8 @@ const routines = [
     title: 'Olembya',
     startdate: '24-11-2022',
     endate: '24-12-2022',
-    level: 'Profisonal',
-    description: 'This routine is be more advanceed in this game',
+    level: 2,
+    description: 'This routine is for heros',
     workouts: [
       {
         id: 1,
@@ -225,7 +225,7 @@ const routines = [
     title: 'Sanga',
     startdate: '24-11-2022',
     endate: '24-12-2022',
-    level: 'Profisonal',
+    level: 2,
     description: 'This routine is be more advanceed in this game',
     workouts: [
       {

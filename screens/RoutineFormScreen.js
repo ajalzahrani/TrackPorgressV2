@@ -25,36 +25,40 @@ import DateTimePickers from '../components/DateTimePickers';
 import Calendars2 from '../components/Calendars2';
 
 const RoutineFormScreen = ({modalVisible, setModalVisible}) => {
-  const addNewRoutine = useStore(s => s.addNewRoutine);
-  const [routienTitle, setRoutienTitle] = useState('');
-  const [routineDescription, setRoutineDescription] = useState('');
-  const [startDay, setStartDay] = useState(null);
-  const [endDay, setEndDay] = useState(null);
-  const [isSelectDateClick, setIsSelectDateClick] = useState(false);
-  const [selectLevelIndex, setSelectLevelIndex] = useState(0);
   const currentRoutine = useStore(s => s.currentRoutine);
+  const addNewRoutine = useStore(s => s.addNewRoutine);
+  const [title, setTitle] = useState(currentRoutine?.title);
+  const [description, setDescription] = useState(currentRoutine?.description);
+  const [startDate, setStartDate] = useState(currentRoutine?.startDate);
+  const [endDate, setEndDate] = useState(currentRoutine?.endDate);
+  const [isSelectDateClick, setIsSelectDateClick] = useState(
+    currentRoutine?.startDate && true,
+  );
+  const [levelIndex, setLevelIndex] = useState(currentRoutine?.level);
 
   const navigation = useNavigation();
 
-  useEffect(() => {
-    console.log('current routine: ', currentRoutine);
-  }, []);
+  // useEffect(() => {
+  //   console.log('current routine: ', currentRoutine);
+  // }, []);
 
   const restForm = () => {
-    setRoutienTitle('');
-    setRoutineDescription('');
-    setStartDay(null);
-    setEndDay(null);
+    setTitle('');
+    setDescription('');
+    setStartDate(null);
+    setEndDate(null);
     setIsSelectDateClick(false);
-    setSelectLevelIndex(0);
+    setLevelIndex(0);
   };
 
   const onPress = useCallback(() => {
-    if (routienTitle.length !== 0) {
-      addNewRoutine(routienTitle);
-      setModalVisible(!modalVisible);
+    if (title?.length !== 0 && currentRoutine) {
+      addNewRoutine(title, startDate, endDate, levelIndex, description);
       restForm();
+      navigation.goBack();
       navigation.navigate('ScheduleScreen');
+    } else {
+      console.log('Select routineing');
     }
   });
 
@@ -64,9 +68,9 @@ const RoutineFormScreen = ({modalVisible, setModalVisible}) => {
       <TextInput
         placeholder="Routine title"
         placeholderTextColor={colors.offwhite}
-        onChangeText={inpuText => setRoutienTitle(inpuText)}
+        onChangeText={inpuText => setTitle(inpuText)}
         style={style.textInputStyle}
-        defaultValue={currentRoutine?.title}
+        defaultValue={title}
       />
 
       <PressableButton
@@ -81,24 +85,24 @@ const RoutineFormScreen = ({modalVisible, setModalVisible}) => {
 
       {isSelectDateClick && (
         <Calendars2
-          startDay={startDay}
-          setStartDay={setStartDay}
-          endDay={endDay}
-          setEndDay={setEndDay}
+          startDay={startDate}
+          setStartDay={setStartDate}
+          endDay={endDate}
+          setEndDay={setEndDate}
         />
       )}
 
       {/* <DateTimePickers /> */}
       {/* <Text style={{color: colors.white, marginTop: 20}}>
-          Start Date: {startDay}
+          Start Date: {startDate}
         </Text>
-        <Text style={{color: colors.white}}>End Date: {endDay}</Text> */}
+        <setStartDate style={{color: colors.white}}>End Date: {endDay}</setStartDate> */}
 
       <SegmentedControl
         values={['Beginner', 'Intermediate', 'Professional']}
-        selectedIndex={selectLevelIndex}
+        selectedIndex={levelIndex}
         onChange={event => {
-          setSelectLevelIndex(event.nativeEvent.selectedSegmentIndex);
+          setLevelIndex(event.nativeEvent.selectedSegmentIndex);
         }}
         backgroundColor={colors.offwhite}
         appearance="light"
@@ -107,8 +111,8 @@ const RoutineFormScreen = ({modalVisible, setModalVisible}) => {
       <TextInput
         style={[style.textInputStyle, style.richBox]}
         placeholder="Description"
-        value={routineDescription}
-        onChangeText={text => setRoutineDescription(text)}
+        value={description}
+        onChangeText={text => setDescription(text)}
         multiline={true}
         underlineColorAndroid="transparent"
       />
