@@ -1,6 +1,7 @@
 import create from 'zustand';
 import {store} from '../Store';
 import workoutScheduleSlice from './slices/workoutScheduleSlice';
+import routineSlice from './slices/routineSlice';
 import exerciseSlice from './slices/exerciseSlice';
 
 const KEY_ROUTINES = 'routines';
@@ -10,6 +11,7 @@ const KEY_SESSIONS = 'sessions';
 const useStore = create((set, get) => ({
   ...workoutScheduleSlice(set, get),
   ...exerciseSlice(set, get),
+  ...routineSlice(set, get),
 }));
 
 const getRoutine = () => {

@@ -24,19 +24,28 @@ import PressableButton from '../components/PressableButton';
 import DateTimePickers from '../components/DateTimePickers';
 import Calendars2 from '../components/Calendars2';
 
-const RoutineFormScreen = ({modalVisible, setModalVisible}) => {
+const RoutineFormScreen = () => {
   const currentRoutine = useStore(s => s.currentRoutine);
   const addNewRoutine = useStore(s => s.addNewRoutine);
+  const updateCurrentRoutine = useStore(s => s.updateCurrentRoutine);
+  const saveRoutine = useStore(s => s.saveRoutine);
   const [title, setTitle] = useState(currentRoutine?.title);
   const [description, setDescription] = useState(currentRoutine?.description);
   const [startDate, setStartDate] = useState(currentRoutine?.startDate);
   const [endDate, setEndDate] = useState(currentRoutine?.endDate);
   const [isSelectDateClick, setIsSelectDateClick] = useState(
-    currentRoutine?.startDate && true,
+    currentRoutine?.startdate == undefined ? false : true,
   );
   const [levelIndex, setLevelIndex] = useState(currentRoutine?.level);
 
   const navigation = useNavigation();
+
+  useEffect(() => {
+    if (!isSelectDateClick) {
+      setStartDate(undefined);
+      setEndDate(undefined);
+    }
+  }, [isSelectDateClick]);
 
   // useEffect(() => {
   //   console.log('current routine: ', currentRoutine);
@@ -52,13 +61,27 @@ const RoutineFormScreen = ({modalVisible, setModalVisible}) => {
   };
 
   const onPress = useCallback(() => {
-    if (title?.length !== 0 && currentRoutine) {
-      addNewRoutine(title, startDate, endDate, levelIndex, description);
-      restForm();
-      navigation.goBack();
-      navigation.navigate('ScheduleScreen');
+    if (title?.length !== 0) {
+      if (currentRoutine?.id) {
+        updateCurrentRoutine(
+          title,
+          startDate,
+          endDate,
+          levelIndex,
+          description,
+        );
+        console.log(startDate);
+        console.log(endDate);
+        saveRoutine();
+        navigation.goBack();
+      } else {
+        addNewRoutine(title, startDate, endDate, levelIndex, description);
+        restForm();
+        navigation.goBack();
+        navigation.navigate('ScheduleScreen');
+      }
     } else {
-      console.log('Select routineing');
+      console.log('Type in routine title');
     }
   });
 
