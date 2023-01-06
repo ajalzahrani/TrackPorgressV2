@@ -47,10 +47,6 @@ const RoutineFormScreen = () => {
     }
   }, [isSelectDateClick]);
 
-  // useEffect(() => {
-  //   console.log('current routine: ', currentRoutine);
-  // }, []);
-
   const restForm = () => {
     setTitle('');
     setDescription('');
@@ -70,8 +66,7 @@ const RoutineFormScreen = () => {
           levelIndex,
           description,
         );
-        console.log(startDate);
-        console.log(endDate);
+
         saveRoutine();
         navigation.goBack();
       } else {
@@ -114,12 +109,6 @@ const RoutineFormScreen = () => {
           setEndDay={setEndDate}
         />
       )}
-
-      {/* <DateTimePickers /> */}
-      {/* <Text style={{color: colors.white, marginTop: 20}}>
-          Start Date: {startDate}
-        </Text>
-        <setStartDate style={{color: colors.white}}>End Date: {endDay}</setStartDate> */}
 
       <SegmentedControl
         values={['Beginner', 'Intermediate', 'Professional']}
