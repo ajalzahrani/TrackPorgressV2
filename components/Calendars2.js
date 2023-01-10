@@ -8,46 +8,46 @@ import moment from 'moment';
 
 const Calendars2 = ({startDay, setStartDay, endDay, setEndDay}) => {
   const [markedDate, setMarkedDate] = useState({});
+  const [isStartDaySet, setIsStartSet] = useState(false);
 
-  const handleDayPress = dayString => {
-    // handle start date
-    if (dayString === startDay) {
-      setStartDay(undefined);
-      setEndDay(undefined);
-    } else if (dayString <= startDay) {
-      setStartDay(dayString);
-      setEndDay(undefined);
-    } else if (dayString === endDay) {
-      setStartDay(dayString);
-      setEndDay(undefined);
-    } else {
-      // setStartDay(dayString);
-      setEndDay(undefined);
-    }
-
-    if (startDay == undefined && endDay == undefined) {
-      setStartDay(dayString);
-    } else if (startDay !== undefined && endDay === undefined) {
-      setEndDay(dayString);
-    } else if (startDay !== undefined && endDay !== undefined) {
-      setEndDay(dayString);
-    }
-  };
-
-  var getDaysArray = function (start, end) {
-    for (
-      var arr = [], dt = new Date(start);
-      dt <= new Date(end);
-      dt.setDate(dt.getDate() + 1)
-    ) {
-      arr.push(new Date(dt));
-    }
-    return arr;
-  };
+  // useEffect(() => {
+  //   markSelectedDates();
+  // }, [startDay, endDay]);
 
   useEffect(() => {
+    markSelectedDates();
+  }, [endDay]);
+
+  // mark selected start day white
+  useEffect(() => {
+    let marked = {};
+    marked[startDay] = {
+      selected: true,
+      selectedColor: colors.secondary,
+    };
+    setMarkedDate(marked);
+  }, [startDay]);
+
+  const handleDayPress = dayString => {
+    if (!isStartDaySet) {
+      if (dayString == startDay) {
+        setStartDay(undefined);
+        setEndDay(undefined);
+        return;
+      }
+      setStartDay(dayString);
+      setEndDay(undefined);
+      setIsStartSet(true);
+    } else {
+      setEndDay(dayString);
+      setIsStartSet(false);
+    }
+  };
+
+  const markSelectedDates = () => {
     let marked = {};
     let duration = [];
+
     if (startDay !== undefined && endDay !== undefined) {
       duration = getDaysArray(startDay, endDay);
     }
@@ -60,24 +60,55 @@ const Calendars2 = ({startDay, setStartDay, endDay, setEndDay}) => {
     });
 
     setMarkedDate(marked);
-  }, [startDay, endDay]);
+  };
 
-  // mark selected start day white
-  useEffect(() => {
-    let marked = {};
-    marked[moment(startDay).format('YYYY-MM-DD')] = {
-      selected: true,
-      selectedColor: colors.offwhite,
-    };
-    setMarkedDate(marked);
-  }, [startDay]);
-
-  useEffect(() => {
-    console.log(startDay, endDay);
-  }, []);
+  const getDaysArray = function (start, end) {
+    for (
+      var arr = [], dt = new Date(start);
+      dt <= new Date(end);
+      dt.setDate(dt.getDate() + 1)
+    ) {
+      arr.push(new Date(dt));
+    }
+    return arr;
+  };
 
   return (
     <>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingHorizontal: 20,
+        }}>
+        {startDay && (
+          <>
+            <Text style={{color: 'white', fontSize: 16}}>Start Date: </Text>
+            <Text style={{color: 'yellow', fontSize: 16, fontWeight: '600'}}>
+              {startDay}
+            </Text>
+          </>
+        )}
+        {endDay && (
+          <View
+            style={{
+              marginLeft: 'auto',
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            <Text style={{color: 'white', fontSize: 16}}>End Date: </Text>
+            <Text
+              style={{
+                color: 'yellow',
+                marginLeft: 'auto',
+                fontSize: 16,
+                fontWeight: '600',
+              }}>
+              {endDay}
+            </Text>
+          </View>
+        )}
+      </View>
       <Calendar
         // onDayPress={day => console.log(day)}
         // disableArrowLeft={true}

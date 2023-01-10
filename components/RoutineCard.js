@@ -23,6 +23,14 @@ const RoutineCard = ({id, title}) => {
       <View style={style.editContainerStyle} className="space-x-4">
         <TouchableOpacity
           onPress={() => {
+            console.log(
+              `StartDate: ${routines[id]?.startDate} - EndDate: ${routines[id]?.endDate}`,
+            );
+          }}>
+          <Image source={assets.icn_home} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
             selectCurrentRoutine(id);
             navigation.navigate('RoutineFormScreen');
           }}>

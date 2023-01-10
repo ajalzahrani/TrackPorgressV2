@@ -19,8 +19,8 @@ export default routineSlice = (set, get) => ({
         draft.currentRoutine = {
           id: uuid.v4(),
           title: routineTitle,
-          startdate: startDate,
-          endate: endDate,
+          startDate: startDate,
+          endDate: endDate,
           level: level,
           description: description,
           workouts: [],
@@ -40,8 +40,8 @@ export default routineSlice = (set, get) => ({
     set(
       produce(draft => {
         draft.currentRoutine.title = routineTitle;
-        draft.currentRoutine.startdate = startDate;
-        draft.currentRoutine.enddate = endDate;
+        draft.currentRoutine.startDate = startDate;
+        draft.currentRoutine.endDate = endDate;
         draft.currentRoutine.level = level;
         draft.currentRoutine.description = description;
       }),

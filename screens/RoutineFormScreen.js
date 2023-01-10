@@ -33,26 +33,24 @@ const RoutineFormScreen = () => {
   const [description, setDescription] = useState(currentRoutine?.description);
   const [startDate, setStartDate] = useState(currentRoutine?.startDate);
   const [endDate, setEndDate] = useState(currentRoutine?.endDate);
-  const [isSelectDateClick, setIsSelectDateClick] = useState(
-    currentRoutine?.startdate == undefined ? false : true,
-  );
   const [levelIndex, setLevelIndex] = useState(currentRoutine?.level);
 
   const navigation = useNavigation();
 
-  useEffect(() => {
-    if (!isSelectDateClick) {
-      setStartDate(undefined);
-      setEndDate(undefined);
-    }
-  }, [isSelectDateClick]);
+  // useEffect(() => {
+  //   console.log(
+  //     'current dates: ',
+  //     currentRoutine?.startDate,
+  //     currentRoutine?.endDate,
+  //   );
+  //   console.log('currentRoutine: ', currentRoutine);
+  // }, []);
 
   const restForm = () => {
     setTitle('');
     setDescription('');
     setStartDate(null);
     setEndDate(null);
-    setIsSelectDateClick(false);
     setLevelIndex(0);
   };
 
@@ -91,24 +89,13 @@ const RoutineFormScreen = () => {
         defaultValue={title}
       />
 
-      <PressableButton
-        customStyle={{paddingHorizontal: 20}}
-        label={
-          isSelectDateClick
-            ? 'Unselect start & end date'
-            : 'Select start & end date'
-        }
-        onPress={() => setIsSelectDateClick(prev => !prev)}
+      {/* <DateTimePickers /> */}
+      <Calendars2
+        startDay={startDate}
+        setStartDay={setStartDate}
+        endDay={endDate}
+        setEndDay={setEndDate}
       />
-
-      {isSelectDateClick && (
-        <Calendars2
-          startDay={startDate}
-          setStartDay={setStartDate}
-          endDay={endDate}
-          setEndDay={setEndDate}
-        />
-      )}
 
       <SegmentedControl
         values={['Beginner', 'Intermediate', 'Professional']}

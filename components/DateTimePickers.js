@@ -35,23 +35,16 @@ const DateTimePickers = () => {
   }, []);
 
   return (
-    <View>
-      <Button onPress={showDatepicker} title="Show date picker!" />
-      <Button onPress={showTimepicker} title="Show time picker!" />
-      <Text>selected: {date.toLocaleString()}</Text>
-      {show && (
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={date}
-          display={'inline'}
-          mode={mode}
-          is24Hour={true}
-          onChange={onChange}
-          confirmBtnText="Confirm"
-          cancelBtnText="Cancel"
-        />
-      )}
-    </View>
+    <DateTimePicker
+      testID="dateTimePicker"
+      value={date}
+      display={'default'}
+      mode={mode}
+      is24Hour={true}
+      onChange={onChange}
+      confirmBtnText="Confirm"
+      cancelBtnText="Cancel"
+    />
   );
 };
 
