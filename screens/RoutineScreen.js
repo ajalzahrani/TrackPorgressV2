@@ -92,6 +92,9 @@ const RoutineScreen = () => {
             </View>
           ))}
         </ScrollView>
+        <TouchableOpacity onPress={() => console.log(JSON.stringify(routines))}>
+          <Text>Print routines</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );

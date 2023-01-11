@@ -23,6 +23,7 @@ const RoutineCard = ({id, title}) => {
       <View style={style.editContainerStyle} className="space-x-4">
         <TouchableOpacity
           onPress={() => {
+            console.log(id);
             console.log(
               `StartDate: ${routines[id]?.startDate} - EndDate: ${routines[id]?.endDate}`,
             );
