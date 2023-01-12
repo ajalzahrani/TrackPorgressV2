@@ -10,23 +10,15 @@ const Calendars2 = ({startDay, setStartDay, endDay, setEndDay}) => {
   const [markedDate, setMarkedDate] = useState({});
   const [isStartDaySet, setIsStartSet] = useState(false);
 
-  // useEffect(() => {
-  //   markSelectedDates();
-  // }, [startDay, endDay]);
-
   useEffect(() => {
+    console.log('First render');
     markSelectedDates();
-  }, [endDay]);
+  }, []);
 
-  // mark selected start day white
   useEffect(() => {
-    let marked = {};
-    marked[startDay] = {
-      selected: true,
-      selectedColor: colors.secondary,
-    };
-    setMarkedDate(marked);
-  }, [startDay]);
+    console.log('endDay render');
+    markSelectedDates();
+  }, [startDay, endDay]);
 
   const handleDayPress = dayString => {
     if (!isStartDaySet) {
@@ -50,16 +42,22 @@ const Calendars2 = ({startDay, setStartDay, endDay, setEndDay}) => {
 
     if (startDay !== undefined && endDay !== undefined) {
       duration = getDaysArray(startDay, endDay);
-    }
-
-    duration?.forEach(item => {
-      marked[moment(item).format('YYYY-MM-DD')] = {
+      duration?.forEach(item => {
+        console.log(moment(item).format('YYYY-MM-DD'));
+        marked[moment(item).format('YYYY-MM-DD')] = {
+          selected: true,
+          selectedColor: colors.secondary,
+        };
+      });
+      setMarkedDate(marked);
+    } else {
+      let marked = {};
+      marked[startDay] = {
         selected: true,
         selectedColor: colors.secondary,
       };
-    });
-
-    setMarkedDate(marked);
+      setMarkedDate(marked);
+    }
   };
 
   const getDaysArray = function (start, end) {

@@ -81,6 +81,7 @@ const RoutineFormScreen = () => {
   return (
     <View style={style.centeredView}>
       <Text style={style.modalText}>Configure new routine</Text>
+
       <TextInput
         placeholder="Routine title"
         placeholderTextColor={colors.offwhite}
@@ -89,7 +90,6 @@ const RoutineFormScreen = () => {
         defaultValue={title}
       />
 
-      {/* <DateTimePickers /> */}
       <Calendars2
         startDay={startDate}
         setStartDay={setStartDate}
@@ -107,6 +107,7 @@ const RoutineFormScreen = () => {
         appearance="light"
         style={{marginTop: 20, marginHorizontal: 50, marginBottom: 15}}
       />
+
       <TextInput
         style={[style.textInputStyle, style.richBox]}
         placeholder="Description"
@@ -115,6 +116,7 @@ const RoutineFormScreen = () => {
         multiline={true}
         underlineColorAndroid="transparent"
       />
+
       <PressableButton onPress={onPress} label="Okey" />
     </View>
   );
