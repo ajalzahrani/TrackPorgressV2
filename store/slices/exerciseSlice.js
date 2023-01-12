@@ -1,5 +1,5 @@
 import {produce} from 'immer';
-import uuid from 'react-native-uuid';
+import uuidv4 from '../../components/shared/uuid4v';
 import {store} from '../../Store';
 
 export default exerciseSlice = (set, get) => ({
@@ -9,7 +9,7 @@ export default exerciseSlice = (set, get) => ({
     set(
       produce(draft => {
         const newExercise = {
-          id: uuid.v4(),
+          id: uuidv4(),
           title: exerciseTitle,
         };
         console.log(newExercise);

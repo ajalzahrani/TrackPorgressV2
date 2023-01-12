@@ -1,5 +1,5 @@
 import {produce} from 'immer';
-import uuid from 'react-native-uuid';
+import uuidv4 from '../../components/shared/uuid4v';
 import {store} from '../../Store';
 import DefaultWeekdays from '../../components/database/weekdays';
 
@@ -17,7 +17,7 @@ export default routineSlice = (set, get) => ({
     set(
       produce(draft => {
         draft.currentRoutine = {
-          id: uuid.v4(),
+          id: uuidv4(),
           title: routineTitle,
           startDate: startDate,
           endDate: endDate,

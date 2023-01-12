@@ -25,6 +25,7 @@ import useStore from '../store/useStore';
 // Componenets
 import RoutineCard from '../components/RoutineCard';
 import RoutineFormSheetModal from './RoutineFormScreen';
+import PressableButton from '../components/PressableButton';
 
 const RoutineScreen = () => {
   const routines = useStore(s => s.routines);
@@ -92,9 +93,10 @@ const RoutineScreen = () => {
             </View>
           ))}
         </ScrollView>
-        <TouchableOpacity onPress={() => console.log(JSON.stringify(routines))}>
-          <Text>Print routines</Text>
-        </TouchableOpacity>
+        <PressableButton
+          label={'Print routines'}
+          onPress={() => console.log(JSON.stringify(routines))}
+        />
       </View>
     </SafeAreaView>
   );

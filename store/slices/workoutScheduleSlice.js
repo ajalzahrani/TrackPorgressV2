@@ -1,7 +1,7 @@
 import {produce} from 'immer';
-import uuid from 'react-native-uuid';
 import {store} from '../../Store';
 import DefaultWeekdays from '../../components/database/weekdays';
+import uuidv4 from '../../components/shared/uuid4v';
 
 export default workoutScheudleSlice = (set, get) => ({
   workouts: [],
@@ -16,7 +16,7 @@ export default workoutScheudleSlice = (set, get) => ({
     set(
       produce(draft => {
         draft.currentWorkout = {
-          id: uuid.v4(),
+          id: uuidv4(),
           title: workoutTitle,
           exercises: [],
           resttime: [0, 0],

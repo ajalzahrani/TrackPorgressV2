@@ -11,6 +11,8 @@ import PressableButton from './PressableButton';
 
 import RoutineFormScreen from '../screens/RoutineFormScreen';
 
+import uuidv4 from './shared/uuid4v';
+
 const RoutineCard = ({id, title}) => {
   const deleteRoutine = useStore(s => s.deleteRoutine);
   const routines = useStore(s => s.routines);
@@ -23,10 +25,10 @@ const RoutineCard = ({id, title}) => {
       <View style={style.editContainerStyle} className="space-x-4">
         <TouchableOpacity
           onPress={() => {
-            console.log(id);
-            console.log(
-              `StartDate: ${routines[id]?.startDate} - EndDate: ${routines[id]?.endDate}`,
-            );
+            console.log(uuidv4());
+            // console.log(
+            //   `StartDate: ${routines[id]?.startDate} - EndDate: ${routines[id]?.endDate}`,
+            // );
           }}>
           <Image source={assets.icn_home} />
         </TouchableOpacity>
