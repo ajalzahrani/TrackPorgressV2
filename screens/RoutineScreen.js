@@ -40,7 +40,7 @@ const RoutineScreen = () => {
   // }, []);
 
   return (
-    <SafeAreaView className="bg-[#112044] flex-1">
+    <SafeAreaView style={style.safeViewStyle}>
       <View style={{paddingHorizontal: 20, marginTop: 20}}>
         <View
           style={{
@@ -97,7 +97,7 @@ const RoutineScreen = () => {
           ))}
         </ScrollView>
         <PressableButton
-          label={t('routines.printRoutines')}
+          title={t('routines.printRoutines')}
           onPress={() => console.log(JSON.stringify(routines))}
         />
       </View>
@@ -108,6 +108,10 @@ const RoutineScreen = () => {
 export default RoutineScreen;
 
 const style = StyleSheet.create({
+  safeViewStyle: {
+    backgroundColor: colors.primary,
+    flex: 1,
+  },
   preWorkoutListContainerStyle: {
     marginTop: 51,
   },

@@ -1,4 +1,11 @@
-import {Text, View, SafeAreaView, Image, TouchableOpacity} from 'react-native';
+import {
+  Text,
+  View,
+  SafeAreaView,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+} from 'react-native';
 import React, {useState} from 'react';
 import {useGstore} from '../gstore';
 import {useTranslation} from 'react-i18next';
@@ -6,8 +13,12 @@ import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import useStore from '../store/useStore';
 
+// assets
+import {colors} from '../components/constants';
+
 // Components
 import QuickStart from '../components/QuickStart';
+import PressableButton from '../components/PressableButton';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -18,7 +29,7 @@ const HomeScreen = () => {
   const {t} = useTranslation();
 
   return (
-    <SafeAreaView className="bg-[#112044] flex-1">
+    <SafeAreaView style={styles.safeViewStyle}>
       <View className="items-center p-16">
         <Text className="mt-1 font-semibold text-4xl text-white">
           {t('home.title')}!
@@ -35,26 +46,11 @@ const HomeScreen = () => {
             {t('home.introduction')}
           </Text>
 
-          <TouchableOpacity
-            onPress={() => {
-              // const exercises = JSON.parse(store.getString('exercises'));
-              // const workouts = JSON.parse(store.getString('workouts'));
-              // console.log(JSON.stringify(sessions));
-              console.log(JSON.stringify(routines));
-            }}>
-            <LinearGradient
-              className="py-3 px-20 rounded-full mt-10"
-              colors={['#E10D60', '#FA3B89']}
-              start={{x: 0, y: 0}}
-              end={{x: 1, y: 1}}
-              locations={[0.75, 1]}
-              // colors={['rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)']}
-            >
-              <Text className="text-base font-semibold text-white">
-                {t('home.btnQuickStart')}
-              </Text>
-            </LinearGradient>
-          </TouchableOpacity>
+          <PressableButton
+            title={t('home.btnQuickStart')}
+            onPress={() => console.log(JSON.stringify(routines))}
+            style={{paddingHorizontal: 40}}
+          />
         </View>
       </View>
     </SafeAreaView>
@@ -62,3 +58,10 @@ const HomeScreen = () => {
 };
 
 export default HomeScreen;
+
+const styles = StyleSheet.create({
+  safeViewStyle: {
+    backgroundColor: colors.primary,
+    flex: 1,
+  },
+});

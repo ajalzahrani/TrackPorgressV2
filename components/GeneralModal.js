@@ -1,7 +1,7 @@
 import {StyleSheet, Text, View, Modal, Pressable} from 'react-native';
 import React from 'react';
 
-const GeneralModal = ({modalVisible, setModalVisible, action}) => {
+const GeneralModal = ({modalVisible, setModalVisible, action, message}) => {
   return (
     <Modal
       animationType="slide"
@@ -13,7 +13,7 @@ const GeneralModal = ({modalVisible, setModalVisible, action}) => {
       }}>
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
-          <Text style={styles.modalText}>Save changes ?</Text>
+          <Text style={styles.modalText}>{message}</Text>
 
           <View style={{flexDirection: 'row'}}>
             <Pressable

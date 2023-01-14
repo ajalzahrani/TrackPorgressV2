@@ -48,7 +48,7 @@ const ScheduleScreen = () => {
   const navigation = useNavigation();
 
   return (
-    <SafeAreaView className="bg-[#112044] flex-1">
+    <SafeAreaView style={style.safeViewStyle}>
       <Modal
         animationType="slide"
         transparent={true}
@@ -141,7 +141,7 @@ const ScheduleScreen = () => {
             </View>
 
             <PressableButton
-              label={'Start'}
+              title={'Start'}
               iconSource={assets.icn_start}
               onPress={() => {
                 // console.log(store.getString('workouts'));
@@ -181,6 +181,10 @@ const ScheduleScreen = () => {
 };
 
 const style = StyleSheet.create({
+  safeViewStyle: {
+    backgroundColor: colors.primary,
+    flex: 1,
+  },
   preWorkoutListContainerStyle: {
     marginTop: 51,
   },

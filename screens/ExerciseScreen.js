@@ -47,7 +47,7 @@ const ExerciseScreen = () => {
   };
 
   return (
-    <SafeAreaView className="bg-[#112044] flex-1">
+    <SafeAreaView style={style.safeViewStyle}>
       <View style={{paddingHorizontal: 16, flex: 1}}>
         {/* TextInput component */}
         <TextInput
@@ -97,6 +97,10 @@ const ExerciseScreen = () => {
 };
 
 const style = StyleSheet.create({
+  safeViewStyle: {
+    backgroundColor: colors.primary,
+    flex: 1,
+  },
   ExerciseRow: {
     flexDirection: 'row',
     alignItems: 'center',

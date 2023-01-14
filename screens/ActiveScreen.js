@@ -152,7 +152,7 @@ const ActiveScreen = ({route}) => {
       });
   }, [navigation]);
   return (
-    <SafeAreaView className="bg-[#112044] flex-1">
+    <SafeAreaView style={style.safeViewStyle}>
       {/* <Modal_View /> */}
       <View style={style.workoutContainerStyle}>
         <View className="flex-row items-center space-x-5">
@@ -181,6 +181,10 @@ const ActiveScreen = ({route}) => {
 export default ActiveScreen;
 
 const style = StyleSheet.create({
+  safeViewStyle: {
+    backgroundColor: colors.primary,
+    flex: 1,
+  },
   workoutContainerStyle: {
     display: 'flex',
     flexdirection: 'column',

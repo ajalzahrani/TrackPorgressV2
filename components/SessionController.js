@@ -14,6 +14,7 @@ import {colors, assets} from '../components/constants';
 // Components
 import SessionTimerLabel from './SessionTimerLabel';
 import {useStopwatch} from '../components/timer-hook/';
+import GeneralModal from './GeneralModal';
 
 import {useNavigation} from '@react-navigation/native';
 
@@ -43,51 +44,31 @@ const SessionController = ({workoutId}) => {
     setTime(new Date(Date.now()));
   }, []);
 
+  const endSeassionAction = () => {
+    setModalVisible(!modalVisible);
+    // stop session timer
+    pause();
+    // Register session
+    registerSession(
+      {
+        hours: {hours},
+        minutes: {minutes},
+        seconds: {seconds},
+      },
+      workoutId,
+    );
+    // Show report modal
+    navigation.navigate('VReportScreen');
+  };
+
   return (
     <>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setModalVisible(!modalVisible);
-        }}>
-        <View style={style.centeredView}>
-          <View style={style.modalView}>
-            <Text style={style.modalText}>
-              Are you sure you want to end your Workout Session?
-            </Text>
-            <Pressable
-              style={[style.button, style.buttonClose]}
-              onPress={() => {
-                setModalVisible(!modalVisible);
-                // stop session timer
-                pause();
-                // Register session
-                registerSession(
-                  {
-                    hours: {hours},
-                    minutes: {minutes},
-                    seconds: {seconds},
-                  },
-                  workoutId,
-                );
-                // Show report modal
-                navigation.navigate('VReportScreen');
-              }}>
-              <Text style={style.textStyle}>Yes</Text>
-            </Pressable>
-            <Pressable
-              style={[style.button, style.buttonClose]}
-              onPress={() => {
-                setModalVisible(!modalVisible);
-              }}>
-              <Text style={style.textStyle}>No</Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal>
+      <GeneralModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        message="Are you sure you want to end your Workout Session?"
+        action={endSeassionAction}
+      />
       <View className="absolute bottom-1 w-full z-50">
         <View style={style.innerContainer}>
           <TouchableOpacity
@@ -140,43 +121,6 @@ const style = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-  },
-  buttonOpen: {
-    backgroundColor: '#F194FF',
-  },
-  buttonClose: {
-    // backgroundColor: '#2196F3',
-    backgroundColor: colors.secondary,
-    marginBottom: 2,
-  },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
   },
 });
 

@@ -26,6 +26,7 @@ const RoutineCard = ({id, title}) => {
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
         action={action}
+        message="Are you sure to delet routine?"
       />
 
       <View style={style.cardContainer}>

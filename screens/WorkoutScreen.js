@@ -76,7 +76,7 @@ const WorkoutScreen = () => {
   }, []);
 
   return (
-    <SafeAreaView className="bg-[#112044] flex-1">
+    <SafeAreaView style={style.safeViewStyle}>
       <Modal
         animationType="slide"
         transparent={true}
@@ -114,17 +114,16 @@ const WorkoutScreen = () => {
         </TouchableOpacity>
       </View>
       <View style={{paddingHorizontal: 16, flex: 1}}>
-        <TextInput
-          placeholder="Workout name"
-          placeholderTextColor={colors.offwhite}
-          onChangeText={inpuText => setWorkoutName(inpuText)}
-          defaultValue={currentWorkout?.title}
-          style={style.textInputStyle}
-        />
-
         <View style={style.preWorkoutListContainerStyle}>
-          <Text className="text-white">Pre-list of workouts</Text>
           <ScrollView contentContainerStyle={{paddingBottom: 72}}>
+            <TextInput
+              placeholder="Workout name"
+              placeholderTextColor={colors.offwhite}
+              onChangeText={inpuText => setWorkoutName(inpuText)}
+              defaultValue={currentWorkout?.title}
+              style={style.textInputStyle}
+            />
+            <Text className="text-white">Pre-list of workouts</Text>
             {currentWorkout.exercises?.map(element => {
               return (
                 <ExerciseCard
@@ -137,7 +136,7 @@ const WorkoutScreen = () => {
             {RestTimeDrawer()}
 
             <PressableButton
-              label={'Skitch'}
+              title={'Skitch'}
               iconSource={assets.icn_edit}
               onPress={() => {
                 savewo();
@@ -145,7 +144,7 @@ const WorkoutScreen = () => {
             />
             {/* Test button */}
             <PressableButton
-              label={'Delete'}
+              title={'Delete'}
               onPress={() => {
                 deleteWorkout(currentWorkout.id);
                 navigation.goBack();
@@ -159,6 +158,10 @@ const WorkoutScreen = () => {
 };
 
 const style = StyleSheet.create({
+  safeViewStyle: {
+    backgroundColor: colors.primary,
+    flex: 1,
+  },
   touchableOpacityArrowStyle: {
     alignItems: 'flex-start',
     padding: 10,
@@ -171,7 +174,8 @@ const style = StyleSheet.create({
     alignItems: 'center',
   },
   preWorkoutListContainerStyle: {
-    marginTop: 24,
+    // marginTop: 24,
+    marginBottom: 24,
     flex: 1,
   },
   touchableOpacityStartStyle: {

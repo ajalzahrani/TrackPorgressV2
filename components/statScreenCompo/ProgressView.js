@@ -24,22 +24,22 @@ const ProgressView = () => {
   return (
     <>
       <LineChart
-        // data={{
-        //   labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-        //   datasets: [
-        //     {
-        //       data: [
-        //         Math.random() * 100,
-        //         Math.random() * 100,
-        //         Math.random() * 100,
-        //         Math.random() * 100,
-        //         Math.random() * 100,
-        //         Math.random() * 100,
-        //       ],
-        //     },
-        //   ],
-        // }}
-        data={data}
+        data={{
+          labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+          datasets: [
+            {
+              data: [
+                Math.random() * 100,
+                Math.random() * 100,
+                Math.random() * 100,
+                Math.random() * 100,
+                Math.random() * 100,
+                Math.random() * 100,
+              ],
+            },
+          ],
+        }}
+        // data={data}
         // width={Dimensions.get('window').width} // from react-native
         width={screenWidth} // from react-native
         height={320}

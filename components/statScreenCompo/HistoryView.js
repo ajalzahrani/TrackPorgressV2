@@ -16,11 +16,11 @@ const HistoryView = () => {
   }, [selectedDate]);
   return (
     <View style={{flex: 1, margin: 20}}>
-      <Calendars setSelectedDate={setSelectedDate} />
-      <Text style={{color: colors.white}}>
-        {sess.length} {sess.length > 1 ? 'Sessions' : 'Session'}
-      </Text>
       <ScrollView contentCScrollViewontainerStyle={{paddingBottom: 72}}>
+        <Calendars setSelectedDate={setSelectedDate} />
+        <Text style={{color: colors.white}}>
+          {sess.length} {sess.length > 1 ? 'Sessions' : 'Session'}
+        </Text>
         {sess.length > 0 &&
           sess.map((item, i) => {
             return (

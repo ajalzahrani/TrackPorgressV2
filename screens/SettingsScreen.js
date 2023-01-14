@@ -36,7 +36,7 @@ const SettingsScreen = () => {
   );
 
   return (
-    <SafeAreaView className="bg-[#112044] flex-1">
+    <SafeAreaView style={styles.safeViewStyle}>
       <View className="mt-10 ml-12">
         <ProfileTitle />
       </View>
@@ -55,6 +55,10 @@ const SettingsScreen = () => {
 export default SettingsScreen;
 
 const styles = StyleSheet.create({
+  safeViewStyle: {
+    backgroundColor: colors.primary,
+    flex: 1,
+  },
   centeredView: {
     justifyContent: 'center',
     alignItems: 'center',
