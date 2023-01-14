@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useIsFocused} from '@react-navigation/native';
+import {useTranslation} from 'react-i18next';
 
 // Assets
 import {colors, assets} from '../components/constants';
@@ -31,6 +32,8 @@ const RoutineScreen = () => {
   const routines = useStore(s => s.routines);
   const selectCurrentRoutine = useStore(s => s.selectCurrentRoutine);
   const navigation = useNavigation();
+
+  const {t} = useTranslation();
 
   // useEffect(() => {
   //   setModalVisible(true);
@@ -57,7 +60,7 @@ const RoutineScreen = () => {
             }}>
             <Text
               style={{fontSize: 30, fontWeight: '700', color: colors.white}}>
-              Routines
+              {t('routines.routines')}
             </Text>
           </View>
           <View
@@ -94,7 +97,7 @@ const RoutineScreen = () => {
           ))}
         </ScrollView>
         <PressableButton
-          label={'Print routines'}
+          label={t('routines.printRoutines')}
           onPress={() => console.log(JSON.stringify(routines))}
         />
       </View>

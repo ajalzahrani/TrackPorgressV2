@@ -4,6 +4,10 @@
     "introduction": "هذا النص اتى من مكتبة ١٨ و معطا باللغة العربية",
     "btnQuickStart": "بداية سريعة"
   },
+  "routines": {
+    "routines": "الجداول",
+    "printRoutines": "اطبع الجداول"
+  },
   "schedule": {
     "addNewWorkout": "أضف تمرين جديد",
     "preListOfWorkouts": "التمارين المنسقة",

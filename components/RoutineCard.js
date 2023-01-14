@@ -1,5 +1,5 @@
 import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
-import React, {useState, useMemo} from 'react';
+import React, {useState} from 'react';
 
 import {colors, assets} from './constants';
 
@@ -7,46 +7,47 @@ import {useNavigation} from '@react-navigation/native';
 
 // Store
 import useStore from '../store/useStore';
-import PressableButton from './PressableButton';
-
-import RoutineFormScreen from '../screens/RoutineFormScreen';
-
-import uuidv4 from './shared/uuid4v';
+import GeneralModal from '../components/GeneralModal';
 
 const RoutineCard = ({id, title}) => {
   const deleteRoutine = useStore(s => s.deleteRoutine);
   const routines = useStore(s => s.routines);
   const selectCurrentRoutine = useStore(s => s.selectCurrentRoutine);
+  const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
 
+  const action = () => {
+    console.log('yes is press triger the action');
+    deleteRoutine(id);
+  };
+
   return (
-    <View style={style.cardContainer}>
-      <Text style={style.workoutTitle}>{title}</Text>
-      <View style={style.editContainerStyle} className="space-x-4">
-        <TouchableOpacity
-          onPress={() => {
-            console.log(uuidv4());
-            // console.log(
-            //   `StartDate: ${routines[id]?.startDate} - EndDate: ${routines[id]?.endDate}`,
-            // );
-          }}>
-          <Image source={assets.icn_home} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            selectCurrentRoutine(id);
-            navigation.navigate('RoutineFormScreen');
-          }}>
-          <Image source={assets.icn_plus} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            deleteRoutine(id);
-          }}>
-          <Image source={assets.icn_remove} />
-        </TouchableOpacity>
+    <>
+      <GeneralModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        action={action}
+      />
+
+      <View style={style.cardContainer}>
+        <Text style={style.workoutTitle}>{title}</Text>
+        <View style={style.editContainerStyle} className="space-x-4">
+          <TouchableOpacity
+            onPress={() => {
+              selectCurrentRoutine(id);
+              navigation.navigate('RoutineFormScreen');
+            }}>
+            <Image source={assets.icn_plus} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setModalVisible(!modalVisible);
+            }}>
+            <Image source={assets.icn_remove} />
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </>
   );
 };
 
