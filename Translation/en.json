@@ -18,6 +18,12 @@
     "delete": "Delete",
     "skitch": "Skitch"
   },
+  "exercise": {
+    "bodyPart": "Body part",
+    "equipment": "Equipment",
+    "name": "Name",
+    "target": "Target"
+  },
   "settings": {
     "gender": "Gender",
     "dob": "Date of birth",

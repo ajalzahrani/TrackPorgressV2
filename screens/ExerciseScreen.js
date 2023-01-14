@@ -18,6 +18,7 @@ import ExerciseSelectRow from '../components/ExerciseSelectRow';
 
 // Store
 import useStore from '../store/useStore';
+import ExerciseApi from '../components/database/ExerciseApiShort.json';
 
 const ExerciseScreen = () => {
   // FIXME: presis exercise selection when search
@@ -25,7 +26,7 @@ const ExerciseScreen = () => {
   const exercisesMaster = useStore(s => s.exercisesMaster);
   const saveNewExerciseMaster = useStore(s => s.saveNewExerciseMaster);
   const [search, setSearch] = useState(''); //
-  const [searchResult, setSearchResult] = useState(exercisesMaster);
+  const [searchResult, setSearchResult] = useState(ExerciseApi);
   const [notFound, setNotFound] = useState(false); // handle if no exercise found in search
 
   // search the list of exercises data and eanble the user to add not found exercies.

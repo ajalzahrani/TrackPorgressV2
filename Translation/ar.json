@@ -18,6 +18,12 @@
     "delete": "امسح",
     "skitch": "اعتمد"
   },
+  "exercise": {
+    "bodyPart": "العضلة",
+    "equipment": "الجهاز",
+    "name": "الأسم",
+    "target": "الهدف"
+  },
   "settings": {
     "gender": "الجنس",
     "dob": "تاريخ الميلاد",
