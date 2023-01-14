@@ -7,16 +7,16 @@ import {convertDate} from './shared';
 import moment from 'moment';
 
 const Calendars2 = ({startDay, setStartDay, endDay, setEndDay}) => {
+  // FIXME: handle user select only start day
+  // FIXME: handle user not selecting any date
   const [markedDate, setMarkedDate] = useState({});
   const [isStartDaySet, setIsStartSet] = useState(false);
 
   useEffect(() => {
-    console.log('First render');
     markSelectedDates();
   }, []);
 
   useEffect(() => {
-    console.log('endDay render');
     markSelectedDates();
   }, [startDay, endDay]);
 
@@ -43,7 +43,6 @@ const Calendars2 = ({startDay, setStartDay, endDay, setEndDay}) => {
     if (startDay !== undefined && endDay !== undefined) {
       duration = getDaysArray(startDay, endDay);
       duration?.forEach(item => {
-        console.log(moment(item).format('YYYY-MM-DD'));
         marked[moment(item).format('YYYY-MM-DD')] = {
           selected: true,
           selectedColor: colors.secondary,
@@ -83,7 +82,7 @@ const Calendars2 = ({startDay, setStartDay, endDay, setEndDay}) => {
           <>
             <Text style={{color: 'white', fontSize: 16}}>Start Date: </Text>
             <Text style={{color: 'yellow', fontSize: 16, fontWeight: '600'}}>
-              {startDay}
+              {moment(startDay).format('YYYY-MM-DD')}
             </Text>
           </>
         )}
@@ -102,7 +101,7 @@ const Calendars2 = ({startDay, setStartDay, endDay, setEndDay}) => {
                 fontSize: 16,
                 fontWeight: '600',
               }}>
-              {endDay}
+              {moment(endDay).format('YYYY-MM-DD')}
             </Text>
           </View>
         )}
