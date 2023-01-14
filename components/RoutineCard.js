@@ -17,7 +17,6 @@ const RoutineCard = ({id, title}) => {
   const navigation = useNavigation();
 
   const action = () => {
-    console.log('yes is press triger the action');
     deleteRoutine(id);
   };
 
