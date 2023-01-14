@@ -13,6 +13,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
+import {useTranslation} from 'react-i18next';
 
 // Assets
 import {colors, assets} from '../components/constants';
@@ -35,6 +36,7 @@ const WorkoutScreen = () => {
 
   const [modalVisible, setModalVisible] = useState(false); // workoutname alert modal state
   const [workoutName, setWorkoutName] = useState(currentWorkout?.title); // workout name state
+  const {t} = useTranslation();
 
   const navigation = useNavigation();
 
@@ -110,7 +112,9 @@ const WorkoutScreen = () => {
             });
           }}>
           <Image source={assets.icn_plus} style={{}} />
-          <Text className="text-red-500 text-base">Add new exercise</Text>
+          <Text className="text-red-500 text-base">
+            {t('workout.addNewExercise')}
+          </Text>
         </TouchableOpacity>
       </View>
       <View style={{paddingHorizontal: 16, flex: 1}}>
@@ -123,7 +127,7 @@ const WorkoutScreen = () => {
               defaultValue={currentWorkout?.title}
               style={style.textInputStyle}
             />
-            <Text className="text-white">Pre-list of workouts</Text>
+
             {currentWorkout.exercises?.map(element => {
               return (
                 <ExerciseCard
@@ -136,7 +140,7 @@ const WorkoutScreen = () => {
             {RestTimeDrawer()}
 
             <PressableButton
-              title={'Skitch'}
+              title={t('workout.skitch')}
               iconSource={assets.icn_edit}
               onPress={() => {
                 savewo();
@@ -144,7 +148,7 @@ const WorkoutScreen = () => {
             />
             {/* Test button */}
             <PressableButton
-              title={'Delete'}
+              title={t('workout.delete')}
               onPress={() => {
                 deleteWorkout(currentWorkout.id);
                 navigation.goBack();

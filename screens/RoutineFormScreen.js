@@ -117,7 +117,7 @@ const RoutineFormScreen = () => {
         underlineColorAndroid="transparent"
       />
 
-      <PressableButton onPress={onPress} label="Okey" />
+      <PressableButton onPress={onPress} title="Okey" />
     </View>
   );
 };

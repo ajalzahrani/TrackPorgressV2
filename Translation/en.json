@@ -1,7 +1,7 @@
 {
   "home": {
     "title": "Welcome",
-    "introduction": "This text comes from i18next and is provided in en",
+    "introduction": "Once you are exercising regularly, the hardest thing is to stop it.",
     "btnQuickStart": "Quick Start"
   },
   "routines": {
@@ -12,6 +12,11 @@
     "addNewWorkout": "Add new workout",
     "preListOfWorkouts": "Pre-list of workouts",
     "addNewWorkoutOrChoose": "Add new workout or select pre-configure one."
+  },
+  "workout": {
+    "addNewExercise": "Add new exercise",
+    "delete": "Delete",
+    "skitch": "Skitch"
   },
   "settings": {
     "gender": "Gender",

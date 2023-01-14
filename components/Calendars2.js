@@ -45,7 +45,7 @@ const Calendars2 = ({startDay, setStartDay, endDay, setEndDay}) => {
       duration?.forEach(item => {
         marked[moment(item).format('YYYY-MM-DD')] = {
           selected: true,
-          selectedColor: colors.secondary,
+          selectedColor: colors.red,
         };
       });
       setMarkedDate(marked);
@@ -53,7 +53,7 @@ const Calendars2 = ({startDay, setStartDay, endDay, setEndDay}) => {
       let marked = {};
       marked[startDay] = {
         selected: true,
-        selectedColor: colors.secondary,
+        selectedColor: colors.red,
       };
       setMarkedDate(marked);
     }

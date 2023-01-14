@@ -19,6 +19,7 @@ import {colors} from '../components/constants';
 // Components
 import QuickStart from '../components/QuickStart';
 import PressableButton from '../components/PressableButton';
+import GeneralModal from '../components/GeneralModal';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -26,10 +27,17 @@ const HomeScreen = () => {
   const currentRoutine = useStore(state => state.currentRoutine);
   const exercisesMaster = useStore(state => state.exercisesMaster);
   const sessions = useGstore(state => state.sessions);
+  const [modalView, setModalVisible] = useState(false);
   const {t} = useTranslation();
 
   return (
     <SafeAreaView style={styles.safeViewStyle}>
+      <GeneralModal
+        modalVisible={modalView}
+        setModalVisible={setModalVisible}
+        action={() => console.log('action')}
+        message="some message goes herelet make this text as big as we can"
+      />
       <View className="items-center p-16">
         <Text className="mt-1 font-semibold text-4xl text-white">
           {t('home.title')}!
@@ -48,7 +56,7 @@ const HomeScreen = () => {
 
           <PressableButton
             title={t('home.btnQuickStart')}
-            onPress={() => console.log(JSON.stringify(routines))}
+            onPress={() => setModalVisible(!modalView)}
             style={{paddingHorizontal: 40}}
           />
         </View>

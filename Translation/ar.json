@@ -1,7 +1,7 @@
 {
   "home": {
-    "title": "أهلا وسهلا",
-    "introduction": "هذا النص اتى من مكتبة ١٨ و معطا باللغة العربية",
+    "title": "مرحبا",
+    "introduction": "بمجرد أن تمارس الرياضة بانتظام ، فإن أصعب شيء هو التوقف",
     "btnQuickStart": "بداية سريعة"
   },
   "routines": {
@@ -12,6 +12,11 @@
     "addNewWorkout": "أضف تمرين جديد",
     "preListOfWorkouts": "التمارين المنسقة",
     "addNewWorkoutOrChoose": "أضف تمرينًا جديدًا أو حدد واحدًا تم تكوينه مسبقًا."
+  },
+  "workout": {
+    "addNewExercise": "اضف تمرين جديد",
+    "delete": "امسح",
+    "skitch": "اعتمد"
   },
   "settings": {
     "gender": "الجنس",

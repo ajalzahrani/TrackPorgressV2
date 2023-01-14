@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalView: {
+    marginHorizontal: 16,
     margin: 10,
     backgroundColor: 'white',
     borderRadius: 20,
