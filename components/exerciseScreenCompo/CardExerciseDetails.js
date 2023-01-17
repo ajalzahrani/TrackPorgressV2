@@ -9,7 +9,7 @@ const CardExerciseDetails = ({exercise}) => {
 
   return (
     <>
-      <View className="bg-[#FFFFFF1A] px-5 py-4 placeholder-sky-300 rounded-lg">
+      <View className="px-5 py-4 placeholder-sky-300 rounded-lg">
         <View className="flex flex-row justify-between items-center py-3 flex-grow-0">
           <Text className="text-white text-sm font-medium">
             {t('exercise.bodyPart')}

@@ -203,6 +203,8 @@ const style = StyleSheet.create({
     alignItems: 'center',
   },
   workoutTitleStyle: {
+    flex: 1,
+    flexWrap: 'wrap',
     fontStyle: 'normal',
     fontWeight: '600',
     fontSize: 30,

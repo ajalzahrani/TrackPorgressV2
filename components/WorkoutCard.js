@@ -43,6 +43,8 @@ const style = StyleSheet.create({
     borderRadius: 10,
   },
   workoutTitle: {
+    flex: 1,
+    flexWrap: 'wrap',
     fontStyle: 'normal',
     fontWeight: '500',
     fontSize: 20,
