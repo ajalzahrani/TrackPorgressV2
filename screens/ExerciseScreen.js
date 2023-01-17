@@ -6,7 +6,10 @@ import {
   TouchableOpacity,
   StyleSheet,
   TextInput,
+  Modal,
+  Pressable,
   ScrollView,
+  FlatList,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 
@@ -19,6 +22,7 @@ import ExerciseSelectRow from '../components/ExerciseSelectRow';
 // Store
 import useStore from '../store/useStore';
 import ExerciseApi from '../components/database/ExerciseApiShort.json';
+import PressableButton from '../components/PressableButton';
 
 const ExerciseScreen = () => {
   // FIXME: presis exercise selection when search
@@ -28,16 +32,17 @@ const ExerciseScreen = () => {
   const [search, setSearch] = useState(''); //
   const [searchResult, setSearchResult] = useState(ExerciseApi);
   const [notFound, setNotFound] = useState(false); // handle if no exercise found in search
+  const [modalVisible, setModalVisible] = useState(false);
 
   // search the list of exercises data and eanble the user to add not found exercies.
   const handleSearch = searchText => {
     setSearch(searchText);
-    const filterdExercies = exercisesMaster.filter((exer, index) => {
+    const filterdExercies = ExerciseApi.filter((exer, index) => {
       // console.log(exer.title.match(searchText));
-      return exer.title.match(searchText);
+      return exer.name.match(searchText.toLowerCase());
     });
     if (searchText.length === 0) {
-      setSearchResult(exercisesMaster);
+      setSearchResult(ExerciseApi);
       setNotFound(false);
     } else if (filterdExercies.length === 0) {
       setNotFound(true);
@@ -47,16 +52,79 @@ const ExerciseScreen = () => {
     }
   };
 
+  const bodyPartSearch = iconDesc => {
+    const filterdExercies = ExerciseApi.filter((exer, index) => {
+      return exer.bodyPart.match(iconDesc.toLowerCase());
+    });
+    handleSearchResult(iconDesc, filterdExercies);
+  };
+
+  const handleSearchResult = (searchTerm, filterdExercies) => {
+    if (searchTerm.length === 0) {
+      setSearchResult(ExerciseApi);
+      setNotFound(false);
+    } else if (filterdExercies.length === 0) {
+      setNotFound(true);
+    } else {
+      setSearchResult(filterdExercies);
+      setNotFound(false);
+    }
+  };
+
+  const renderItem = ({item}) => {
+    return (
+      <View style={styles.preListContainerStyle}>
+        <ExerciseSelectRow key={item.id} item={item} />
+      </View>
+    );
+  };
+
   return (
-    <SafeAreaView style={style.safeViewStyle}>
-      <View style={{paddingHorizontal: 16, flex: 1}}>
+    <SafeAreaView style={styles.safeViewStyle}>
+      <Modal
+        animationType="pageSheet"
+        presentationStyle="fullScreen"
+        transparent={false}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.centeredView}>
+          <Pressable
+            style={[styles.button, styles.buttonClose]}
+            onPress={() => setModalVisible(!modalVisible)}>
+            <Text style={styles.textStyle}>Which pride</Text>
+          </Pressable>
+          <View style={styles.imageContainer}>
+            <Image
+              style={styles.imageSelf}
+              source={{
+                // uri: 'https://reactnative.dev/img/tiny_logo.png',
+                // uri: 'https://media.geeksforgeeks.org/wp-content/uploads/20220221170632/ezgifcomgifmaker1.gif',
+                // uri: 'http://d205bpvrqc9yn1.cloudfront.net/1512.gif',
+                uri: 'https://media0.giphy.com/media/GtzXOGVW3ks8g/giphy.gif?cid=ecf05e476hj62jvozlrixbpyf8kjxtap5an3m7t4p02bm8bn&rid=giphy.gif&ct=g',
+              }}
+              // source={require('../asset/0001.gif')}
+              resizeMode="contain"
+            />
+            {/* <Image
+              style={styles.tinyLogo}
+              source={{
+                uri: 'https://reactnative.dev/img/tiny_logo.png',
+              }}
+            /> */}
+          </View>
+        </View>
+      </Modal>
+      <View style={{paddingHorizontal: 16}}>
         {/* TextInput component */}
         <TextInput
           placeholder="Exercise name"
           placeholderTextColor={colors.offwhite}
           onChangeText={handleSearch}
           value={search}
-          style={style.textInputStyle}
+          style={styles.textInputStyle}
         />
         {notFound && (
           <View
@@ -83,24 +151,52 @@ const ExerciseScreen = () => {
             </TouchableOpacity>
           </View>
         )}
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+            marginVertical: 20,
+          }}>
+          <TouchableOpacity onPress={() => bodyPartSearch('waist')}>
+            <Image source={assets.icn_abs} style={styles.searchIcons} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => bodyPartSearch('arm')}>
+            <Image source={assets.icn_arm} style={styles.searchIcons} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => bodyPartSearch('legs')}>
+            <Image source={assets.icn_leg} style={styles.searchIcons} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => bodyPartSearch('chest')}>
+            <Image source={assets.icn_chest} style={styles.searchIcons} />
+          </TouchableOpacity>
+        </View>
+        <FlatList
+          contentContainerStyle={{paddingBottom: 72}}
+          data={searchResult}
+          renderItem={renderItem}
+          keyExtractor={item => item.id}
+        />
 
-        <ScrollView contentContainerStyle={{paddingBottom: 72, marginTop: 20}}>
-          {/* Exercise List */}
-          <View style={style.preListContainerStyle}>
-            {searchResult?.map(item => (
-              <ExerciseSelectRow key={item.id} item={item} />
-            ))}
-          </View>
-        </ScrollView>
+        <PressableButton
+          title={'try an image'}
+          onPress={() => setModalVisible(!modalVisible)}
+        />
       </View>
     </SafeAreaView>
   );
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
+  imageContainer: {backgroundColor: 'blue'},
+  imageSelf: {width: '100%', height: '100%', resizeMode: 'contain'},
   safeViewStyle: {
     backgroundColor: colors.primary,
     flex: 1,
+  },
+  searchIcons: {
+    width: 50,
+    height: 50,
+    borderRadius: 5,
   },
   ExerciseRow: {
     flexDirection: 'row',
@@ -145,6 +241,51 @@ const style = StyleSheet.create({
     borderRadius: 100,
     marginHorizontal: 30,
     marginTop: 47,
+  },
+  centeredView: {
+    // flex: 1,
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    marginTop: 50,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  tinyLogo: {
+    width: 100,
+    height: 100,
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
   },
 });
 

@@ -27,14 +27,6 @@ import {colors, assets} from '../constants';
 const ScheduleStackScreen = () => {
   return (
     <ScheduleStack.Navigator screenOptions={{headerShown: false}}>
-      <ScheduleStack.Screen name="RoutineScreen" component={RoutineScreen} />
-      <ScheduleStack.Screen name="ScheduleScreen" component={ScheduleScreen} />
-      <ScheduleStack.Screen name="WorkoutScreen" component={WorkoutScreen} />
-      <ScheduleStack.Screen
-        name="ActiveScreen"
-        component={ActiveScreen}
-        options
-      />
       <ScheduleStack.Screen
         name="ExerciseScreen"
         component={ExerciseScreen}
@@ -42,6 +34,14 @@ const ScheduleStackScreen = () => {
           presentation: 'modal',
           headerShown: false,
         }}
+      />
+      {/* <ScheduleStack.Screen name="RoutineScreen" component={RoutineScreen} />
+      <ScheduleStack.Screen name="ScheduleScreen" component={ScheduleScreen} />
+      <ScheduleStack.Screen name="WorkoutScreen" component={WorkoutScreen} />
+      <ScheduleStack.Screen
+        name="ActiveScreen"
+        component={ActiveScreen}
+        options
       />
       <ScheduleStack.Screen
         name="VReportScreen"
@@ -58,7 +58,7 @@ const ScheduleStackScreen = () => {
           presentation: 'modal',
           headerShown: false,
         }}
-      />
+      /> */}
     </ScheduleStack.Navigator>
   );
 };

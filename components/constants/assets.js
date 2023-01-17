@@ -15,6 +15,10 @@ import icn_remove from '../../asset/icn_remove.png';
 import icn_remove2 from '../../asset/icn_remove2.png';
 import icn_pause from '../../asset/icn_pause.png';
 import icn_pause2 from '../../asset/icn_pause2.png';
+import icn_chest from '../../asset/icn_chest.png';
+import icn_abs from '../../asset/icn_abs.png';
+import icn_arm from '../../asset/icn_arm.png';
+import icn_leg from '../../asset/icn_leg.png';
 
 import AsianBueaty from '../../asset/personalpic.png';
 
@@ -36,5 +40,9 @@ export default {
   icn_remove2,
   icn_pause,
   icn_pause2,
+  icn_chest,
+  icn_abs,
+  icn_arm,
+  icn_leg,
   AsianBueaty,
 };

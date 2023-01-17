@@ -41,19 +41,20 @@ const ExerciseSelectRow = ({item}) => {
         <View style={style.ExerciseRow}>
           <Text style={style.exerciseTitleStyle}>{item.name}</Text>
           <View className="flex-row space-x-2 justify-center items-center">
-            <Image source={assets.icn_add} />
+            <Image source={explore ? assets.icn_remove : assets.icn_add} />
             {/* <TouchableOpacity
-          onPress={() => {
-            setIsSelected(!isSelected);
-            addNewExerciseWorkout(item.id);
-          }}>
-          <View
-            style={{
-              backgroundColor: isSelected ? colors.secondary : colors.primary,
-            }}
-            className="p-4 rounded-full"></View>
-        </TouchableOpacity> */}
-            <Image source={assets.icn_edit} />
+              onPress={() => {
+                setIsSelected(!isSelected);
+                addNewExerciseWorkout(item.id);
+              }}>
+              <View
+                style={{
+                  backgroundColor: isSelected
+                    ? colors.secondary
+                    : colors.primary,
+                }}
+                className="p-4 rounded-full"></View>
+            </TouchableOpacity> */}
           </View>
         </View>
       </Pressable>

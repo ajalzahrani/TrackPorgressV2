@@ -54,5 +54,37 @@
     "id": "1368",
     "name": "ankle circles",
     "target": "calves"
+  },
+  {
+    "bodyPart": "chest",
+    "equipment": "leverage machine",
+    "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/0009.gif",
+    "id": "0009",
+    "name": "assisted chest dip (kneeling)",
+    "target": "pectorals"
+  },
+  {
+    "bodyPart": "chest",
+    "equipment": "assisted",
+    "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/1716.gif",
+    "id": "1716",
+    "name": "assisted seated pectoralis major stretch with stability ball",
+    "target": "pectorals"
+  },
+  {
+    "bodyPart": "chest",
+    "equipment": "leverage machine",
+    "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/2364.gif",
+    "id": "2364",
+    "name": "assisted wide-grip chest dip (kneeling)",
+    "target": "pectorals"
+  },
+  {
+    "bodyPart": "upper arms",
+    "equipment": "band",
+    "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/0968.gif",
+    "id": "0968",
+    "name": "band alternating biceps curl",
+    "target": "biceps"
   }
 ]
