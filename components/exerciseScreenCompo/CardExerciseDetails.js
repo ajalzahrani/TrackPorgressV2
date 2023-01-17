@@ -1,7 +1,7 @@
-import {StyleSheet, Text, View, Modal, Pressable} from 'react-native';
+import {StyleSheet, Text, View, Modal, Pressable, Image} from 'react-native';
 import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Image} from 'react-native-svg';
+import {assets, colors} from '../constants';
 
 const CardExerciseDetails = ({exercise}) => {
   const {t} = useTranslation();
@@ -37,25 +37,13 @@ const CardExerciseDetails = ({exercise}) => {
           </Text>
         </View>
 
-        <Text>{exercise.gifUrl}</Text>
-
-        <Image
-          style={{width: '100%', height: '80%'}}
-          source={{
-            uri: 'https://media.geeksforgeeks.org/wp-content/uploads/20220221170632/ezgifcomgifmaker1.gif',
-          }}
-        />
-
-        <Image
-          style={{
-            width: 51,
-            height: 51,
-            resizeMode: 'contain',
-          }}
-          source={{
-            uri: exercise.gifUrl,
-          }}
-        />
+        {/* <View style={styles.imageContainer}>
+          <Image
+            source={assets.abs}
+            style={styles.imageSelf}
+            resizeMode="contain"
+          />
+        </View> */}
       </View>
     </>
   );
@@ -64,45 +52,11 @@ const CardExerciseDetails = ({exercise}) => {
 export default CardExerciseDetails;
 
 const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
+  imageContainer: {
     alignItems: 'center',
-    marginTop: 22,
   },
-  modalView: {
-    margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-  },
-  buttonOpen: {
-    backgroundColor: '#F194FF',
-  },
-  buttonClose: {
-    backgroundColor: '#2196F3',
-  },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
+  imageSelf: {
+    width: 300,
+    height: 300,
   },
 });

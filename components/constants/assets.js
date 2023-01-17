@@ -19,6 +19,7 @@ import icn_chest from '../../asset/icn_chest.png';
 import icn_abs from '../../asset/icn_abs.png';
 import icn_arm from '../../asset/icn_arm.png';
 import icn_leg from '../../asset/icn_leg.png';
+import abs from '../../asset/0001.gif';
 
 import AsianBueaty from '../../asset/personalpic.png';
 
@@ -44,5 +45,6 @@ export default {
   icn_abs,
   icn_arm,
   icn_leg,
+  abs,
   AsianBueaty,
 };

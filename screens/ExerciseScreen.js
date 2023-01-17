@@ -117,7 +117,7 @@ const ExerciseScreen = () => {
           </View>
         </View>
       </Modal>
-      <View style={{paddingHorizontal: 16}}>
+      <View style={{paddingHorizontal: 16, flex: 1}}>
         {/* TextInput component */}
         <TextInput
           placeholder="Exercise name"
@@ -170,16 +170,15 @@ const ExerciseScreen = () => {
             <Image source={assets.icn_chest} style={styles.searchIcons} />
           </TouchableOpacity>
         </View>
+        {/* <PressableButton
+          title={'try an image'}
+          onPress={() => setModalVisible(!modalVisible)}
+        /> */}
         <FlatList
           contentContainerStyle={{paddingBottom: 72}}
           data={searchResult}
           renderItem={renderItem}
           keyExtractor={item => item.id}
-        />
-
-        <PressableButton
-          title={'try an image'}
-          onPress={() => setModalVisible(!modalVisible)}
         />
       </View>
     </SafeAreaView>
