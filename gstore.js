@@ -17,7 +17,6 @@ let gstore = (set, get) => ({
   registerSet: (exerId, setId, leftedWeight, reps, TUT) =>
     set(
       produce(draft => {
-        let exercises = draft.exercise;
         let setData = {
           setno: setId,
           leftedWeight: leftedWeight,
@@ -25,6 +24,7 @@ let gstore = (set, get) => ({
           TUT: TUT,
         };
         let isExFound = false;
+        let exercises = draft.exercise;
         for (let i = 0; i < exercises.length; i++) {
           let isSetFound = false;
           let sets = exercises[i].set;
@@ -55,6 +55,7 @@ let gstore = (set, get) => ({
   getLastSession: () => {
     return get().sessions[get().sessions.length - 1];
   },
+  getLastSameWorkoutRoutineSession: () => {},
   getSessionByDate: date => {
     let daySession = [];
     for (let i = 0; i < get().sessions.length; i++) {

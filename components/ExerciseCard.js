@@ -1,5 +1,6 @@
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import React, {useState} from 'react';
+import ExerciseApi from '../components/database/ExerciseApiShort.json';
 
 // Assets
 import {colors, assets} from '../components/constants';
@@ -48,10 +49,10 @@ const ExerciseCard = ({exercise, addFreq}) => {
 
   /* HOW TO QUERY EXERCISE NAME BY ID FROM EXERCISE LIST */
   const getExerciseName = id => {
-    let exername = exercisesMaster.filter(element => {
+    let exername = ExerciseApi.filter(element => {
       return element.id === id;
     });
-    return exername[0].title;
+    return exername[0].name;
   };
 
   return (

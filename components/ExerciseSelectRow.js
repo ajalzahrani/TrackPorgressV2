@@ -42,7 +42,7 @@ const ExerciseSelectRow = ({item}) => {
           <Text style={style.exerciseTitleStyle}>{item.name}</Text>
           <View className="flex-row space-x-2 justify-center items-center">
             <Image source={explore ? assets.icn_remove : assets.icn_add} />
-            {/* <TouchableOpacity
+            <TouchableOpacity
               onPress={() => {
                 setIsSelected(!isSelected);
                 addNewExerciseWorkout(item.id);
@@ -54,7 +54,7 @@ const ExerciseSelectRow = ({item}) => {
                     : colors.primary,
                 }}
                 className="p-4 rounded-full"></View>
-            </TouchableOpacity> */}
+            </TouchableOpacity>
           </View>
         </View>
       </Pressable>

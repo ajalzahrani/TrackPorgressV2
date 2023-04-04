@@ -21,7 +21,7 @@ import ExerciseSelectRow from '../components/ExerciseSelectRow';
 
 // Store
 import useStore from '../store/useStore';
-import ExerciseApi from '../components/database/ExerciseApiShort.json';
+
 import PressableButton from '../components/PressableButton';
 
 const ExerciseScreen = () => {
