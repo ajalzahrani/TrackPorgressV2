@@ -1,6 +1,6 @@
 import {produce} from 'immer';
 import uuidv4 from '../../../components/shared/uuid4v';
-import {store} from '../../../Store';
+import {store} from '../../Store';
 
 export default exerciseSlice = (set, get) => ({
   exercisesMaster: [],

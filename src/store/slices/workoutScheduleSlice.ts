@@ -1,5 +1,5 @@
 import {produce} from 'immer';
-import {store} from '../../../Store';
+import {store} from '../../Store';
 import DefaultWeekdays from '../../assets/database/weekdays';
 import uuidv4 from '../../../components/shared/uuid4v';
 

@@ -1,4 +1,4 @@
-import {store} from '../../../Store';
+import {store} from '../../Store';
 
 import routines from './routines';
 import workouts from './workouts';
