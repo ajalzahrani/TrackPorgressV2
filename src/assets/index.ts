@@ -1,29 +1,30 @@
-import bgImage from '../../asset/icn_background.png';
-import icn_home from '../../asset/icn_home.png';
-import icn_stat from '../../asset/icn_stat.png';
-import icn_schedule from '../../asset/icn_schedule.png';
-import icn_settings from '../../asset/icn_settings.png';
-import icn_start from '../../asset/icn_start.png';
-import icn_plus from '../../asset/icn_plus.png';
-import icn_rightarrow from '../../asset/icn_rightarrow.png';
-import icn_edit from '../../asset/icn_edit.png';
-import icn_add from '../../asset/icn_add.png';
-import icn_min from '../../asset/icn_min.png';
-import icn_goback from '../../asset/icn_goback.png';
-import icn_goforward from '../../asset/icn_goforward.png';
-import icn_remove from '../../asset/icn_remove.png';
-import icn_remove2 from '../../asset/icn_remove2.png';
-import icn_pause from '../../asset/icn_pause.png';
-import icn_pause2 from '../../asset/icn_pause2.png';
-import icn_chest from '../../asset/icn_chest.png';
-import icn_abs from '../../asset/icn_abs.png';
-import icn_arm from '../../asset/icn_arm.png';
-import icn_leg from '../../asset/icn_leg.png';
-import abs from '../../asset/0001.gif';
+import bgImage from './images/icn_background.png';
+import icn_home from './images/icn_home.png';
+import icn_stat from './images/icn_stat.png';
+import icn_schedule from './images/icn_schedule.png';
+import icn_settings from './images/icn_settings.png';
+import icn_start from './images/icn_start.png';
+import icn_plus from './images/icn_plus.png';
+import icn_rightarrow from './images/icn_rightarrow.png';
+import icn_edit from './images/icn_edit.png';
+import icn_add from './images/icn_add.png';
+import icn_min from './images/icn_min.png';
+import icn_goback from './images/icn_goback.png';
+import icn_goforward from './images/icn_goforward.png';
+import icn_remove from './images/icn_remove.png';
+import icn_remove2 from './images/icn_remove2.png';
+import icn_pause from './images/icn_pause.png';
+import icn_pause2 from './images/icn_pause2.png';
+import icn_chest from './images/icn_chest.png';
+import icn_abs from './images/icn_abs.png';
+import icn_arm from './images/icn_arm.png';
+import icn_leg from './images/icn_leg.png';
+import abs from './images/0001.gif';
 
-import AsianBueaty from '../../asset/personalpic.png';
+import AsianBueaty from './images/personalpic.png';
+import {colors} from './theme';
 
-export default {
+const assets = {
   bgImage,
   icn_home,
   icn_plus,
@@ -48,3 +49,5 @@ export default {
   abs,
   AsianBueaty,
 };
+
+export {assets, colors};

@@ -1,26 +1,9 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React, {useEffect} from 'react';
-import type {Node} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import {StatusBar} from 'react-native';
 
 // Navigation
 import {NavigationContainer} from '@react-navigation/native';
-import TabBar from './src/components/navigation/TabBar';
+import Router from './src/components/navigation/Router';
 
 // TailwindCSS
 import {TailwindProvider} from 'tailwindcss-react-native';
@@ -29,10 +12,9 @@ import {TailwindProvider} from 'tailwindcss-react-native';
 import {ImplementDataStructure} from './src/assets/database/ImplementDataStructure';
 
 // Translation
-import i18n from './src/Translation/i18n';
 import {I18nextProvider} from 'react-i18next';
 
-const App: () => Node = () => {
+const App = () => {
   useEffect(() => {
     ImplementDataStructure();
   }, []);
@@ -44,8 +26,8 @@ const App: () => Node = () => {
           barStyle="light-content"
           translucent={true}
         />
-        <I18nextProvider>
-          <TabBar />
+        <I18nextProvider i18n={undefined}>
+          <Router />
         </I18nextProvider>
       </TailwindProvider>
     </NavigationContainer>

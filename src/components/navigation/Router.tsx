@@ -6,64 +6,24 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 const Tab = createBottomTabNavigator();
 
 // Stack Navigator
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-const ScheduleStack = createNativeStackNavigator();
+import ScheduleStack from './ScheduleStack';
 
 // Screens
-import HomeScreen from '../../screens/HomeScreen';
-import ScheduleScreen from '../../screens/ScheduleScreen';
-import WorkoutScreen from '../../screens/WorkoutScreen';
-import StatScreen from '../../screens/StatScreen';
-import SettingsScreen from '../../screens/SettingsScreen';
-import ExerciseScreen from '../../screens/ExerciseScreen';
-import ActiveScreen from '../../src/screen/active/ActiveScreen';
-import VReportScreen from '../../screens/VReportScreen';
-import RoutineScreen from '../../screens/RoutineScreen';
-import RoutineFormScreen from '../../screens/RoutineFormScreen';
+import HomeScreen from '../screen/home/HomeScreen';
+import StatScreen from '../screen/statistics/StatScreen';
+import SettingsScreen from '../screen/settings/SettingsScreen';
 
-// componetns
-import {colors, assets} from '../constants';
-
-const ScheduleStackScreen = () => {
-  return (
-    <ScheduleStack.Navigator screenOptions={{headerShown: false}}>
-      <ScheduleStack.Screen name="RoutineScreen" component={RoutineScreen} />
-      <ScheduleStack.Screen name="ScheduleScreen" component={ScheduleScreen} />
-      <ScheduleStack.Screen name="WorkoutScreen" component={WorkoutScreen} />
-      <ScheduleStack.Screen
-        name="ActiveScreen"
-        component={ActiveScreen}
-        options
-      />
-      <ScheduleStack.Screen
-        name="ExerciseScreen"
-        component={ExerciseScreen}
-        options={{
-          presentation: 'modal',
-          headerShown: false,
-        }}
-      />
-      <ScheduleStack.Screen
-        name="VReportScreen"
-        component={VReportScreen}
-        options={{
-          presentation: 'fullScreenModal',
-          headerShown: false,
-        }}
-      />
-      <ScheduleStack.Screen
-        name="RoutineFormScreen"
-        component={RoutineFormScreen}
-        options={{
-          presentation: 'modal',
-          headerShown: false,
-        }}
-      />
-    </ScheduleStack.Navigator>
-  );
+export type RouterStackRootParamList = {
+  HomeScreen: undefined;
+  StatScreen: undefined;
+  ExerciseScreen: undefined;
+  SettingsScreen: undefined;
 };
 
-const TabBar = () => {
+// componetns
+import {colors, assets} from '../../assets';
+
+const Router = () => {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -99,7 +59,7 @@ const TabBar = () => {
       />
       <Tab.Screen
         name="schedule"
-        component={ScheduleStackScreen}
+        component={ScheduleStack}
         options={{
           headerShown: false,
           tabBarIcon: ({focused}) => (
@@ -200,4 +160,4 @@ const style = StyleSheet.create({
   },
 });
 
-export default TabBar;
+export default Router;
