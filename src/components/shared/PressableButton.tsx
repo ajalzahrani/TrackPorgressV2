@@ -1,9 +1,23 @@
-import {StyleSheet, Text, View, Pressable, Image} from 'react-native';
-import React, {useCallback, useState} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  Image,
+  ViewStyle,
+  ImageProps,
+} from 'react-native';
+import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-import {colors} from './constants';
+import {colors} from '../../assets';
 
-function PressableButton({title, onPress, iconSource, style}) {
+type propType = {
+  title: string;
+  onPress: (event: Event) => void;
+  iconSource?: ImageProps;
+  style?: ViewStyle | ViewStyle[];
+};
+function PressableButton({title, onPress, iconSource, style}: propType) {
   return (
     <Pressable
       onPress={onPress}
@@ -16,9 +30,9 @@ function PressableButton({title, onPress, iconSource, style}) {
         start={{x: 1, y: 0}}
         end={{x: 0, y: 0}}
         colors={colors.linerGradient2}>
-        <View className="flex-row justify-center items-center space-x-2">
+        <View style={styles.titlePosition}>
           <Text style={styles.text}>{title}</Text>
-          <Image source={iconSource} />
+          {iconSource && <Image source={iconSource.source} />}
         </View>
       </LinearGradient>
     </Pressable>
@@ -43,5 +57,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     color: colors.black,
+  },
+  titlePosition: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

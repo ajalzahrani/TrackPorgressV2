@@ -16,7 +16,7 @@ import SettingsScreen from '../screen/settings/SettingsScreen';
 export type RouterStackRootParamList = {
   HomeScreen: undefined;
   StatScreen: undefined;
-  ExerciseScreen: undefined;
+  ScheduleStack: undefined;
   SettingsScreen: undefined;
 };
 

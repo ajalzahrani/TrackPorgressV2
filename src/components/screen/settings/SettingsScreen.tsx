@@ -6,10 +6,10 @@ import {
   Text,
 } from 'react-native';
 import React from 'react';
-import {colors} from '../components/constants';
+import {colors} from 'src/assets';
 
-import ProfileTitle from '../components/ProfileTitle';
-import CardInformation from '../components/CardInformation';
+import ProfileTitle from './components/ProfileTitle';
+import CardInformation from './components/CardInformation';
 
 import {useTranslation} from 'react-i18next';
 
@@ -22,7 +22,12 @@ const SettingsScreen = () => {
     {name: 'en', label: 'English'},
   ];
 
-  const LanguageItem = ({name, label}) => (
+  type propType = {
+    name: string;
+    label: string;
+  };
+
+  const LanguageItem = ({name, label}: propType) => (
     <TouchableOpacity
       style={[styles.button]}
       onPress={() => {
@@ -37,10 +42,10 @@ const SettingsScreen = () => {
 
   return (
     <SafeAreaView style={styles.safeViewStyle}>
-      <View className="mt-10 ml-12">
+      <View style={styles.profileTitleStyle}>
         <ProfileTitle />
       </View>
-      <View className="px-5 mt-10">
+      <View style={styles.cardInformationStyle}>
         <CardInformation />
       </View>
       <View style={styles.centeredView}>
@@ -73,4 +78,12 @@ const styles = StyleSheet.create({
   },
   textStyle: {color: 'white'},
   buttonOpen: {},
+  profileTitleStyle: {
+    marginTop: 10,
+    marginLeft: 12,
+  },
+  cardInformationStyle: {
+    paddingHorizontal: 5,
+    marginTop: 10,
+  },
 });

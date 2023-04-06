@@ -1,10 +1,11 @@
 import {View, SafeAreaView, StyleSheet} from 'react-native';
 import React, {useState} from 'react';
-import {colors} from '../components/constants';
-import ProgressView from '../components/statScreenCompo/ProgressView';
-import HistoryView from '../components/statScreenCompo/HistoryView';
-import StatisticView from '../components/statScreenCompo/StatisticView';
+import {colors} from 'src/assets';
+import ProgressView from './components/ProgressView';
+import HistoryView from './components/HistoryView';
+import StatisticView from './components/StatisticView';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
+import ScreenContainer from 'src/components/shared/ScreenContainer';
 
 const StatScreen = () => {
   // FIXME: Adjust the design
@@ -21,30 +22,21 @@ const StatScreen = () => {
   };
 
   return (
-    <SafeAreaView style={style.safeViewStyle}>
-      <View className="flex-1">
-        <View className="mx-5">
-          <SegmentedControl
-            values={['History', 'Progress', 'Statistic']}
-            selectedIndex={selectedIndex}
-            onChange={event => {
-              setSelectedIndex(event.nativeEvent.selectedSegmentIndex);
-            }}
-            backgroundColor={colors.offwhite}
-            appearance="light"
-            style={{marginTop: 10, marginHorizontal: 50, marginBottom: 15}}
-          />
-        </View>
-        {renderView()}
-      </View>
-    </SafeAreaView>
+    <ScreenContainer>
+      {/* <SegmentedControl
+        values={['History', 'Progress', 'Statistic']}
+        selectedIndex={selectedIndex}
+        onChange={event => {
+          // FIXME: maybe because of bellow line
+          setSelectedIndex(event.nativeEvent.selectedSegmentIndex);
+        }}
+        backgroundColor={colors.offwhite}
+        appearance="light"
+        tabStyle={{marginTop: 10, marginHorizontal: 50, marginBottom: 15}}
+      /> */}
+      {renderView()}
+    </ScreenContainer>
   );
 };
 
-const style = StyleSheet.create({
-  safeViewStyle: {
-    backgroundColor: colors.primary,
-    flex: 1,
-  },
-});
 export default StatScreen;

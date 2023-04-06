@@ -7,19 +7,19 @@ import {
   StyleSheet,
 } from 'react-native';
 import React, {useState} from 'react';
-import {useGstore} from '../gstore';
+import {useGstore} from '../../../gstore';
 import {useTranslation} from 'react-i18next';
-import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
-import useStore from '../store/useStore';
+import useStore from '../../../store/useStore';
+import ScreenContainer from 'src/components/shared/ScreenContainer';
 
 // assets
-import {colors} from '../components/constants';
+import {colors} from '../../../assets';
 
 // Components
-import QuickStart from '../components/QuickStart';
-import PressableButton from '../components/PressableButton';
-import GeneralModal from '../components/GeneralModal';
+import QuickStart from './components/QuickStart';
+import PressableButton from '../../shared/PressableButton';
+import GeneralModal from '../../shared/GeneralModal';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -31,28 +31,24 @@ const HomeScreen = () => {
   const {t} = useTranslation();
 
   return (
-    <SafeAreaView style={styles.safeViewStyle}>
+    <ScreenContainer style={styles.safeViewStyle}>
       <GeneralModal
         modalVisible={modalView}
         setModalVisible={setModalVisible}
         action={() => console.log('action')}
         message="some message goes herelet make this text as big as we can"
       />
-      <View className="items-center p-16">
-        <Text className="mt-1 font-semibold text-4xl text-white">
-          {t('home.title')}!
-        </Text>
+      <View style={styles.containerStyle}>
+        <Text style={}>{t('home.title')}!</Text>
         <Image
-          className="mt-12"
+          style={styles.image}
           source={require('../asset/icn_background.png')}
         />
         {/* <QuickStart /> */}
-        <View className="items-center">
+        <View style={styles.descriptionContainerStyle}>
           {/* FIXME: adjust the font and the button as the design */}
 
-          <Text className="text-white mt-12 font-normal text-sm text-center">
-            {t('home.introduction')}
-          </Text>
+          <Text style={styles.descriptionStyle}>{t('home.introduction')}</Text>
 
           <PressableButton
             title={t('home.btnQuickStart')}
@@ -61,7 +57,7 @@ const HomeScreen = () => {
           />
         </View>
       </View>
-    </SafeAreaView>
+    </ScreenContainer>
   );
 };
 
@@ -71,5 +67,27 @@ const styles = StyleSheet.create({
   safeViewStyle: {
     backgroundColor: colors.primary,
     flex: 1,
+  },
+  containerStyle: {
+    alignItems: 'center',
+    padding: 16,
+  },
+  image: {
+    marginTop: 12,
+  },
+  titleStyle: {
+    marginTop: 1,
+    fontWeight: '400',
+    fontSize: '32',
+    color: colors.white,
+  },
+  descriptionContainerStyle: {
+    alignItems: 'center',
+  },
+  descriptionStyle: {
+    color: colors.white,
+    marginTop: 12,
+    fontFamily: 'normal',
+    textAlign: 'center',
   },
 });
