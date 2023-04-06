@@ -1,46 +1,42 @@
 import {
   View,
   Text,
-  SafeAreaView,
   TouchableOpacity,
   StyleSheet,
-  Modal,
   ScrollView,
   Image,
-  Pressable,
-  TextInput,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {useIsFocused} from '@react-navigation/native';
+import React from 'react';
 import {useTranslation} from 'react-i18next';
 
 // Assets
-import {colors, assets} from '../components/constants';
+import {colors, assets} from 'src/assets';
 
 // Navigation
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {useNavigation} from '@react-navigation/native';
+import {ScheduleStackRootParamList} from 'src/components/navigation/ScheduleStack';
+export type scheduleStackProp = NativeStackNavigationProp<
+  ScheduleStackRootParamList,
+  'RoutineFormScreen'
+>;
 
 // Store
-import useStore from '../store/useStore';
+import useStore from 'src/store/useStore';
 
 // Componenets
-import RoutineCard from '../components/RoutineCard';
-import RoutineFormSheetModal from '../routineForm/RoutineFormScreen';
-import PressableButton from '../components/PressableButton';
+import RoutineCard from './components/RoutineCard';
+import {ScreenContainer, PressableButton} from 'src/components/shared';
 
 const RoutineScreen = () => {
   const routines = useStore(s => s.routines);
   const selectCurrentRoutine = useStore(s => s.selectCurrentRoutine);
-  const navigation = useNavigation();
+  const navigation = useNavigation<scheduleStackProp>();
 
   const {t} = useTranslation();
 
-  // useEffect(() => {
-  //   setModalVisible(true);
-  // }, []);
-
   return (
-    <SafeAreaView style={style.safeViewStyle}>
+    <ScreenContainer>
       <View style={{paddingHorizontal: 20, marginTop: 20}}>
         <View
           style={{
@@ -101,7 +97,7 @@ const RoutineScreen = () => {
           onPress={() => console.log(JSON.stringify(routines))}
         />
       </View>
-    </SafeAreaView>
+    </ScreenContainer>
   );
 };
 
@@ -117,7 +113,7 @@ const style = StyleSheet.create({
   },
   workoutContainerStyle: {
     display: 'flex',
-    flexdirection: 'column',
+    flexDirection: 'column',
     alignItems: 'center',
     padding: 0,
     gap: 30,

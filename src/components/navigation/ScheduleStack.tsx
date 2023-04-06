@@ -3,7 +3,7 @@ import React from 'react';
 // Stack Navigator
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-const StackNav = createNativeStackNavigator();
+const StackNav = createNativeStackNavigator<ScheduleStackRootParamList>();
 
 // Screens
 import ScheduleScreen from '../screen/schedule/ScheduleScreen';
@@ -25,7 +25,7 @@ export type ScheduleStackRootParamList = {
 };
 
 // use this for useNavigation hook
-export type appointmentStackProp =
+export type scheduleStackProp =
   NativeStackNavigationProp<ScheduleStackRootParamList>;
 
 const ScheduleStack = () => {

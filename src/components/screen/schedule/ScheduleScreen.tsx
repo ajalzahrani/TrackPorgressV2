@@ -8,23 +8,32 @@ import {
   ScrollView,
   Modal,
   TextInput,
+  Alert,
   Pressable,
 } from 'react-native';
 import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 
 // Components
-import CalenderRow from '../components/CalenderRow';
-import WorkoutCard from '../components/WorkoutCard';
-import PressableButton from '../components/PressableButton';
+import CalenderRow from './components/CalenderRow';
+import WorkoutCard from './components/WorkoutCard';
+import {PressableButton} from 'src/components/shared';
 
 // Assets
-import {colors, assets} from '../components/constants';
+import {colors, assets} from 'src/assets';
 
 // Store
-import useStore from '../store/useStore';
+import useStore from '../../../store/useStore';
 
-import {useIsFocused, useNavigation} from '@react-navigation/native';
+// Navigation
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {useNavigation} from '@react-navigation/native';
+import {ScheduleStackRootParamList} from 'src/components/navigation/ScheduleStack';
+export type scheduleStackProp = NativeStackNavigationProp<
+  ScheduleStackRootParamList,
+  'RoutineScreen',
+  'ActiveScreen'
+>;
 
 const ScheduleScreen = () => {
   // FIXME: workout name should'nt take all the space in pre-list of workout
@@ -45,7 +54,7 @@ const ScheduleScreen = () => {
 
   const [modalVisible, setModalVisible] = useState(false);
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<scheduleStackProp>();
 
   return (
     <SafeAreaView style={style.safeViewStyle}>
@@ -103,13 +112,15 @@ const ScheduleScreen = () => {
             <Image source={assets.icn_goback} />
           </TouchableOpacity>
           <TouchableOpacity
-            className="flex-row flex-1 space-x-2 items-center justify-end mt-2 mr-2"
+            // className="flex-row flex-1 space-x-2 items-center justify-end mt-2 mr-2"
             onPress={() => {
               addNewWorkout('');
               navigation.navigate('WorkoutScreen');
             }}>
             <Image source={assets.icn_plus} style={{}} />
-            <Text className="text-red-500 text-base">
+            <Text
+            // className="text-red-500 text-base"
+            >
               {t('schedule.addNewWorkout')}
             </Text>
           </TouchableOpacity>
@@ -120,7 +131,9 @@ const ScheduleScreen = () => {
       <View style={style.workoutContainerStyle}>
         {scheduledWorkout?.title ? (
           <>
-            <View className="flex-row items-center space-x-5">
+            <View
+            // className="flex-row items-center space-x-5"
+            >
               <Text style={style.workoutTitleStyle}>
                 {scheduledWorkout.title}
               </Text>
