@@ -1,5 +1,5 @@
 import create from 'zustand';
-import {store} from '../Store';
+import {store} from './mmkv';
 import workoutScheduleSlice from './slices/workoutScheduleSlice';
 import routineSlice from './slices/routineSlice';
 import exerciseSlice from './slices/exerciseSlice';

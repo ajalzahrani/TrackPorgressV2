@@ -1,10 +1,25 @@
+import create from 'zustand';
 import {produce} from 'immer';
-import uuidv4 from '../../../components/shared/uuid4v';
-import {store} from '../../Store';
+import {store} from '../mmkv';
+import uuidv4 from 'src/components/shared/uuid4v';
 
-export default exerciseSlice = (set, get) => ({
-  exercisesMaster: [],
+type State = {
+  exerciseMaster: {
+    id: string;
+    title: string;
+  }[];
+};
 
+type Actions = {
+  saveNewExerciseMaster: (exerciseTitle: string) => void;
+};
+
+const initialState: State = {
+  exerciseMaster: [],
+};
+
+const useExerciseStore = create<State & Actions>((set, get) => ({
+  ...initialState,
   saveNewExerciseMaster: exerciseTitle =>
     set(
       produce(draft => {
@@ -18,4 +33,6 @@ export default exerciseSlice = (set, get) => ({
         store.set('exercises', JSON.stringify(draft.exercisesMaster));
       }),
     ),
-});
+}));
+
+export default useExerciseStore;
