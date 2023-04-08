@@ -2,7 +2,7 @@ const sessions = [
   {
     session_id: 1,
     datetime: new Date(),
-    duration: "1:30:00",
+    duration: '1:30:00',
     workout: 1,
     exercise: [
       {
@@ -28,29 +28,12 @@ const sessions = [
           },
         ],
       },
-      // {
-      //   exerciseID: 2,
-      //   set: [
-      //     {
-      //       setno: 1,
-      //       leftedWeight: 120,
-      //       reps: 1,
-      //       TUT: 10,
-      //     },
-      //     {
-      //       setno: 2,
-      //       leftedWeight: 120,
-      //       reps: 1,
-      //       TUT: 10,
-      //     },
-      //   ],
-      // },
     ],
   },
   {
     session_id: 2,
     datetime: new Date(),
-    duration: "1:30:00",
+    duration: '1:30:00',
     workout: 3,
     exercise: [
       {
@@ -123,8 +106,8 @@ function volume2(sessionId) {
       sumWeghit.push(sets[j].leftedWeight);
     }
   }
-  sumRep
-  sumWeghit
+  sumRep;
+  sumWeghit;
 }
 
-console.log(volume2(0))
+console.log(volume2(0));

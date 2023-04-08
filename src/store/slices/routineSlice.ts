@@ -1,7 +1,23 @@
+import create from 'zustand';
 import {produce} from 'immer';
-import uuidv4 from '../../../components/shared/uuid4v';
-import {store} from '../../Store';
+import {store} from '../mmkv';
+import uuidv4 from 'src/components/shared/uuid4v';
 import DefaultWeekdays from '../../assets/database/weekdays';
+
+type State = {
+  exerciseMaster: {
+    id: string;
+    title: string;
+  }[];
+};
+
+type Actions = {
+  saveNewExerciseMaster: (exerciseTitle: string) => void;
+};
+
+const initialState: State = {
+  exerciseMaster: [],
+};
 
 export default routineSlice = (set, get) => ({
   routines: [],

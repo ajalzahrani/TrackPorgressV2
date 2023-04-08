@@ -2,7 +2,7 @@ import create from 'zustand';
 import {store} from './mmkv';
 import workoutScheduleSlice from './slices/workoutScheduleSlice';
 import routineSlice from './slices/routineSlice';
-import exerciseSlice from './slices/exerciseSlice';
+import useExerciseMaster from './slices/useExerciseMaster';
 
 const KEY_ROUTINES = 'routines';
 const KEY_EXERCISES = 'exercises';
@@ -10,9 +10,10 @@ const KEY_SESSIONS = 'sessions';
 
 const useStore = create((set, get) => ({
   ...workoutScheduleSlice(set, get),
-  ...exerciseSlice(set, get),
+  ...useExerciseMaster(set, get),
   ...routineSlice(set, get),
 }));
+q;
 
 const getRoutine = () => {
   if (store.contains(KEY_ROUTINES)) {
