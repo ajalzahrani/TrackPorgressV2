@@ -6,21 +6,26 @@ import {store} from '../mmkv';
 import {sessionType} from 'src/components/shared/globalTypes';
 import {sessionExerciseType} from 'src/components/shared/globalTypes';
 
+const globalKey = 'session';
+
+const getSessionAI = (): sessionType[] => {
+  const sessionString = store.getString(globalKey);
+  return store.contains(globalKey) && typeof sessionString === 'string'
+    ? JSON.parse(sessionString)
+    : [];
+};
+
 type State = {
   sessions: sessionType[];
 };
 
-{
-  exerciseId, {setId, weight, reps, tut};
-}
-
 type Actions = {
-  setStartTime: () => void;
-  setSession: ({}: sessionExerciseType) => void;
+  registerSet: () => void;
+  registerSession: () => void;
 };
 
 const initialState: State = {
-  sessions: [],
+  sessions: getSessionAI(),
 };
 
 const useWorkoutSessionStore = create<State & Actions>((set, get) => ({
@@ -104,17 +109,7 @@ const useWorkoutSessionStore = create<State & Actions>((set, get) => ({
 
 export const useGstore = create(gstore);
 
-const globalKey = 'session';
-// store.delete(globalKey); // Delete session data from main store.
-const getSession = () => {
-  if (store.contains(globalKey)) {
-    return JSON.parse(store.getString(globalKey));
-  } else {
-    return [];
-  }
-};
-
-const setSession = sessions => {
+const setSession = (sessions: sessionType[]) => {
   store.set(globalKey, JSON.stringify(sessions));
 };
 
