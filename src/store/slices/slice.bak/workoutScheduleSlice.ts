@@ -1,6 +1,6 @@
 import {produce} from 'immer';
-import {store} from '../../Store';
-import DefaultWeekdays from '../../assets/database/weekdays';
+import {store} from '../../../Store';
+import DefaultWeekdays from '../../../assets/database/weekdays';
 import uuidv4 from '../../../components/shared/uuid4v';
 
 export default workoutScheudleSlice = (set, get) => ({

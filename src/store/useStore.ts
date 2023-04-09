@@ -1,7 +1,7 @@
 import create from 'zustand';
 import {store} from './mmkv';
-import workoutScheduleSlice from './slices/workoutScheduleSlice';
-import routineSlice from './slices/routineSlice';
+import workoutScheduleSlice from './slices/slice.bak/workoutScheduleSlice';
+import routineSlice from './slices/slice.bak/routineSlice';
 import useExerciseMaster from './slices/useExerciseMaster';
 
 const KEY_ROUTINES = 'routines';

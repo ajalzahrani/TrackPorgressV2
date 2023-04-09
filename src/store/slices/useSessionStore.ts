@@ -4,11 +4,11 @@ import uuid from 'react-native-uuid';
 import produce, {Draft} from 'immer';
 import {sessionType} from 'src/components/shared/globalTypes';
 
-const globalKey = 'session';
+const sessionGlobalKey = 'session';
 
 const getSession = (): sessionType[] => {
-  const sessionString = store.getString(globalKey);
-  return store.contains(globalKey) && typeof sessionString === 'string'
+  const sessionString = store.getString(sessionGlobalKey);
+  return store.contains(sessionGlobalKey) && typeof sessionString === 'string'
     ? JSON.parse(sessionString)
     : [];
 };
@@ -70,13 +70,9 @@ const useWorkoutSessionStore = create<State & Actions>((set, get) => ({
     set(
       produce((state: Draft<State>) => {
         state.sessions.push(session);
-        setSession(state.sessions);
+        store.set(sessionGlobalKey, JSON.stringify(sessions));
       }),
     ),
 }));
-
-const setSession = (sessions: sessionType[]) => {
-  store.set(globalKey, JSON.stringify(sessions));
-};
 
 export default useWorkoutSessionStore;

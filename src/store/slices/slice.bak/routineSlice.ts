@@ -1,18 +1,18 @@
 import create from 'zustand';
 import {produce} from 'immer';
-import {store} from '../mmkv';
+import {store} from '../../mmkv';
 import uuidv4 from 'src/components/shared/uuid4v';
-import DefaultWeekdays from '../../assets/database/weekdays';
+import DefaultWeekdays from '../../../assets/database/weekdays';
+import {routineType} from 'src/components/shared/globalTypes';
 
 type State = {
-  exerciseMaster: {
-    id: string;
-    title: string;
-  }[];
+  routines: routineType[];
 };
 
 type Actions = {
-  saveNewExerciseMaster: (exerciseTitle: string) => void;
+  addNewRoutine: () => void;
+  updateRoutine: () => void;
+  deleteRoutine: () => void;
 };
 
 const initialState: State = {

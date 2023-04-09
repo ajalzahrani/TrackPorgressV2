@@ -3,14 +3,13 @@ import {produce} from 'immer';
 import {store} from '../mmkv';
 import uuid from 'react-native-uuid';
 import {exerciseMasterType} from 'src/components/shared/globalTypes';
-import uuidv4 from 'src/components/shared/uuid4v';
 
 type State = {
   exerciseMaster: exerciseMasterType[];
 };
 
 type Actions = {
-  saveNewExerciseMaster: (name: string) => void;
+  addNewExerciseMaster: (name: string) => void;
 };
 
 const initialState: State = {
@@ -19,7 +18,7 @@ const initialState: State = {
 
 const useExerciseStore = create<State & Actions>((set, get) => ({
   ...initialState,
-  saveNewExerciseMaster: name =>
+  addNewExerciseMaster: name =>
     set(
       produce(draft => {
         const newExercise = {
