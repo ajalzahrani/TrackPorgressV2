@@ -49,7 +49,7 @@ export type weekdaysType = {
   id: number;
   symbol: string;
   workday: boolean;
-  workout: number;
+  workout: string;
 };
 export type workoutType = {
   id: string;

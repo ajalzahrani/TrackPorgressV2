@@ -3,38 +3,39 @@ import React from 'react';
 // Stack Navigator
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-const StackNav = createNativeStackNavigator<ScheduleStackRootParamList>();
+const StackNav = createNativeStackNavigator<RoutineStackRootParamList>();
 
 // Screens
-import ScheduleScreen from '../screen/schedule/ScheduleScreen';
+import RoutineListScreen from '../screen/routineList/RoutineListScreen';
+import RoutineFormScreen from '../screen/routineForm/RoutineFormScreen';
+import RoutineScreen from '../screen/routine/RoutineScreen';
 import WorkoutScreen from '../screen/workout/WorkoutScreen';
 import ExerciseScreen from '../screen/exercise/ExerciseScreen';
-import ActiveScreen from '../screen/active/ActiveScreen';
+import SessionScreen from '../screen/session/SessionScreen';
 import VReportScreen from '../screen/sessionReport/VReportScreen';
-import RoutineScreen from '../screen/routine/RoutineScreen';
-import RoutineFormScreen from '../screen/routineForm/RoutineFormScreen';
+import {routineType, workoutType} from '../shared/globalTypes';
 
-export type ScheduleStackRootParamList = {
-  ScheduleScreen: undefined;
-  WorkoutScreen: undefined;
+export type RoutineStackRootParamList = {
+  RoutineListScreen: {name: string};
+  RoutineFormScreen: {routine: routineType} | undefined;
+  RoutineScreen: {routine: routineType};
+  WorkoutScreen: {workout: workoutType} | undefined;
   ExerciseScreen: undefined;
-  ActiveScreen: undefined;
+  SessionScreen: undefined;
   VReportScreen: undefined;
-  RoutineScreen: undefined;
-  RoutineFormScreen: undefined;
 };
 
 // use this for useNavigation hook
-export type scheduleStackProp =
-  NativeStackNavigationProp<ScheduleStackRootParamList>;
+export type routineStackProp =
+  NativeStackNavigationProp<RoutineStackRootParamList>;
 
-const ScheduleStack = () => {
+const RoutineStack = () => {
   return (
     <StackNav.Navigator screenOptions={{headerShown: false}}>
+      <StackNav.Screen name="RoutineListScreen" component={RoutineListScreen} />
       <StackNav.Screen name="RoutineScreen" component={RoutineScreen} />
-      <StackNav.Screen name="ScheduleScreen" component={ScheduleScreen} />
       <StackNav.Screen name="WorkoutScreen" component={WorkoutScreen} />
-      <StackNav.Screen name="ActiveScreen" component={ActiveScreen} options />
+      <StackNav.Screen name="SessionScreen" component={SessionScreen} options />
       <StackNav.Screen
         name="ExerciseScreen"
         component={ExerciseScreen}
@@ -63,4 +64,4 @@ const ScheduleStack = () => {
   );
 };
 
-export default ScheduleStack;
+export default RoutineStack;

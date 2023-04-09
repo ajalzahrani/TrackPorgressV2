@@ -1,107 +1,206 @@
 import {
   View,
   Text,
+  SafeAreaView,
+  Image,
   TouchableOpacity,
   StyleSheet,
   ScrollView,
-  Image,
+  Modal,
+  TextInput,
+  Alert,
+  Pressable,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
+
+// Components
+import CalenderRow from './components/CalenderRow';
+import WorkoutCard from './components/WorkoutCard';
+import {PressableButton} from 'src/components/shared';
 
 // Assets
 import {colors, assets} from 'src/assets';
 
+// Store
+import useStore from '../../../store/store.bak/useStore';
+
 // Navigation
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {useNavigation} from '@react-navigation/native';
-import {ScheduleStackRootParamList} from 'src/components/navigation/ScheduleStack';
-export type scheduleStackProp = NativeStackNavigationProp<
-  ScheduleStackRootParamList,
-  'RoutineFormScreen'
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
+import {RoutineStackRootParamList} from 'src/components/navigation/RoutineStack';
+
+type RoutineScreenRouteProp = RouteProp<
+  RoutineStackRootParamList,
+  'RoutineScreen'
 >;
 
-// Store
-import useStore from 'src/store/slice.bak/useStore';
+type RoutineScreenNavigationProp = NativeStackNavigationProp<
+  RoutineStackRootParamList,
+  'RoutineScreen'
+>;
 
-// Componenets
-import RoutineCard from './components/RoutineCard';
-import {ScreenContainer, PressableButton} from 'src/components/shared';
-
-const RoutineScreen = () => {
-  const routines = useStore(s => s.routines);
-  const selectCurrentRoutine = useStore(s => s.selectCurrentRoutine);
-  const navigation = useNavigation<scheduleStackProp>();
-
-  const {t} = useTranslation();
-
-  return (
-    <ScreenContainer>
-      <View style={{paddingHorizontal: 20, marginTop: 20}}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginTop: 10,
-            paddingHorizontal: 20,
-            paddingVertical: 15,
-            borderRadius: 10,
-          }}>
-          <View
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <Text
-              style={{fontSize: 30, fontWeight: '700', color: colors.white}}>
-              {t('routines.routines')}
-            </Text>
-          </View>
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}>
-            <TouchableOpacity
-              onPress={() => {
-                selectCurrentRoutine(-1);
-                navigation.navigate('RoutineFormScreen');
-              }}>
-              <Image source={assets.icn_add} />
-            </TouchableOpacity>
-          </View>
-        </View>
-        <ScrollView
-          contentContainerStyle={{paddingBottom: 72}}
-          style={{marginTop: 20}}>
-          {routines?.map((item, i) => (
-            <View key={i} style={{flexDirection: 'row', alignItems: 'center'}}>
-              <TouchableOpacity
-                style={{flex: 1}}
-                onPress={() => {
-                  // console.log(JSON.stringify(item));
-                  navigation.navigate('ScheduleScreen');
-                  selectCurrentRoutine(item.id);
-                }}>
-                <RoutineCard id={item.id} title={item.title} />
-              </TouchableOpacity>
-            </View>
-          ))}
-        </ScrollView>
-        <PressableButton
-          title={t('routines.printRoutines')}
-          onPress={() => console.log(JSON.stringify(routines))}
-        />
-      </View>
-    </ScreenContainer>
-  );
+type RoutineScreenProps = {
+  route: RoutineScreenRouteProp;
+  navigation: RoutineScreenNavigationProp;
 };
 
-export default RoutineScreen;
+const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
+  // FIXME: workout name should'nt take all the space in pre-list of workout
+  // FIXME: Auto select new added workout.
+  // FIXME: Clicking on navigation button should prsiste configurations.
+  const {routine} = route.params;
+  const workouts = useStore(s => s.workouts);
+  const scheduledWorkout = useStore(s => s.scheduledWorkout);
+  const addWorkoutDay = useStore(s => s.addWorkoutDay);
+  const currentDay = useStore(s => s.currentDay);
+  const unselectCurrentDay = useStore(s => s.unselectCurrentDay);
+  const unselectCurrentWorkout = useStore(s => s.unselectCurrentWorkout);
+  const selectCurrentWorkout = useStore(s => s.selectCurrentWorkout);
+  const selectScheduledWorkout = useStore(s => s.selectScheduledWorkout);
+  const addNewWorkout = useStore(s => s.addNewWorkout);
+  const saveRoutine = useStore(s => s.saveRoutine);
+  const compareRoutinesObj = useStore(s => s.compareRoutinesObj);
+  const {t} = useTranslation();
+
+  const [modalVisible, setModalVisible] = useState(false);
+
+  return (
+    <SafeAreaView style={style.safeViewStyle}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={style.centeredView}>
+          <View style={style.modalView}>
+            <Text style={style.modalText}>Save changes ?</Text>
+
+            <View style={{flexDirection: 'row'}}>
+              <Pressable
+                style={[style.button, style.buttonClose, {marginRight: 10}]}
+                onPress={() => {
+                  setModalVisible(!modalVisible);
+                  saveRoutine();
+                  navigation.navigate('RoutineScreen');
+                }}>
+                <Text style={style.textStyle}>Yes</Text>
+              </Pressable>
+              <Pressable
+                style={[style.button, style.buttonClose, {marginRight: 10}]}
+                onPress={() => {
+                  setModalVisible(!modalVisible);
+                  navigation.navigate('RoutineScreen');
+                }}>
+                <Text style={style.textStyle}>No</Text>
+              </Pressable>
+              <Pressable
+                style={[style.button, style.buttonClose]}
+                onPress={() => {
+                  setModalVisible(!modalVisible);
+                }}>
+                <Text style={style.textStyle}>Cancel</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
+      <View>
+        <View style={style.goBackStyle}>
+          <TouchableOpacity
+            onPress={() => {
+              if (compareRoutinesObj() === false) {
+                setModalVisible(!modalVisible);
+              } else {
+                navigation.navigate('RoutineScreen');
+              }
+            }}>
+            <Image source={assets.icn_goback} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            // className="flex-row flex-1 space-x-2 items-center justify-end mt-2 mr-2"
+            onPress={() => {
+              // addNewWorkout('');
+              navigation.navigate('WorkoutScreen', undefined);
+            }}>
+            <Image source={assets.icn_plus} style={{}} />
+            <Text
+            // className="text-red-500 text-base"
+            >
+              {t('schedule.addNewWorkout')}
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        <CalenderRow />
+      </View>
+      <View style={style.workoutContainerStyle}>
+        {scheduledWorkout?.title ? (
+          <>
+            <View
+            // className="flex-row items-center space-x-5"
+            >
+              <Text style={style.workoutTitleStyle}>
+                {scheduledWorkout.title}
+              </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  selectCurrentWorkout(scheduledWorkout.id);
+                  navigation.navigate('WorkoutScreen');
+                }}>
+                <Image source={assets.icn_edit} />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  unselectCurrentDay(currentDay.id);
+                  unselectCurrentWorkout();
+                }}>
+                <Image source={assets.icn_remove} />
+              </TouchableOpacity>
+            </View>
+
+            <PressableButton
+              title={'Start'}
+              iconSource={assets.icn_start}
+              onPress={() => {
+                // console.log(store.getString('workouts'));
+                navigation.navigate('ActiveScreen', {
+                  workoutObject: scheduledWorkout,
+                });
+              }}
+            />
+          </>
+        ) : (
+          <Text className="text-yellow-200">
+            {t('schedule.addNewWorkoutOrChoose')}
+          </Text>
+        )}
+      </View>
+      <View style={{paddingHorizontal: 16, flex: 1}}>
+        <View style={style.preWorkoutListContainerStyle}>
+          <Text className="text-white">{t('schedule.preListOfWorkouts')}</Text>
+          <ScrollView contentContainerStyle={{paddingBottom: 72}}>
+            {workouts?.map(workout => (
+              <TouchableOpacity
+                key={workout.id}
+                onPress={() => {
+                  // console.log(workout.id);
+                  console.log(currentDay.id);
+                  selectScheduledWorkout(workout.id);
+                  addWorkoutDay(currentDay.id);
+                }}>
+                <WorkoutCard id={workout.id} title={workout.title} />
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </View>
+      </View>
+    </SafeAreaView>
+  );
+};
 
 const style = StyleSheet.create({
   safeViewStyle: {
@@ -113,13 +212,21 @@ const style = StyleSheet.create({
   },
   workoutContainerStyle: {
     display: 'flex',
-    flexDirection: 'column',
+    flexdirection: 'column',
     alignItems: 'center',
-    padding: 0,
+    justifyContent: 'center',
+    paddingHorizontal: 24,
     gap: 30,
     marginTop: 56,
   },
+  goBackStyle: {
+    flexDirection: 'row',
+    marginHorizontal: 16,
+    alignItems: 'center',
+  },
   workoutTitleStyle: {
+    flex: 1,
+    flexWrap: 'wrap',
     fontStyle: 'normal',
     fontWeight: '600',
     fontSize: 30,
@@ -147,4 +254,55 @@ const style = StyleSheet.create({
   titleButtonContainerStyle: {
     marginHorizontal: 72,
   },
+
+  // modal style
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalView: {
+    margin: 10,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  modalInput: {
+    // height: 40,
+    padding: 10,
+    margin: 10,
+    borderRadius: 10,
+    borderWidth: 0.2,
+  },
 });
+
+export default RoutineScreen;

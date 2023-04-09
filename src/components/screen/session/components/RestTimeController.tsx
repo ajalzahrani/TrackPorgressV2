@@ -11,7 +11,7 @@ import React, {useEffect, useState, useCallback} from 'react';
 import {TimePicker, ValueMap} from 'react-native-simple-time-picker';
 
 // Assets
-import {colors, assets} from '../components/constants';
+import {colors, assets} from './constants';
 
 // Store
 import useStore from '../../../../store/store.bak/useStore';

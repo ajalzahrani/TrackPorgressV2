@@ -1,11 +1,12 @@
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import React, {useEffect, useMemo, useState, useLayoutEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import produce from 'immer';
 
-import {colors} from './constants';
+import {colors} from 'src/assets';
 
 // Store
-import useStore from '../../../../store/store.bak/useStore';
+import {routineType} from 'src/components/shared/globalTypes';
+import useRoutineStore from 'src/store/useRoutineStore';
 
 const dayButton = [
   {id: 0, ispicked: false, istoday: false},
@@ -17,16 +18,21 @@ const dayButton = [
   {id: 6, ispicked: false, istoday: false},
 ];
 
-const CalenderRow = () => {
-  const weekdays = useStore(s => s.weekdays);
-  const selectCurrentWorkout = useStore(s => s.selectCurrentWorkout);
-  const selectScheduledWorkout = useStore(s => s.selectScheduledWorkout);
-  const selectCurrentDay = useStore(s => s.selectCurrentDay);
-  const {currentDay} = useState();
+type CalenderRowProp = {
+  routine: routineType;
+};
+
+const CalenderRow: React.FC<CalenderRowProp> = ({routine}) => {
+  // const weekdays = useStore(s => s.weekdays);
+  const setWorkoutId = useRoutineStore(s => s.setWorkoutId);
+  // const selectCurrentWorkout = useStore(s => s.selectCurrentWorkout);
+  // const selectScheduledWorkout = useStore(s => s.selectScheduledWorkout);
+  // const selectCurrentDay = useStore(s => s.selectCurrentDay);
+  // const {currentDay} = useState();
   const [db, setDB] = useState(dayButton);
 
   const generateWorkdays = () => {
-    const array = weekdays?.map(day => {
+    const array = routine.weekdays?.map(day => {
       return (
         <View
           key={day.id}
@@ -34,9 +40,10 @@ const CalenderRow = () => {
           <TouchableOpacity
             key={day.id}
             onPress={() => {
-              selectCurrentDay(day.id);
-              selectCurrentWorkout(day.workout);
-              selectScheduledWorkout(day.workout);
+              // selectCurrentDay(day.id);
+              // selectCurrentWorkout(day.workout);
+              // selectScheduledWorkout(day.workout);
+              setWorkoutId(day.workout);
               setDB(
                 produce(draft => {
                   draft.forEach(day => (day.ispicked = false));
@@ -56,7 +63,6 @@ const CalenderRow = () => {
 
                 height: db[day.id].ispicked ? 44 : 44,
                 width: db[day.id].ispicked ? 65 : 44,
-                order: 6,
                 flexGrow: 0,
               },
               {
@@ -101,9 +107,10 @@ const CalenderRow = () => {
 
     // if current day has scheduled workout then select workout
     const dayId = new Date().getDay();
-    const currentDayWorkout = weekdays[dayId]?.workout;
-    selectCurrentDay(dayId);
-    selectScheduledWorkout(currentDayWorkout);
+    // const currentDayWorkout = weekdays[dayId]?.workout;
+    // selectCurrentDay(dayId);
+    // selectScheduledWorkout(currentDayWorkout);
+    setWorkoutId(routine.weekdays[dayId].workout);
   };
 
   useEffect(() => {

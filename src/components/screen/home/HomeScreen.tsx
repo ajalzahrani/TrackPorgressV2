@@ -22,11 +22,11 @@ import PressableButton from '../../shared/PressableButton';
 import GeneralModal from '../../shared/GeneralModal';
 
 const HomeScreen = () => {
-  const navigation = useNavigation();
-  const routines = useStore(state => state.routines);
-  const currentRoutine = useStore(state => state.currentRoutine);
-  const exercisesMaster = useStore(state => state.exercisesMaster);
-  const sessions = useGstore(state => state.sessions);
+  // const navigation = useNavigation();
+  // const routines = useStore(state => state.routines);
+  // const currentRoutine = useStore(state => state.currentRoutine);
+  // const exercisesMaster = useStore(state => state.exercisesMaster);
+  // const sessions = useGstore(state => state.sessions);
   const [modalView, setModalVisible] = useState(false);
   const {t} = useTranslation();
 
@@ -39,7 +39,7 @@ const HomeScreen = () => {
         message="some message goes herelet make this text as big as we can"
       />
       <View style={styles.containerStyle}>
-        <Text style={}>{t('home.title')}!</Text>
+        <Text>{t('home.title')}!</Text>
         <Image
           style={styles.image}
           source={require('../asset/icn_background.png')}

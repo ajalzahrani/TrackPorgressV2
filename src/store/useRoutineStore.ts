@@ -15,6 +15,7 @@ const getRoutine = (): routineType[] => {
 
 type State = {
   routines: routineType[];
+  workoutId: string;
 };
 
 type Actions = {
@@ -28,6 +29,7 @@ type Actions = {
     workout: workoutType,
   ) => void;
   deleteWorkout: (routineId: string, workoutId: string) => void;
+  setWorkoutId: (workoutId: string) => void;
 };
 
 const initialState: State = {
@@ -96,6 +98,13 @@ const useRoutineStore = create<State & Actions>((set, get) => ({
             routineIndex
           ].workouts.filter(w => w.id !== workoutId);
         }
+      }),
+    ),
+
+  setWorkoutId: workoutId =>
+    set(
+      produce((state: Draft<State & Actions>) => {
+        state.workoutId = workoutId;
       }),
     ),
 }));

@@ -9,11 +9,11 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 // Assets
-import {colors, assets} from '../components/constants';
+import {colors, assets} from './constants';
 
 // Components
 import SessionTimerLabel from './SessionTimerLabel';
-import {useStopwatch} from '../src/components/hooks/timer-hook/';
+import {useStopwatch} from '../src/components/hooks/timer-hook';
 import GeneralModal from '../../../shared/GeneralModal';
 
 import {useNavigation} from '@react-navigation/native';

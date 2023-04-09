@@ -6,7 +6,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 const Tab = createBottomTabNavigator();
 
 // Stack Navigator
-import ScheduleStack from './ScheduleStack';
+import RoutineStack from './RoutineStack';
 
 // Screens
 import HomeScreen from '../screen/home/HomeScreen';
@@ -16,7 +16,7 @@ import SettingsScreen from '../screen/settings/SettingsScreen';
 export type RouterStackRootParamList = {
   HomeScreen: undefined;
   StatScreen: undefined;
-  ScheduleStack: undefined;
+  RoutineStack: undefined;
   SettingsScreen: undefined;
 };
 
@@ -58,8 +58,8 @@ const Router = () => {
         }}
       />
       <Tab.Screen
-        name="schedule"
-        component={ScheduleStack}
+        name="Routines"
+        component={RoutineStack}
         options={{
           headerShown: false,
           tabBarIcon: ({focused}) => (

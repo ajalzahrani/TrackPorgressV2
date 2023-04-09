@@ -7,13 +7,13 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {colors} from '../components/constants';
+import {colors} from './constants';
 import {useGstore} from '../gstore';
-import {getExerciseName} from '../components/shared';
-import {getWorkoutObject} from '../components/shared';
+import {getExerciseName} from './shared';
+import {getWorkoutObject} from './shared';
 import * as Icons from 'react-native-heroicons/outline';
-import Divider from '../components/Divider';
-import {convertDate} from '../components/shared';
+import Divider from './Divider';
+import {convertDate} from './shared';
 import moment from 'moment';
 
 const SessionReport = ({session}) => {
