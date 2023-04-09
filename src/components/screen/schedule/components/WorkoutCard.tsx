@@ -6,7 +6,7 @@ import {colors, assets} from './constants';
 import {useNavigation} from '@react-navigation/native';
 
 // Store
-import useStore from '../../../../store/useStore';
+import useStore from '../../../../store/store.bak/useStore';
 
 const WorkoutCard = ({id, title}) => {
   const selectCurrentWorkout = useStore(s => s.selectCurrentWorkout);

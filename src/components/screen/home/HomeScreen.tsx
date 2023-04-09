@@ -10,7 +10,7 @@ import React, {useState} from 'react';
 import {useGstore} from '../../../gstore';
 import {useTranslation} from 'react-i18next';
 import {useNavigation} from '@react-navigation/native';
-import useStore from '../../../store/useStore';
+import useStore from '../../../store/store.bak/useStore';
 import ScreenContainer from 'src/components/shared/ScreenContainer';
 
 // assets

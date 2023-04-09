@@ -9,7 +9,7 @@ import {colors, assets} from '../components/constants';
 import SETsController from './SETsController';
 
 // Store
-import useStore from '../../../../store/useStore';
+import useStore from '../../../../store/store.bak/useStore';
 
 const ExerciseCard = ({exercise, addFreq}) => {
   const exercisesMaster = useStore(s => s.exercisesMaster);

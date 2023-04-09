@@ -22,7 +22,7 @@ export type scheduleStackProp = NativeStackNavigationProp<
 >;
 
 // Store
-import useStore from 'src/store/useStore';
+import useStore from 'src/store/slice.bak/useStore';
 
 // Componenets
 import RoutineCard from './components/RoutineCard';

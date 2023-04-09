@@ -23,7 +23,7 @@ import {PressableButton} from 'src/components/shared';
 import {colors, assets} from 'src/assets';
 
 // Store
-import useStore from '../../../store/useStore';
+import useStore from '../../../store/store.bak/useStore';
 
 // Navigation
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';

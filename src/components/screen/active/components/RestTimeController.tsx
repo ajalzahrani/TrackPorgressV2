@@ -14,7 +14,7 @@ import {TimePicker, ValueMap} from 'react-native-simple-time-picker';
 import {colors, assets} from '../components/constants';
 
 // Store
-import useStore from '../../../../store/useStore';
+import useStore from '../../../../store/store.bak/useStore';
 
 const RestTimeController = ({indicatorTitle, id}) => {
   const addRestTime = useStore(s => s.addRestTime);

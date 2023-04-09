@@ -1,6 +1,6 @@
 import create from 'zustand';
 import produce from 'immer';
-import {store} from '../../mmkv';
+import {store} from '../mmkv';
 import {routineType} from 'src/components/shared/globalTypes';
 
 const routineGlobalKey = 'routine';
