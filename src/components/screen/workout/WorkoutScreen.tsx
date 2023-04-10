@@ -12,33 +12,65 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import React, {useEffect, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import {RouteProp, useNavigation} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
+import uuidv4 from 'src/components/shared/uuid4v';
 
 // Assets
-import {colors, assets} from '../components/constants';
+import {colors, assets} from 'src/assets';
 
 // components
-import ExerciseCard from '../components/ExerciseCard';
-import RestTimeController from '../components/RestTimeController';
+import ExerciseCard from './components/ExerciseCard';
+import RestTimeController from './components/RestTimeController';
+import {PressableButton} from 'src/components/shared';
 
 // Store
 import useStore from '../store/useStore';
-import PressableButton from '../components/PressableButton';
+import useRoutineStore from 'src/store/useRoutineStore';
 
-const WorkoutScreen = () => {
+// Navigation
+import {RoutineStackRootParamList} from 'src/components/navigation/RoutineStack';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+type WorkoutScreenRouteProp = RouteProp<
+  RoutineStackRootParamList,
+  'WorkoutScreen'
+>;
+
+type WorkoutScreenNavigationProp = NativeStackNavigationProp<
+  RoutineStackRootParamList,
+  'WorkoutScreen'
+>;
+
+type WorkoutScreenProp = {
+  routineId: string;
+  route: WorkoutScreenRouteProp;
+  navigation: WorkoutScreenNavigationProp;
+};
+
+const WorkoutScreen: React.FC<WorkoutScreenProp> = ({
+  routineId,
+  route,
+  navigation,
+}) => {
   // FIXME: Re-design Rest time controllers
+
+  const workout = route?.params?.workout && {
+    id: uuidv4(),
+    title: '',
+    exercises: [{id: '', freq: []}],
+    resettime: [],
+  };
+  const addWorkout = useRoutineStore(s => s.addWorkout);
+  const [modalVisible, setModalVisible] = useState(false);
+
   const currentWorkout = useStore(s => s.currentWorkout);
   const saveWorkout = useStore(s => s.saveWorkout);
   const deleteWorkout = useStore(s => s.deleteWorkout);
   const addWorkoutTitle = useStore(s => s.addWorkoutTitle);
   const assignWorkout = useStore(s => s.assignWorkout);
 
-  const [modalVisible, setModalVisible] = useState(false); // workoutname alert modal state
-  const [workoutName, setWorkoutName] = useState(currentWorkout?.title); // workout name state
+  const [workoutTitle, setWorkoutTitle] = useState(workout?.title);
   const {t} = useTranslation();
-
-  const navigation = useNavigation();
 
   /* HOW TO ADD FREQUANCY TO AN EXERCISE */
   const addFreq = freq => {
@@ -46,13 +78,13 @@ const WorkoutScreen = () => {
     exercises.freq = freq;
   };
 
-  const savewo = () => {
-    addWorkoutTitle(workoutName);
-    if (workoutName.length === 0) {
+  const handleAddWorkout = () => {
+    if (workout?.title.length === 0) {
       setModalVisible(true);
     } else {
-      saveWorkout();
-      assignWorkout(currentWorkout.id);
+      if (workout !== undefined) {
+        addWorkout(routineId, workout.id, workout);
+      }
       navigation.goBack();
     }
   };
@@ -143,7 +175,7 @@ const WorkoutScreen = () => {
               title={t('workout.skitch')}
               iconSource={assets.icn_edit}
               onPress={() => {
-                savewo();
+                handleAddWorkout();
               }}
             />
             {/* Test button */}

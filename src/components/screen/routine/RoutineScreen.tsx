@@ -29,6 +29,7 @@ import useStore from '../../../store/store.bak/useStore';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {RoutineStackRootParamList} from 'src/components/navigation/RoutineStack';
+import useRoutineStore from 'src/store/useRoutineStore';
 
 type RoutineScreenRouteProp = RouteProp<
   RoutineStackRootParamList,
@@ -50,6 +51,9 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
   // FIXME: Auto select new added workout.
   // FIXME: Clicking on navigation button should prsiste configurations.
   const {routine} = route.params;
+  const workoutId = useRoutineStore(s => s.workoutId);
+  const workout = routine.workouts.find(workout => workout.id === workoutId);
+
   const workouts = useStore(s => s.workouts);
   const scheduledWorkout = useStore(s => s.scheduledWorkout);
   const addWorkoutDay = useStore(s => s.addWorkoutDay);
@@ -135,21 +139,22 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
           </TouchableOpacity>
         </View>
 
-        <CalenderRow />
+        <CalenderRow routine={routine} />
       </View>
       <View style={style.workoutContainerStyle}>
-        {scheduledWorkout?.title ? (
+        {workout?.title ? (
           <>
             <View
             // className="flex-row items-center space-x-5"
             >
-              <Text style={style.workoutTitleStyle}>
-                {scheduledWorkout.title}
-              </Text>
+              <Text style={style.workoutTitleStyle}>{workout.title}</Text>
               <TouchableOpacity
                 onPress={() => {
-                  selectCurrentWorkout(scheduledWorkout.id);
-                  navigation.navigate('WorkoutScreen');
+                  selectCurrentWorkout(workout.id);
+                  navigation.navigate('WorkoutScreen', {
+                    routineId: routine.id,
+                    workout,
+                  });
                 }}>
                 <Image source={assets.icn_edit} />
               </TouchableOpacity>

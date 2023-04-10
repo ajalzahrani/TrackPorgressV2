@@ -19,7 +19,7 @@ export type RoutineStackRootParamList = {
   RoutineListScreen: {name: string};
   RoutineFormScreen: {routine: routineType} | undefined;
   RoutineScreen: {routine: routineType};
-  WorkoutScreen: {workout: workoutType} | undefined;
+  WorkoutScreen: {routineId: string; workout: workoutType} | undefined;
   ExerciseScreen: undefined;
   SessionScreen: undefined;
   VReportScreen: undefined;
@@ -35,7 +35,7 @@ const RoutineStack = () => {
       <StackNav.Screen name="RoutineListScreen" component={RoutineListScreen} />
       <StackNav.Screen name="RoutineScreen" component={RoutineScreen} />
       <StackNav.Screen name="WorkoutScreen" component={WorkoutScreen} />
-      <StackNav.Screen name="SessionScreen" component={SessionScreen} options />
+      <StackNav.Screen name="SessionScreen" component={SessionScreen} />
       <StackNav.Screen
         name="ExerciseScreen"
         component={ExerciseScreen}

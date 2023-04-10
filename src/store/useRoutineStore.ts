@@ -22,8 +22,8 @@ type Actions = {
   addNewRoutine: (routine: routineType) => void;
   updateRoutine: (routineId: string, routine: routineType) => void;
   deleteRoutine: (routineId: string) => void;
-  addWorkout: (routineId: string, workout: workoutType) => void;
-  updateWorkout: (
+  // addWorkout: (routineId: string, workout: workoutType) => void;
+  addWorkout: (
     routineId: string,
     workoutId: string,
     workout: workoutType,
@@ -34,6 +34,7 @@ type Actions = {
 
 const initialState: State = {
   routines: getRoutine(),
+  workoutId: '',
 };
 
 const useRoutineStore = create<State & Actions>((set, get) => ({
@@ -64,17 +65,17 @@ const useRoutineStore = create<State & Actions>((set, get) => ({
       }),
     ),
 
-  addWorkout: (routineId, workout) =>
-    set(
-      produce((state: Draft<State & Actions>) => {
-        const routineIndex = state.routines.findIndex(r => r.id === routineId);
-        if (routineIndex !== -1) {
-          state.routines[routineIndex].workouts.push(workout);
-        }
-      }),
-    ),
+  // addWorkout: (routineId, workout) =>
+  //   set(
+  //     produce((state: Draft<State & Actions>) => {
+  //       const routineIndex = state.routines.findIndex(r => r.id === routineId);
+  //       if (routineIndex !== -1) {
+  //         state.routines[routineIndex].workouts.push(workout);
+  //       }
+  //     }),
+  //   ),
 
-  updateWorkout: (routineId, workoutId, workout) =>
+  addWorkout: (routineId, workoutId, workout) =>
     set(
       produce((state: Draft<State & Actions>) => {
         const routineIndex = state.routines.findIndex(r => r.id === routineId);
@@ -84,6 +85,8 @@ const useRoutineStore = create<State & Actions>((set, get) => ({
           );
           if (workoutIndex !== -1) {
             state.routines[routineIndex].workouts[workoutIndex] = workout;
+          } else {
+            state.routines[routineIndex].workouts.push(workout);
           }
         }
       }),
