@@ -1,8 +1,12 @@
 import create from 'zustand';
-import {store} from '../mmkv';
+import {store} from './mmkv';
 import uuid from 'react-native-uuid';
 import produce, {Draft} from 'immer';
-import {routineType, workoutType} from 'src/components/shared/globalTypes';
+import {
+  routineType,
+  workoutType,
+  exercisesType,
+} from 'src/components/shared/globalTypes';
 
 const routineGlobalKey = 'routine';
 
@@ -30,6 +34,17 @@ type Actions = {
   ) => void;
   deleteWorkout: (routineId: string, workoutId: string) => void;
   setWorkoutId: (workoutId: string) => void;
+  updateExercises: (
+    routineId: string,
+    workoutId: string,
+    exercises: exercisesType,
+  ) => void;
+  addFreq: (
+    routineId: string,
+    workoutId: string,
+    exerciseId: string,
+    freq: number[],
+  ) => void;
 };
 
 const initialState: State = {
@@ -108,6 +123,44 @@ const useRoutineStore = create<State & Actions>((set, get) => ({
     set(
       produce((state: Draft<State & Actions>) => {
         state.workoutId = workoutId;
+      }),
+    ),
+
+  updateExercises: (routineId, workoutId, exercises) =>
+    set(
+      produce((state: Draft<State & Actions>) => {
+        const routineIndex = state.routines.findIndex(r => r.id === routineId);
+        if (routineIndex !== -1) {
+          const workoutIndex = state.routines[routineIndex].workouts.findIndex(
+            w => w.id === workoutId,
+          );
+          if (workoutIndex !== -1) {
+            state.routines[routineIndex].workouts[workoutIndex].exercises = [];
+          }
+        }
+      }),
+    ),
+
+  addFreq: (routineId, workoutId, exerciseId, freq) =>
+    set(
+      produce((state: Draft<State & Actions>) => {
+        const routineIndex = state.routines.findIndex(r => r.id === routineId);
+        if (routineIndex !== -1) {
+          const workoutIndex = state.routines[routineIndex].workouts.findIndex(
+            w => w.id === workoutId,
+          );
+          if (workoutIndex !== -1) {
+            const workout = state.routines[routineIndex].workouts[workoutIndex];
+            if (workout !== undefined) {
+              const exercises = workout.exercises;
+              const exercise = exercises.find(e => e.id === exerciseId);
+              if (exercise !== undefined) {
+                exercise.freq = freq;
+              }
+              workout.exercises = exercises;
+            }
+          }
+        }
       }),
     ),
 }));

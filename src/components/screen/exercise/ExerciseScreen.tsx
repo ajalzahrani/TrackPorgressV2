@@ -14,21 +14,40 @@ import {
 import React, {useEffect, useState} from 'react';
 
 // Assets
-import {colors, assets} from '../components/constants';
+import {colors, assets} from 'src/assets';
 
 // components
-import ExerciseSelectRow from '../components/ExerciseSelectRow';
+import PressableButton from '../../shared/PressableButton';
+import ExerciseSelectRow from './components/ExerciseSelectRow';
 
 // Store
-import useStore from '../store/useStore';
+import useExerciseStore from 'src/store/useExerciseMaster';
 
-import PressableButton from '../components/PressableButton';
+// Navigation
+import {RouteProp} from '@react-navigation/native';
+import {RoutineStackRootParamList} from 'src/components/navigation/RoutineStack';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
-const ExerciseScreen = () => {
+type ExerciseScreenRouteProp = RouteProp<
+  RoutineStackRootParamList,
+  'ExerciseScreen'
+>;
+type ExerciseScreenNavigationProp = NativeStackNavigationProp<
+  RoutineStackRootParamList,
+  'ExerciseScreen'
+>;
+
+type ExerciseScreenProp = {
+  route: ExerciseScreenRouteProp;
+  navigation: ExerciseScreenNavigationProp;
+};
+
+const ExerciseScreen: React.FC<ExerciseScreenProp> = ({route, navigation}) => {
   // FIXME: presis exercise selection when search
   // FIXME: auto select new added exercise
-  const exercisesMaster = useStore(s => s.exercisesMaster);
-  const saveNewExerciseMaster = useStore(s => s.saveNewExerciseMaster);
+  const exerciseMaster = useExerciseStore(s => s.exerciseMaster);
+  const addNewExerciseMaster = useExerciseStore(s => s.addNewExerciseMaster);
+
   const [search, setSearch] = useState(''); //
   const [searchResult, setSearchResult] = useState(ExerciseApi);
   const [notFound, setNotFound] = useState(false); // handle if no exercise found in search
@@ -144,8 +163,8 @@ const ExerciseScreen = () => {
               onPress={() => {
                 setNotFound(false);
                 setSearch('');
-                saveNewExerciseMaster(search);
-                setSearchResult(exercisesMaster);
+                addNewExerciseMaster(search);
+                setSearchResult(exerciseMaster);
               }}>
               <Image source={assets.icn_add} />
             </TouchableOpacity>

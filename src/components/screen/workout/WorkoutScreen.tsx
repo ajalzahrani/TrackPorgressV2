@@ -7,6 +7,7 @@ import {
   StyleSheet,
   ScrollView,
   Modal,
+  Alert,
   Pressable,
   TextInput,
 } from 'react-native';
@@ -25,7 +26,6 @@ import RestTimeController from './components/RestTimeController';
 import {PressableButton} from 'src/components/shared';
 
 // Store
-import useStore from '../store/useStore';
 import useRoutineStore from 'src/store/useRoutineStore';
 
 // Navigation
@@ -42,40 +42,34 @@ type WorkoutScreenNavigationProp = NativeStackNavigationProp<
 >;
 
 type WorkoutScreenProp = {
-  routineId: string;
   route: WorkoutScreenRouteProp;
   navigation: WorkoutScreenNavigationProp;
 };
 
-const WorkoutScreen: React.FC<WorkoutScreenProp> = ({
-  routineId,
-  route,
-  navigation,
-}) => {
+const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
   // FIXME: Re-design Rest time controllers
 
-  const workout = route?.params?.workout && {
+  const routineId = route.params.routineId;
+  const workout = route.params.workout && {
     id: uuidv4(),
     title: '',
     exercises: [{id: '', freq: []}],
     resettime: [],
   };
+  const deleteWorkout = useRoutineStore(s => s.deleteWorkout);
   const addWorkout = useRoutineStore(s => s.addWorkout);
-  const [modalVisible, setModalVisible] = useState(false);
-
-  const currentWorkout = useStore(s => s.currentWorkout);
-  const saveWorkout = useStore(s => s.saveWorkout);
-  const deleteWorkout = useStore(s => s.deleteWorkout);
-  const addWorkoutTitle = useStore(s => s.addWorkoutTitle);
-  const assignWorkout = useStore(s => s.assignWorkout);
-
+  const addFreq = useRoutineStore(s => s.addFreq);
   const [workoutTitle, setWorkoutTitle] = useState(workout?.title);
+  const [modalVisible, setModalVisible] = useState(false);
   const {t} = useTranslation();
 
   /* HOW TO ADD FREQUANCY TO AN EXERCISE */
-  const addFreq = freq => {
-    let exercises = currentWorkout.exercises;
-    exercises.freq = freq;
+  const handleAddFreq = (exerciseId: string, freq: number[]) => {
+    if (workout !== undefined) {
+      // Later use for adding exericses.
+
+      addFreq(routineId, workout.id, exerciseId, freq);
+    }
   };
 
   const handleAddWorkout = () => {
@@ -89,19 +83,30 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({
     }
   };
 
+  const handleUpdateExercise = (exerciseId: string) => {
+    if (workout !== undefined) {
+    }
+  };
+
+  const handleAddWorkoutTitle = (title: string) => {
+    workout!.title = title;
+  };
+
   const RestTimeDrawer = () => {
-    let exercises = currentWorkout?.exercises?.length;
-    if (exercises === 1) {
-      return <RestTimeController id={0} indicatorTitle="Set rest time" />;
-    } else if (exercises > 1) {
-      return (
-        <>
-          <RestTimeController id={0} indicatorTitle="Set rest time" />
-          <RestTimeController id={1} indicatorTitle="Exercise rest time" />
-        </>
-      );
-    } else {
-      return <></>;
+    if (workout !== undefined) {
+      let exercises = workout?.exercises?.length;
+      if (exercises === 1) {
+        return <RestTimeController id={0} indicatorTitle="Set rest time" />;
+      } else if (exercises > 1) {
+        return (
+          <>
+            <RestTimeController id={0} indicatorTitle="Set rest time" />
+            <RestTimeController id={1} indicatorTitle="Exercise rest time" />
+          </>
+        );
+      } else {
+        return <></>;
+      }
     }
   };
 
@@ -137,14 +142,16 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({
           <Image source={assets.icn_goback} />
         </TouchableOpacity>
         <TouchableOpacity
-          className="flex-row flex-1 space-x-2 items-center justify-end mt-2 mr-2"
+          //className="flex-row flex-1 space-x-2 items-center justify-end mt-2 mr-2"
           onPress={() => {
             navigation.navigate('ExerciseScreen', {
-              exercises: currentWorkout?.exercises,
+              exercises: workout?.exercises || [{id: '', freq: []}],
             });
           }}>
           <Image source={assets.icn_plus} style={{}} />
-          <Text className="text-red-500 text-base">
+          <Text
+          //className="text-red-500 text-base"
+          >
             {t('workout.addNewExercise')}
           </Text>
         </TouchableOpacity>
@@ -155,17 +162,17 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({
             <TextInput
               placeholder="Workout name"
               placeholderTextColor={colors.offwhite}
-              onChangeText={inpuText => setWorkoutName(inpuText)}
-              defaultValue={currentWorkout?.title}
+              onChangeText={inpuText => handleAddWorkoutTitle(inpuText)}
+              defaultValue={workout?.title}
               style={style.textInputStyle}
             />
 
-            {currentWorkout.exercises?.map(element => {
+            {workout?.exercises?.map(exercise => {
               return (
                 <ExerciseCard
-                  key={element.id}
-                  exercise={element}
-                  addFreq={addFreq}
+                  key={exercise.id}
+                  exercise={exercise}
+                  addFreq={handleAddFreq}
                 />
               );
             })}
@@ -182,7 +189,11 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({
             <PressableButton
               title={t('workout.delete')}
               onPress={() => {
-                deleteWorkout(currentWorkout.id);
+                if (workout !== undefined) {
+                  if (workout.id !== undefined) {
+                    deleteWorkout(routineId, workout.id);
+                  }
+                }
                 navigation.goBack();
               }}
             />

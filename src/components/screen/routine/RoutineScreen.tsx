@@ -54,7 +54,6 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
   const workoutId = useRoutineStore(s => s.workoutId);
   const workout = routine.workouts.find(workout => workout.id === workoutId);
 
-  const workouts = useStore(s => s.workouts);
   const scheduledWorkout = useStore(s => s.scheduledWorkout);
   const addWorkoutDay = useStore(s => s.addWorkoutDay);
   const currentDay = useStore(s => s.currentDay);
@@ -127,8 +126,10 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
           <TouchableOpacity
             // className="flex-row flex-1 space-x-2 items-center justify-end mt-2 mr-2"
             onPress={() => {
-              // addNewWorkout('');
-              navigation.navigate('WorkoutScreen', undefined);
+              navigation.navigate('WorkoutScreen', {
+                routineId: routine.id,
+                workout: undefined,
+              });
             }}>
             <Image source={assets.icn_plus} style={{}} />
             <Text
@@ -153,7 +154,7 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
                   selectCurrentWorkout(workout.id);
                   navigation.navigate('WorkoutScreen', {
                     routineId: routine.id,
-                    workout,
+                    workout: workout,
                   });
                 }}>
                 <Image source={assets.icn_edit} />
@@ -179,16 +180,22 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
             />
           </>
         ) : (
-          <Text className="text-yellow-200">
+          <Text
+          // className="text-yellow-200"
+          >
             {t('schedule.addNewWorkoutOrChoose')}
           </Text>
         )}
       </View>
       <View style={{paddingHorizontal: 16, flex: 1}}>
         <View style={style.preWorkoutListContainerStyle}>
-          <Text className="text-white">{t('schedule.preListOfWorkouts')}</Text>
+          <Text
+          // className="text-white"
+          >
+            {t('schedule.preListOfWorkouts')}
+          </Text>
           <ScrollView contentContainerStyle={{paddingBottom: 72}}>
-            {workouts?.map(workout => (
+            {routine.workouts?.map(workout => (
               <TouchableOpacity
                 key={workout.id}
                 onPress={() => {

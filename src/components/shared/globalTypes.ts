@@ -51,13 +51,14 @@ export type weekdaysType = {
   workday: boolean;
   workout: string;
 };
+export type exercisesType = {
+  id: string;
+  freq: number[];
+};
 export type workoutType = {
   id: string;
   title: string;
-  exercises: {
-    id: string;
-    freq: number[];
-  }[];
+  exercises: exercisesType[];
   resettime: number[];
 };
 export type routineType = {
