@@ -38,7 +38,7 @@ type RoutineScreenRouteProp = RouteProp<
   'RoutineScreen'
 >;
 
-type RoutineScreenNavigationProp = NativeStackNavigationProp<
+export type RoutineScreenNavigationProp = NativeStackNavigationProp<
   RoutineStackRootParamList,
   'RoutineScreen'
 >;
@@ -210,7 +210,7 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
                   // addWorkoutDay(currentDay.id);
                   setWorkoutId(workout.id);
                 }}>
-                <WorkoutCard id={workout.id} title={workout.title} />
+                <WorkoutCard routineId={routine.id} workout={workout} />
               </TouchableOpacity>
             ))}
           </ScrollView>

@@ -1,28 +1,43 @@
 import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
-import React, {useEffect} from 'react';
+import React from 'react';
 
-import {colors, assets} from './constants';
-
-import {useNavigation} from '@react-navigation/native';
+// Assets
+import {colors, assets} from 'src/assets';
 
 // Store
 import useStore from '../../../../store/store.bak/useStore';
+import useRoutineStore from 'src/store/useRoutineStore';
+import {workoutType} from 'src/components/shared/globalTypes';
 
-const WorkoutCard = ({id, title}) => {
-  const selectCurrentWorkout = useStore(s => s.selectCurrentWorkout);
-  const navigation = useNavigation();
+// Navigation
+import {useNavigation} from '@react-navigation/native';
+import {RoutineScreenNavigationProp} from '../RoutineScreen';
+type WorkoutCardType = {
+  routineId: string;
+  workout: workoutType;
+};
+
+const WorkoutCard = ({routineId, workout}: WorkoutCardType) => {
+  // const selectCurrentWorkout = useStore(s => s.selectCurrentWorkout);
+  const navigation = useNavigation<RoutineScreenNavigationProp>();
 
   return (
     <View style={style.cardContainer}>
-      <Text style={style.workoutTitle}>{title}</Text>
-      <View style={style.editContainerStyle} className="space-x-2">
+      <Text style={style.workoutTitle}>{workout.title}</Text>
+      <View
+        style={style.editContainerStyle}
+        // className="space-x-2"
+      >
         <TouchableOpacity onPress={() => {}}>
           <Image source={assets.icn_goforward} />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            selectCurrentWorkout(id);
-            navigation.navigate('WorkoutScreen');
+            // selectCurrentWorkout(workout.id);
+            navigation.navigate('WorkoutScreen', {
+              routineId: routineId,
+              workout: workout,
+            });
           }}>
           <Image source={assets.icn_edit} />
         </TouchableOpacity>
