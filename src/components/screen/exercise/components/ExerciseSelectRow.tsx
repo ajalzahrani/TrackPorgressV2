@@ -4,14 +4,19 @@ import React, {useEffect, useState} from 'react';
 import CardExerciseDetails from './CardExerciseDetails';
 
 // Assets
-import {colors, assets} from '../components/constants';
+import {colors, assets} from 'src/assets';
 
 // Store
 import useStore from '../../../../store/store.bak/useStore';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 import PressableButton from '../../../shared/PressableButton';
+import {exerciseMasterType} from 'src/components/shared/globalTypes';
 
-const ExerciseSelectRow = ({item}) => {
+type ExerciseSelectRowType = {
+  exercise: exerciseMasterType;
+};
+
+const ExerciseSelectRow = ({exercise}: ExerciseSelectRowType) => {
   const exercises = useStore(s => s.currentWorkout.exercises);
   const addNewExerciseWorkout = useStore(s => s.addNewExerciseWorkout);
   const [isSelected, setIsSelected] = useState(false);
@@ -20,7 +25,7 @@ const ExerciseSelectRow = ({item}) => {
 
   const handlePreSelect = () => {
     exercises?.find(exer => {
-      if (exer.id === item.id) {
+      if (exer.id === exercise.id) {
         setIsSelected(true);
       }
     });
@@ -35,17 +40,20 @@ const ExerciseSelectRow = ({item}) => {
 
   return (
     <>
-      <Pressable
+      <TouchableOpacity
         onPress={() => setIsExplore(!explore)}
-        style={({pressed}) => [{opacity: pressed ? 0.5 : 1}]}>
+        // style={({pressed}) => [{opacity: pressed ? 0.5 : 1}]}
+      >
         <View style={style.ExerciseRow}>
-          <Text style={style.exerciseTitleStyle}>{item.name}</Text>
-          <View className="flex-row space-x-2 justify-center items-center">
+          <Text style={style.exerciseTitleStyle}>{exercise.name}</Text>
+          <View
+          //  className="flex-row space-x-2 justify-center items-center"
+          >
             <Image source={explore ? assets.icn_remove : assets.icn_add} />
             <TouchableOpacity
               onPress={() => {
                 setIsSelected(!isSelected);
-                addNewExerciseWorkout(item.id);
+                addNewExerciseWorkout(exercise.id);
               }}>
               <View
                 style={{
@@ -53,12 +61,13 @@ const ExerciseSelectRow = ({item}) => {
                     ? colors.secondary
                     : colors.primary,
                 }}
-                className="p-4 rounded-full"></View>
+                // className="p-4 rounded-full"
+              ></View>
             </TouchableOpacity>
           </View>
         </View>
-      </Pressable>
-      {explore && <CardExerciseDetails exercise={item} />}
+      </TouchableOpacity>
+      {explore && <CardExerciseDetails exercise={exercise} />}
     </>
   );
 };

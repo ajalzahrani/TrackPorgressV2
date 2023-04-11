@@ -9,7 +9,10 @@ import {
   Modal,
   Pressable,
   ScrollView,
+  Alert,
   FlatList,
+  ListRenderItem,
+  ListRenderItemInfo,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 
@@ -27,6 +30,8 @@ import useExerciseStore from 'src/store/useExerciseMaster';
 import {RouteProp} from '@react-navigation/native';
 import {RoutineStackRootParamList} from 'src/components/navigation/RoutineStack';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+
+import type {exerciseMasterType} from 'src/components/shared/globalTypes';
 
 type ExerciseScreenRouteProp = RouteProp<
   RoutineStackRootParamList,
@@ -49,19 +54,19 @@ const ExerciseScreen: React.FC<ExerciseScreenProp> = ({route, navigation}) => {
   const addNewExerciseMaster = useExerciseStore(s => s.addNewExerciseMaster);
 
   const [search, setSearch] = useState(''); //
-  const [searchResult, setSearchResult] = useState(ExerciseApi);
+  const [searchResult, setSearchResult] = useState(exerciseMaster);
   const [notFound, setNotFound] = useState(false); // handle if no exercise found in search
   const [modalVisible, setModalVisible] = useState(false);
 
   // search the list of exercises data and eanble the user to add not found exercies.
-  const handleSearch = searchText => {
+  const handleSearch = (searchText: string) => {
     setSearch(searchText);
-    const filterdExercies = ExerciseApi.filter((exer, index) => {
+    const filterdExercies = exerciseMaster.filter((exer, index) => {
       // console.log(exer.title.match(searchText));
       return exer.name.match(searchText.toLowerCase());
     });
     if (searchText.length === 0) {
-      setSearchResult(ExerciseApi);
+      setSearchResult(filterdExercies);
       setNotFound(false);
     } else if (filterdExercies.length === 0) {
       setNotFound(true);
@@ -71,29 +76,31 @@ const ExerciseScreen: React.FC<ExerciseScreenProp> = ({route, navigation}) => {
     }
   };
 
-  const bodyPartSearch = iconDesc => {
-    const filterdExercies = ExerciseApi.filter((exer, index) => {
-      return exer.bodyPart.match(iconDesc.toLowerCase());
-    });
-    handleSearchResult(iconDesc, filterdExercies);
-  };
+  // const bodyPartSearch = iconDesc => {
+  //   const filterdExercies = ExerciseApi.filter((exer, index) => {
+  //     return exer.bodyPart.match(iconDesc.toLowerCase());
+  //   });
+  //   handleSearchResult(iconDesc, filterdExercies);
+  // };
 
-  const handleSearchResult = (searchTerm, filterdExercies) => {
-    if (searchTerm.length === 0) {
-      setSearchResult(ExerciseApi);
-      setNotFound(false);
-    } else if (filterdExercies.length === 0) {
-      setNotFound(true);
-    } else {
-      setSearchResult(filterdExercies);
-      setNotFound(false);
-    }
-  };
+  // const handleSearchResult = (searchTerm, filterdExercies) => {
+  //   if (searchTerm.length === 0) {
+  //     setSearchResult(ExerciseApi);
+  //     setNotFound(false);
+  //   } else if (filterdExercies.length === 0) {
+  //     setNotFound(true);
+  //   } else {
+  //     setSearchResult(filterdExercies);
+  //     setNotFound(false);
+  //   }
+  // };
 
-  const renderItem = ({item}) => {
+  const renderExercise: ListRenderItem<exerciseMasterType> = ({
+    item,
+  }: ListRenderItemInfo<exerciseMasterType>) => {
     return (
       <View style={styles.preListContainerStyle}>
-        <ExerciseSelectRow key={item.id} item={item} />
+        <ExerciseSelectRow key={item.id} exercise={item} />
       </View>
     );
   };
@@ -101,7 +108,7 @@ const ExerciseScreen: React.FC<ExerciseScreenProp> = ({route, navigation}) => {
   return (
     <SafeAreaView style={styles.safeViewStyle}>
       <Modal
-        animationType="pageSheet"
+        // animationType="pageSheet"
         presentationStyle="fullScreen"
         transparent={false}
         visible={modalVisible}
@@ -170,7 +177,7 @@ const ExerciseScreen: React.FC<ExerciseScreenProp> = ({route, navigation}) => {
             </TouchableOpacity>
           </View>
         )}
-        <View
+        {/* <View
           style={{
             flexDirection: 'row',
             justifyContent: 'space-around',
@@ -188,7 +195,7 @@ const ExerciseScreen: React.FC<ExerciseScreenProp> = ({route, navigation}) => {
           <TouchableOpacity onPress={() => bodyPartSearch('chest')}>
             <Image source={assets.icn_chest} style={styles.searchIcons} />
           </TouchableOpacity>
-        </View>
+        </View> */}
         {/* <PressableButton
           title={'try an image'}
           onPress={() => setModalVisible(!modalVisible)}
@@ -196,8 +203,8 @@ const ExerciseScreen: React.FC<ExerciseScreenProp> = ({route, navigation}) => {
         <FlatList
           contentContainerStyle={{paddingBottom: 72}}
           data={searchResult}
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
+          renderItem={renderExercise}
+          keyExtractor={exercise => exercise.id}
         />
       </View>
     </SafeAreaView>
