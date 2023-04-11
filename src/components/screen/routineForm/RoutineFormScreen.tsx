@@ -14,7 +14,23 @@ import SegmentedControl from '@react-native-segmented-control/segmented-control'
 import useStore from '../store/useStore';
 
 // Navigation
-import {useNavigation} from '@react-navigation/native';
+import {RouteProp} from '@react-navigation/native';
+import {RoutineStackRootParamList} from 'src/components/navigation/RoutineStack';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+
+type RoutineFormScreenRouteProp = RouteProp<
+  RoutineStackRootParamList,
+  'RoutineFormScreen'
+>;
+type RoutineFormScreenNavigationProp = NativeStackNavigationProp<
+  RoutineStackRootParamList,
+  'RoutineFormScreen'
+>;
+
+type RoutineFormScreenProp = {
+  route: RoutineFormScreenRouteProp;
+  navigation: RoutineFormScreenNavigationProp;
+};
 
 // Assets
 import {colors} from '../components/constants';
@@ -23,28 +39,33 @@ import {colors} from '../components/constants';
 import PressableButton from '../components/PressableButton';
 import DateTimePickers from '../components/DateTimePickers';
 import Calendars2 from '../components/Calendars2';
+import uuidv4 from 'src/components/shared/uuid4v';
 
-const RoutineFormScreen = () => {
+const RoutineFormScreen: React.FC<RoutineFormScreenProp> = ({
+  route,
+  navigation,
+}) => {
+  const routine = route.params?.routine && {
+    id: uuidv4(),
+    title: '',
+    startDate: '',
+    endDate: '',
+    level: -1,
+    description: '',
+    workouts: [],
+    weekdays: [],
+  };
+
   const currentRoutine = useStore(s => s.currentRoutine);
   const addNewRoutine = useStore(s => s.addNewRoutine);
   const updateCurrentRoutine = useStore(s => s.updateCurrentRoutine);
   const saveRoutine = useStore(s => s.saveRoutine);
+
   const [title, setTitle] = useState(currentRoutine?.title);
-  const [description, setDescription] = useState(currentRoutine?.description);
   const [startDate, setStartDate] = useState(currentRoutine?.startDate);
   const [endDate, setEndDate] = useState(currentRoutine?.endDate);
   const [levelIndex, setLevelIndex] = useState(currentRoutine?.level);
-
-  const navigation = useNavigation();
-
-  // useEffect(() => {
-  //   console.log(
-  //     'current dates: ',
-  //     currentRoutine?.startDate,
-  //     currentRoutine?.endDate,
-  //   );
-  //   console.log('currentRoutine: ', currentRoutine);
-  // }, []);
+  const [description, setDescription] = useState(currentRoutine?.description);
 
   const restForm = () => {
     setTitle('');
@@ -54,29 +75,34 @@ const RoutineFormScreen = () => {
     setLevelIndex(0);
   };
 
-  const onPress = useCallback(() => {
-    if (title?.length !== 0) {
-      if (currentRoutine?.id) {
-        updateCurrentRoutine(
-          title,
-          startDate,
-          endDate,
-          levelIndex,
-          description,
-        );
-
-        saveRoutine();
-        navigation.goBack();
-      } else {
-        addNewRoutine(title, startDate, endDate, levelIndex, description);
-        restForm();
-        navigation.goBack();
-        navigation.navigate('ScheduleScreen');
-      }
-    } else {
-      console.log('Type in routine title');
+  const handleOnPress = () => {
+    if (routine?.title.length !== 0) {
     }
-  });
+  };
+
+  // const onPress = useCallback(() => {
+  //   if (title?.length !== 0) {
+  //     if (currentRoutine?.id) {
+  //       updateCurrentRoutine(
+  //         title,
+  //         startDate,
+  //         endDate,
+  //         levelIndex,
+  //         description,
+  //       );
+
+  //       saveRoutine();
+  //       navigation.goBack();
+  //     } else {
+  //       addNewRoutine(title, startDate, endDate, levelIndex, description);
+  //       restForm();
+  //       navigation.goBack();
+  //       navigation.navigate('ScheduleScreen');
+  //     }
+  //   } else {
+  //     console.log('Type in routine title');
+  //   }
+  // });
 
   return (
     <View style={style.centeredView}>

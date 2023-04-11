@@ -59,18 +59,8 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
   const deleteWorkout = useRoutineStore(s => s.deleteWorkout);
   const addWorkout = useRoutineStore(s => s.addWorkout);
   const addFreq = useRoutineStore(s => s.addFreq);
-  const [workoutTitle, setWorkoutTitle] = useState(workout?.title);
   const [modalVisible, setModalVisible] = useState(false);
   const {t} = useTranslation();
-
-  /* HOW TO ADD FREQUANCY TO AN EXERCISE */
-  const handleAddFreq = (exerciseId: string, freq: number[]) => {
-    if (workout !== undefined) {
-      // Later use for adding exericses.
-
-      addFreq(routineId, workout.id, exerciseId, freq);
-    }
-  };
 
   const handleAddWorkout = () => {
     if (workout?.title.length === 0) {
@@ -83,13 +73,19 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
     }
   };
 
+  const handleAddWorkoutTitle = (title: string) => {
+    workout!.title = title;
+  };
+
   const handleUpdateExercise = (exerciseId: string) => {
     if (workout !== undefined) {
     }
   };
 
-  const handleAddWorkoutTitle = (title: string) => {
-    workout!.title = title;
+  const handleAddFreq = (exerciseId: string, freq: number[]) => {
+    if (workout !== undefined) {
+      addFreq(routineId, workout.id, exerciseId, freq);
+    }
   };
 
   const RestTimeDrawer = () => {
