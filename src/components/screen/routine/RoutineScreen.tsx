@@ -13,11 +13,13 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
+import {useRef} from 'react';
 
 // Components
 import CalenderRow from './components/CalenderRow';
 import WorkoutCard from './components/WorkoutCard';
 import {PressableButton} from 'src/components/shared';
+import compareObjects from 'src/components/shared/compareObjects';
 
 // Assets
 import {colors, assets} from 'src/assets';
@@ -50,20 +52,24 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
   // FIXME: workout name should'nt take all the space in pre-list of workout
   // FIXME: Auto select new added workout.
   // FIXME: Clicking on navigation button should prsiste configurations.
-  const {routine} = route.params;
+
+  const routine = route.params.routine;
+  const routineRef = useRef(routine);
   const workoutId = useRoutineStore(s => s.workoutId);
+  const setWorkoutId = useRoutineStore(s => s.setWorkoutId);
   const workout = routine.workouts.find(workout => workout.id === workoutId);
 
-  const scheduledWorkout = useStore(s => s.scheduledWorkout);
-  const addWorkoutDay = useStore(s => s.addWorkoutDay);
-  const currentDay = useStore(s => s.currentDay);
-  const unselectCurrentDay = useStore(s => s.unselectCurrentDay);
-  const unselectCurrentWorkout = useStore(s => s.unselectCurrentWorkout);
-  const selectCurrentWorkout = useStore(s => s.selectCurrentWorkout);
-  const selectScheduledWorkout = useStore(s => s.selectScheduledWorkout);
-  const addNewWorkout = useStore(s => s.addNewWorkout);
-  const saveRoutine = useStore(s => s.saveRoutine);
-  const compareRoutinesObj = useStore(s => s.compareRoutinesObj);
+  // const scheduledWorkout = useStore(s => s.scheduledWorkout);
+  // const addWorkoutDay = useStore(s => s.addWorkoutDay);
+  // const currentDay = useStore(s => s.currentDay);
+  // const unselectCurrentDay = useStore(s => s.unselectCurrentDay);
+  // const unselectCurrentWorkout = useStore(s => s.unselectCurrentWorkout);
+  // const selectCurrentWorkout = useStore(s => s.selectCurrentWorkout);
+  // const selectScheduledWorkout = useStore(s => s.selectScheduledWorkout);
+  // const addNewWorkout = useStore(s => s.addNewWorkout);
+  // const saveRoutine = useStore(s => s.saveRoutine);
+  // const compareRoutinesObj = useStore(s => s.compareRoutinesObj);
+
   const {t} = useTranslation();
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -87,8 +93,8 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
                 style={[style.button, style.buttonClose, {marginRight: 10}]}
                 onPress={() => {
                   setModalVisible(!modalVisible);
-                  saveRoutine();
-                  navigation.navigate('RoutineScreen');
+                  // saveRoutine();
+                  navigation.navigate('RoutineListScreen', {name: ''});
                 }}>
                 <Text style={style.textStyle}>Yes</Text>
               </Pressable>
@@ -96,7 +102,7 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
                 style={[style.button, style.buttonClose, {marginRight: 10}]}
                 onPress={() => {
                   setModalVisible(!modalVisible);
-                  navigation.navigate('RoutineScreen');
+                  navigation.navigate('RoutineListScreen', {name: ''});
                 }}>
                 <Text style={style.textStyle}>No</Text>
               </Pressable>
@@ -115,10 +121,10 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
         <View style={style.goBackStyle}>
           <TouchableOpacity
             onPress={() => {
-              if (compareRoutinesObj() === false) {
+              if (!compareObjects(routineRef, routine)) {
                 setModalVisible(!modalVisible);
               } else {
-                navigation.navigate('RoutineScreen');
+                navigation.navigate('RoutineListScreen', {name: ''});
               }
             }}>
             <Image source={assets.icn_goback} />
@@ -151,7 +157,7 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
               <Text style={style.workoutTitleStyle}>{workout.title}</Text>
               <TouchableOpacity
                 onPress={() => {
-                  selectCurrentWorkout(workout.id);
+                  // selectCurrentWorkout(workout.id);
                   navigation.navigate('WorkoutScreen', {
                     routineId: routine.id,
                     workout: workout,
@@ -161,8 +167,8 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
-                  unselectCurrentDay(currentDay.id);
-                  unselectCurrentWorkout();
+                  // unselectCurrentDay(currentDay.id);
+                  // unselectCurrentWorkout();
                 }}>
                 <Image source={assets.icn_remove} />
               </TouchableOpacity>
@@ -172,9 +178,8 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
               title={'Start'}
               iconSource={assets.icn_start}
               onPress={() => {
-                // console.log(store.getString('workouts'));
-                navigation.navigate('ActiveScreen', {
-                  workoutObject: scheduledWorkout,
+                navigation.navigate('SessionScreen', {
+                  workout: workout,
                 });
               }}
             />
@@ -200,9 +205,10 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
                 key={workout.id}
                 onPress={() => {
                   // console.log(workout.id);
-                  console.log(currentDay.id);
-                  selectScheduledWorkout(workout.id);
-                  addWorkoutDay(currentDay.id);
+                  // console.log(currentDay.id);
+                  // selectScheduledWorkout(workout.id);
+                  // addWorkoutDay(currentDay.id);
+                  setWorkoutId(workout.id);
                 }}>
                 <WorkoutCard id={workout.id} title={workout.title} />
               </TouchableOpacity>
