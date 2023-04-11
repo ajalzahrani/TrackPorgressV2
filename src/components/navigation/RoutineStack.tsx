@@ -17,7 +17,7 @@ import {routineType, workoutType} from '../shared/globalTypes';
 
 export type RoutineStackRootParamList = {
   RoutineListScreen: {name: string};
-  RoutineFormScreen: {routine: routineType} | undefined;
+  RoutineFormScreen: {routine: routineType};
   RoutineScreen: {routine: routineType};
   WorkoutScreen: {routineId: string; workout: workoutType | undefined};
   ExerciseScreen: {exercises: {id: string; freq: number[]}[]};

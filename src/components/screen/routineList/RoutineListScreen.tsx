@@ -23,6 +23,7 @@ import {ScreenContainer, PressableButton} from 'src/components/shared';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RouteProp} from '@react-navigation/native';
 import {RoutineStackRootParamList} from 'src/components/navigation/RoutineStack';
+import uuidv4 from 'src/components/shared/uuid4v';
 
 type RoutineListScreenRouteType = RouteProp<
   RoutineStackRootParamList,
@@ -77,8 +78,18 @@ const RoutineListScreen: React.FC<RoutineListProps> = ({route, navigation}) => {
             }}>
             <TouchableOpacity
               onPress={() => {
-                // selectCurrentRoutine(-1);
-                navigation.navigate('RoutineFormScreen', undefined);
+                navigation.navigate('RoutineFormScreen', {
+                  routine: {
+                    id: '',
+                    title: '',
+                    startDate: '',
+                    endDate: '',
+                    level: 1,
+                    description: '',
+                    workouts: [],
+                    weekdays: [],
+                  },
+                });
               }}>
               <Image source={assets.icn_add} />
             </TouchableOpacity>
@@ -93,7 +104,6 @@ const RoutineListScreen: React.FC<RoutineListProps> = ({route, navigation}) => {
                 style={{flex: 1}}
                 onPress={() => {
                   navigation.navigate('RoutineScreen', {routine});
-                  // selectCurrentRoutine(item.id);
                 }}>
                 <RoutineCard id={routine.id} title={routine.title} />
               </TouchableOpacity>

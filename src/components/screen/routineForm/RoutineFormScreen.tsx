@@ -6,12 +6,22 @@ import {
   TextInput,
   Alert,
   Button,
+  ActionSheetIOS,
 } from 'react-native';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useState} from 'react';
+// import SegmentedControl from '@react-native-segmented-control/segmented-control';
+// import SegmentedControl from '@react-native-community/segmented-control';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 
-// Store
-import useStore from '../store/useStore';
+// Assets
+import {colors} from 'src/assets';
+
+// Components
+import uuidv4 from 'src/components/shared/uuid4v';
+import {PressableButton} from 'src/components/shared';
+import Calendars2 from './components/Calendars2';
+import DateTimePickers from './components/DateTimePickers';
+import useRoutineStore from 'src/store/useRoutineStore';
 
 // Navigation
 import {RouteProp} from '@react-navigation/native';
@@ -32,82 +42,68 @@ type RoutineFormScreenProp = {
   navigation: RoutineFormScreenNavigationProp;
 };
 
-// Assets
-import {colors} from '../components/constants';
-
-// Components
-import PressableButton from '../components/PressableButton';
-import DateTimePickers from '../components/DateTimePickers';
-import Calendars2 from '../components/Calendars2';
-import uuidv4 from 'src/components/shared/uuid4v';
-
 const RoutineFormScreen: React.FC<RoutineFormScreenProp> = ({
   route,
   navigation,
 }) => {
-  const routine = route.params?.routine && {
-    id: uuidv4(),
-    title: '',
-    startDate: '',
-    endDate: '',
-    level: -1,
-    description: '',
-    workouts: [],
-    weekdays: [],
-  };
+  const routine = route.params?.routine;
+  const addNewRoutine = useRoutineStore(s => s.addNewRoutine);
 
-  const currentRoutine = useStore(s => s.currentRoutine);
-  const addNewRoutine = useStore(s => s.addNewRoutine);
-  const updateCurrentRoutine = useStore(s => s.updateCurrentRoutine);
-  const saveRoutine = useStore(s => s.saveRoutine);
-
-  const [title, setTitle] = useState(currentRoutine?.title);
-  const [startDate, setStartDate] = useState(currentRoutine?.startDate);
-  const [endDate, setEndDate] = useState(currentRoutine?.endDate);
-  const [levelIndex, setLevelIndex] = useState(currentRoutine?.level);
-  const [description, setDescription] = useState(currentRoutine?.description);
+  const [title, setTitle] = useState(routine.title);
+  const [startDate, setStartDate] = useState(routine.startDate);
+  const [endDate, setEndDate] = useState(routine.endDate);
+  const [levelIndex, setLevelIndex] = useState(1);
+  const [description, setDescription] = useState(routine.description);
+  const [result, setResult] = useState('🔮');
 
   const restForm = () => {
     setTitle('');
     setDescription('');
-    setStartDate(null);
-    setEndDate(null);
+    setStartDate('');
+    setEndDate('');
     setLevelIndex(0);
   };
 
   const handleOnPress = () => {
-    if (routine?.title.length !== 0) {
+    if (routine !== undefined) {
+      addNewRoutine(routine?.id, {
+        id: uuidv4(),
+        title: title,
+        startDate: startDate,
+        endDate: endDate,
+        level: levelIndex,
+        description: description,
+        workouts: routine.workouts,
+        weekdays: routine.weekdays,
+      });
+      navigation.goBack();
+    } else {
+      console.log('Type in routine title');
     }
   };
 
-  // const onPress = useCallback(() => {
-  //   if (title?.length !== 0) {
-  //     if (currentRoutine?.id) {
-  //       updateCurrentRoutine(
-  //         title,
-  //         startDate,
-  //         endDate,
-  //         levelIndex,
-  //         description,
-  //       );
-
-  //       saveRoutine();
-  //       navigation.goBack();
-  //     } else {
-  //       addNewRoutine(title, startDate, endDate, levelIndex, description);
-  //       restForm();
-  //       navigation.goBack();
-  //       navigation.navigate('ScheduleScreen');
-  //     }
-  //   } else {
-  //     console.log('Type in routine title');
-  //   }
-  // });
+  const onPress = () =>
+    ActionSheetIOS.showActionSheetWithOptions(
+      {
+        options: ['Cancel', 'Generate number', 'Reset'],
+        destructiveButtonIndex: 2,
+        cancelButtonIndex: 0,
+        userInterfaceStyle: 'dark',
+      },
+      buttonIndex => {
+        if (buttonIndex === 0) {
+          // cancel action
+        } else if (buttonIndex === 1) {
+          setResult(String(Math.floor(Math.random() * 100) + 1));
+        } else if (buttonIndex === 2) {
+          setResult('🔮');
+        }
+      },
+    );
 
   return (
     <View style={style.centeredView}>
       <Text style={style.modalText}>Configure new routine</Text>
-
       <TextInput
         placeholder="Routine title"
         placeholderTextColor={colors.offwhite}
@@ -115,15 +111,13 @@ const RoutineFormScreen: React.FC<RoutineFormScreenProp> = ({
         style={style.textInputStyle}
         defaultValue={title}
       />
-
       <Calendars2
         startDay={startDate}
         setStartDay={setStartDate}
         endDay={endDate}
         setEndDay={setEndDate}
       />
-
-      <SegmentedControl
+      {/* <SegmentedControl
         values={['Beginner', 'Intermediate', 'Professional']}
         selectedIndex={levelIndex}
         onChange={event => {
@@ -132,7 +126,9 @@ const RoutineFormScreen: React.FC<RoutineFormScreenProp> = ({
         backgroundColor={colors.offwhite}
         appearance="light"
         style={{marginTop: 20, marginHorizontal: 50, marginBottom: 15}}
-      />
+      /> */}
+
+      <PressableButton title="Level" onPress={onPress} />
 
       <TextInput
         style={[style.textInputStyle, style.richBox]}
@@ -142,8 +138,7 @@ const RoutineFormScreen: React.FC<RoutineFormScreenProp> = ({
         multiline={true}
         underlineColorAndroid="transparent"
       />
-
-      <PressableButton onPress={onPress} title="Okey" />
+      <PressableButton onPress={handleOnPress} title="Okey" />
     </View>
   );
 };
