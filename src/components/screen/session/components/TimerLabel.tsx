@@ -1,7 +1,18 @@
-import {View, Text} from 'react-native';
+import {View, StyleSheet, Text} from 'react-native';
 import React, {useEffect} from 'react';
 
-const TimerLabel = ({
+type TimerLableType = {
+  seconds: number;
+  setSeconds: (seconds: number) => number;
+  isActive: boolean;
+  toggle: () => void;
+  index: number;
+  scrollToNextCard: () => void;
+  isPressed: boolean;
+  setIsPressed: () => void;
+  setSkitchTitle: () => void;
+};
+const TimerLabel: React.FC<TimerLableType> = ({
   seconds,
   setSeconds,
   isActive,
@@ -14,7 +25,7 @@ const TimerLabel = ({
 }) => {
   // FIXME: use timer-hook here
   useEffect(() => {
-    let interval = null;
+    let interval: number = -1;
     if (isActive) {
       interval = setInterval(() => {
         setSeconds(seconds => seconds - 1);
@@ -34,9 +45,16 @@ const TimerLabel = ({
 
   return (
     <View>
-      <Text className="text-white text-lg">{seconds > 0 ? seconds : '--'}</Text>
+      <Text style={styles.text}>{seconds > 0 ? seconds : '--'}</Text>
     </View>
   );
 };
 
 export default TimerLabel;
+
+const styles = StyleSheet.create({
+  text: {
+    fontSize: 18,
+    color: 'white',
+  },
+});

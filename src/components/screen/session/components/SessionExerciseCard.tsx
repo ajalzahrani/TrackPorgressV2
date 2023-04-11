@@ -4,18 +4,29 @@ import LinearGradient from 'react-native-linear-gradient';
 import uuid from 'react-native-uuid';
 
 // Assets
-import {colors, assets} from './constants';
+import {colors, assets} from 'src/assets';
 
 // compo
-import TimerLabel from '../../../../../components/TimerLabel';
+import TimerLabel from './TimerLabel';
 
 // gstore
-import {useGstore} from '../../../../../gstore';
+import useSessionStore from 'src/store/useSessionStore';
 
-const ExerciseActiveCard = ({
-  exername,
-  exerid,
+type SessionExerciseCardType = {
+  index: number;
+  exerciseId: string;
+  exerciseName: string;
+  reps: number;
+  resttimeId: number;
+  resttime: number[];
+  scrollToNextCard: () => void;
+  setSelectedId: () => void;
+};
+
+const SessionExerciseCard: React.FC<SessionExerciseCardType> = ({
   index,
+  exerciseId,
+  exerciseName,
   reps,
   resttime,
   resttimeId,
@@ -23,7 +34,7 @@ const ExerciseActiveCard = ({
   setSelectedId,
 }) => {
   // FIXME: Add value picker for weight and time
-  const registerSet = useGstore(state => state.registerSet);
+  const registerSet = useSessionStore(s => s.registerSet);
   const [isActive, setIsActive] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
   const [skitchTitle, setSkitchTitle] = useState(false);
@@ -87,10 +98,12 @@ const ExerciseActiveCard = ({
           {borderBottomStartRadius: isPressed ? 0 : 10},
           {marginBottom: isPressed ? 0 : 7},
         ]}>
-        <View className="flex-col space-y-2">
+        <View
+        // className="flex-col space-y-2"
+        >
           <Text
             style={skitchTitle ? style.workoutTitleDone : style.workoutTitle}>
-            {exername}
+            {exerciseName}
           </Text>
           <TimerLabel
             seconds={seconds}
@@ -106,7 +119,10 @@ const ExerciseActiveCard = ({
             scrollToNextCard={scrollToNextCard}
           />
         </View>
-        <View style={style.editContainerStyle} className="space-x-2">
+        <View
+          style={style.editContainerStyle}
+          // className="space-x-2"
+        >
           <TouchableOpacity
             onPress={() => {
               setIsPressed(!isPressed);
@@ -129,7 +145,10 @@ const ExerciseActiveCard = ({
               <Text style={style.controllerMiddleTextStyle}>Weight</Text>
 
               {/* plus - min buttons */}
-              <View style={{flexDirection: 'row'}} className="space-x-10">
+              <View
+                style={{flexDirection: 'row'}}
+                // className="space-x-10"
+              >
                 <TouchableOpacity onPress={() => minWeight()}>
                   <Image source={assets.icn_min} />
                 </TouchableOpacity>
@@ -160,7 +179,10 @@ const ExerciseActiveCard = ({
               <Text style={style.controllerMiddleTextStyle}>Reps</Text>
 
               {/* plus - min buttons */}
-              <View style={{flexDirection: 'row'}} className="space-x-10">
+              <View
+                style={{flexDirection: 'row'}}
+                // className="space-x-10"
+              >
                 <TouchableOpacity onPress={() => minRep()}>
                   <Image source={assets.icn_min} />
                 </TouchableOpacity>
@@ -191,7 +213,10 @@ const ExerciseActiveCard = ({
               <Text style={style.controllerMiddleTextStyle}>TUT</Text>
 
               {/* plus - min buttons */}
-              <View style={{flexDirection: 'row'}} className="space-x-10">
+              <View
+                style={{flexDirection: 'row'}}
+                // className="space-x-10"
+              >
                 <TouchableOpacity onPress={() => minTut()}>
                   <Image source={assets.icn_min} />
                 </TouchableOpacity>
@@ -203,19 +228,21 @@ const ExerciseActiveCard = ({
           </View>
 
           <TouchableOpacity
-            className="mb-1"
+            // className="mb-1"
             onPress={() => {
               toggle();
               // Register set to exercises array
               registerSet(exerid, index, weight, rep, tut);
             }}>
             <LinearGradient
-              className="py-3 px-10 rounded-full"
+              // className="py-3 px-10 rounded-full"
               colors={['#E10D60', '#FA3B89']}
               start={{x: 0, y: 0}}
               end={{x: 1, y: 1}}
               locations={[0.75, 1]}>
-              <Text className="text-base font-semibold text-white">
+              <Text
+              // className="text-base font-semibold text-white"
+              >
                 {skitchTitle ? 'Edit' : 'Register'}
               </Text>
             </LinearGradient>
@@ -325,4 +352,4 @@ const style = StyleSheet.create({
   },
 });
 
-export default ExerciseActiveCard;
+export default SessionExerciseCard;

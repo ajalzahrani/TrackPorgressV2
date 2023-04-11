@@ -1,5 +1,5 @@
 import create from 'zustand';
-import {store} from '../mmkv';
+import {store} from './mmkv';
 import uuid from 'react-native-uuid';
 import produce, {Draft} from 'immer';
 import {sessionType} from 'src/components/shared/globalTypes';
@@ -32,7 +32,7 @@ const initialState: State = {
   sessions: getSession(),
 };
 
-const useWorkoutSessionStore = create<State & Actions>((set, get) => ({
+const useSessionStore = create<State & Actions>((set, get) => ({
   ...initialState,
 
   registerSet: (
@@ -75,4 +75,4 @@ const useWorkoutSessionStore = create<State & Actions>((set, get) => ({
     ),
 }));
 
-export default useWorkoutSessionStore;
+export default useSessionStore;

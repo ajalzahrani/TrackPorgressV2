@@ -6,30 +6,50 @@ import {
   StyleSheet,
   ScrollView,
   VirtualizedList,
+  ListRenderItem,
+  ListRenderItemInfo,
   FlatList,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {store} from '../../../Store';
 
 // Assets
-import {colors} from '../components/constants';
+import {colors} from 'src/assets';
 
 // Components
-import ExerciseActiveCard from '../../../components/ExerciseActiveCard';
-import SessionController from '../../../components/SessionController';
-import Divider from '../../../components/Divider';
-
-// import { getExerciseName } from '../components/shared';
-
-import {useNavigation} from '@react-navigation/native';
-
-// gstore
-import {useGstore} from '../../../gstore';
+import SessionExerciseCard from './components/SessionExerciseCard';
+import SessionController from './components/SessionController';
+import Divider from 'src/components/shared/Divider';
 
 // Store
-import useStore from '../../../store/store.bak/useStore';
+import useExerciseStore from 'src/store/useExerciseMaster';
+import useRoutineStore from 'src/store/useRoutineStore';
 
-const ActiveScreen = ({route}) => {
+// Navigation
+import {RouteProp} from '@react-navigation/native';
+import {RoutineStackRootParamList} from 'src/components/navigation/RoutineStack';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+
+import type {exerciseMasterType} from 'src/components/shared/globalTypes';
+import useSessionStore from 'src/store/useSessionStore';
+
+type SessionScreenRouteProp = RouteProp<
+  RoutineStackRootParamList,
+  'SessionScreen'
+>;
+type SessionScreenNavigationProp = NativeStackNavigationProp<
+  RoutineStackRootParamList,
+  'SessionScreen'
+>;
+
+import type {exercisesType} from 'src/components/shared/globalTypes';
+
+type SessionScreenProp = {
+  route: SessionScreenRouteProp;
+  navigation: SessionScreenNavigationProp;
+};
+
+const SessionScreen: React.FC<SessionScreenProp> = ({route, navigation}) => {
   // FIXME: ExerciseActiveCard render twice ???? need to fix this
   // FIXME: workout name should'nt take all the space in pre-list of workout
   // FIXME: Adjust the design
@@ -38,44 +58,35 @@ const ActiveScreen = ({route}) => {
   // FIXME: Fix Scrolling tips
   // FIXME: Scroll to next active card not skitch card
   // FIXME: Fix last cards on screen when opened
+
+  const workout = route.params.workout;
+  const exerciseMaster = useExerciseStore(s => s.exerciseMaster);
   const [exData, setEXData] = useState([]); // state holding exercise data.
   const [selectedId, setSelectedId] = useState(null);
-  const [ref, setRef] = useState(null); // ref to flatlist
-  const registerSession = useGstore(state => state.registerSession);
-  const printVol = useGstore(state => state.printVol);
-  const printExer = useGstore(state => state.printExer);
-  const navigation = useNavigation();
-  const workoutObject = useStore(s => s.scheduledWorkout);
-
-  // const {workoutObject} = route.params;
-
-  const setupObjects = () => {
-    const exerciseData = JSON.parse(store.getString('exercises')); // Use memo hook for better performance
-    setEXData(exerciseData);
-  };
+  const [ref, setRef] = useState<FlatList<any> | null>(null); // ref to flatlist
+  const registerSession = useSessionStore(s => s.registerSession);
 
   /* HOW TO QUERY EXERCISE NAME BY ID FROM EXERCISE LIST */
-  const getExerciseName = id => {
-    let exername = exData.filter(element => {
-      return element.id === id;
+  const getExerciseName = (exerciseId: string) => {
+    let exercise = exerciseMaster.filter(exercise => {
+      return exercise.id === exerciseId;
     });
-    return exername[0]?.title;
+    return exercise[0]?.name;
   };
 
-  const scrollToNextCard = index => {
+  const scrollToNextCard = (index: number) => {
     index++;
     index *= 100;
     // console.log('current index: ', index);
-    ref.scrollToOffset({animated: true, offset: index + 2});
-    // ref.scrollToIndex({
-    //   animated: true,
-    //   index: index + 1,0
-    //   viewPosition: 0,
-    // });
+    if (ref) {
+      ref.scrollToOffset({animated: true, offset: index + 2});
+    }
   };
 
   let scrollKey = 0;
-  const ExerciseActiveCardComponents2 = ({item, index, separators}) => {
+  const renderExercise: ListRenderItem<exercisesType> = ({
+    item,
+  }: ListRenderItemInfo<exercisesType>) => {
     let exername = getExerciseName(item.id);
     const rows = [];
     let key = 0;
@@ -83,26 +94,26 @@ const ActiveScreen = ({route}) => {
       // SET END CHECKER
       if (item.freq.length - j == 1) {
         rows.push(
-          <ExerciseActiveCard
+          <SessionExerciseCard
             key={key}
             exerid={item.id}
             exername={exername}
             reps={item.freq[j]}
             resttimeId={1}
-            resttime={workoutObject.resttime}
+            resttime={workout.resettime}
             index={scrollKey}
             scrollToNextCard={scrollToNextCard}
           />,
         );
       } else {
         rows.push(
-          <ExerciseActiveCard
+          <SessionExerciseCard
             key={key}
             exerid={item.id}
             exername={exername}
             reps={item.freq[j]}
             resttimeId={0}
-            resttime={workoutObject.resttime}
+            resttime={workout.resettime}
             index={scrollKey}
             scrollToNextCard={scrollToNextCard}
           />,
@@ -115,29 +126,7 @@ const ActiveScreen = ({route}) => {
     return <>{rows}</>;
   };
 
-  const rednerItem = ({item}) => {
-    console.log('hi');
-    let arr = [];
-    arr.push(
-      <View
-        style={{
-          backgroundColor: '#f9c2ff',
-          padding: 20,
-          marginVertical: 8,
-          marginHorizontal: 16,
-        }}
-        key={item.id}>
-        <Text style={{color: colors.red, fontSize: 32, textAlign: 'left'}}>
-          {getExerciseName(item.id)}
-        </Text>
-      </View>,
-    );
-    console.log(arr.length);
-    return <>{arr}</>;
-  };
-
   useEffect(() => {
-    setupObjects();
     navigation.getParent()?.setOptions({
       tabBarStyle: {
         display: 'none',
@@ -155,11 +144,13 @@ const ActiveScreen = ({route}) => {
     <SafeAreaView style={style.safeViewStyle}>
       {/* <Modal_View /> */}
       <View style={style.workoutContainerStyle}>
-        <View className="flex-row items-center space-x-5">
-          <Text style={style.workoutTitleStyle}>{workoutObject.title}</Text>
+        <View
+        // className="flex-row items-center space-x-5"
+        >
+          <Text style={style.workoutTitleStyle}>{workout.title}</Text>
           <TouchableOpacity
             onPress={() => {
-              console.log(JSON.stringify(printVol()));
+              // console.log(JSON.stringify(printVol()));
             }}>
             <Text>Show vol</Text>
           </TouchableOpacity>
@@ -167,18 +158,18 @@ const ActiveScreen = ({route}) => {
       </View>
       <FlatList
         contentContainerStyle={{paddingBottom: 72}}
-        data={workoutObject.exercises}
+        data={workout.exercises}
         ref={ref => setRef(ref)}
-        renderItem={ExerciseActiveCardComponents2}
+        renderItem={renderExercise}
         keyExtractor={item => item.id}
         extraData={selectedId}
       />
-      <SessionController workoutId={workoutObject.id} />
+      <SessionController workoutId={workout.id} />
     </SafeAreaView>
   );
 };
 
-export default ActiveScreen;
+export default SessionScreen;
 
 const style = StyleSheet.create({
   safeViewStyle: {
