@@ -96,12 +96,12 @@ const SessionScreen: React.FC<SessionScreenProp> = ({route, navigation}) => {
         rows.push(
           <SessionExerciseCard
             key={key}
-            exerid={item.id}
-            exername={exername}
+            index={scrollKey}
+            exerciseId={item.id}
+            exerciseName={exername}
             reps={item.freq[j]}
             resttimeId={1}
             resttime={workout.resettime}
-            index={scrollKey}
             scrollToNextCard={scrollToNextCard}
           />,
         );
@@ -109,12 +109,12 @@ const SessionScreen: React.FC<SessionScreenProp> = ({route, navigation}) => {
         rows.push(
           <SessionExerciseCard
             key={key}
-            exerid={item.id}
-            exername={exername}
+            index={scrollKey}
+            exerciseId={item.id}
+            exerciseName={exername}
             reps={item.freq[j]}
             resttimeId={0}
             resttime={workout.resettime}
-            index={scrollKey}
             scrollToNextCard={scrollToNextCard}
           />,
         );
