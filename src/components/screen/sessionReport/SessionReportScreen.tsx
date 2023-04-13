@@ -7,17 +7,47 @@ import {
   ScrollView,
 } from 'react-native';
 import React from 'react';
-import {useNavigation} from '@react-navigation/native';
-import {colors} from '../components/constants';
-import {useGstore} from '../gstore';
-('react-native-heroicons/outline');
-import * as Icons from 'react-native-heroicons/outline';
-import SessionReport from '../components/SessionReport';
 
-const VReportScreen = () => {
+// Assets
+import {colors} from 'src/assets';
+('react-native-heroicons/outline');
+
+// Components
+import * as Icons from 'react-native-heroicons/outline';
+import SessionReport from './components/SessionReport';
+
+// Store
+import useSessionStore from 'src/store/useSessionStore';
+
+// Navigation
+import {useNavigation} from '@react-navigation/native';
+import {RouteProp} from '@react-navigation/native';
+import {RoutineStackRootParamList} from 'src/components/navigation/RoutineStack';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+
+type SessionReportScreenRouteProp = RouteProp<
+  RoutineStackRootParamList,
+  'SessionReportScreen'
+>;
+type SessionReportScreenNavigationProp = NativeStackNavigationProp<
+  RoutineStackRootParamList,
+  'SessionReportScreen'
+>;
+
+type SessionReportScreenProp = {
+  route: SessionReportScreenRouteProp;
+  navigation: SessionReportScreenNavigationProp;
+};
+
+const SessionReportScreen: React.FC<SessionReportScreenProp> = ({
+  route,
+  navigation,
+}) => {
   // FIXME: Adjust the design to be consist
-  const getLastSession = useGstore(state => state.getLastSession);
-  const navigation = useNavigation();
+
+  const sessionId = route.params.sessionId;
+  const sessions = useSessionStore(state => state.sessions);
+
   return (
     <SafeAreaView style={style.saveAreaStyle}>
       <View style={style.headerStyle}>
@@ -30,14 +60,16 @@ const VReportScreen = () => {
       </View> */}
       <ScrollView
         style={{padding: 20}}
-        contentCScrollViewontainerStyle={{paddingBottom: 72}}>
-        <SessionReport session={getLastSession()} />
+        contentContainerStyle={{paddingBottom: 72}}>
+        <SessionReport
+          session={sessions.filter(s => s.sesisonId === sessionId)}
+        />
       </ScrollView>
 
       <TouchableOpacity
         style={style.doneButtonStyle}
         onPress={() => {
-          navigation.navigate('ScheduleScreen');
+          navigation.popToTop();
         }}>
         <Text style={{fontSize: 20}}>Done</Text>
       </TouchableOpacity>
@@ -69,4 +101,4 @@ const style = StyleSheet.create({
   },
 });
 
-export default VReportScreen;
+export default SessionReportScreen;

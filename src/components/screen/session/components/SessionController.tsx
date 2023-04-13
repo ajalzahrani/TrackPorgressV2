@@ -43,6 +43,7 @@ const SessionController = ({sessionId, workoutId}: SessionControllerType) => {
   const navigation = useNavigation<SessionScreenNavigationProp>();
   const {seconds, minutes, hours, days, start, pause, reset} = useStopwatch({
     autoStart: false,
+    offsetTimestamp: {},
   });
 
   function toggleSession() {
@@ -76,7 +77,7 @@ const SessionController = ({sessionId, workoutId}: SessionControllerType) => {
     );
 
     // Show report modal
-    navigation.navigate('VReportScreen');
+    navigation.navigate('SessionReportScreen', {sessionId: sessionId});
   };
 
   return (

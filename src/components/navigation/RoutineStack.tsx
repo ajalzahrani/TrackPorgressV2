@@ -12,7 +12,7 @@ import RoutineScreen from '../screen/routine/RoutineScreen';
 import WorkoutScreen from '../screen/workout/WorkoutScreen';
 import ExerciseScreen from '../screen/exercise/ExerciseScreen';
 import SessionScreen from '../screen/session/SessionScreen';
-import VReportScreen from '../screen/sessionReport/VReportScreen';
+import SessionReportScreen from '../screen/sessionReport/SessionReportScreen';
 import {routineType, workoutType} from '../shared/globalTypes';
 
 export type RoutineStackRootParamList = {
@@ -22,7 +22,7 @@ export type RoutineStackRootParamList = {
   WorkoutScreen: {routineId: string; workout: workoutType | undefined};
   ExerciseScreen: {exercises: {id: string; freq: number[]}[]};
   SessionScreen: {workout: workoutType};
-  VReportScreen: undefined;
+  SessionReportScreen: {sessionId: string};
 };
 
 // use this for useNavigation hook
@@ -45,8 +45,8 @@ const RoutineStack = () => {
         }}
       />
       <StackNav.Screen
-        name="VReportScreen"
-        component={VReportScreen}
+        name="SessionReportScreen"
+        component={SessionReportScreen}
         options={{
           presentation: 'fullScreenModal',
           headerShown: false,
