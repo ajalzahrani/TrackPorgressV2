@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {store} from '../../../Store';
+import uuidv4 from 'src/components/shared/uuid4v';
 
 // Assets
 import {colors} from 'src/assets';
@@ -24,14 +25,13 @@ import Divider from 'src/components/shared/Divider';
 // Store
 import useExerciseStore from 'src/store/useExerciseMaster';
 import useRoutineStore from 'src/store/useRoutineStore';
+import type {exerciseMasterType} from 'src/components/shared/globalTypes';
+import useSessionStore from 'src/store/useSessionStore';
 
 // Navigation
 import {RouteProp} from '@react-navigation/native';
 import {RoutineStackRootParamList} from 'src/components/navigation/RoutineStack';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-
-import type {exerciseMasterType} from 'src/components/shared/globalTypes';
-import useSessionStore from 'src/store/useSessionStore';
 
 type SessionScreenRouteProp = RouteProp<
   RoutineStackRootParamList,
@@ -61,10 +61,10 @@ const SessionScreen: React.FC<SessionScreenProp> = ({route, navigation}) => {
 
   const workout = route.params.workout;
   const exerciseMaster = useExerciseStore(s => s.exerciseMaster);
-  const [exData, setEXData] = useState([]); // state holding exercise data.
   const [selectedId, setSelectedId] = useState(null);
   const [ref, setRef] = useState<FlatList<any> | null>(null); // ref to flatlist
   const registerSession = useSessionStore(s => s.registerSession);
+  const [sessionId, setSessionId] = useState(uuidv4());
 
   /* HOW TO QUERY EXERCISE NAME BY ID FROM EXERCISE LIST */
   const getExerciseName = (exerciseId: string) => {
@@ -97,6 +97,7 @@ const SessionScreen: React.FC<SessionScreenProp> = ({route, navigation}) => {
           <SessionExerciseCard
             key={key}
             index={scrollKey}
+            sessionId={sessionId}
             exerciseId={item.id}
             exerciseName={exername}
             reps={item.freq[j]}
@@ -110,6 +111,7 @@ const SessionScreen: React.FC<SessionScreenProp> = ({route, navigation}) => {
           <SessionExerciseCard
             key={key}
             index={scrollKey}
+            sessionId={sessionId}
             exerciseId={item.id}
             exerciseName={exername}
             reps={item.freq[j]}
@@ -127,6 +129,15 @@ const SessionScreen: React.FC<SessionScreenProp> = ({route, navigation}) => {
   };
 
   useEffect(() => {
+    registerSession({
+      id: sessionId,
+      datetime: new Date().toString(),
+      duration: '',
+      startTime: new Date().toString(),
+      endTime: new Date().toString(),
+      workoutId: workout.id,
+      exercise: [],
+    });
     navigation.getParent()?.setOptions({
       tabBarStyle: {
         display: 'none',
@@ -164,7 +175,7 @@ const SessionScreen: React.FC<SessionScreenProp> = ({route, navigation}) => {
         keyExtractor={item => item.id}
         extraData={selectedId}
       />
-      <SessionController workoutId={workout.id} />
+      <SessionController sessionId={sessionId} workoutId={workout.id} />
     </SafeAreaView>
   );
 };

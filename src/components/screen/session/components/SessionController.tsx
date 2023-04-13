@@ -7,7 +7,7 @@ import {
   Modal,
   Pressable,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 // Assets
 import {colors, assets} from 'src/assets';
 
@@ -16,17 +16,31 @@ import SessionTimerLabel from './SessionTimerLabel';
 import {useStopwatch} from 'src/components/hooks/timer-hook';
 import GeneralModal from '../../../shared/GeneralModal';
 
-import {useNavigation} from '@react-navigation/native';
-
-import {useGstore} from '../../../../../gstore';
+// Store
 import useSessionStore from 'src/store/useSessionStore';
 
-const SessionController = ({workoutId}) => {
+// Navigation
+import {useNavigation} from '@react-navigation/native';
+import {RoutineStackRootParamList} from 'src/components/navigation/RoutineStack';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+
+type SessionScreenNavigationProp = NativeStackNavigationProp<
+  RoutineStackRootParamList,
+  'SessionScreen'
+>;
+
+type SessionControllerType = {
+  sessionId: string;
+  workoutId: string;
+};
+
+const SessionController = ({sessionId, workoutId}: SessionControllerType) => {
   const registerSession = useSessionStore(s => s.registerSession);
-  const setTime = useGstore(state => state.setTime);
+  const startTimeRef = useRef<number>();
+
   const [isActive, setIsActive] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const navigation = useNavigation();
+  const navigation = useNavigation<SessionScreenNavigationProp>();
   const {seconds, minutes, hours, days, start, pause, reset} = useStopwatch({
     autoStart: false,
   });
@@ -42,7 +56,7 @@ const SessionController = ({workoutId}) => {
 
   useEffect(() => {
     start();
-    setTime(new Date(Date.now()));
+    startTimeRef.current = Date.now();
   }, []);
 
   const endSeassionAction = () => {
@@ -50,14 +64,24 @@ const SessionController = ({workoutId}) => {
     // stop session timer
     pause();
     // Register session
-    registerSession(
-      {
-        hours: {hours},
-        minutes: {minutes},
-        seconds: {seconds},
-      },
-      workoutId,
-    );
+
+    registerSession({
+      id: sessionId,
+      datetime: new Date().toString(),
+      duration: hours + ':' + minutes + ':' + seconds,
+      startTime: startTimeRef.current?.toString() || '',
+      endTime: Date.now().toString(),
+      workoutId: workoutId,
+      exercise: [],
+    });
+    // registerSession(
+    //   {
+    //     hours: {hours},
+    //     minutes: {minutes},
+    //     seconds: {seconds},
+    //   },
+    //   workoutId,
+    // );
     // Show report modal
     navigation.navigate('VReportScreen');
   };

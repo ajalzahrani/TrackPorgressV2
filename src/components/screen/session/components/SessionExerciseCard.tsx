@@ -19,6 +19,7 @@ type expiryTimestampType = {
 
 type SessionExerciseCardType = {
   index: number;
+  sessionId: string;
   exerciseId: string;
   exerciseName: string;
   reps: number;
@@ -30,6 +31,7 @@ type SessionExerciseCardType = {
 
 const SessionExerciseCard: React.FC<SessionExerciseCardType> = ({
   index,
+  sessionId,
   exerciseId,
   exerciseName,
   reps,
@@ -259,7 +261,7 @@ const SessionExerciseCard: React.FC<SessionExerciseCardType> = ({
             onPress={() => {
               toggle();
               // Register set to exercises array
-              registerSet(uuidv4(), exerciseId, weight, rep, tut);
+              registerSet(sessionId, exerciseId, weight, rep, tut);
             }}>
             <LinearGradient
               // className="py-3 px-10 rounded-full"

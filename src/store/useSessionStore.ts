@@ -2,7 +2,11 @@ import create from 'zustand';
 import {store} from './mmkv';
 import uuid from 'react-native-uuid';
 import produce, {Draft} from 'immer';
-import {sessionType} from 'src/components/shared/globalTypes';
+import {
+  sessionExerciseType,
+  sessionType,
+} from 'src/components/shared/globalTypes';
+import uuidv4 from 'src/components/shared/uuid4v';
 
 const sessionGlobalKey = 'session';
 
@@ -51,7 +55,7 @@ const useSessionStore = create<State & Actions>((set, get) => ({
           );
           if (exercise) {
             exercise.set.push({
-              setId: `${sessionId}-${exerciseId}-${exercise.set.length}`,
+              setId: uuidv4(),
               weight,
               reps,
               tut,
@@ -66,11 +70,38 @@ const useSessionStore = create<State & Actions>((set, get) => ({
       }),
     ),
 
-  registerSession: (session: sessionType) =>
+  registerSession: (
+    sessionId: string,
+    datetime: string,
+    duration: string,
+    startTime: string,
+    endTime: string,
+    workoutId: string,
+    exercise?: sessionExerciseType[],
+  ) =>
     set(
       produce((state: Draft<State>) => {
-        state.sessions.push(session);
-        store.set(sessionGlobalKey, JSON.stringify(sessions));
+        const sessionIndex = state.sessions.findIndex(s => s.id === sessionId);
+        if (sessionIndex !== -1) {
+          state.sessions[sessionIndex].datetime = datetime;
+          state.sessions[sessionIndex].duration = duration;
+          state.sessions[sessionIndex].startTime = startTime;
+          state.sessions[sessionIndex].endTime = endTime;
+          state.sessions[sessionIndex].workoutId = workoutId;
+        } else {
+          if (exercise !== undefined) {
+            state.sessions.push({
+              id: sessionId,
+              datetime: datetime,
+              duration: duration,
+              startTime: startTime,
+              endTime: endTime,
+              workoutId: workoutId,
+              exercise: exercise,
+            });
+          }
+          store.set(sessionGlobalKey, JSON.stringify(sessions));
+        }
       }),
     ),
 }));
