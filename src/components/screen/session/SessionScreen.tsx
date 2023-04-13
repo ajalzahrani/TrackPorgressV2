@@ -129,15 +129,15 @@ const SessionScreen: React.FC<SessionScreenProp> = ({route, navigation}) => {
   };
 
   useEffect(() => {
-    registerSession({
-      id: sessionId,
-      datetime: new Date().toString(),
-      duration: '',
-      startTime: new Date().toString(),
-      endTime: new Date().toString(),
-      workoutId: workout.id,
-      exercise: [],
-    });
+    registerSession(
+      sessionId,
+      new Date().toString(),
+      '',
+      new Date().toString(),
+      new Date().toString(),
+      workout.id,
+      [],
+    );
     navigation.getParent()?.setOptions({
       tabBarStyle: {
         display: 'none',

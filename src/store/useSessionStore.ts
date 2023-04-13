@@ -29,7 +29,15 @@ type Actions = {
     reps: number,
     tut: number,
   ) => void;
-  registerSession: (session: sessionType) => void;
+  registerSession: (
+    sessionId: string,
+    datetime: string,
+    duration: string,
+    startTime: string,
+    endTime: string,
+    workoutId: string,
+    exercise?: sessionExerciseType[],
+  ) => void;
 };
 
 const initialState: State = {
@@ -48,7 +56,7 @@ const useSessionStore = create<State & Actions>((set, get) => ({
   ) =>
     set(
       produce((state: Draft<State>) => {
-        const session = state.sessions.find(s => s.id === sessionId);
+        const session = state.sessions.find(s => s.sesisonId === sessionId);
         if (session) {
           const exercise = session.exercise.find(
             e => e.exerciseId === exerciseId,
@@ -81,7 +89,9 @@ const useSessionStore = create<State & Actions>((set, get) => ({
   ) =>
     set(
       produce((state: Draft<State>) => {
-        const sessionIndex = state.sessions.findIndex(s => s.id === sessionId);
+        const sessionIndex = state.sessions.findIndex(
+          s => s.sesisonId === sessionId,
+        );
         if (sessionIndex !== -1) {
           state.sessions[sessionIndex].datetime = datetime;
           state.sessions[sessionIndex].duration = duration;
@@ -91,7 +101,7 @@ const useSessionStore = create<State & Actions>((set, get) => ({
         } else {
           if (exercise !== undefined) {
             state.sessions.push({
-              id: sessionId,
+              sesisonId: sessionId,
               datetime: datetime,
               duration: duration,
               startTime: startTime,

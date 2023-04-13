@@ -8,7 +8,7 @@ export type sessionExerciseType = {
   }[];
 };
 export type sessionType = {
-  id: string;
+  sesisonId: string;
   datetime: string;
   duration: string;
   startTime: string;

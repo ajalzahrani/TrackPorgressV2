@@ -65,23 +65,16 @@ const SessionController = ({sessionId, workoutId}: SessionControllerType) => {
     pause();
     // Register session
 
-    registerSession({
-      id: sessionId,
-      datetime: new Date().toString(),
-      duration: hours + ':' + minutes + ':' + seconds,
-      startTime: startTimeRef.current?.toString() || '',
-      endTime: Date.now().toString(),
-      workoutId: workoutId,
-      exercise: [],
-    });
-    // registerSession(
-    //   {
-    //     hours: {hours},
-    //     minutes: {minutes},
-    //     seconds: {seconds},
-    //   },
-    //   workoutId,
-    // );
+    registerSession(
+      sessionId,
+      new Date().toString(),
+      hours + ':' + minutes + ':' + seconds,
+      startTimeRef.current?.toString() || '',
+      Date.now().toString(),
+      workoutId,
+      [],
+    );
+
     // Show report modal
     navigation.navigate('VReportScreen');
   };
@@ -94,7 +87,9 @@ const SessionController = ({sessionId, workoutId}: SessionControllerType) => {
         message="Are you sure you want to end your Workout Session?"
         action={endSeassionAction}
       />
-      <View className="absolute bottom-1 w-full z-50">
+      <View
+      // className="absolute bottom-1 w-full z-50"
+      >
         <View style={style.innerContainer}>
           <TouchableOpacity
             onPress={() => {
