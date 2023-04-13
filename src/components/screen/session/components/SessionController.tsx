@@ -9,19 +9,20 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 // Assets
-import {colors, assets} from './constants';
+import {colors, assets} from 'src/assets';
 
 // Components
 import SessionTimerLabel from './SessionTimerLabel';
-import {useStopwatch} from '../src/components/hooks/timer-hook';
+import {useStopwatch} from 'src/components/hooks/timer-hook';
 import GeneralModal from '../../../shared/GeneralModal';
 
 import {useNavigation} from '@react-navigation/native';
 
 import {useGstore} from '../../../../../gstore';
+import useSessionStore from 'src/store/useSessionStore';
 
 const SessionController = ({workoutId}) => {
-  const registerSession = useGstore(state => state.registerSession);
+  const registerSession = useSessionStore(s => s.registerSession);
   const setTime = useGstore(state => state.setTime);
   const [isActive, setIsActive] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);

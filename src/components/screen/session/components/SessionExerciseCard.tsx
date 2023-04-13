@@ -1,14 +1,13 @@
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-import uuid from 'react-native-uuid';
+import uuidv4 from 'src/components/shared/uuid4v';
 import {useTimer} from 'src/components/hooks/timer-hook';
 
 // Assets
 import {colors, assets} from 'src/assets';
 
 // components
-import TimerLabel from './TimerLabel';
 import secondsToTime from 'src/components/shared/secondToTme';
 
 // gstore
@@ -260,7 +259,7 @@ const SessionExerciseCard: React.FC<SessionExerciseCardType> = ({
             onPress={() => {
               toggle();
               // Register set to exercises array
-              registerSet(exerid, index, weight, rep, tut);
+              registerSet(uuidv4(), exerciseId, weight, rep, tut);
             }}>
             <LinearGradient
               // className="py-3 px-10 rounded-full"
