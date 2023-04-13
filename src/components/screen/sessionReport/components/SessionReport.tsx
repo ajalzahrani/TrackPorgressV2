@@ -7,19 +7,26 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {colors} from './constants';
-import {useGstore} from '../gstore';
-import {getExerciseName} from './shared';
-import {getWorkoutObject} from './shared';
+
+// Assets
+import {colors} from 'src/assets';
+
+// Components
+import {getExerciseName} from 'src/components/shared';
 import * as Icons from 'react-native-heroicons/outline';
-import Divider from './Divider';
-import {convertDate} from './shared';
+import Divider from 'src/components/shared/Divider';
+import {convertDate} from 'src/components/shared';
 import moment from 'moment';
 
-const SessionReport = ({session}) => {
+import {sessionType} from 'src/components/shared/globalTypes';
+type SessionReportProp = {
+  session: sessionType;
+};
+
+const SessionReport: React.FC<SessionReportProp> = ({session}) => {
   return (
     <View>
-      <Text style={{color: colors.white}}>{session.length}</Text>
+      {/* <Text style={{color: colors.white}}>{session.length}</Text> */}
       <Text style={{fontSize: 30, color: colors.white}}>
         {moment(session.datetime).format('DD MMM YYYY  h:mm:ss a')}
       </Text>
@@ -30,8 +37,9 @@ const SessionReport = ({session}) => {
       <Divider />
       <Text style={style.generalFontSize}>Total Time</Text>
       <Text style={{color: colors.yellow, fontSize: 35, fontWeight: 'bold'}}>
-        {session.duration.hours.hours}:{session.duration.minutes.minutes}:
-        {session.duration.seconds.seconds}
+        {/* {session.duration.hours.hours}:{session.duration.minutes.minutes}:
+        {session.duration.seconds.seconds} */}
+        {session.duration}
       </Text>
       <Divider />
       <Text style={style.generalFontSize}>Routine Name</Text>
@@ -39,16 +47,16 @@ const SessionReport = ({session}) => {
         {/* {getWorkoutObject(session.workoutId).title} */}
       </Text>
       <Divider />
-      {session.exercises.map((e, i) => {
+      {session.exercise.map((exercise, i) => {
         return (
           <View key={i}>
             <Text style={style.generalFontSize}>
-              {getExerciseName(e.exerciseID)}
+              {getExerciseName(exercise.exerciseId)}
             </Text>
             <Text style={style.generalFontSize}>
-              {e.set.length} {e.set.length > 1 ? 'Sets' : 'Set'}
+              {exercise.set.length} {exercise.set.length > 1 ? 'Sets' : 'Set'}
             </Text>
-            {e.set.map((s, i) => {
+            {exercise.set.map((s, i) => {
               return (
                 <Text key={i} style={{color: 'white'}}>
                   {s.reps}

@@ -51,13 +51,9 @@ const SessionReportScreen: React.FC<SessionReportScreenProp> = ({
   return (
     <SafeAreaView style={style.saveAreaStyle}>
       <View style={style.headerStyle}>
-        {/* <Image source={assets.icn_rightarrow} /> */}
         <Icons.CheckCircleIcon color={colors.yellow} size={200} />
         <Text style={style.headerTextStyle}>Workout Summary</Text>
       </View>
-      {/* <View className="p-5">
-        <SessionReport session={getLastSession()} />
-      </View> */}
       <ScrollView
         style={{padding: 20}}
         contentContainerStyle={{paddingBottom: 72}}>
