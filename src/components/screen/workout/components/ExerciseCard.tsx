@@ -46,8 +46,8 @@ const ExerciseCard: React.FC<ExerciseCardProp> = ({
     }
   };
 
-  const handleAddFreq = (exerciseId: string, freq: number[]) => {
-    addFreq(routineId, workoutId, exerciseId, freq);
+  const handleAddFreq = (freq: number[]) => {
+    addFreq(routineId, workoutId, exercise.id, freq);
   };
 
   const RepControllerComponent = () => {

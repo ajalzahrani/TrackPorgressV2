@@ -59,7 +59,7 @@ export type workoutType = {
   id: string;
   title: string;
   exercises: exercisesType[];
-  resettime: number[];
+  resttime: number[];
 };
 export type routineType = {
   id: string;

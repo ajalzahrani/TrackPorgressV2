@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-  // CheckBox,
-} from 'react-native';
+import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import React, {useEffect, useState} from 'react';
 
 // Assets
@@ -13,9 +6,9 @@ import {colors, assets} from 'src/assets';
 
 type SETsControllerProp = {
   indicatorTitle: string;
-  freq: number[];
   index: number;
-  addFreq: ([]) => void;
+  freq: number[];
+  addFreq: (freq: number[]) => void;
 };
 
 const SETsController: React.FC<SETsControllerProp> = ({
@@ -65,7 +58,10 @@ const SETsController: React.FC<SETsControllerProp> = ({
         <Text style={style.middleTextStyle}>{indicatorTitle}</Text>
 
         {/* plus - min buttons */}
-        <View style={{flexDirection: 'row'}} className="space-x-10">
+        <View
+          style={{flexDirection: 'row'}}
+          // className="space-x-10"
+        >
           <TouchableOpacity
             onPress={() => {
               minNumber();

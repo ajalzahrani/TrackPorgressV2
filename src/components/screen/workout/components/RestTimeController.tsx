@@ -12,17 +12,26 @@ import {TimePicker, ValueMap} from 'react-native-simple-time-picker';
 
 // Assets
 import {colors, assets} from 'src/assets';
+import {workoutType} from 'src/components/shared/globalTypes';
 
 // Store
 import useStore from '../../../../store/store.bak/useStore';
 
-const RestTimeController = ({indicatorTitle, id}) => {
+type RestTimeControllerProps = {
+  indicatorTitle: string;
+  controllerType: number;
+  workout: workoutType;
+};
+const RestTimeController: React.FC<RestTimeControllerProps> = ({
+  indicatorTitle,
+  controllerType,
+  workout,
+}) => {
   const addRestTime = useStore(s => s.addRestTime);
-  const currentWorkout = useStore(s => s.currentWorkout);
-  const resttime = currentWorkout.resttime;
+  const resttime = workout.resttime;
 
   const [number, setNumber] = useState(() => {
-    if (id === 0) return resttime[0];
+    if (controllerType === 0) return resttime[0];
     else return resttime[1];
   });
 
@@ -34,11 +43,11 @@ const RestTimeController = ({indicatorTitle, id}) => {
 
   const [isPressed, setIsPressed] = useState(false);
 
-  const handleChange = newValue => {
+  const handleChange = (newValue: ValueMap) => {
     setValue(newValue);
   };
 
-  const convertTimeToSeconds = (min, sec) => {
+  const convertTimeToSeconds = (min: number, sec: number) => {
     return min * 60 + sec;
   };
 
@@ -56,7 +65,7 @@ const RestTimeController = ({indicatorTitle, id}) => {
   }, [value]);
 
   useEffect(() => {
-    addRestTime(id, number);
+    addRestTime(controllerType, number);
   }, [number]);
 
   useEffect(() => {

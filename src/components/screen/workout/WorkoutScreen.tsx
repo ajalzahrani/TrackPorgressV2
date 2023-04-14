@@ -86,12 +86,26 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
     if (workout !== undefined) {
       let exercises = workout?.exercises?.length;
       if (exercises === 1) {
-        return <RestTimeController id={0} indicatorTitle="Set rest time" />;
+        return (
+          <RestTimeController
+            controllerType={0}
+            indicatorTitle="Set rest time"
+            workout={workout}
+          />
+        );
       } else if (exercises > 1) {
         return (
           <>
-            <RestTimeController id={0} indicatorTitle="Set rest time" />
-            <RestTimeController id={1} indicatorTitle="Exercise rest time" />
+            <RestTimeController
+              controllerType={0}
+              indicatorTitle="Set rest time"
+              workout={workout}
+            />
+            <RestTimeController
+              controllerType={1}
+              indicatorTitle="Exercise rest time"
+              workout={workout}
+            />
           </>
         );
       } else {
