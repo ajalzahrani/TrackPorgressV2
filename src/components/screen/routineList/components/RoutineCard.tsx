@@ -1,7 +1,7 @@
 import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import React, {useState} from 'react';
 
-import {colors, assets} from './constants';
+import {colors, assets} from 'src/assets';
 
 import {useNavigation} from '@react-navigation/native';
 

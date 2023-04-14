@@ -45,6 +45,11 @@ type Actions = {
     exerciseId: string,
     freq: number[],
   ) => void;
+  deleteExercise: (
+    routineId: string,
+    workoutId: string,
+    exerciseId: string,
+  ) => void;
 };
 
 const initialState: State = {
@@ -143,6 +148,28 @@ const useRoutineStore = create<State & Actions>((set, get) => ({
                 exercise.freq = freq;
               }
               workout.exercises = exercises;
+            }
+          }
+        }
+      }),
+    ),
+
+  deleteExercise: (routineId, workoutId, exerciseId) =>
+    set(
+      produce((state: Draft<State & Actions>) => {
+        const routineIndex = state.routines.findIndex(r => r.id === routineId);
+        if (routineIndex !== -1) {
+          const workoutIndex = state.routines[routineIndex].workouts.findIndex(
+            w => w.id === workoutId,
+          );
+          if (workoutIndex !== -1) {
+            const workout = state.routines[routineIndex].workouts[workoutIndex];
+            if (workout !== undefined) {
+              const exerciseNew = state.routines[routineIndex].workouts[
+                workoutIndex
+              ].exercises.filter(e => e.id !== exerciseId);
+              state.routines[routineIndex].workouts[workoutIndex].exercises =
+                exerciseNew;
             }
           }
         }

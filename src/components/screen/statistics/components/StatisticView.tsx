@@ -1,42 +1,36 @@
 import {View, Text} from 'react-native';
 import React, {useMemo} from 'react';
-import {useGstore} from '../../gstore';
-import {getExerciseName} from '../shared';
+import useSessionStore from 'src/store/useSessionStore';
+import {getExerciseName} from 'src/components/shared';
 
+type exerciseCounterArrayType = {
+  id: string;
+  value: number;
+};
 const StatisticView = () => {
-  const sessions = useGstore(state => state.sessions);
+  const sessions = useSessionStore(state => state.sessions);
 
-  const exs = [];
-  const findIndex = ind => {
-    for (let i = 0; i < exs.length; i++) {
-      if (exs[i].id == ind) {
-        return i;
-      }
-    }
-    return -1;
-  };
-
+  const exerciseCounterArray: exerciseCounterArrayType[] = [{id: '', value: 0}];
   const exerciseCounts = useMemo(() => {
     for (let i = 0; i < sessions.length; i++) {
-      for (let j = 0; j < sessions[i].exercises.length; j++) {
-        const id = sessions[i].exercises[j].exerciseID;
-        const index = findIndex(id);
+      for (let j = 0; j < sessions[i].exercise.length; j++) {
+        const id = sessions[i].exercise[j].exerciseId;
+        const index = sessions[i].exercise.findIndex(i => i.exerciseId === id);
         if (index === -1) {
-          exs.push({id: id, value: 1});
+          exerciseCounterArray.push({id: id, value: 1});
         } else {
-          exs[index].value += 1;
+          exerciseCounterArray[index].value += 1;
         }
       }
     }
-    return exs;
+    return exerciseCounterArray;
   }, [sessions]);
 
   return (
     <View style={{padding: 20}}>
       <Text style={{color: 'white'}}>Sessions: {sessions.length}</Text>
       <Text style={{color: 'white'}}>
-        Exercies:{' '}
-        {sessions.reduce((acc, cur) => acc + cur?.exercises.length, 0)}
+        Exercies: {sessions.reduce((acc, cur) => acc + cur?.exercise.length, 0)}
       </Text>
       {exerciseCounts.map((v, i) => {
         return (

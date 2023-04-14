@@ -12,7 +12,7 @@ import {useGstore} from '../../../../../gstore';
 import useStore from '../../../../store/store.bak/useStore';
 import {store} from '../../../../Store';
 
-import {colors} from './constants';
+import {colors} from 'src/assets';
 import {useTranslation} from 'react-i18next';
 
 const QuickStart = () => {

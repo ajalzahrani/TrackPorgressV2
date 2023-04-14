@@ -22,7 +22,6 @@
   ],
   "paths": {
     "*": ["src/*"],
-    "tests": ["tests/*"],
     "@components/*": ["src/components/*"]
   }
   // "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx"]

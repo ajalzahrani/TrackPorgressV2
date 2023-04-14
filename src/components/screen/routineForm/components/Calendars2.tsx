@@ -1,9 +1,9 @@
 import {View, Text, TouchableOpacity} from 'react-native';
 import React, {useState, useMemo, useEffect} from 'react';
 import {Calendar, CalendarList, WeekCalendar} from 'react-native-calendars';
-import {colors} from './constants';
-import {useGstore} from '../../../../../gstore';
-import {convertDate} from './shared';
+import {colors} from 'src/assets';
+// import {useGstore} from '../../../../../gstore';
+// import {convertDate} from './shared';
 import moment from 'moment';
 
 const Calendars2 = ({startDay, setStartDay, endDay, setEndDay}) => {

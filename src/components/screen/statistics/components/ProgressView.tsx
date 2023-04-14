@@ -1,6 +1,6 @@
 import {View, Text, Dimensions} from 'react-native';
 import React from 'react';
-import {colors} from '../constants';
+import {colors} from 'src/assets';
 import {
   LineChart,
   BarChart,

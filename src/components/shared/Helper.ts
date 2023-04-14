@@ -1,4 +1,4 @@
-import {scheduleData} from '../constants';
+// import {scheduleData} from 'src/assets/dummy';
 // get today object from Schedule main object
 export function getTodayObject() {
   let date = new Date();
@@ -7,11 +7,11 @@ export function getTodayObject() {
 
   // very efficant way to pick day instead of array fuck
   let todayObj = {};
-  for (let i = 0; i < scheduleData.length; i++) {
-    if (scheduleData[i].day === todayName) {
-      todayObj = scheduleData[i];
-    }
-  }
+  // for (let i = 0; i < scheduleData.length; i++) {
+  //   if (scheduleData[i].day === todayName) {
+  //     todayObj = scheduleData[i];
+  //   }
+  // }
 
   return todayObj;
 }

@@ -1,11 +1,14 @@
 import {View, Text, Image} from 'react-native';
 import React from 'react';
+import {assets} from 'src/assets';
 
 const ProfileTitle = () => {
   return (
-    <View className="flex-row items-center space-x-5">
+    <View
+    // className="flex-row items-center space-x-5"
+    >
       <Image
-        source={require('../asset/personalpic.png')}
+        source={assets.AsianBueaty}
         style={{
           width: 100,
           height: 100,
@@ -14,8 +17,16 @@ const ProfileTitle = () => {
         }}
       />
       <View>
-        <Text className="text-white font-semibold text-2xl">John Wick</Text>
-        <Text className="text-white text-baes font-normal">@johnWick</Text>
+        <Text
+        // className="text-white font-semibold text-2xl"
+        >
+          John Wick
+        </Text>
+        <Text
+        // className="text-white text-baes font-normal"
+        >
+          @johnWick
+        </Text>
       </View>
     </View>
   );

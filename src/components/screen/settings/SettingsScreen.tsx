@@ -6,7 +6,9 @@ import {
   Text,
 } from 'react-native';
 import React from 'react';
-import {colors} from 'src/assets';
+
+// Components
+import {colors} from 'src/assets/theme';
 
 import ProfileTitle from './components/ProfileTitle';
 import CardInformation from './components/CardInformation';

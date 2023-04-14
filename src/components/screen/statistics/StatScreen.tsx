@@ -1,10 +1,9 @@
 import {View, SafeAreaView, StyleSheet} from 'react-native';
 import React, {useState} from 'react';
-import {colors} from 'src/assets';
+import {colors} from 'src/assets/theme';
 import ProgressView from './components/ProgressView';
 import HistoryView from './components/HistoryView';
 import StatisticView from './components/StatisticView';
-import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import ScreenContainer from 'src/components/shared/ScreenContainer';
 
 const StatScreen = () => {
@@ -22,7 +21,7 @@ const StatScreen = () => {
   };
 
   return (
-    <ScreenContainer>
+    <ScreenContainer children={''}>
       {/* <SegmentedControl
         values={['History', 'Progress', 'Statistic']}
         selectedIndex={selectedIndex}

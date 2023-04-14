@@ -11,15 +11,15 @@ import {useGstore} from '../../../gstore';
 import {useTranslation} from 'react-i18next';
 import {useNavigation} from '@react-navigation/native';
 import useStore from '../../../store/store.bak/useStore';
-import ScreenContainer from 'src/components/shared/ScreenContainer';
 
 // assets
-import {colors} from '../../../assets';
+import {colors, assets} from 'src/assets';
 
 // Components
 import QuickStart from './components/QuickStart';
 import PressableButton from '../../shared/PressableButton';
 import GeneralModal from '../../shared/GeneralModal';
+import ScreenContainer from 'src/components/shared/ScreenContainer';
 
 const HomeScreen = () => {
   // const navigation = useNavigation();
@@ -31,7 +31,7 @@ const HomeScreen = () => {
   const {t} = useTranslation();
 
   return (
-    <ScreenContainer style={styles.safeViewStyle}>
+    <ScreenContainer style={styles.safeViewStyle} children={''}>
       <GeneralModal
         modalVisible={modalView}
         setModalVisible={setModalVisible}
@@ -40,10 +40,7 @@ const HomeScreen = () => {
       />
       <View style={styles.containerStyle}>
         <Text>{t('home.title')}!</Text>
-        <Image
-          style={styles.image}
-          source={require('../asset/icn_background.png')}
-        />
+        <Image style={styles.image} source={assets.bgImage} />
         {/* <QuickStart /> */}
         <View style={styles.descriptionContainerStyle}>
           {/* FIXME: adjust the font and the button as the design */}

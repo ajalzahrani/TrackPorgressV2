@@ -3,17 +3,32 @@ import React, {useState} from 'react';
 import ExerciseApi from '../../../../assets/database/ExerciseApiShort.json';
 
 // Assets
-import {colors, assets} from '../components/constants';
+import {colors, assets} from 'src/assets';
 
 // components
 import SETsController from './SETsController';
 
 // Store
-import useStore from '../../../../store/store.bak/useStore';
+import {
+  exerciseMasterType,
+  exercisesType,
+} from 'src/components/shared/globalTypes';
+import useExerciseStore from 'src/store/useExerciseMaster';
+import useRoutineStore from 'src/store/useRoutineStore';
 
-const ExerciseCard = ({exercise, addFreq}) => {
-  const exercisesMaster = useStore(s => s.exercisesMaster);
-  const deleteExercise = useStore(s => s.deleteExercise);
+type ExerciseCardProp = {
+  routineId: string;
+  workoutId: string;
+  exercise: exercisesType;
+};
+const ExerciseCard: React.FC<ExerciseCardProp> = ({
+  routineId,
+  workoutId,
+  exercise,
+}) => {
+  const exercisesMaster = useExerciseStore(s => s.exerciseMaster);
+  const deleteExercise = useRoutineStore(s => s.deleteExercise);
+  const addFreq = useRoutineStore(s => s.addFreq);
   const [set, setSet] = useState(exercise.freq.length);
 
   const addSet = () => {
@@ -31,6 +46,10 @@ const ExerciseCard = ({exercise, addFreq}) => {
     }
   };
 
+  const handleAddFreq = (exerciseId: string, freq: number[]) => {
+    addFreq(routineId, workoutId, exerciseId, freq);
+  };
+
   const RepControllerComponent = () => {
     const rows = [];
     for (let i = 0; i < set; i++) {
@@ -39,7 +58,7 @@ const ExerciseCard = ({exercise, addFreq}) => {
           key={i}
           freq={exercise.freq}
           index={i}
-          addFreq={addFreq}
+          addFreq={handleAddFreq}
           indicatorTitle={'Set ' + (i + 1)}
         />,
       );
@@ -48,8 +67,8 @@ const ExerciseCard = ({exercise, addFreq}) => {
   };
 
   /* HOW TO QUERY EXERCISE NAME BY ID FROM EXERCISE LIST */
-  const getExerciseName = id => {
-    let exername = ExerciseApi.filter(element => {
+  const getExerciseName = (id: string) => {
+    let exername = exercisesMaster.filter(element => {
       return element.id === id;
     });
     return exername[0].name;
@@ -59,7 +78,7 @@ const ExerciseCard = ({exercise, addFreq}) => {
     <View style={style.cardContainer}>
       {/* Exercise Titile */}
       <View
-        className="space-x-6"
+        // className="space-x-6"
         style={{
           flexDirection: 'row',
           alignItems: 'center',
@@ -70,7 +89,7 @@ const ExerciseCard = ({exercise, addFreq}) => {
         </Text>
         <TouchableOpacity
           onPress={() => {
-            deleteExercise(exercise.id);
+            deleteExercise(routineId, workoutId, exercise.id);
           }}>
           <Image source={assets.icn_remove} />
         </TouchableOpacity>
@@ -86,31 +105,17 @@ const ExerciseCard = ({exercise, addFreq}) => {
           </View>
 
           <Text style={style.middleTextStyle}>Sets</Text>
-
-          {/* plus - min buttons */}
-          <View style={{flexDirection: 'row'}} className="space-x-10">
-            <TouchableOpacity
-              onPress={() => {
-                minSet();
-              }}>
-              <Image source={assets.icn_min} />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => addSet()}>
-              <Image source={assets.icn_add} />
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity
+            onPress={() => {
+              minSet();
+            }}>
+            <Image source={assets.icn_min} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => addSet()}>
+            <Image source={assets.icn_add} />
+          </TouchableOpacity>
         </View>
       </View>
-
-      {/* Dividor */}
-      <View
-        style={{
-          borderWidth: 1,
-          width: 300,
-          borderColor: colors.secondaryow,
-        }}
-      />
-
       {RepControllerComponent()}
     </View>
   );

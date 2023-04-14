@@ -82,12 +82,6 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
     }
   };
 
-  const handleAddFreq = (exerciseId: string, freq: number[]) => {
-    if (workout !== undefined) {
-      addFreq(routineId, workout.id, exerciseId, freq);
-    }
-  };
-
   const RestTimeDrawer = () => {
     if (workout !== undefined) {
       let exercises = workout?.exercises?.length;
@@ -167,8 +161,9 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
               return (
                 <ExerciseCard
                   key={exercise.id}
+                  routineId={routineId}
+                  workoutId={workout.id}
                   exercise={exercise}
-                  addFreq={handleAddFreq}
                 />
               );
             })}

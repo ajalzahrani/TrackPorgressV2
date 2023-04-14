@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Modal, View, Text, Pressable, StyleSheet} from 'react-native';
-import {colors} from './constants';
+import {colors} from 'src/assets';
 
 const LanguagePicker = () => {
   const [modalVisible, setModalVisible] = useState(false);

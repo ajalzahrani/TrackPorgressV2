@@ -4,14 +4,26 @@ import {
   Image,
   TouchableOpacity,
   StyleSheet,
-  CheckBox,
+  // CheckBox,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 
 // Assets
-import {colors, assets} from '../components/constants';
+import {colors, assets} from 'src/assets';
 
-const SETsController = ({indicatorTitle, freq, index, addFreq}) => {
+type SETsControllerProp = {
+  indicatorTitle: string;
+  freq: number[];
+  index: number;
+  addFreq: ([]) => void;
+};
+
+const SETsController: React.FC<SETsControllerProp> = ({
+  indicatorTitle,
+  freq,
+  index,
+  addFreq,
+}) => {
   const [number, setNumber] = useState(freq[index] || 0);
 
   const updateFreq = () => {
