@@ -10,6 +10,7 @@ import ViewRow from './ViewRow';
 import ListCard from './ListCard';
 import ListCardDetails from './ListCardDetails';
 import LoadingView from './LoadingView';
+import {timing} from './timing';
 
 export {
   getDayObject,
@@ -24,4 +25,5 @@ export {
   ListCard,
   ListCardDetails,
   LoadingView,
+  timing,
 };

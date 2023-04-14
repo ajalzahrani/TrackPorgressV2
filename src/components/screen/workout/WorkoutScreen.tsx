@@ -24,6 +24,7 @@ import {colors, assets} from 'src/assets';
 import ExerciseCard from './components/ExerciseCard';
 import RestTimeController from './components/RestTimeController';
 import {PressableButton} from 'src/components/shared';
+import getObjectbyId from 'src/components/shared/getObjectbyId';
 
 // Store
 import useRoutineStore from 'src/store/useRoutineStore';
@@ -31,6 +32,7 @@ import useRoutineStore from 'src/store/useRoutineStore';
 // Navigation
 import {RoutineStackRootParamList} from 'src/components/navigation/RoutineStack';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {workoutType} from 'src/components/shared/globalTypes';
 type WorkoutScreenRouteProp = RouteProp<
   RoutineStackRootParamList,
   'WorkoutScreen'
@@ -42,25 +44,29 @@ type WorkoutScreenNavigationProp = NativeStackNavigationProp<
 >;
 
 type WorkoutScreenProp = {
-  route: WorkoutScreenRouteProp;
-  navigation: WorkoutScreenNavigationProp;
+  route?: WorkoutScreenRouteProp;
+  navigation?: WorkoutScreenNavigationProp;
 };
 
 const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
   // FIXME: Re-design Rest time controllers
 
-  const routineId = route.params.routineId;
-  const workout = route.params.workout && {
-    id: uuidv4(),
-    title: '',
-    exercises: [{id: '', freq: []}],
-    resettime: [],
-  };
+  const routines = useRoutineStore(s => s.routines);
+  const routineId = useRoutineStore(s => s.stateId.routineId);
+  const workoutId = useRoutineStore(s => s.stateId.workoutId);
+
+  const routineIndex = routines.findIndex(r => r.id === routineId);
+  const routine = routines[routineIndex];
+  const workoutIndex = routine.workouts.findIndex(w => w.id === workoutId);
+  const workout = routine.workouts[workoutIndex];
+
   const deleteWorkout = useRoutineStore(s => s.deleteWorkout);
   const addWorkout = useRoutineStore(s => s.addWorkout);
   const addFreq = useRoutineStore(s => s.addFreq);
   const [modalVisible, setModalVisible] = useState(false);
   const {t} = useTranslation();
+
+  useEffect(() => {}, [routineId]);
 
   const handleAddWorkout = () => {
     if (workout?.title.length === 0) {
@@ -69,7 +75,7 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
       if (workout !== undefined) {
         addWorkout(routineId, workout.id, workout);
       }
-      navigation.goBack();
+      navigation!.goBack();
     }
   };
 
@@ -86,12 +92,23 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
     if (workout !== undefined) {
       let exercises = workout?.exercises?.length;
       if (exercises === 1) {
-        return <RestTimeController id={0} indicatorTitle="Set rest time" />;
+        return (
+          <RestTimeController
+            controllerTypeId={0}
+            indicatorTitle="Set rest time"
+          />
+        );
       } else if (exercises > 1) {
         return (
           <>
-            <RestTimeController id={0} indicatorTitle="Set rest time" />
-            <RestTimeController id={1} indicatorTitle="Exercise rest time" />
+            <RestTimeController
+              controllerTypeId={0}
+              indicatorTitle="Set rest time"
+            />
+            <RestTimeController
+              controllerTypeId={1}
+              indicatorTitle="Exercise rest time"
+            />
           </>
         );
       } else {
@@ -128,13 +145,13 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
         </View>
       </Modal>
       <View style={style.goBackStyle}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={() => navigation!.goBack()}>
           <Image source={assets.icn_goback} />
         </TouchableOpacity>
         <TouchableOpacity
           //className="flex-row flex-1 space-x-2 items-center justify-end mt-2 mr-2"
           onPress={() => {
-            navigation.navigate('ExerciseScreen', {
+            navigation!.navigate('ExerciseScreen', {
               exercises: workout?.exercises || [{id: '', freq: []}],
             });
           }}>
@@ -185,7 +202,7 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
                     deleteWorkout(routineId, workout.id);
                   }
                 }
-                navigation.goBack();
+                navigation!.goBack();
               }}
             />
           </ScrollView>

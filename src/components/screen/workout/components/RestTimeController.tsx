@@ -10,19 +10,31 @@ import {
 import React, {useEffect, useState, useCallback} from 'react';
 import {TimePicker, ValueMap} from 'react-native-simple-time-picker';
 
+import {timing} from 'src/components/shared';
+
 // Assets
 import {colors, assets} from 'src/assets';
 
 // Store
 import useStore from '../../../../store/store.bak/useStore';
+import useExerciseStore from 'src/store/useExerciseMaster';
+import useRoutineStore from 'src/store/useRoutineStore';
 
-const RestTimeController = ({indicatorTitle, id}) => {
+type RestTimeControllerProp = {
+  indicatorTitle: string;
+  controllerTypeId: number;
+};
+const RestTimeController: React.FC<RestTimeControllerProp> = ({
+  indicatorTitle,
+  controllerTypeId,
+}) => {
+  const routines = useRoutineStore(s => s.routines);
   const addRestTime = useStore(s => s.addRestTime);
   const currentWorkout = useStore(s => s.currentWorkout);
   const resttime = currentWorkout.resttime;
 
   const [number, setNumber] = useState(() => {
-    if (id === 0) return resttime[0];
+    if (controllerTypeId === 0) return resttime[0];
     else return resttime[1];
   });
 
@@ -34,33 +46,20 @@ const RestTimeController = ({indicatorTitle, id}) => {
 
   const [isPressed, setIsPressed] = useState(false);
 
-  const handleChange = newValue => {
+  const handleChange = (newValue: ValueMap) => {
     setValue(newValue);
   };
 
-  const convertTimeToSeconds = (min, sec) => {
-    return min * 60 + sec;
-  };
-
-  const convertToTimeObj = (number = 0) => {
-    let timeObj = {hours: 0, minutes: 0, seconds: 0};
-
-    timeObj.minutes = Math.floor(number / 60);
-    timeObj.seconds = number % 60;
-
-    return timeObj;
-  };
-
   useEffect(() => {
-    setNumber(convertTimeToSeconds(value.minutes, value.seconds));
+    setNumber(timing.convertTimeToSeconds(value.minutes, value.seconds));
   }, [value]);
 
   useEffect(() => {
-    addRestTime(id, number);
+    addRestTime(controllerTypeId, number);
   }, [number]);
 
   useEffect(() => {
-    setValue(convertToTimeObj(number));
+    setValue(timing.convertToTimeObj(number));
   }, []);
 
   return (

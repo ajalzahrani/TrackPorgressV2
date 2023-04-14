@@ -19,21 +19,22 @@ const getRoutine = (): routineType[] => {
 
 type State = {
   routines: routineType[];
-  workoutId: string;
+  stateId: {routineId: string; workoutId?: string; exerciseId?: string};
 };
 
 type Actions = {
+  setRoutineId: (routineId: string) => void;
+  setWorkoutId: (workoutId: string) => void;
+  setExerciseId: (exerciseId: string) => void;
+  deleteWorkout: (routineId: string, workoutId: string) => void;
   addNewRoutine: (routineId: string, routine: routineType) => void;
-  // updateRoutine: (routineId: string, routine: routineType) => void;
   deleteRoutine: (routineId: string) => void;
-  // addWorkout: (routineId: string, workout: workoutType) => void;
   addWorkout: (
     routineId: string,
     workoutId: string,
     workout: workoutType,
   ) => void;
-  deleteWorkout: (routineId: string, workoutId: string) => void;
-  setWorkoutId: (workoutId: string) => void;
+
   updateExercises: (
     routineId: string,
     workoutId: string,
@@ -54,11 +55,33 @@ type Actions = {
 
 const initialState: State = {
   routines: getRoutine(),
-  workoutId: '',
+  stateId: {routineId: '', workoutId: '', exerciseId: ''},
 };
 
 const useRoutineStore = create<State & Actions>((set, get) => ({
   ...initialState,
+
+  setRoutineId: routineId =>
+    set(
+      produce((state: Draft<State & Actions>) => {
+        state.stateId.routineId = routineId;
+        state.stateId.workoutId = undefined;
+        state.stateId.exerciseId = undefined;
+      }),
+    ),
+  setWorkoutId: workoutId =>
+    set(
+      produce((state: Draft<State & Actions>) => {
+        state.stateId.workoutId = workoutId;
+        state.stateId.exerciseId = undefined;
+      }),
+    ),
+  setExerciseId: exerciseId =>
+    set(
+      produce((state: Draft<State & Actions>) => {
+        state.stateId.exerciseId = exerciseId;
+      }),
+    ),
 
   addNewRoutine: (routineId, routine) =>
     set(
@@ -106,13 +129,6 @@ const useRoutineStore = create<State & Actions>((set, get) => ({
             routineIndex
           ].workouts.filter(w => w.id !== workoutId);
         }
-      }),
-    ),
-
-  setWorkoutId: workoutId =>
-    set(
-      produce((state: Draft<State & Actions>) => {
-        state.workoutId = workoutId;
       }),
     ),
 

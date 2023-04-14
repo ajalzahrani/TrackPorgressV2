@@ -1,6 +1,5 @@
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
-import React, {useState} from 'react';
-import ExerciseApi from '../../../../assets/database/ExerciseApiShort.json';
+import React, {useEffect, useState} from 'react';
 
 // Assets
 import {colors, assets} from 'src/assets';
@@ -26,9 +25,10 @@ const ExerciseCard: React.FC<ExerciseCardProp> = ({
   workoutId,
   exercise,
 }) => {
+  const setExerciseId = useRoutineStore(s => s.setExerciseId);
   const exercisesMaster = useExerciseStore(s => s.exerciseMaster);
   const deleteExercise = useRoutineStore(s => s.deleteExercise);
-  const addFreq = useRoutineStore(s => s.addFreq);
+
   const [set, setSet] = useState(exercise.freq.length);
 
   const addSet = () => {
@@ -46,10 +46,6 @@ const ExerciseCard: React.FC<ExerciseCardProp> = ({
     }
   };
 
-  const handleAddFreq = (exerciseId: string, freq: number[]) => {
-    addFreq(routineId, workoutId, exerciseId, freq);
-  };
-
   const RepControllerComponent = () => {
     const rows = [];
     for (let i = 0; i < set; i++) {
@@ -58,13 +54,16 @@ const ExerciseCard: React.FC<ExerciseCardProp> = ({
           key={i}
           freq={exercise.freq}
           index={i}
-          addFreq={handleAddFreq}
           indicatorTitle={'Set ' + (i + 1)}
         />,
       );
     }
     return <>{rows}</>;
   };
+
+  useEffect(() => {
+    setExerciseId(exercise.id);
+  }, []);
 
   /* HOW TO QUERY EXERCISE NAME BY ID FROM EXERCISE LIST */
   const getExerciseName = (id: string) => {

@@ -55,20 +55,9 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
 
   const routine = route.params.routine;
   const routineRef = useRef(routine);
-  const workoutId = useRoutineStore(s => s.workoutId);
+  const workoutId = useRoutineStore(s => s.stateId.workoutId);
   const setWorkoutId = useRoutineStore(s => s.setWorkoutId);
   const workout = routine.workouts.find(workout => workout.id === workoutId);
-
-  // const scheduledWorkout = useStore(s => s.scheduledWorkout);
-  // const addWorkoutDay = useStore(s => s.addWorkoutDay);
-  // const currentDay = useStore(s => s.currentDay);
-  // const unselectCurrentDay = useStore(s => s.unselectCurrentDay);
-  // const unselectCurrentWorkout = useStore(s => s.unselectCurrentWorkout);
-  // const selectCurrentWorkout = useStore(s => s.selectCurrentWorkout);
-  // const selectScheduledWorkout = useStore(s => s.selectScheduledWorkout);
-  // const addNewWorkout = useStore(s => s.addNewWorkout);
-  // const saveRoutine = useStore(s => s.saveRoutine);
-  // const compareRoutinesObj = useStore(s => s.compareRoutinesObj);
 
   const {t} = useTranslation();
 
@@ -157,11 +146,10 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
               <Text style={style.workoutTitleStyle}>{workout.title}</Text>
               <TouchableOpacity
                 onPress={() => {
-                  // selectCurrentWorkout(workout.id);
-                  navigation.navigate('WorkoutScreen', {
-                    routineId: routine.id,
-                    workout: workout,
-                  });
+                  if (workoutId !== undefined) {
+                    setWorkoutId(workoutId);
+                  }
+                  navigation.navigate('WorkoutScreen');
                 }}>
                 <Image source={assets.icn_edit} />
               </TouchableOpacity>
