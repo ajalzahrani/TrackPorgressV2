@@ -6,7 +6,7 @@ import SessionReport from 'src/components/screen/sessionReport/SessionReportScre
 
 const HistoryView = () => {
   // const getSessionByDate = useGstore(state => state.getSessionByDate);
-  const [selectedDate, setSelectedDate] = useState();
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [sess, setSess] = useState([]);
   useEffect(() => {
     if (selectedDate !== undefined) {

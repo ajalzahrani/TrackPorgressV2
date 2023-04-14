@@ -54,7 +54,7 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
     id: uuidv4(),
     title: '',
     exercises: [{id: '', freq: []}],
-    resettime: [],
+    resttime: [],
   };
   const deleteWorkout = useRoutineStore(s => s.deleteWorkout);
   const addWorkout = useRoutineStore(s => s.addWorkout);
