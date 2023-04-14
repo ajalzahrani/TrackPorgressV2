@@ -1,10 +1,9 @@
-import {store} from '../../Store';
-const exerciseData = JSON.parse(store.getString('exercises'));
+import useExerciseStore from 'src/store/useExerciseMaster';
 
-/* HOW TO QUERY EXERCISE NAME BY ID FROM EXERCISE LIST */
-export const getExerciseName = id => {
-  let exername = exerciseData.filter(element => {
-    return element.id === id;
+export const getExerciseName = (exerciseId: string) => {
+  const exerciseMaster = useExerciseStore(s => s.exerciseMaster);
+  let exername = exerciseMaster.filter(element => {
+    return element.id === exerciseId;
   });
-  return exername[0]?.title;
+  return exername[0]?.name;
 };

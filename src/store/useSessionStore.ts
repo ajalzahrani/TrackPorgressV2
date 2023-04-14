@@ -7,6 +7,7 @@ import {
   sessionType,
 } from 'src/components/shared/globalTypes';
 import uuidv4 from 'src/components/shared/uuid4v';
+import moment from 'moment';
 
 const sessionGlobalKey = 'session';
 
@@ -38,6 +39,7 @@ type Actions = {
     workoutId: string,
     exercise?: sessionExerciseType[],
   ) => void;
+  getSessionsByDate: (date: string) => sessionType[];
 };
 
 const initialState: State = {
@@ -114,6 +116,16 @@ const useSessionStore = create<State & Actions>((set, get) => ({
         }
       }),
     ),
+
+  getSessionsByDate: (date: string) => {
+    let daySession = [];
+    for (let i = 0; i < get().sessions.length; i++) {
+      if (moment(get().sessions[i].datetime).format('YYYY-MM-DD') === date) {
+        daySession.push(get().sessions[i]);
+      }
+    }
+    return daySession;
+  },
 }));
 
 export default useSessionStore;

@@ -1,16 +1,18 @@
 import {View, Text, ScrollView} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {SetStateAction, useEffect, useState} from 'react';
 import {colors} from 'src/assets';
 import Calendars from './Calendars';
-import SessionReport from 'src/components/screen/sessionReport/SessionReportScreen';
+import SessionReport from 'src/components/screen/sessionReport/components/SessionReport';
+import useSessionStore from 'src/store/useSessionStore';
+import {sessionType} from 'src/components/shared/globalTypes';
 
 const HistoryView = () => {
-  // const getSessionByDate = useGstore(state => state.getSessionByDate);
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>();
-  const [sess, setSess] = useState([]);
+  const getSessionsByDate = useSessionStore(state => state.getSessionsByDate);
+  const [selectedDate, setSelectedDate] = useState<string | undefined>();
+  const [daySessions, setDaySessoins] = useState<sessionType[]>([]);
   useEffect(() => {
     if (selectedDate !== undefined) {
-      // setSess(getSessionByDate(selectedDate));
+      setDaySessoins(getSessionsByDate(selectedDate));
     }
   }, [selectedDate]);
   return (
@@ -18,10 +20,10 @@ const HistoryView = () => {
       <ScrollView contentContainerStyle={{paddingBottom: 72}}>
         <Calendars setSelectedDate={setSelectedDate} />
         <Text style={{color: colors.white}}>
-          {sess.length} {sess.length > 1 ? 'Sessions' : 'Session'}
+          {daySessions.length} {daySessions.length > 1 ? 'Sessions' : 'Session'}
         </Text>
-        {sess.length > 0 &&
-          sess.map((item, i) => {
+        {daySessions.length > 0 &&
+          daySessions.map((daySession, i) => {
             return (
               <View
                 key={i}
@@ -31,7 +33,7 @@ const HistoryView = () => {
                   marginTop: 20,
                   borderRadius: 12,
                 }}>
-                <SessionReport session={item} />
+                <SessionReport session={daySession} />
               </View>
             );
           })}

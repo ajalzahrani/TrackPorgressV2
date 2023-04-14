@@ -1,7 +1,18 @@
-import {StyleSheet, Text, View, Modal, Pressable} from 'react-native';
+import {StyleSheet, Text, View, Modal, Pressable, Alert} from 'react-native';
 import React from 'react';
 
-const GeneralModal = ({modalVisible, setModalVisible, action, message}) => {
+type GeneralModalProps = {
+  modalVisible: boolean;
+  setModalVisible: (visible: boolean) => void;
+  action: () => void;
+  message: string;
+};
+const GeneralModal = ({
+  modalVisible,
+  setModalVisible,
+  action,
+  message,
+}: GeneralModalProps) => {
   return (
     <Modal
       animationType="slide"

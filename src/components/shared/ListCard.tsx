@@ -1,6 +1,6 @@
 import {StyleSheet, View, ViewStyle} from 'react-native';
 import React from 'react';
-import {colors} from '../../../assets';
+import {colors} from 'src/assets';
 
 type propType = {
   children: React.ReactNode;

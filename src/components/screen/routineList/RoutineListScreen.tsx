@@ -30,7 +30,7 @@ type RoutineListScreenRouteType = RouteProp<
   'RoutineListScreen'
 >;
 
-type RoutineListNavigationProp = NativeStackNavigationProp<
+export type RoutineListNavigationProp = NativeStackNavigationProp<
   RoutineStackRootParamList,
   'RoutineListScreen'
 >;
@@ -105,7 +105,7 @@ const RoutineListScreen: React.FC<RoutineListProps> = ({route, navigation}) => {
                 onPress={() => {
                   navigation.navigate('RoutineScreen', {routine});
                 }}>
-                <RoutineCard id={routine.id} title={routine.title} />
+                <RoutineCard routine={routine} />
               </TouchableOpacity>
             </View>
           ))}

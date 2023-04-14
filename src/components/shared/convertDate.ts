@@ -1,4 +1,4 @@
-const convertDate = dateObj => {
+const convertDate = (dateObj: Date) => {
   var date = new Date(dateObj);
   var yr = date.getFullYear();
   var mo = date.getMonth() + 1;

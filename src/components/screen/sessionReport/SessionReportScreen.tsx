@@ -47,6 +47,8 @@ const SessionReportScreen: React.FC<SessionReportScreenProp> = ({
 
   const sessionId = route.params.sessionId;
   const sessions = useSessionStore(state => state.sessions);
+  const sessionIndex = sessions.findIndex(s => s.sesisonId === sessionId);
+  const session = sessions[sessionIndex];
 
   return (
     <SafeAreaView style={style.saveAreaStyle}>
@@ -57,9 +59,7 @@ const SessionReportScreen: React.FC<SessionReportScreenProp> = ({
       <ScrollView
         style={{padding: 20}}
         contentContainerStyle={{paddingBottom: 72}}>
-        <SessionReport
-          session={sessions.filter(s => s.sesisonId === sessionId)}
-        />
+        <SessionReport session={session} />
       </ScrollView>
 
       <TouchableOpacity

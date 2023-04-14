@@ -1,5 +1,3 @@
-import {getDayObject} from './getDayObject';
-import {getWorkoutObject} from './getWorkoutObject';
 import {getDayLabel} from './getDayLabel';
 import {getExerciseName} from './getExerciseName';
 import {convertDate} from './convertDate';
@@ -12,8 +10,6 @@ import ListCardDetails from './ListCardDetails';
 import LoadingView from './LoadingView';
 
 export {
-  getDayObject,
-  getWorkoutObject,
   getDayLabel,
   getExerciseName,
   convertDate,

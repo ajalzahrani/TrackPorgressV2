@@ -31,7 +31,7 @@ const HomeScreen = () => {
   const {t} = useTranslation();
 
   return (
-    <ScreenContainer style={styles.safeViewStyle} children={''}>
+    <ScreenContainer style={styles.safeViewStyle}>
       <GeneralModal
         modalVisible={modalView}
         setModalVisible={setModalVisible}

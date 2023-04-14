@@ -9,15 +9,21 @@ import {useNavigation} from '@react-navigation/native';
 import useStore from '../../../../store/store.bak/useStore';
 import GeneralModal from '../../../shared/GeneralModal';
 
-const RoutineCard = ({id, title}) => {
-  const deleteRoutine = useStore(s => s.deleteRoutine);
-  const routines = useStore(s => s.routines);
-  const selectCurrentRoutine = useStore(s => s.selectCurrentRoutine);
+import {RoutineListNavigationProp} from '../RoutineListScreen';
+import {routineType} from 'src/components/shared/globalTypes';
+import useRoutineStore from 'src/store/useRoutineStore';
+
+type RoutineCardProps = {
+  routine: routineType;
+};
+
+const RoutineCard: React.FC<RoutineCardProps> = ({routine}) => {
+  const deleteRoutine = useRoutineStore(s => s.deleteRoutine);
   const [modalVisible, setModalVisible] = useState(false);
-  const navigation = useNavigation();
+  const navigation = useNavigation<RoutineListNavigationProp>();
 
   const action = () => {
-    deleteRoutine(id);
+    deleteRoutine(routine.id);
   };
 
   return (
@@ -30,12 +36,14 @@ const RoutineCard = ({id, title}) => {
       />
 
       <View style={style.cardContainer}>
-        <Text style={style.workoutTitle}>{title}</Text>
-        <View style={style.editContainerStyle} className="space-x-4">
+        <Text style={style.workoutTitle}>{routine.title}</Text>
+        <View
+          style={style.editContainerStyle}
+          // className="space-x-4"
+        >
           <TouchableOpacity
             onPress={() => {
-              selectCurrentRoutine(id);
-              navigation.navigate('RoutineFormScreen');
+              navigation.navigate('RoutineFormScreen', {routine: routine});
             }}>
             <Image source={assets.icn_plus} />
           </TouchableOpacity>

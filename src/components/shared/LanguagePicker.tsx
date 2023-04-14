@@ -13,7 +13,7 @@ const LanguagePicker = () => {
     {name: 'en', label: 'English'},
   ];
 
-  const LanguageItem = ({name, label}) => (
+  const LanguageItem = ({name, label}: {name: string; label: string}) => (
     <Pressable
       style={styles.button}
       onPress={() => {
