@@ -1,35 +1,20 @@
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-  TextInput,
-  Pressable,
-} from 'react-native';
-import React, {useEffect, useState, useCallback} from 'react';
+import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {TimePicker, ValueMap} from 'react-native-simple-time-picker';
 
 // Assets
 import {colors, assets} from 'src/assets';
-import {workoutType} from 'src/components/shared/globalTypes';
-
-// Store
-import useStore from '../../../../store/store.bak/useStore';
 
 type RestTimeControllerProps = {
   indicatorTitle: string;
   controllerType: number;
-  workout: workoutType;
+  resttime: number[];
 };
 const RestTimeController: React.FC<RestTimeControllerProps> = ({
   indicatorTitle,
   controllerType,
-  workout,
+  resttime,
 }) => {
-  const addRestTime = useStore(s => s.addRestTime);
-  const resttime = workout.resttime;
-
   const [number, setNumber] = useState(() => {
     if (controllerType === 0) return resttime[0];
     else return resttime[1];
@@ -65,7 +50,7 @@ const RestTimeController: React.FC<RestTimeControllerProps> = ({
   }, [value]);
 
   useEffect(() => {
-    addRestTime(controllerType, number);
+    resttime[controllerType] = number;
   }, [number]);
 
   useEffect(() => {

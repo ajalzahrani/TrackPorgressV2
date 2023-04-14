@@ -90,7 +90,7 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
           <RestTimeController
             controllerType={0}
             indicatorTitle="Set rest time"
-            workout={workout}
+            resttime={workout.resettime}
           />
         );
       } else if (exercises > 1) {
@@ -99,12 +99,12 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
             <RestTimeController
               controllerType={0}
               indicatorTitle="Set rest time"
-              workout={workout}
+              resttime={workout.resettime}
             />
             <RestTimeController
               controllerType={1}
               indicatorTitle="Exercise rest time"
-              workout={workout}
+              resttime={workout.resettime}
             />
           </>
         );
