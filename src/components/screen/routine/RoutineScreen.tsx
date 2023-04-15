@@ -25,13 +25,12 @@ import compareObjects from 'src/components/shared/compareObjects';
 import {colors, assets} from 'src/assets';
 
 // Store
-import useStore from '../../../store/store.bak/useStore';
+import useRoutineStore from 'src/store/useRoutineStore';
 
 // Navigation
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {RoutineStackRootParamList} from 'src/components/navigation/RoutineStack';
-import useRoutineStore from 'src/store/useRoutineStore';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 
 type RoutineScreenRouteProp = RouteProp<
   RoutineStackRootParamList,
@@ -53,22 +52,11 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
   // FIXME: Auto select new added workout.
   // FIXME: Clicking on navigation button should prsiste configurations.
 
-  const routine = route.params.routine;
-  const routineRef = useRef(routine);
   const workoutId = useRoutineStore(s => s.workoutId);
   const setWorkoutId = useRoutineStore(s => s.setWorkoutId);
+  const routine = route.params.routine;
   const workout = routine.workouts.find(workout => workout.id === workoutId);
-
-  // const scheduledWorkout = useStore(s => s.scheduledWorkout);
-  // const addWorkoutDay = useStore(s => s.addWorkoutDay);
-  // const currentDay = useStore(s => s.currentDay);
-  // const unselectCurrentDay = useStore(s => s.unselectCurrentDay);
-  // const unselectCurrentWorkout = useStore(s => s.unselectCurrentWorkout);
-  // const selectCurrentWorkout = useStore(s => s.selectCurrentWorkout);
-  // const selectScheduledWorkout = useStore(s => s.selectScheduledWorkout);
-  // const addNewWorkout = useStore(s => s.addNewWorkout);
-  // const saveRoutine = useStore(s => s.saveRoutine);
-  // const compareRoutinesObj = useStore(s => s.compareRoutinesObj);
+  // const routineRef = useRef(routine);
 
   const {t} = useTranslation();
 
@@ -121,7 +109,8 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
         <View style={style.goBackStyle}>
           <TouchableOpacity
             onPress={() => {
-              if (!compareObjects(routineRef, routine)) {
+              // if (!compareObjects(routineRef, routine)) {
+              if (!compareObjects(routine, routine)) {
                 setModalVisible(!modalVisible);
               } else {
                 navigation.navigate('RoutineListScreen', {name: ''});
@@ -265,7 +254,7 @@ const style = StyleSheet.create({
     marginHorizontal: 24.5,
   },
   startTextStyle: {
-    fontWeight: 600,
+    fontWeight: '600',
     fontSize: 16,
     lineHeight: 24,
   },

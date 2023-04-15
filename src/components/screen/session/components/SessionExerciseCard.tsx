@@ -49,24 +49,23 @@ const SessionExerciseCard: React.FC<SessionExerciseCardType> = ({
     if (resttimeId === 0) return resttime[0];
     else return resttime[1];
   });
+  // const {
+  //   seconds,
+  //   minutes,
+  //   hours,
+  //   days,
+  //   isRunning,
+  //   start,
+  //   pause,
+  //   resume,
+  //   restart,
+  // } = useTimer({
+  //   Math.floor(secondss),
+  //   onExpire: () => handleTimerLableStop,
+  //   autoStart: false,
+  // });
 
-  const expiryTimestamp = Math.floor(secondss);
-
-  const {
-    seconds,
-    minutes,
-    hours,
-    days,
-    isRunning,
-    start,
-    pause,
-    resume,
-    restart,
-  } = useTimer({
-    expiryTimestamp,
-    onExpire: () => handleTimerLableStop,
-    autoStart: false,
-  });
+  // const expiryTimestamp = Math.floor(secondss);
 
   useEffect(() => {
     handleTimerLableStop();
@@ -146,7 +145,7 @@ const SessionExerciseCard: React.FC<SessionExerciseCardType> = ({
             isActive={isActive}
             toggle={toggle}
           /> */}
-          <Text style={style.timerLable}>{seconds > 0 ? seconds : '--'}</Text>
+          {/* <Text style={style.timerLable}>{seconds > 0 ? seconds : '--'}</Text> */}
         </View>
         <View
           style={style.editContainerStyle}

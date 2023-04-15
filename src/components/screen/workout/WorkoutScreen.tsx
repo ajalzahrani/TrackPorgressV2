@@ -90,7 +90,7 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
           <RestTimeController
             controllerType={0}
             indicatorTitle="Set rest time"
-            resttime={workout.resettime}
+            resttime={workout.resttime}
           />
         );
       } else if (exercises > 1) {
@@ -99,12 +99,12 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
             <RestTimeController
               controllerType={0}
               indicatorTitle="Set rest time"
-              resttime={workout.resettime}
+              resttime={workout.resttime}
             />
             <RestTimeController
               controllerType={1}
               indicatorTitle="Exercise rest time"
-              resttime={workout.resettime}
+              resttime={workout.resttime}
             />
           </>
         );
@@ -149,6 +149,8 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
           //className="flex-row flex-1 space-x-2 items-center justify-end mt-2 mr-2"
           onPress={() => {
             navigation.navigate('ExerciseScreen', {
+              routineId: routineId,
+              workoutId: workout?.id,
               exercises: workout?.exercises || [{id: '', freq: []}],
             });
           }}>

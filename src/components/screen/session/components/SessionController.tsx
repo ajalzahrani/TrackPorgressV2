@@ -35,16 +35,17 @@ type SessionControllerType = {
 };
 
 const SessionController = ({sessionId, workoutId}: SessionControllerType) => {
-  const registerSession = useSessionStore(s => s.registerSession);
-  const startTimeRef = useRef<number>();
-
   const [isActive, setIsActive] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const navigation = useNavigation<SessionScreenNavigationProp>();
+  const registerSession = useSessionStore(s => s.registerSession);
+
   const {seconds, minutes, hours, days, start, pause, reset} = useStopwatch({
     autoStart: false,
     offsetTimestamp: {},
   });
+
+  const navigation = useNavigation<SessionScreenNavigationProp>();
+  const startTimeRef = useRef<number>(-1);
 
   function toggleSession() {
     if (isActive) {
@@ -111,7 +112,7 @@ const SessionController = ({sessionId, workoutId}: SessionControllerType) => {
               <Image
                 source={isActive ? assets.icn_pause : assets.icn_start}
                 style={{width: 20, height: 20}}
-                tintColor="black"
+                // tintColor="black"
               />
             </TouchableOpacity>
           </View>

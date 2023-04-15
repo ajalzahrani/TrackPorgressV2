@@ -10,7 +10,7 @@ type CardExerciseDetailsType = {
 
 const CardExerciseDetails = ({exercise}: CardExerciseDetailsType) => {
   const {t} = useTranslation();
-  const [modalVisible, setModalVisible] = useState(false);
+  // const [modalVisible, setModalVisible] = useState(false);
   return <Text>CardExerciseDetails component</Text>;
 
   // return (

@@ -13,6 +13,7 @@ import {ImplementDataStructure} from './src/assets/database/ImplementDataStructu
 
 // Translation
 import {I18nextProvider} from 'react-i18next';
+import {Text, View} from 'react-native';
 
 const App = () => {
   useEffect(() => {
@@ -26,9 +27,12 @@ const App = () => {
           barStyle="light-content"
           translucent={true}
         />
-        <I18nextProvider i18n={undefined}>
-          <Router />
-        </I18nextProvider>
+        {/* <View>
+          <Text>Hello, World</Text>
+        </View> */}
+        {/* <I18nextProvider i18n={undefined}> */}
+        <Router />
+        {/* </I18nextProvider> */}
       </TailwindProvider>
     </NavigationContainer>
   );

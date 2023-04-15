@@ -2,7 +2,7 @@ import {View, Text} from 'react-native';
 import React from 'react';
 
 // Assets
-import {colors, exerciseData, assets} from '../components/constants';
+import {colors, assets} from 'src/assets';
 
 const Divider = () => {
   return (

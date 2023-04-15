@@ -52,11 +52,14 @@ const ExerciseScreen: React.FC<ExerciseScreenProp> = ({route, navigation}) => {
   // FIXME: auto select new added exercise
   const exerciseMaster = useExerciseStore(s => s.exerciseMaster);
   const addNewExerciseMaster = useExerciseStore(s => s.addNewExerciseMaster);
-
   const [search, setSearch] = useState(''); //
   const [searchResult, setSearchResult] = useState(exerciseMaster);
   const [notFound, setNotFound] = useState(false); // handle if no exercise found in search
   const [modalVisible, setModalVisible] = useState(false);
+
+  const routineId = route.params.routineId;
+  const workouitId = route.params.workoutId;
+  const exercises = route.params.exercises;
 
   // search the list of exercises data and eanble the user to add not found exercies.
   const handleSearch = (searchText: string) => {
@@ -100,7 +103,13 @@ const ExerciseScreen: React.FC<ExerciseScreenProp> = ({route, navigation}) => {
   }: ListRenderItemInfo<exerciseMasterType>) => {
     return (
       <View style={styles.preListContainerStyle}>
-        <ExerciseSelectRow key={item.id} exercise={item} />
+        <ExerciseSelectRow
+          key={item.id}
+          routineId={routineId}
+          workoutId={workouitId}
+          exerciseRow={item}
+          exercisesSelected={exercises}
+        />
       </View>
     );
   };

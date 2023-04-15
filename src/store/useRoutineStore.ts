@@ -37,7 +37,7 @@ type Actions = {
   updateExercises: (
     routineId: string,
     workoutId: string,
-    exercises: exercisesType,
+    exerciseId: string,
   ) => void;
   addFreq: (
     routineId: string,
@@ -116,7 +116,7 @@ const useRoutineStore = create<State & Actions>((set, get) => ({
       }),
     ),
 
-  updateExercises: (routineId, workoutId, exercises) =>
+  updateExercises: (routineId, workoutId, exerciseId) =>
     set(
       produce((state: Draft<State & Actions>) => {
         const routineIndex = state.routines.findIndex(r => r.id === routineId);
@@ -125,7 +125,14 @@ const useRoutineStore = create<State & Actions>((set, get) => ({
             w => w.id === workoutId,
           );
           if (workoutIndex !== -1) {
-            state.routines[routineIndex].workouts[workoutIndex].exercises = [];
+            const exerciseIndex = state.routines[routineIndex].workouts[
+              workoutIndex
+            ].exercises.findIndex(e => e.id === exerciseId);
+            if (exerciseIndex === -1) {
+              state.routines[routineIndex].workouts[workoutIndex].exercises[
+                exerciseIndex
+              ] = {id: exerciseId, freq: []};
+            }
           }
         }
       }),
