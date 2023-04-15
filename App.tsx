@@ -13,6 +13,7 @@ import {ImplementDataStructure} from './src/assets/database/ImplementDataStructu
 
 // Translation
 import {I18nextProvider} from 'react-i18next';
+import i18n from './src/Translation/i18n'; // import your i18n object
 
 const App = () => {
   useEffect(() => {
@@ -26,7 +27,7 @@ const App = () => {
           barStyle="light-content"
           translucent={true}
         />
-        <I18nextProvider i18n={undefined}>
+        <I18nextProvider i18n={i18n}>
           <Router />
         </I18nextProvider>
       </TailwindProvider>
