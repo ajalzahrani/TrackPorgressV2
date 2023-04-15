@@ -11,7 +11,7 @@ import {
   FlatList,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {store} from '../../../Store';
+import {store} from '../../../store/Store';
 import uuidv4 from 'src/components/shared/uuid4v';
 
 // Assets

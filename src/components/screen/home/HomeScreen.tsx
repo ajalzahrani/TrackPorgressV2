@@ -7,7 +7,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import React, {useState} from 'react';
-import {useGstore} from '../../../gstore';
+import {useGstore} from '../../../store/store.bak/gstore';
 import {useTranslation} from 'react-i18next';
 import {useNavigation} from '@react-navigation/native';
 import useStore from '../../../store/store.bak/useStore';
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   descriptionStyle: {
     color: colors.white,
     marginTop: 12,
-    fontFamily: 'normal',
+    // fontFamily: 'normal',
     textAlign: 'center',
   },
 });

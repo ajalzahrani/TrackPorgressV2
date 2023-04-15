@@ -1,7 +1,7 @@
 import create from 'zustand';
 import {produce} from 'immer';
 import uuid from 'react-native-uuid';
-import {store} from './Store';
+import {store} from '../Store';
 import moment from 'moment';
 
 let gstore = (set, get) => ({

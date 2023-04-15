@@ -10,7 +10,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import {useGstore} from '../../../../../gstore';
 import useStore from '../../../../store/store.bak/useStore';
-import {store} from '../../../../Store';
+import {store} from '../../../../store/Store';
 
 import {colors} from 'src/assets';
 import {useTranslation} from 'react-i18next';
