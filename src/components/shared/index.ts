@@ -8,6 +8,7 @@ import ViewCenter from './ViewCenter';
 import ViewRow from './ViewRow';
 import ListCard from './ListCard';
 import ListCardDetails from './ListCardDetails';
+import ListCardTitle from './ListCardTitle';
 import LoadingView from './LoadingView';
 
 export {
@@ -22,4 +23,5 @@ export {
   ListCardDetails,
   LoadingView,
   Pressable,
+  ListCardTitle,
 };

@@ -24,6 +24,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RouteProp} from '@react-navigation/native';
 import {RoutineStackRootParamList} from 'src/components/navigation/RoutineStack';
 import uuidv4 from 'src/components/shared/uuid4v';
+import weekdays from 'src/assets/database/weekdays';
 
 type RoutineListScreenRouteType = RouteProp<
   RoutineStackRootParamList,
@@ -87,7 +88,7 @@ const RoutineListScreen: React.FC<RoutineListProps> = ({route, navigation}) => {
                     level: 1,
                     description: '',
                     workouts: [],
-                    weekdays: [],
+                    weekdays: weekdays,
                   },
                 });
               }}>
@@ -103,6 +104,7 @@ const RoutineListScreen: React.FC<RoutineListProps> = ({route, navigation}) => {
               <TouchableOpacity
                 style={{flex: 1}}
                 onPress={() => {
+                  console.log(routine);
                   navigation.navigate('RoutineScreen', {routine});
                 }}>
                 <RoutineCard routine={routine} />

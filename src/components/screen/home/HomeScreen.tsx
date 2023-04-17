@@ -1,20 +1,22 @@
 import {Text, View, Image, StyleSheet} from 'react-native';
 import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 
 // assets
 import {colors, assets} from 'src/assets';
 
 // Components
 import QuickStart from './components/QuickStart';
-import PressableButton from '../../shared/PressableButton';
 import {Pressable} from 'src/components/shared';
+import PressableButton from '../../shared/PressableButton';
 import GeneralModal from '../../shared/GeneralModal';
 import ScreenContainer from 'src/components/shared/ScreenContainer';
+import useRoutineStore from 'src/store/useRoutineStore';
 
 const HomeScreen = () => {
   const [modalView, setModalVisible] = useState(false);
+  const routines = useRoutineStore(s => s.routines);
   const {t} = useTranslation();
 
   return (
@@ -22,7 +24,7 @@ const HomeScreen = () => {
       <GeneralModal
         modalVisible={modalView}
         setModalVisible={setModalVisible}
-        action={() => console.log('action')}
+        action={() => console.log(routines[0])}
         message="some message goes herelet make this text as big as we can"
       />
       <View style={styles.containerStyle}>

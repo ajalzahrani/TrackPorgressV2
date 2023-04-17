@@ -141,8 +141,8 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
         {workout?.title ? (
           <>
             <View
-            // className="flex-row items-center space-x-5"
-            >
+              // className="flex-row items-center space-x-5"
+              style={style.workoutTitleStyle}>
               <Text style={style.workoutTitleStyle}>{workout.title}</Text>
               <TouchableOpacity
                 onPress={() => {
@@ -175,28 +175,24 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
           </>
         ) : (
           <Text
-          // className="text-yellow-200"
-          >
+            // className="text-yellow-200"
+            style={style.noWorkoutWorning}>
             {t('schedule.addNewWorkoutOrChoose')}
           </Text>
         )}
       </View>
       <View style={{paddingHorizontal: 16, flex: 1}}>
         <View style={style.preWorkoutListContainerStyle}>
-          <Text
+          {/* <Text
           // className="text-white"
           >
             {t('schedule.preListOfWorkouts')}
-          </Text>
+          </Text> */}
           <ScrollView contentContainerStyle={{paddingBottom: 72}}>
             {routine.workouts?.map(workout => (
               <TouchableOpacity
                 key={workout.id}
                 onPress={() => {
-                  // console.log(workout.id);
-                  // console.log(currentDay.id);
-                  // selectScheduledWorkout(workout.id);
-                  // addWorkoutDay(currentDay.id);
                   setWorkoutId(workout.id);
                 }}>
                 <WorkoutCard routineId={routine.id} workout={workout} />
@@ -217,6 +213,13 @@ const style = StyleSheet.create({
   preWorkoutListContainerStyle: {
     marginTop: 51,
   },
+  // className="flex-row flex-1 space-x-2 items-center justify-end mt-2 mr-2"
+  addNewWorkout: {
+    flexDirection: 'row',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   workoutContainerStyle: {
     display: 'flex',
     flexdirection: 'column',
@@ -232,12 +235,10 @@ const style = StyleSheet.create({
     alignItems: 'center',
   },
   workoutTitleStyle: {
-    flex: 1,
-    flexWrap: 'wrap',
-    fontStyle: 'normal',
+    alignItems: 'center',
+    flexDirection: 'row',
     fontWeight: '600',
     fontSize: 30,
-    lineHeight: 45,
     textAlign: 'center',
     color: colors.white,
   },
@@ -309,6 +310,10 @@ const style = StyleSheet.create({
     margin: 10,
     borderRadius: 10,
     borderWidth: 0.2,
+  },
+
+  noWorkoutWorning: {
+    color: colors.yellow,
   },
 });
 

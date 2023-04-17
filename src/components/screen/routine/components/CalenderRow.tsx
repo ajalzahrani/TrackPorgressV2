@@ -23,12 +23,7 @@ type CalenderRowProp = {
 };
 
 const CalenderRow: React.FC<CalenderRowProp> = ({routine}) => {
-  // const weekdays = useStore(s => s.weekdays);
   const setWorkoutId = useRoutineStore(s => s.setWorkoutId);
-  // const selectCurrentWorkout = useStore(s => s.selectCurrentWorkout);
-  // const selectScheduledWorkout = useStore(s => s.selectScheduledWorkout);
-  // const selectCurrentDay = useStore(s => s.selectCurrentDay);
-  // const {currentDay} = useState();
   const [db, setDB] = useState(dayButton);
 
   const generateWorkdays = () => {
@@ -132,11 +127,6 @@ const style = StyleSheet.create({
     padding: 0,
     marginTop: 26,
     marginHorizontal: 16,
-    // position: 'absolute',
-    // width: 358,
-    // height: 44,
-    // left: 16,
-    // top: 100,
   },
   touchableOpacityStyle: {
     display: 'flex',

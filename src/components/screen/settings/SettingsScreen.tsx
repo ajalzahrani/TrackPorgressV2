@@ -45,7 +45,7 @@ const SettingsScreen = () => {
     <ScreenContainer>
       <View style={styles.profileTitleStyle}>
         <View style={styles.container}>
-          <Image source={assets.AsianBueaty} style={styles.image} />
+          <Image source={assets.abs} style={styles.image} />
           <View style={{marginLeft: 16}}>
             <Text style={styles.userFullName}>John Wick</Text>
             <Text style={styles.username}>@johnWick</Text>
