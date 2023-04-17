@@ -8,7 +8,7 @@ import {
   exercisesType,
 } from 'src/components/shared/globalTypes';
 
-const routineGlobalKey = 'routine';
+const routineGlobalKey = 'routines';
 
 const getRoutine = (): routineType[] => {
   const routineString = store.getString(routineGlobalKey);

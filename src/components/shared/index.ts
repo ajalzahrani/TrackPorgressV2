@@ -2,6 +2,7 @@ import {getDayLabel} from './getDayLabel';
 import {getExerciseName} from './getExerciseName';
 import {convertDate} from './convertDate';
 import PressableButton from './PressableButton';
+import Pressable from './Pressable';
 import ScreenContainer from './ScreenContainer';
 import ViewCenter from './ViewCenter';
 import ViewRow from './ViewRow';
@@ -20,4 +21,5 @@ export {
   ListCard,
   ListCardDetails,
   LoadingView,
+  Pressable,
 };

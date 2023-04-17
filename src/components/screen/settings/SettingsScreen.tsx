@@ -4,14 +4,13 @@ import {
   StyleSheet,
   TouchableOpacity,
   Text,
+  Image,
 } from 'react-native';
 import React from 'react';
 
 // Components
-import {colors} from 'src/assets/theme';
-
-import ProfileTitle from './components/ProfileTitle';
-import CardInformation from './components/CardInformation';
+import {colors, assets} from 'src/assets';
+import {ScreenContainer} from 'src/components/shared';
 
 import {useTranslation} from 'react-i18next';
 
@@ -43,29 +42,31 @@ const SettingsScreen = () => {
   );
 
   return (
-    <SafeAreaView style={styles.safeViewStyle}>
+    <ScreenContainer>
       <View style={styles.profileTitleStyle}>
-        <ProfileTitle />
+        <View style={styles.container}>
+          <Image source={assets.AsianBueaty} style={styles.image} />
+          <View style={{marginLeft: 16}}>
+            <Text style={styles.userFullName}>John Wick</Text>
+            <Text style={styles.username}>@johnWick</Text>
+          </View>
+        </View>
       </View>
       <View style={styles.cardInformationStyle}>
-        <CardInformation />
+        {/* <CardInformation /> */}
       </View>
       <View style={styles.centeredView}>
         {languages.map(lang => (
           <LanguageItem {...lang} key={lang.name} />
         ))}
       </View>
-    </SafeAreaView>
+    </ScreenContainer>
   );
 };
 
 export default SettingsScreen;
 
 const styles = StyleSheet.create({
-  safeViewStyle: {
-    backgroundColor: colors.primary,
-    flex: 1,
-  },
   centeredView: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -87,5 +88,25 @@ const styles = StyleSheet.create({
   cardInformationStyle: {
     paddingHorizontal: 5,
     marginTop: 10,
+  },
+
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  userFullName: {
+    color: colors.white,
+    fontSize: 24,
+  },
+  username: {
+    color: colors.white,
+    fontStyle: 'normal',
+    fontSize: 16,
+  },
+  image: {
+    width: 100,
+    height: 100,
+    borderRadius: 100,
+    backgroundColor: '#D9D9D9',
   },
 });

@@ -2,16 +2,13 @@ import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import React, {useState} from 'react';
 
 import {colors, assets} from 'src/assets';
-
 import {useNavigation} from '@react-navigation/native';
+import ListCardTitle from 'src/components/shared/ListCardTitle';
+import useRoutineStore from 'src/store/useRoutineStore';
 
-// Store
-import useStore from '../../../../store/store.bak/useStore';
-import GeneralModal from '../../../shared/GeneralModal';
-
+import GeneralModal from 'src/components/shared/GeneralModal';
 import {RoutineListNavigationProp} from '../RoutineListScreen';
 import {routineType} from 'src/components/shared/globalTypes';
-import useRoutineStore from 'src/store/useRoutineStore';
 
 type RoutineCardProps = {
   routine: routineType;
@@ -35,13 +32,10 @@ const RoutineCard: React.FC<RoutineCardProps> = ({routine}) => {
         message="Are you sure to delet routine?"
       />
 
-      <View style={style.cardContainer}>
-        <Text style={style.workoutTitle}>{routine.title}</Text>
-        <View
-          style={style.editContainerStyle}
-          // className="space-x-4"
-        >
+      <ListCardTitle title={routine.title}>
+        <View style={style.editContainerStyle}>
           <TouchableOpacity
+            style={{marginRight: 20}}
             onPress={() => {
               navigation.navigate('RoutineFormScreen', {routine: routine});
             }}>
@@ -54,40 +48,17 @@ const RoutineCard: React.FC<RoutineCardProps> = ({routine}) => {
             <Image source={assets.icn_remove} />
           </TouchableOpacity>
         </View>
-      </View>
+      </ListCardTitle>
     </>
   );
 };
 
 const style = StyleSheet.create({
-  cardContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 10,
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-    backgroundColor: colors.secondaryow,
-    borderRadius: 10,
-  },
-  workoutTitle: {
-    fontStyle: 'normal',
-    fontWeight: '500',
-    fontSize: 20,
-    lineHeight: 30,
-    color: colors.white,
-  },
   editContainerStyle: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-  },
-  touchableOpacityArrowStyle: {
-    alignItems: 'flex-start',
-    padding: 10,
-    borderRadius: 100,
-    backgroundColor: colors.secondary,
   },
 });
 

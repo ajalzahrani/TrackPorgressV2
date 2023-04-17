@@ -1,83 +1,83 @@
 const exercisesMaster = [
   {
     id: 1,
-    title: 'Diamond pushup',
+    name: 'Diamond pushup',
   },
   {
     id: 2,
-    title: 'Wide grip pushup',
+    name: 'Wide grip pushup',
   },
   {
     id: 3,
-    title: 'Split Squat',
+    name: 'Split Squat',
   },
   {
     id: 4,
-    title: 'Close grip pullup',
+    name: 'Close grip pullup',
   },
   {
     id: 5,
-    title: 'Natural grip pullup',
+    name: 'Natural grip pullup',
   },
   {
     id: 6,
-    title: 'Crunches',
+    name: 'Crunches',
   },
   {
     id: 7,
-    title: 'Deadlift',
+    name: 'Deadlift',
   },
   {
     id: 8,
-    title: 'T-Bar Row',
+    name: 'T-Bar Row',
   },
   {
     id: 9,
-    title: 'One-Leg Plank',
+    name: 'One-Leg Plank',
   },
   {
     id: 10,
-    title: 'Lat Pulldown',
+    name: 'Lat Pulldown',
   },
   {
     id: 11,
-    title: 'Farmer Walk & Trap Bar Carry',
+    name: 'Farmer Walk & Trap Bar Carry',
   },
   {
     id: 12,
-    title: 'Seated Incline Dumbbell Curl',
+    name: 'Seated Incline Dumbbell Curl',
   },
   {
     id: 13,
-    title: 'Standing Barbell Curl',
+    name: 'Standing Barbell Curl',
   },
   {
     id: 14,
-    title: 'Dips',
+    name: 'Dips',
   },
   {
     id: 15,
-    title: 'Shrugs',
+    name: 'Shrugs',
   },
   {
     id: 16,
-    title: 'Dumbbell Lateral Raises',
+    name: 'Dumbbell Lateral Raises',
   },
   {
     id: 17,
-    title: 'Presses',
+    name: 'Presses',
   },
   {
     id: 18,
-    title: 'Rear Delt Raises',
+    name: 'Rear Delt Raises',
   },
   {
     id: 19,
-    title: 'Barbell Bench Press',
+    name: 'Barbell Bench Press',
   },
   {
     id: 20,
-    title: 'DCable Crossover',
+    name: 'DCable Crossover',
   },
 ];
 

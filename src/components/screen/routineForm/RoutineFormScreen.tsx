@@ -54,7 +54,8 @@ const RoutineFormScreen: React.FC<RoutineFormScreenProp> = ({
   const [endDate, setEndDate] = useState(routine.endDate);
   const [levelIndex, setLevelIndex] = useState(1);
   const [description, setDescription] = useState(routine.description);
-  const [result, setResult] = useState('🔮');
+  const [result, setResult] = useState('Beginner');
+  const [destructiveButtonIndex, setDestructiveButtonIndex] = useState(1);
 
   const restForm = () => {
     setTitle('');
@@ -85,8 +86,8 @@ const RoutineFormScreen: React.FC<RoutineFormScreenProp> = ({
   const onPress = () =>
     ActionSheetIOS.showActionSheetWithOptions(
       {
-        options: ['Cancel', 'Generate number', 'Reset'],
-        destructiveButtonIndex: 2,
+        options: ['Cancel', 'Beginner', 'Intermediate', 'Professional'],
+        destructiveButtonIndex: destructiveButtonIndex,
         cancelButtonIndex: 0,
         userInterfaceStyle: 'dark',
       },
@@ -94,9 +95,14 @@ const RoutineFormScreen: React.FC<RoutineFormScreenProp> = ({
         if (buttonIndex === 0) {
           // cancel action
         } else if (buttonIndex === 1) {
-          setResult(String(Math.floor(Math.random() * 100) + 1));
+          setResult('Beginner');
+          setDestructiveButtonIndex(1);
         } else if (buttonIndex === 2) {
-          setResult('🔮');
+          setResult('Intermediate');
+          setDestructiveButtonIndex(2);
+        } else if (buttonIndex === 3) {
+          setResult('Professional');
+          setDestructiveButtonIndex(3);
         }
       },
     );
@@ -117,22 +123,13 @@ const RoutineFormScreen: React.FC<RoutineFormScreenProp> = ({
         endDay={endDate}
         setEndDay={setEndDate}
       />
-      {/* <SegmentedControl
-        values={['Beginner', 'Intermediate', 'Professional']}
-        selectedIndex={levelIndex}
-        onChange={event => {
-          setLevelIndex(event.nativeEvent.selectedSegmentIndex);
-        }}
-        backgroundColor={colors.offwhite}
-        appearance="light"
-        style={{marginTop: 20, marginHorizontal: 50, marginBottom: 15}}
-      /> */}
 
-      <PressableButton title="Level" onPress={onPress} />
+      <PressableButton title={`${result} Level`} onPress={onPress} />
 
       <TextInput
         style={[style.textInputStyle, style.richBox]}
         placeholder="Description"
+        placeholderTextColor={colors.offwhite}
         value={description}
         onChangeText={text => setDescription(text)}
         multiline={true}
@@ -171,8 +168,7 @@ const style = StyleSheet.create({
   modalText: {
     marginVertical: 20,
     textAlign: 'center',
-    color: colors.white,
-    fontSize: 24,
+    // fontSize: 24,
     fontSize: 30,
     fontWeight: '700',
     color: colors.white,

@@ -4,6 +4,16 @@ import {store} from './mmkv';
 import uuid from 'react-native-uuid';
 import {exerciseMasterType} from 'src/components/shared/globalTypes';
 
+const exerciseMasterGlobalKey = 'routines';
+
+const getExerciseMaster = (): exerciseMasterType[] => {
+  const exerciseMaseterString = store.getString(exerciseMasterGlobalKey);
+  return store.contains(exerciseMasterGlobalKey) &&
+    typeof exerciseMaseterString === 'string'
+    ? JSON.parse(exerciseMaseterString)
+    : [];
+};
+
 type State = {
   exerciseMaster: exerciseMasterType[];
 };

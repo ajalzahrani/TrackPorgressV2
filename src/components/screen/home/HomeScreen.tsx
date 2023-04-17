@@ -1,16 +1,7 @@
-import {
-  Text,
-  View,
-  SafeAreaView,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native';
+import {Text, View, Image, StyleSheet} from 'react-native';
 import React, {useState} from 'react';
-import {useGstore} from '../../../store/store.bak/gstore';
 import {useTranslation} from 'react-i18next';
 import {useNavigation} from '@react-navigation/native';
-import useStore from '../../../store/store.bak/useStore';
 
 // assets
 import {colors, assets} from 'src/assets';
@@ -18,20 +9,16 @@ import {colors, assets} from 'src/assets';
 // Components
 import QuickStart from './components/QuickStart';
 import PressableButton from '../../shared/PressableButton';
+import {Pressable} from 'src/components/shared';
 import GeneralModal from '../../shared/GeneralModal';
 import ScreenContainer from 'src/components/shared/ScreenContainer';
 
 const HomeScreen = () => {
-  // const navigation = useNavigation();
-  // const routines = useStore(state => state.routines);
-  // const currentRoutine = useStore(state => state.currentRoutine);
-  // const exercisesMaster = useStore(state => state.exercisesMaster);
-  // const sessions = useGstore(state => state.sessions);
   const [modalView, setModalVisible] = useState(false);
   const {t} = useTranslation();
 
   return (
-    <ScreenContainer style={styles.safeViewStyle}>
+    <ScreenContainer>
       <GeneralModal
         modalVisible={modalView}
         setModalVisible={setModalVisible}
@@ -39,9 +26,8 @@ const HomeScreen = () => {
         message="some message goes herelet make this text as big as we can"
       />
       <View style={styles.containerStyle}>
-        <Text>{t('home.title')}!</Text>
+        <Text style={styles.homeTitle}>{t('home.title')}!</Text>
         <Image style={styles.image} source={assets.bgImage} />
-        {/* <QuickStart /> */}
         <View style={styles.descriptionContainerStyle}>
           {/* FIXME: adjust the font and the button as the design */}
 
@@ -50,7 +36,7 @@ const HomeScreen = () => {
           <PressableButton
             title={t('home.btnQuickStart')}
             onPress={() => setModalVisible(!modalView)}
-            style={{paddingHorizontal: 40}}
+            style={{paddingHorizontal: 40, marginTop: 20}}
           />
         </View>
       </View>
@@ -61,13 +47,15 @@ const HomeScreen = () => {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-  safeViewStyle: {
-    backgroundColor: colors.primary,
-    flex: 1,
+  homeTitle: {
+    color: colors.white,
+    fontSize: 36,
+    fontWeight: '600',
   },
   containerStyle: {
     alignItems: 'center',
     padding: 16,
+    marginTop: 120,
   },
   image: {
     marginTop: 12,
