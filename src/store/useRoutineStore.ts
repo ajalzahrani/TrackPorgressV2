@@ -1,18 +1,13 @@
 import create from 'zustand';
 import {store} from './mmkv';
-import uuid from 'react-native-uuid';
 import produce, {Draft} from 'immer';
-import {
-  routineType,
-  workoutType,
-  exercisesType,
-} from 'src/components/shared/globalTypes';
-
-const routineGlobalKey = 'routines';
+import {routineType, workoutType} from 'src/components/shared/globalTypes';
+import def from 'src/components/shared/GlobalDefinition';
 
 const getRoutine = (): routineType[] => {
-  const routineString = store.getString(routineGlobalKey);
-  return store.contains(routineGlobalKey) && typeof routineString === 'string'
+  const routineString = store.getString(def.routineGlobalKey);
+  return store.contains(def.routineGlobalKey) &&
+    typeof routineString === 'string'
     ? JSON.parse(routineString)
     : [];
 };
@@ -20,6 +15,7 @@ const getRoutine = (): routineType[] => {
 type State = {
   routines: routineType[];
   workoutId: string;
+  dayId: number;
 };
 
 type Actions = {
@@ -34,6 +30,8 @@ type Actions = {
   ) => void;
   deleteWorkout: (routineId: string, workoutId: string) => void;
   setWorkoutId: (workoutId: string) => void;
+  setDayId: (dayId: number) => void;
+  setWeekDayWorkout: (routineId: string) => void;
   updateExercises: (
     routineId: string,
     workoutId: string,
@@ -55,6 +53,7 @@ type Actions = {
 const initialState: State = {
   routines: getRoutine(),
   workoutId: '',
+  dayId: new Date().getDay(),
 };
 
 const useRoutineStore = create<State & Actions>((set, get) => ({
@@ -68,7 +67,7 @@ const useRoutineStore = create<State & Actions>((set, get) => ({
           state.routines[routineIndex] = routine;
         } else {
           state.routines.push(routine);
-          store.set(routineGlobalKey, JSON.stringify(state.routines));
+          store.set(def.routineGlobalKey, JSON.stringify(state.routines));
         }
       }),
     ),
@@ -113,6 +112,29 @@ const useRoutineStore = create<State & Actions>((set, get) => ({
     set(
       produce((state: Draft<State & Actions>) => {
         state.workoutId = workoutId;
+      }),
+    ),
+
+  setDayId: dayId =>
+    set(
+      produce((state: Draft<State & Actions>) => {
+        state.dayId = dayId;
+      }),
+    ),
+
+  setWeekDayWorkout: routineId =>
+    set(
+      produce((state: Draft<State & Actions>) => {
+        const routineIndex = state.routines.findIndex(r => r.id === routineId);
+        if (routineIndex !== -1) {
+          state.routines[routineIndex].weekdays[state.dayId].workout =
+            state.workoutId;
+          const isworkoutday =
+            state.routines[routineIndex].weekdays[state.dayId].isWorkday;
+          console.log(isworkoutday);
+
+          state.routines[routineIndex].weekdays[state.dayId].isWorkday = true;
+        }
       }),
     ),
 

@@ -1,20 +1,19 @@
 import {store} from '../../store/Store';
-
 import routines from './routines';
-import workouts from './workouts';
-import exercisesMaster from './exercisesMaster';
-import weekdays from './weekdays';
+import exerciseMaster from './exerciseMaster';
+import def from 'src/components/shared/GlobalDefinition';
 
 export function ImplementDataStructure() {
   // store.delete('routines');
+  // store.delete('exercises');
   // store.clearAll();
 
-  if (!store.contains('exercises')) {
-    store.set('exercises', JSON.stringify(exercisesMaster));
+  if (!store.contains(def.exerciseMasterGlobalKey)) {
+    store.set('exercises', JSON.stringify(exerciseMaster));
     console.log('Exercises data implemented successfully');
   }
 
-  if (!store.contains('routines')) {
+  if (!store.contains(def.routineGlobalKey)) {
     store.set('routines', JSON.stringify(routines));
     console.log('Workouts data implemented successfully ');
   }

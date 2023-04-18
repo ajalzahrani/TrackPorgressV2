@@ -1,84 +1,84 @@
-const exercisesMaster = [
+const exerciseMaster = [
   {
-    id: 1,
+    id: '1',
     name: 'Diamond pushup',
   },
   {
-    id: 2,
+    id: '2',
     name: 'Wide grip pushup',
   },
   {
-    id: 3,
+    id: '3',
     name: 'Split Squat',
   },
   {
-    id: 4,
+    id: '4',
     name: 'Close grip pullup',
   },
   {
-    id: 5,
+    id: '5',
     name: 'Natural grip pullup',
   },
   {
-    id: 6,
+    id: '6',
     name: 'Crunches',
   },
   {
-    id: 7,
+    id: '7',
     name: 'Deadlift',
   },
   {
-    id: 8,
+    id: '8',
     name: 'T-Bar Row',
   },
   {
-    id: 9,
+    id: '9',
     name: 'One-Leg Plank',
   },
   {
-    id: 10,
+    id: '10',
     name: 'Lat Pulldown',
   },
   {
-    id: 11,
+    id: '11',
     name: 'Farmer Walk & Trap Bar Carry',
   },
   {
-    id: 12,
+    id: '12',
     name: 'Seated Incline Dumbbell Curl',
   },
   {
-    id: 13,
+    id: '13',
     name: 'Standing Barbell Curl',
   },
   {
-    id: 14,
+    id: '14',
     name: 'Dips',
   },
   {
-    id: 15,
+    id: '15',
     name: 'Shrugs',
   },
   {
-    id: 16,
+    id: '16',
     name: 'Dumbbell Lateral Raises',
   },
   {
-    id: 17,
+    id: '17',
     name: 'Presses',
   },
   {
-    id: 18,
+    id: '18',
     name: 'Rear Delt Raises',
   },
   {
-    id: 19,
+    id: '19',
     name: 'Barbell Bench Press',
   },
   {
-    id: 20,
+    id: '20',
     name: 'DCable Crossover',
   },
 ];
 
-export default exercisesMaster;
+export default exerciseMaster;

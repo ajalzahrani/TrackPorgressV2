@@ -50,12 +50,7 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
   // FIXME: Re-design Rest time controllers
 
   const routineId = route.params.routineId;
-  const workout = route.params.workout && {
-    id: uuidv4(),
-    title: '',
-    exercises: [{id: '', freq: []}],
-    resttime: [],
-  };
+  const workout = route.params.workout;
   const deleteWorkout = useRoutineStore(s => s.deleteWorkout);
   const addWorkout = useRoutineStore(s => s.addWorkout);
   const addFreq = useRoutineStore(s => s.addFreq);

@@ -31,6 +31,7 @@ import useRoutineStore from 'src/store/useRoutineStore';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RoutineStackRootParamList} from 'src/components/navigation/RoutineStack';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
+import uuidv4 from 'src/components/shared/uuid4v';
 
 type RoutineScreenRouteProp = RouteProp<
   RoutineStackRootParamList,
@@ -52,8 +53,10 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
   // FIXME: Auto select new added workout.
   // FIXME: Clicking on navigation button should prsiste configurations.
 
+  const dayId = useRoutineStore(s => s.dayId);
   const workoutId = useRoutineStore(s => s.workoutId);
   const setWorkoutId = useRoutineStore(s => s.setWorkoutId);
+  const setWeekDayWorkout = useRoutineStore(s => s.setWeekDayWorkout);
   const routine = route.params.routine;
   const workout = routine.workouts.find(workout => workout.id === workoutId);
   // const routineRef = useRef(routine);
@@ -119,17 +122,20 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
             <Image source={assets.icn_goback} />
           </TouchableOpacity>
           <TouchableOpacity
-            // className="flex-row flex-1 space-x-2 items-center justify-end mt-2 mr-2"
+            style={style.addNewWorkout}
             onPress={() => {
               navigation.navigate('WorkoutScreen', {
                 routineId: routine.id,
-                workout: undefined,
+                workout: {
+                  id: '',
+                  title: '',
+                  exercises: [{id: '', freq: []}],
+                  resttime: [],
+                },
               });
             }}>
             <Image source={assets.icn_plus} style={{}} />
-            <Text
-            // className="text-red-500 text-base"
-            >
+            <Text style={{color: colors.red}}>
               {t('schedule.addNewWorkout')}
             </Text>
           </TouchableOpacity>
@@ -194,6 +200,7 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
                 key={workout.id}
                 onPress={() => {
                   setWorkoutId(workout.id);
+                  setWeekDayWorkout(routine.id);
                 }}>
                 <WorkoutCard routineId={routine.id} workout={workout} />
               </TouchableOpacity>
@@ -215,10 +222,10 @@ const style = StyleSheet.create({
   },
   // className="flex-row flex-1 space-x-2 items-center justify-end mt-2 mr-2"
   addNewWorkout: {
-    flexDirection: 'row',
     flex: 1,
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
   },
   workoutContainerStyle: {
     display: 'flex',

@@ -3,12 +3,11 @@ import {produce} from 'immer';
 import {store} from './mmkv';
 import uuid from 'react-native-uuid';
 import {exerciseMasterType} from 'src/components/shared/globalTypes';
-
-const exerciseMasterGlobalKey = 'routines';
+import def from 'src/components/shared/GlobalDefinition';
 
 const getExerciseMaster = (): exerciseMasterType[] => {
-  const exerciseMaseterString = store.getString(exerciseMasterGlobalKey);
-  return store.contains(exerciseMasterGlobalKey) &&
+  const exerciseMaseterString = store.getString(def.exerciseMasterGlobalKey);
+  return store.contains(def.exerciseMasterGlobalKey) &&
     typeof exerciseMaseterString === 'string'
     ? JSON.parse(exerciseMaseterString)
     : [];
@@ -23,7 +22,7 @@ type Actions = {
 };
 
 const initialState: State = {
-  exerciseMaster: [],
+  exerciseMaster: getExerciseMaster(),
 };
 
 const useExerciseStore = create<State & Actions>((set, get) => ({

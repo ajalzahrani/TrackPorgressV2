@@ -104,7 +104,7 @@ const RoutineListScreen: React.FC<RoutineListProps> = ({route, navigation}) => {
               <TouchableOpacity
                 style={{flex: 1}}
                 onPress={() => {
-                  console.log(routine);
+                  // console.log(routine);
                   navigation.navigate('RoutineScreen', {routine});
                 }}>
                 <RoutineCard routine={routine} />
@@ -160,7 +160,7 @@ const style = StyleSheet.create({
     marginHorizontal: 24.5,
   },
   startTextStyle: {
-    fontWeight: 600,
+    fontWeight: '600',
     fontSize: 16,
     lineHeight: 24,
   },

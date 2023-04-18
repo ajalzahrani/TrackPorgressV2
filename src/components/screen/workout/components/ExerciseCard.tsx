@@ -1,5 +1,5 @@
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ExerciseApi from '../../../../assets/database/ExerciseApiShort.json';
 
 // Assets
@@ -31,6 +31,9 @@ const ExerciseCard: React.FC<ExerciseCardProp> = ({
   const addFreq = useRoutineStore(s => s.addFreq);
   const [set, setSet] = useState(exercise.freq.length);
 
+  useEffect(() => {
+    console.log(exercisesMaster);
+  }, []);
   const addSet = () => {
     setSet(set + 1);
     exercise.freq.length = set; // link set count with any update
@@ -68,10 +71,12 @@ const ExerciseCard: React.FC<ExerciseCardProp> = ({
 
   /* HOW TO QUERY EXERCISE NAME BY ID FROM EXERCISE LIST */
   const getExerciseName = (id: string) => {
-    let exername = exercisesMaster.filter(element => {
-      return element.id === id;
-    });
-    return exername[0].name;
+    let exerciseIndex = exercisesMaster.findIndex(e => e.id === id);
+    let exercise = exercisesMaster[exerciseIndex];
+
+    console.log(exercise.name);
+
+    return exercise.name;
   };
 
   return (
