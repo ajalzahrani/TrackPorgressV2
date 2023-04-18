@@ -129,7 +129,7 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
                 workout: {
                   id: '',
                   title: '',
-                  exercises: [{id: '', freq: []}],
+                  exercises: [],
                   resttime: [],
                 },
               });

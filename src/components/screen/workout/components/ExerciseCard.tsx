@@ -31,9 +31,6 @@ const ExerciseCard: React.FC<ExerciseCardProp> = ({
   const addFreq = useRoutineStore(s => s.addFreq);
   const [set, setSet] = useState(exercise.freq.length);
 
-  useEffect(() => {
-    console.log(exercisesMaster);
-  }, []);
   const addSet = () => {
     setSet(set + 1);
     exercise.freq.length = set; // link set count with any update
@@ -72,11 +69,14 @@ const ExerciseCard: React.FC<ExerciseCardProp> = ({
   /* HOW TO QUERY EXERCISE NAME BY ID FROM EXERCISE LIST */
   const getExerciseName = (id: string) => {
     let exerciseIndex = exercisesMaster.findIndex(e => e.id === id);
-    let exercise = exercisesMaster[exerciseIndex];
+    console.log(exerciseIndex);
 
-    console.log(exercise.name);
-
-    return exercise.name;
+    if (exerciseIndex !== -1) {
+      let exercise = exercisesMaster[exerciseIndex];
+      console.log(exercise.name);
+      return exercise.name;
+    }
+    return 'Exercise name is not defined';
   };
 
   return (
@@ -90,7 +90,7 @@ const ExerciseCard: React.FC<ExerciseCardProp> = ({
           justifyContent: 'center',
         }}>
         <Text style={style.exerciseTitleStyle}>
-          {getExerciseName(exercise.id)}
+          {getExerciseName(exercise?.id)}
         </Text>
         <TouchableOpacity
           onPress={() => {
