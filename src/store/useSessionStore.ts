@@ -1,6 +1,5 @@
 import create from 'zustand';
 import {store} from './mmkv';
-import uuid from 'react-native-uuid';
 import produce, {Draft} from 'immer';
 import {
   sessionExerciseType,
@@ -73,7 +72,7 @@ const useSessionStore = create<State & Actions>((set, get) => ({
           } else {
             session.exercise.push({
               exerciseId,
-              set: [{setId: `${sessionId}-${exerciseId}-0`, weight, reps, tut}],
+              set: [{setId: uuidv4(), weight, reps, tut}],
             });
           }
         }

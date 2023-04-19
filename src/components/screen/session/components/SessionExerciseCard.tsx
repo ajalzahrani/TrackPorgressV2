@@ -50,6 +50,10 @@ const SessionExerciseCard: React.FC<SessionExerciseCardType> = ({
     else return resttime[1];
   });
 
+  const [weight, setWeight] = useState(0);
+  const [rep, setRep] = useState(reps);
+  const [tut, setTut] = useState(0);
+
   const time = new Date();
   const expiryTimestamp = time.setSeconds(time.getSeconds() + resttimeInSecond);
 
@@ -70,19 +74,26 @@ const SessionExerciseCard: React.FC<SessionExerciseCardType> = ({
   });
 
   useEffect(() => {
-    const time = new Date();
-    console.log(time.setSeconds(time.getSeconds() + 600));
-  }, []);
+    if (seconds === 0) {
+      handleTimerLableStop();
+    }
+  }, [seconds]);
 
   const handleTimerLableStop = () => {
-    scrollToNextCard(index);
+    // scrollToNextCard(index);
     setIsPressed(s => !s);
     setSkitchTitle(true);
   };
 
-  const [weight, setWeight] = useState(0);
-  const [rep, setRep] = useState(reps);
-  const [tut, setTut] = useState(0);
+  function toggleRestTimer() {
+    setIsActive(!isActive);
+    start();
+  }
+
+  function reset() {
+    setResttimeInSecond(0);
+    setIsActive(false);
+  }
 
   const addWeight = () => {
     setWeight(weight + 5);
@@ -94,7 +105,6 @@ const SessionExerciseCard: React.FC<SessionExerciseCardType> = ({
       setWeight(weight - 1);
     }
   };
-
   const addRep = () => {
     setRep(rep + 1);
   };
@@ -105,7 +115,6 @@ const SessionExerciseCard: React.FC<SessionExerciseCardType> = ({
       setRep(rep - 1);
     }
   };
-
   const addTut = () => {
     setTut(tut + 5);
   };
@@ -117,15 +126,6 @@ const SessionExerciseCard: React.FC<SessionExerciseCardType> = ({
     }
   };
 
-  function toggle() {
-    setIsActive(!isActive);
-  }
-
-  function reset() {
-    setResttimeInSecond(0);
-    setIsActive(false);
-  }
-
   return (
     <>
       <View
@@ -135,25 +135,14 @@ const SessionExerciseCard: React.FC<SessionExerciseCardType> = ({
           {borderBottomStartRadius: isPressed ? 0 : 10},
           {marginBottom: isPressed ? 0 : 7},
         ]}>
-        <View
-          // className="flex-col space-y-2"
-          style={style.cardTitle}>
+        <View style={style.cardTitle}>
           <Text style={style.timerLable}>{seconds > 0 ? seconds : '--'}</Text>
           <Text
             style={skitchTitle ? style.workoutTitleDone : style.workoutTitle}>
             {exerciseName}
           </Text>
-          {/* <TimerLabel
-            seconds={seconds}
-            setSeconds={setSeconds}
-            isActive={isActive}
-            toggle={toggle}
-          /> */}
         </View>
-        <View
-          style={style.editContainerStyle}
-          // className="space-x-2"
-        >
+        <View style={style.editContainerStyle}>
           <TouchableOpacity
             onPress={() => {
               setIsPressed(!isPressed);
@@ -261,7 +250,7 @@ const SessionExerciseCard: React.FC<SessionExerciseCardType> = ({
           <TouchableOpacity
             // className="mb-1"
             onPress={() => {
-              toggle();
+              toggleRestTimer();
               // Register set to exercises array
               registerSet(sessionId, exerciseId, weight, rep, tut);
             }}>
