@@ -3,9 +3,11 @@
 
 const exerciseMasterGlobalKey = 'exercises';
 const routineGlobalKey = 'routines';
+const sessionGlobalKey = 'session';
 
 const def = {
   exerciseMasterGlobalKey,
   routineGlobalKey,
+  sessionGlobalKey,
 };
 export default def;

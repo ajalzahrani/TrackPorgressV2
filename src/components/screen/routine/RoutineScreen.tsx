@@ -20,6 +20,7 @@ import CalenderRow from './components/CalenderRow';
 import WorkoutCard from './components/WorkoutCard';
 import {PressableButton} from 'src/components/shared';
 import compareObjects from 'src/components/shared/compareObjects';
+import {ScreenContainer} from 'src/components/shared';
 
 // Assets
 import {colors, assets} from 'src/assets';
@@ -66,7 +67,7 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
-    <SafeAreaView style={style.safeViewStyle}>
+    <ScreenContainer>
       <Modal
         animationType="slide"
         transparent={true}
@@ -208,15 +209,11 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
           </ScrollView>
         </View>
       </View>
-    </SafeAreaView>
+    </ScreenContainer>
   );
 };
 
 const style = StyleSheet.create({
-  safeViewStyle: {
-    backgroundColor: colors.primary,
-    flex: 1,
-  },
   preWorkoutListContainerStyle: {
     marginTop: 51,
   },

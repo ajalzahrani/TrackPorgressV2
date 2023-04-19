@@ -8,12 +8,12 @@ import {
 } from 'src/components/shared/globalTypes';
 import uuidv4 from 'src/components/shared/uuid4v';
 import moment from 'moment';
-
-const sessionGlobalKey = 'session';
+import def from 'src/components/shared/GlobalDefinition';
 
 const getSession = (): sessionType[] => {
-  const sessionString = store.getString(sessionGlobalKey);
-  return store.contains(sessionGlobalKey) && typeof sessionString === 'string'
+  const sessionString = store.getString(def.sessionGlobalKey);
+  return store.contains(def.sessionGlobalKey) &&
+    typeof sessionString === 'string'
     ? JSON.parse(sessionString)
     : [];
 };
@@ -112,7 +112,7 @@ const useSessionStore = create<State & Actions>((set, get) => ({
               exercise: exercise,
             });
           }
-          store.set(sessionGlobalKey, JSON.stringify(sessions));
+          store.set(def.sessionGlobalKey, JSON.stringify(state.sessions));
         }
       }),
     ),

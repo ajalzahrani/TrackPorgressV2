@@ -102,7 +102,7 @@ const SessionScreen: React.FC<SessionScreenProp> = ({route, navigation}) => {
             exerciseName={exername}
             reps={item.freq[j]}
             resttimeId={1}
-            resttime={workout.resettime}
+            resttime={workout.resttime}
             scrollToNextCard={scrollToNextCard}
           />,
         );
@@ -116,7 +116,7 @@ const SessionScreen: React.FC<SessionScreenProp> = ({route, navigation}) => {
             exerciseName={exername}
             reps={item.freq[j]}
             resttimeId={0}
-            resttime={workout.resettime}
+            resttime={workout.resttime}
             scrollToNextCard={scrollToNextCard}
           />,
         );
