@@ -50,32 +50,28 @@ const SessionExerciseCard: React.FC<SessionExerciseCardType> = ({
     else return resttime[1];
   });
 
-  // const {
-  //   seconds,
-  //   minutes,
-  //   hours,
-  //   days,
-  //   isRunning,
-  //   start,
-  //   pause,
-  //   resume,
-  //   restart,
-  // } = useTimer({
-  //   Math.floor(secondss),
-  //   onExpire: () => handleTimerLableStop,
-  //   autoStart: false,
-  // });
+  const time = new Date();
+  const expiryTimestamp = time.setSeconds(time.getSeconds() + resttimeInSecond);
 
-  // const expiryTimestamp = Math.floor(secondss);
-
-  useEffect(() => {
-    handleTimerLableStop();
-  }, [isActive]);
+  const {
+    seconds,
+    minutes,
+    hours,
+    days,
+    isRunning,
+    start,
+    pause,
+    resume,
+    restart,
+  } = useTimer({
+    expiryTimestamp,
+    onExpire: () => handleTimerLableStop,
+    autoStart: false,
+  });
 
   useEffect(() => {
-    console.log('resttimeId: ', resttimeId);
-    console.log('resttime 1: ', resttime[0]);
-    console.log('resttime 2: ', resttime[1]);
+    const time = new Date();
+    console.log(time.setSeconds(time.getSeconds() + 600));
   }, []);
 
   const handleTimerLableStop = () => {
@@ -140,8 +136,9 @@ const SessionExerciseCard: React.FC<SessionExerciseCardType> = ({
           {marginBottom: isPressed ? 0 : 7},
         ]}>
         <View
-        // className="flex-col space-y-2"
-        >
+          // className="flex-col space-y-2"
+          style={style.cardTitle}>
+          <Text style={style.timerLable}>{seconds > 0 ? seconds : '--'}</Text>
           <Text
             style={skitchTitle ? style.workoutTitleDone : style.workoutTitle}>
             {exerciseName}
@@ -152,7 +149,6 @@ const SessionExerciseCard: React.FC<SessionExerciseCardType> = ({
             isActive={isActive}
             toggle={toggle}
           /> */}
-          {/* <Text style={style.timerLable}>{seconds > 0 ? seconds : '--'}</Text> */}
         </View>
         <View
           style={style.editContainerStyle}
@@ -386,8 +382,14 @@ const style = StyleSheet.create({
     marginHorizontal: 24.5,
   },
   timerLable: {
+    marginRight: 20,
     fontSize: 18,
     color: 'white',
+  },
+  cardTitle: {
+    flexDirection: 'row',
+
+    alignItems: 'center',
   },
 });
 
