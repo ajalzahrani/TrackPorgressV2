@@ -1,21 +1,13 @@
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-import uuidv4 from 'src/components/shared/uuid4v';
 import {useTimer} from 'src/components/hooks/timer-hook';
 
 // Assets
 import {colors, assets} from 'src/assets';
 
-// components
-import secondsToTime from 'src/components/shared/secondToTme';
-
-// gstore
+// Store
 import useSessionStore from 'src/store/useSessionStore';
-
-type expiryTimestampType = {
-  expiryTimestamp: Date;
-};
 
 type SessionExerciseCardType = {
   index: number;
@@ -23,8 +15,7 @@ type SessionExerciseCardType = {
   exerciseId: string;
   exerciseName: string;
   reps: number;
-  resttimeId: number;
-  resttime: number[];
+  expiryTimestamp?: number;
   scrollToNextCard: (index: number) => void;
   // setSelectedId: () => void;
 };
@@ -35,27 +26,18 @@ const SessionExerciseCard: React.FC<SessionExerciseCardType> = ({
   exerciseId,
   exerciseName,
   reps,
-  resttime,
-  resttimeId,
+  expiryTimestamp,
   scrollToNextCard,
-  // setSelectedId,
 }) => {
   // FIXME: Add value picker for weight and time
   const registerSet = useSessionStore(s => s.registerSet);
   const [isActive, setIsActive] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
   const [skitchTitle, setSkitchTitle] = useState(false);
-  const [resttimeInSecond, setResttimeInSecond] = useState(() => {
-    if (resttimeId === 0) return resttime[0];
-    else return resttime[1];
-  });
 
   const [weight, setWeight] = useState(0);
   const [rep, setRep] = useState(reps);
   const [tut, setTut] = useState(0);
-
-  const time = new Date();
-  const expiryTimestamp = time.setSeconds(time.getSeconds() + resttimeInSecond);
 
   const {
     seconds,
@@ -91,7 +73,6 @@ const SessionExerciseCard: React.FC<SessionExerciseCardType> = ({
   }
 
   function reset() {
-    setResttimeInSecond(0);
     setIsActive(false);
   }
 

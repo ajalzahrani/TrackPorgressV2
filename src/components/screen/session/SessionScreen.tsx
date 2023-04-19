@@ -21,7 +21,6 @@ import SessionController from './components/SessionController';
 import {ScreenContainer} from 'src/components/shared';
 
 // Store
-import useExerciseStore from 'src/store/useExerciseMaster';
 import useSessionStore from 'src/store/useSessionStore';
 
 // Navigation
@@ -87,8 +86,9 @@ const SessionScreen: React.FC<SessionScreenProp> = ({route, navigation}) => {
             exerciseId={item.id}
             exerciseName={exername}
             reps={item.freq[j]}
-            resttimeId={1}
-            resttime={workout.resttime}
+            expiryTimestamp={new Date().setSeconds(
+              new Date().getSeconds() + workout.resttime[1],
+            )}
             scrollToNextCard={scrollToNextCard}
           />,
         );
@@ -102,8 +102,9 @@ const SessionScreen: React.FC<SessionScreenProp> = ({route, navigation}) => {
             exerciseId={item.id}
             exerciseName={exername}
             reps={item.freq[j]}
-            resttimeId={0}
-            resttime={workout.resttime}
+            expiryTimestamp={new Date().setSeconds(
+              new Date().getSeconds() + workout.resttime[0],
+            )}
             scrollToNextCard={scrollToNextCard}
           />,
         );
