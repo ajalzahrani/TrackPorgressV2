@@ -13,6 +13,7 @@ import {
 import React, {useEffect, useState} from 'react';
 import {store} from '../../../store/Store';
 import uuidv4 from 'src/components/shared/uuid4v';
+import useExerciseName from 'src/components/hooks/useExerciseName';
 
 // Assets
 import {colors} from 'src/assets';
@@ -65,14 +66,7 @@ const SessionScreen: React.FC<SessionScreenProp> = ({route, navigation}) => {
   const [ref, setRef] = useState<FlatList<any> | null>(null); // ref to flatlist
   const registerSession = useSessionStore(s => s.registerSession);
   const [sessionId, setSessionId] = useState(uuidv4());
-
-  /* HOW TO QUERY EXERCISE NAME BY ID FROM EXERCISE LIST */
-  const getExerciseName = (exerciseId: string) => {
-    let exercise = exerciseMaster.filter(exercise => {
-      return exercise.id === exerciseId;
-    });
-    return exercise[0]?.name;
-  };
+  const getExerciseName = useExerciseName();
 
   const scrollToNextCard = (index: number) => {
     index++;
@@ -87,7 +81,7 @@ const SessionScreen: React.FC<SessionScreenProp> = ({route, navigation}) => {
   const renderExercise: ListRenderItem<exercisesType> = ({
     item,
   }: ListRenderItemInfo<exercisesType>) => {
-    let exername = getExerciseName(item.id);
+    let exername = getExerciseName(item.id) || '';
     const rows = [];
     let key = 0;
     for (let j = 0; j < item.freq.length; j++) {

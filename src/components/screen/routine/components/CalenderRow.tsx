@@ -111,10 +111,11 @@ const CalenderRow: React.FC<CalenderRowProp> = ({routine}) => {
     handleWhichDay();
   }, []);
 
-  useEffect(() => {
-    generateWorkdays();
-    console.log('rerender');
-  }, [routine.weekdays[dayId].workout]);
+  // TODO: update Calender row after selecting a workout
+  // useEffect(() => {
+  //   generateWorkdays();
+  //   console.log('rerender');
+  // }, [routine.weekdays[dayId].workout]);
 
   return (
     // <View className="flex-row justify-around pt-5 mx-3">

@@ -45,10 +45,11 @@ const SessionExerciseCard: React.FC<SessionExerciseCardType> = ({
   const [isActive, setIsActive] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
   const [skitchTitle, setSkitchTitle] = useState(false);
-  const [secondss, setSecondss] = useState(() => {
+  const [resttimeInSecond, setResttimeInSecond] = useState(() => {
     if (resttimeId === 0) return resttime[0];
     else return resttime[1];
   });
+
   // const {
   //   seconds,
   //   minutes,
@@ -70,6 +71,12 @@ const SessionExerciseCard: React.FC<SessionExerciseCardType> = ({
   useEffect(() => {
     handleTimerLableStop();
   }, [isActive]);
+
+  useEffect(() => {
+    console.log('resttimeId: ', resttimeId);
+    console.log('resttime 1: ', resttime[0]);
+    console.log('resttime 2: ', resttime[1]);
+  }, []);
 
   const handleTimerLableStop = () => {
     scrollToNextCard(index);
@@ -119,7 +126,7 @@ const SessionExerciseCard: React.FC<SessionExerciseCardType> = ({
   }
 
   function reset() {
-    setSecondss(0);
+    setResttimeInSecond(0);
     setIsActive(false);
   }
 
