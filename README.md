@@ -22,10 +22,10 @@ To use the app, follow these steps:
 1. End the session.
 
 ## Support
-If you have any questions or issues with the app, please contact at alzahrani.abdulrahman3@gmail.com, or you are free to make PR.
+If you have any questions or issues with the app, please contact at alzahrani.abdulrahman3@gmail.com.
 
 ## Contributing
-I welcome contributions from developers who would like to help improve the app. If you're interested in contributing, please contact me at alzahrani.abdulrahman3@gmail.com.
+I welcome contributions from developers who would like to help improve the app. If you're interested in contributing, please contact me at alzahrani.abdulrahman3@gmail.com, or you are free to make PR
 
 ## License
 This project is licensed under the MIT License - see the LICENSE.md file for details.
