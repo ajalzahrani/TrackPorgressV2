@@ -2,14 +2,17 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import React, {useState, useMemo, useEffect} from 'react';
 import {Calendar} from 'react-native-calendars';
 import {colors} from 'src/assets';
-import {useGstore} from '../../../../../gstore';
-import {convertDate} from './shared';
+import {convertDate} from 'src/components/shared/';
 import moment from 'moment';
 
-const Calendars = ({setSelectedDate}) => {
-  const sessions = useGstore(state => state.sessions);
-  const [selected, setSelected] = useState(initDate); // hold selected day
-  const initDate = '2022-11-01';
+import useSessionStore from 'src/store/useSessionStore';
+
+type CalenderProps = {
+  setSelectedDate: (dateString: string) => void;
+};
+const Calendars = ({setSelectedDate}: CalenderProps) => {
+  const sessions = useSessionStore(state => state.sessions);
+  const [selected, setSelected] = useState('2022-11-01'); // hold selected day
   const [markedDate, setMarkedDate] = useState({}); // hold datetime
 
   const select = useMemo(
@@ -38,17 +41,17 @@ const Calendars = ({setSelectedDate}) => {
 
   useEffect(() => {
     let marked = {};
-    // select sessions dates
-    sessions.forEach(item => {
-      marked[moment(item.datetime).format('YYYY-MM-DD')] = {
+    // mark sessions dates
+    sessions.forEach(session => {
+      Object.assign(marked, moment(session.datetime).format('YYYY-MM-DD'), {
         selected: true,
         selectedColor: '#222222',
-      };
+      });
     });
     // mark today
-    marked[moment(new Date()).format('YYYY-MM-DD')] = {
+    Object.assign(marked, moment(new Date()).format('YYYY-MM-DD'), {
       marked: true,
-    };
+    });
     setMarkedDate(marked);
   }, []);
 

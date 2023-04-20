@@ -24,13 +24,14 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RouteProp} from '@react-navigation/native';
 import {RoutineStackRootParamList} from 'src/components/navigation/RoutineStack';
 import uuidv4 from 'src/components/shared/uuid4v';
+import weekdays from 'src/assets/database/weekdays';
 
 type RoutineListScreenRouteType = RouteProp<
   RoutineStackRootParamList,
   'RoutineListScreen'
 >;
 
-type RoutineListNavigationProp = NativeStackNavigationProp<
+export type RoutineListNavigationProp = NativeStackNavigationProp<
   RoutineStackRootParamList,
   'RoutineListScreen'
 >;
@@ -88,7 +89,7 @@ const RoutineListScreen: React.FC<RoutineListProps> = ({route, navigation}) => {
                     level: 1,
                     description: '',
                     workouts: [],
-                    weekdays: [],
+                    weekdays: weekdays,
                   },
                 });
               }}>
@@ -105,9 +106,9 @@ const RoutineListScreen: React.FC<RoutineListProps> = ({route, navigation}) => {
                 style={{flex: 1}}
                 onPress={() => {
                   setRoutineId(routine.id);
-                  navigation.navigate('RoutineScreen', {routine});
+                  navigation.navigate('RoutineScreen');
                 }}>
-                <RoutineCard id={routine.id} title={routine.title} />
+                <RoutineCard routine={routine} />
               </TouchableOpacity>
             </View>
           ))}
@@ -160,7 +161,7 @@ const style = StyleSheet.create({
     marginHorizontal: 24.5,
   },
   startTextStyle: {
-    fontWeight: 600,
+    fontWeight: '600',
     fontSize: 16,
     lineHeight: 24,
   },

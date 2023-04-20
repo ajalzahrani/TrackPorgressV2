@@ -1,40 +1,25 @@
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-  TextInput,
-  Pressable,
-} from 'react-native';
-import React, {useEffect, useState, useCallback} from 'react';
+import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {TimePicker, ValueMap} from 'react-native-simple-time-picker';
 
-import {timing} from 'src/components/shared';
+import useExerciseStore from 'src/store/useExerciseMaster';
+import useRoutineStore from 'src/store/useRoutineStore';
 
 // Assets
 import {colors, assets} from 'src/assets';
 
-// Store
-import useStore from '../../../../store/store.bak/useStore';
-import useExerciseStore from 'src/store/useExerciseMaster';
-import useRoutineStore from 'src/store/useRoutineStore';
-
-type RestTimeControllerProp = {
+type RestTimeControllerProps = {
   indicatorTitle: string;
-  controllerTypeId: number;
+  controllerType: number;
+  resttime: number[];
 };
-const RestTimeController: React.FC<RestTimeControllerProp> = ({
+const RestTimeController: React.FC<RestTimeControllerProps> = ({
   indicatorTitle,
-  controllerTypeId,
+  controllerType,
+  resttime,
 }) => {
-  const routines = useRoutineStore(s => s.routines);
-  const addRestTime = useStore(s => s.addRestTime);
-  const currentWorkout = useStore(s => s.currentWorkout);
-  const resttime = currentWorkout.resttime;
-
   const [number, setNumber] = useState(() => {
-    if (controllerTypeId === 0) return resttime[0];
+    if (id === 0) return resttime[0];
     else return resttime[1];
   });
 
@@ -50,16 +35,29 @@ const RestTimeController: React.FC<RestTimeControllerProp> = ({
     setValue(newValue);
   };
 
+  const convertTimeToSeconds = (min: number, sec: number) => {
+    return min * 60 + sec;
+  };
+
+  const convertToTimeObj = (number = 0) => {
+    let timeObj = {hours: 0, minutes: 0, seconds: 0};
+
+    timeObj.minutes = Math.floor(number / 60);
+    timeObj.seconds = number % 60;
+
+    return timeObj;
+  };
+
   useEffect(() => {
     setNumber(timing.convertTimeToSeconds(value.minutes, value.seconds));
   }, [value]);
 
   useEffect(() => {
-    addRestTime(controllerTypeId, number);
+    resttime[controllerType] = number;
   }, [number]);
 
   useEffect(() => {
-    setValue(timing.convertToTimeObj(number));
+    setValue(convertToTimeObj(number));
   }, []);
 
   return (

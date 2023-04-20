@@ -1,20 +1,18 @@
-import {getDayObject} from './getDayObject';
-import {getWorkoutObject} from './getWorkoutObject';
 import {getDayLabel} from './getDayLabel';
 import {getExerciseName} from './getExerciseName';
 import {convertDate} from './convertDate';
 import PressableButton from './PressableButton';
+import Pressable from './Pressable';
 import ScreenContainer from './ScreenContainer';
 import ViewCenter from './ViewCenter';
 import ViewRow from './ViewRow';
 import ListCard from './ListCard';
 import ListCardDetails from './ListCardDetails';
+import ListCardTitle from './ListCardTitle';
 import LoadingView from './LoadingView';
 import {timing} from './timing';
 
 export {
-  getDayObject,
-  getWorkoutObject,
   getDayLabel,
   getExerciseName,
   convertDate,
@@ -25,5 +23,6 @@ export {
   ListCard,
   ListCardDetails,
   LoadingView,
-  timing,
+  Pressable,
+  ListCardTitle,
 };

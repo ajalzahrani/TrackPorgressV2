@@ -5,14 +5,12 @@ import {StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import Router from './src/components/navigation/Router';
 
-// TailwindCSS
-import {TailwindProvider} from 'tailwindcss-react-native';
-
 // Storage
 import {ImplementDataStructure} from './src/assets/database/ImplementDataStructure';
 
 // Translation
 import {I18nextProvider} from 'react-i18next';
+import i18n from './src/Translation/i18n'; // import your i18n object
 
 const App = () => {
   useEffect(() => {
@@ -20,18 +18,19 @@ const App = () => {
   }, []);
   return (
     <NavigationContainer>
-      <TailwindProvider>
-        <StatusBar
-          backgroundColor="transparent"
-          barStyle="light-content"
-          translucent={true}
-        />
-        <I18nextProvider i18n={undefined}>
-          <Router />
-        </I18nextProvider>
-      </TailwindProvider>
+      <StatusBar
+        backgroundColor="transparent"
+        barStyle="light-content"
+        translucent={true}
+      />
+      <I18nextProvider i18n={i18n}>
+        <Router />
+      </I18nextProvider>
     </NavigationContainer>
   );
 };
 
 export default App;
+
+// npm i nativewind
+// npm i --dev tailwindcss

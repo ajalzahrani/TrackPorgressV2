@@ -1,18 +1,18 @@
 import create from 'zustand';
 import {store} from './mmkv';
-import uuid from 'react-native-uuid';
 import produce, {Draft} from 'immer';
 import {
   sessionExerciseType,
   sessionType,
 } from 'src/components/shared/globalTypes';
 import uuidv4 from 'src/components/shared/uuid4v';
-
-const sessionGlobalKey = 'session';
+import moment from 'moment';
+import def from 'src/components/shared/GlobalDefinition';
 
 const getSession = (): sessionType[] => {
-  const sessionString = store.getString(sessionGlobalKey);
-  return store.contains(sessionGlobalKey) && typeof sessionString === 'string'
+  const sessionString = store.getString(def.sessionGlobalKey);
+  return store.contains(def.sessionGlobalKey) &&
+    typeof sessionString === 'string'
     ? JSON.parse(sessionString)
     : [];
 };
@@ -38,6 +38,7 @@ type Actions = {
     workoutId: string,
     exercise?: sessionExerciseType[],
   ) => void;
+  getSessionsByDate: (date: string) => sessionType[];
 };
 
 const initialState: State = {
@@ -71,7 +72,7 @@ const useSessionStore = create<State & Actions>((set, get) => ({
           } else {
             session.exercise.push({
               exerciseId,
-              set: [{setId: `${sessionId}-${exerciseId}-0`, weight, reps, tut}],
+              set: [{setId: uuidv4(), weight, reps, tut}],
             });
           }
         }
@@ -110,10 +111,20 @@ const useSessionStore = create<State & Actions>((set, get) => ({
               exercise: exercise,
             });
           }
-          store.set(sessionGlobalKey, JSON.stringify(sessions));
+          store.set(def.sessionGlobalKey, JSON.stringify(state.sessions));
         }
       }),
     ),
+
+  getSessionsByDate: (date: string) => {
+    let daySession = [];
+    for (let i = 0; i < get().sessions.length; i++) {
+      if (moment(get().sessions[i].datetime).format('YYYY-MM-DD') === date) {
+        daySession.push(get().sessions[i]);
+      }
+    }
+    return daySession;
+  },
 }));
 
 export default useSessionStore;

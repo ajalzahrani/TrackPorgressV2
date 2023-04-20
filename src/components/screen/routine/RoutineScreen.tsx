@@ -20,18 +20,19 @@ import CalenderRow from './components/CalenderRow';
 import WorkoutCard from './components/WorkoutCard';
 import {PressableButton} from 'src/components/shared';
 import compareObjects from 'src/components/shared/compareObjects';
+import {ScreenContainer} from 'src/components/shared';
 
 // Assets
 import {colors, assets} from 'src/assets';
 
 // Store
-import useStore from '../../../store/store.bak/useStore';
+import useRoutineStore from 'src/store/useRoutineStore';
 
 // Navigation
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {RoutineStackRootParamList} from 'src/components/navigation/RoutineStack';
-import useRoutineStore from 'src/store/useRoutineStore';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
+import uuidv4 from 'src/components/shared/uuid4v';
 
 type RoutineScreenRouteProp = RouteProp<
   RoutineStackRootParamList,
@@ -53,10 +54,14 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
   // FIXME: Auto select new added workout.
   // FIXME: Clicking on navigation button should prsiste configurations.
 
-  const routine = route.params.routine;
-  const routineRef = useRef(routine);
+  const routines = useRoutineStore(s => s.routines);
+  const routineId = useRoutineStore(r => r.stateId.routineId);
   const workoutId = useRoutineStore(s => s.stateId.workoutId);
+  const routineIndex = routines.findIndex(i => i.id === routineId);
+  const routine = routines[routineIndex];
+  const routineRef = useRef(routine);
   const setWorkoutId = useRoutineStore(s => s.setWorkoutId);
+  const setWeekDayWorkout = useRoutineStore(s => s.setWeekDayWorkout);
   const workout = routine.workouts.find(workout => workout.id === workoutId);
 
   const {t} = useTranslation();
@@ -64,7 +69,7 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
-    <SafeAreaView style={style.safeViewStyle}>
+    <ScreenContainer>
       <Modal
         animationType="slide"
         transparent={true}
@@ -110,7 +115,8 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
         <View style={style.goBackStyle}>
           <TouchableOpacity
             onPress={() => {
-              if (!compareObjects(routineRef, routine)) {
+              // if (!compareObjects(routineRef, routine)) {
+              if (!compareObjects(routine, routine)) {
                 setModalVisible(!modalVisible);
               } else {
                 navigation.navigate('RoutineListScreen', {name: ''});
@@ -119,17 +125,12 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
             <Image source={assets.icn_goback} />
           </TouchableOpacity>
           <TouchableOpacity
-            // className="flex-row flex-1 space-x-2 items-center justify-end mt-2 mr-2"
+            style={style.addNewWorkout}
             onPress={() => {
-              navigation.navigate('WorkoutScreen', {
-                routineId: routine.id,
-                workout: undefined,
-              });
+              navigation.navigate('WorkoutScreen');
             }}>
             <Image source={assets.icn_plus} style={{}} />
-            <Text
-            // className="text-red-500 text-base"
-            >
+            <Text style={{color: colors.red}}>
               {t('schedule.addNewWorkout')}
             </Text>
           </TouchableOpacity>
@@ -141,8 +142,8 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
         {workout?.title ? (
           <>
             <View
-            // className="flex-row items-center space-x-5"
-            >
+              // className="flex-row items-center space-x-5"
+              style={style.workoutTitleStyle}>
               <Text style={style.workoutTitleStyle}>{workout.title}</Text>
               <TouchableOpacity
                 onPress={() => {
@@ -174,29 +175,26 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
           </>
         ) : (
           <Text
-          // className="text-yellow-200"
-          >
+            // className="text-yellow-200"
+            style={style.noWorkoutWorning}>
             {t('schedule.addNewWorkoutOrChoose')}
           </Text>
         )}
       </View>
       <View style={{paddingHorizontal: 16, flex: 1}}>
         <View style={style.preWorkoutListContainerStyle}>
-          <Text
+          {/* <Text
           // className="text-white"
           >
             {t('schedule.preListOfWorkouts')}
-          </Text>
+          </Text> */}
           <ScrollView contentContainerStyle={{paddingBottom: 72}}>
             {routine.workouts?.map(workout => (
               <TouchableOpacity
                 key={workout.id}
                 onPress={() => {
-                  // console.log(workout.id);
-                  // console.log(currentDay.id);
-                  // selectScheduledWorkout(workout.id);
-                  // addWorkoutDay(currentDay.id);
                   setWorkoutId(workout.id);
+                  setWeekDayWorkout(routine.id);
                 }}>
                 <WorkoutCard routineId={routine.id} workout={workout} />
               </TouchableOpacity>
@@ -204,17 +202,20 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
           </ScrollView>
         </View>
       </View>
-    </SafeAreaView>
+    </ScreenContainer>
   );
 };
 
 const style = StyleSheet.create({
-  safeViewStyle: {
-    backgroundColor: colors.primary,
-    flex: 1,
-  },
   preWorkoutListContainerStyle: {
     marginTop: 51,
+  },
+  // className="flex-row flex-1 space-x-2 items-center justify-end mt-2 mr-2"
+  addNewWorkout: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
   },
   workoutContainerStyle: {
     display: 'flex',
@@ -231,12 +232,10 @@ const style = StyleSheet.create({
     alignItems: 'center',
   },
   workoutTitleStyle: {
-    flex: 1,
-    flexWrap: 'wrap',
-    fontStyle: 'normal',
+    alignItems: 'center',
+    flexDirection: 'row',
     fontWeight: '600',
     fontSize: 30,
-    lineHeight: 45,
     textAlign: 'center',
     color: colors.white,
   },
@@ -253,7 +252,7 @@ const style = StyleSheet.create({
     marginHorizontal: 24.5,
   },
   startTextStyle: {
-    fontWeight: 600,
+    fontWeight: '600',
     fontSize: 16,
     lineHeight: 24,
   },
@@ -308,6 +307,10 @@ const style = StyleSheet.create({
     margin: 10,
     borderRadius: 10,
     borderWidth: 0.2,
+  },
+
+  noWorkoutWorning: {
+    color: colors.yellow,
   },
 });
 

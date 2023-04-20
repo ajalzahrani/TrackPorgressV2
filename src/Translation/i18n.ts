@@ -1,8 +1,8 @@
 import i18n from 'i18next';
 import {initReactI18next} from 'react-i18next';
-// import locale from 'react-native-locale-detector';
-import i18nextReactNative from 'i18next-react-native-language-detector';
-import {store} from '../Store';
+import locale from 'react-native-locale-detector';
+// import i18nextReactNative from 'i18next-react-native-language-detector';
+import {store} from '../store/Store';
 import 'intl-pluralrules';
 
 import en from './en.json';

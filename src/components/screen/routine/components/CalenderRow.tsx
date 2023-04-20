@@ -24,6 +24,8 @@ type CalenderRowProp = {
 
 const CalenderRow: React.FC<CalenderRowProp> = ({routine}) => {
   const setWorkoutId = useRoutineStore(s => s.setWorkoutId);
+  const setDayId = useRoutineStore(s => s.setDayId);
+  const dayId = useRoutineStore(s => s.stateId.dayId);
   const [db, setDB] = useState(dayButton);
 
   const generateWorkdays = () => {
@@ -46,7 +48,7 @@ const CalenderRow: React.FC<CalenderRowProp> = ({routine}) => {
             style={[
               {
                 display: 'flex',
-                backgroundColor: day.workday
+                backgroundColor: day.isWorkday
                   ? colors.secondary
                   : colors.offwhite,
                 justifyContent: 'center',
@@ -85,26 +87,28 @@ const CalenderRow: React.FC<CalenderRowProp> = ({routine}) => {
   };
 
   const handleWhichDay = () => {
-    let date = new Date().getDay();
     setDB(
       produce(draft => {
         draft.forEach(day => {
           day.ispicked = false;
           day.istoday = false;
         });
-        draft[date].istoday = true;
-        draft[date].ispicked = true;
+        draft[dayId].istoday = true;
+        draft[dayId].ispicked = true;
       }),
     );
-
-    // if current day has scheduled workout then select workout
-    const dayId = new Date().getDay();
     setWorkoutId(routine.weekdays[dayId].workoutId);
   };
 
   useEffect(() => {
     handleWhichDay();
   }, []);
+
+  // TODO: update Calender row after selecting a workout
+  // useEffect(() => {
+  //   generateWorkdays();
+  //   console.log('rerender');
+  // }, [routine.weekdays[dayId].workout]);
 
   return (
     // <View className="flex-row justify-around pt-5 mx-3">
@@ -121,11 +125,6 @@ const style = StyleSheet.create({
     padding: 0,
     marginTop: 26,
     marginHorizontal: 16,
-    // position: 'absolute',
-    // width: 358,
-    // height: 44,
-    // left: 16,
-    // top: 100,
   },
   touchableOpacityStyle: {
     display: 'flex',

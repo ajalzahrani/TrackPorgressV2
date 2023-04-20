@@ -6,26 +6,33 @@ import CardExerciseDetails from './CardExerciseDetails';
 // Assets
 import {colors, assets} from 'src/assets';
 
-// Store
-import useStore from '../../../../store/store.bak/useStore';
-import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
-import PressableButton from '../../../shared/PressableButton';
-import {exerciseMasterType} from 'src/components/shared/globalTypes';
+import {
+  exerciseMasterType,
+  exercisesType,
+} from 'src/components/shared/globalTypes';
+import useRoutineStore from 'src/store/useRoutineStore';
 
 type ExerciseSelectRowType = {
-  exercise: exerciseMasterType;
+  routineId: string;
+  workoutId: string;
+  exerciseRow: exerciseMasterType;
+  exercisesSelected: exercisesType[];
 };
 
-const ExerciseSelectRow = ({exercise}: ExerciseSelectRowType) => {
-  const exercises = useStore(s => s.currentWorkout.exercises);
-  const addNewExerciseWorkout = useStore(s => s.addNewExerciseWorkout);
+const ExerciseSelectRow = ({
+  routineId,
+  workoutId,
+  exerciseRow,
+  exercisesSelected,
+}: ExerciseSelectRowType) => {
+  const updateExercises = useRoutineStore(s => s.updateExercises);
   const [isSelected, setIsSelected] = useState(false);
   const [preSelected, setPreSelected] = useState(false);
   const [explore, setIsExplore] = useState(false);
 
   const handlePreSelect = () => {
-    exercises?.find(exer => {
-      if (exer.id === exercise.id) {
+    exercisesSelected?.find(exercise => {
+      if (exercise.id === exerciseRow.id) {
         setIsSelected(true);
       }
     });
@@ -45,29 +52,25 @@ const ExerciseSelectRow = ({exercise}: ExerciseSelectRowType) => {
         // style={({pressed}) => [{opacity: pressed ? 0.5 : 1}]}
       >
         <View style={style.ExerciseRow}>
-          <Text style={style.exerciseTitleStyle}>{exercise.name}</Text>
-          <View
-          //  className="flex-row space-x-2 justify-center items-center"
-          >
-            <Image source={explore ? assets.icn_remove : assets.icn_add} />
-            <TouchableOpacity
-              onPress={() => {
-                setIsSelected(!isSelected);
-                addNewExerciseWorkout(exercise.id);
-              }}>
-              <View
-                style={{
+          <Text style={style.exerciseTitleStyle}>{exerciseRow.name}</Text>
+          <TouchableOpacity
+            onPress={() => {
+              setIsSelected(!isSelected);
+              updateExercises(routineId, workoutId, exerciseRow.id);
+            }}>
+            <View
+              style={[
+                {
                   backgroundColor: isSelected
                     ? colors.secondary
                     : colors.primary,
-                }}
-                // className="p-4 rounded-full"
-              ></View>
-            </TouchableOpacity>
-          </View>
+                },
+                {padding: 12, borderRadius: 150 / 2},
+              ]}></View>
+          </TouchableOpacity>
         </View>
       </TouchableOpacity>
-      {explore && <CardExerciseDetails exercise={exercise} />}
+      {/* {explore && <CardExerciseDetails exercise={exerciseRow} />} */}
     </>
   );
 };

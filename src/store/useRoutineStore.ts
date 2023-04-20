@@ -1,31 +1,32 @@
 import create from 'zustand';
 import {store} from './mmkv';
-import uuid from 'react-native-uuid';
 import produce, {Draft} from 'immer';
-import {
-  routineType,
-  workoutType,
-  exercisesType,
-} from 'src/components/shared/globalTypes';
-
-const routineGlobalKey = 'routine';
+import {routineType, workoutType} from 'src/components/shared/globalTypes';
+import def from 'src/components/shared/GlobalDefinition';
 
 const getRoutine = (): routineType[] => {
-  const routineString = store.getString(routineGlobalKey);
-  return store.contains(routineGlobalKey) && typeof routineString === 'string'
+  const routineString = store.getString(def.routineGlobalKey);
+  return store.contains(def.routineGlobalKey) &&
+    typeof routineString === 'string'
     ? JSON.parse(routineString)
     : [];
 };
 
 type State = {
   routines: routineType[];
-  stateId: {routineId: string; workoutId?: string; exerciseId?: string};
+  stateId: {
+    routineId: string;
+    workoutId?: string;
+    exerciseId?: string;
+    dayId: number;
+  };
 };
 
 type Actions = {
   setRoutineId: (routineId: string) => void;
   setWorkoutId: (workoutId: string) => void;
   setExerciseId: (exerciseId: string) => void;
+  setDayId: (dayId: number) => void;
   deleteWorkout: (routineId: string, workoutId: string) => void;
   addNewRoutine: (routineId: string, routine: routineType) => void;
   deleteRoutine: (routineId: string) => void;
@@ -34,11 +35,10 @@ type Actions = {
     workoutId: string,
     workout: workoutType,
   ) => void;
-
   updateExercises: (
     routineId: string,
     workoutId: string,
-    exercises: exercisesType,
+    exerciseId: string,
   ) => void;
   addFreq: (
     routineId: string,
@@ -51,11 +51,17 @@ type Actions = {
     workoutId: string,
     exerciseId: string,
   ) => void;
+  setWeekDayWorkout: (routineId: string) => void;
 };
 
 const initialState: State = {
   routines: getRoutine(),
-  stateId: {routineId: '', workoutId: '', exerciseId: ''},
+  stateId: {
+    routineId: '',
+    workoutId: '',
+    exerciseId: '',
+    dayId: new Date().getDay(),
+  },
 };
 
 const useRoutineStore = create<State & Actions>((set, get) => ({
@@ -91,7 +97,7 @@ const useRoutineStore = create<State & Actions>((set, get) => ({
           state.routines[routineIndex] = routine;
         } else {
           state.routines.push(routine);
-          store.set(routineGlobalKey, JSON.stringify(state.routines));
+          store.set(def.routineGlobalKey, JSON.stringify(state.routines));
         }
       }),
     ),
@@ -132,16 +138,62 @@ const useRoutineStore = create<State & Actions>((set, get) => ({
       }),
     ),
 
-  updateExercises: (routineId, workoutId, exercises) =>
+  setDayId: dayId =>
+    set(
+      produce((state: Draft<State & Actions>) => {
+        state.stateId.dayId = dayId;
+      }),
+    ),
+
+  setWeekDayWorkout: routineId =>
     set(
       produce((state: Draft<State & Actions>) => {
         const routineIndex = state.routines.findIndex(r => r.id === routineId);
         if (routineIndex !== -1) {
+          if (state.stateId.workoutId !== undefined)
+            state.routines[routineIndex].weekdays[
+              state.stateId.dayId
+            ].workoutId = state.stateId.workoutId;
+          const isworkoutday =
+            state.routines[routineIndex].weekdays[state.stateId.dayId]
+              .isWorkday;
+
+          state.routines[routineIndex].weekdays[state.stateId.dayId].isWorkday =
+            true;
+        }
+      }),
+    ),
+
+  updateExercises: (routineId, workoutId, exerciseId) =>
+    set(
+      produce((state: Draft<State & Actions>) => {
+        const routineIndex = state.routines.findIndex(r => r.id === routineId);
+        if (routineIndex !== -1) {
+          console.log('routineIndex founded');
+          console.log(state.routines[routineIndex].workouts);
           const workoutIndex = state.routines[routineIndex].workouts.findIndex(
             w => w.id === workoutId,
           );
           if (workoutIndex !== -1) {
-            state.routines[routineIndex].workouts[workoutIndex].exercises = [];
+            console.log('workoutIndex founded');
+
+            const exerciseIndex = state.routines[routineIndex].workouts[
+              workoutIndex
+            ].exercises.findIndex(e => e.id === exerciseId);
+
+            console.log(
+              state.routines[routineIndex].workouts[workoutIndex].exercises,
+            );
+            if (exerciseIndex === -1) {
+              state.routines[routineIndex].workouts[workoutIndex].exercises[
+                exerciseIndex
+              ] = {id: exerciseId, freq: []};
+            } else {
+              state.routines[routineIndex].workouts[workoutIndex].exercises =
+                state.routines[routineIndex].workouts[
+                  workoutIndex
+                ].exercises.filter(e => e.id !== exerciseId);
+            }
           }
         }
       }),

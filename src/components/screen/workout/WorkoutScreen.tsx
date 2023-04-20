@@ -24,7 +24,7 @@ import {colors, assets} from 'src/assets';
 import ExerciseCard from './components/ExerciseCard';
 import RestTimeController from './components/RestTimeController';
 import {PressableButton} from 'src/components/shared';
-import getObjectbyId from 'src/components/shared/getObjectbyId';
+import {ScreenContainer} from 'src/components/shared';
 
 // Store
 import useRoutineStore from 'src/store/useRoutineStore';
@@ -59,14 +59,11 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
   const routine = routines[routineIndex];
   const workoutIndex = routine.workouts.findIndex(w => w.id === workoutId);
   const workout = routine.workouts[workoutIndex];
-
   const deleteWorkout = useRoutineStore(s => s.deleteWorkout);
   const addWorkout = useRoutineStore(s => s.addWorkout);
   const addFreq = useRoutineStore(s => s.addFreq);
   const [modalVisible, setModalVisible] = useState(false);
   const {t} = useTranslation();
-
-  useEffect(() => {}, [routineId]);
 
   const handleAddWorkout = () => {
     if (workout?.title.length === 0) {
@@ -94,20 +91,23 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
       if (exercises === 1) {
         return (
           <RestTimeController
-            controllerTypeId={0}
+            controllerType={0}
             indicatorTitle="Set rest time"
+            resttime={workout.resttime}
           />
         );
       } else if (exercises > 1) {
         return (
           <>
             <RestTimeController
-              controllerTypeId={0}
+              controllerType={0}
               indicatorTitle="Set rest time"
+              resttime={workout.resttime}
             />
             <RestTimeController
-              controllerTypeId={1}
+              controllerType={1}
               indicatorTitle="Exercise rest time"
+              resttime={workout.resttime}
             />
           </>
         );
@@ -122,7 +122,7 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
   }, []);
 
   return (
-    <SafeAreaView style={style.safeViewStyle}>
+    <ScreenContainer>
       <Modal
         animationType="slide"
         transparent={true}
@@ -150,17 +150,16 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
         </TouchableOpacity>
         <TouchableOpacity
           //className="flex-row flex-1 space-x-2 items-center justify-end mt-2 mr-2"
+          style={style.addNewExercise}
           onPress={() => {
-            navigation!.navigate('ExerciseScreen', {
+            navigation.navigate('ExerciseScreen', {
+              routineId: routineId,
+              workoutId: workout?.id,
               exercises: workout?.exercises || [{id: '', freq: []}],
             });
           }}>
           <Image source={assets.icn_plus} style={{}} />
-          <Text
-          //className="text-red-500 text-base"
-          >
-            {t('workout.addNewExercise')}
-          </Text>
+          <Text style={{color: colors.red}}>{t('workout.addNewExercise')}</Text>
         </TouchableOpacity>
       </View>
       <View style={{paddingHorizontal: 16, flex: 1}}>
@@ -208,7 +207,7 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
           </ScrollView>
         </View>
       </View>
-    </SafeAreaView>
+    </ScreenContainer>
   );
 };
 
@@ -298,6 +297,12 @@ const style = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: 'center',
+  },
+  addNewExercise: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
   },
 });
 

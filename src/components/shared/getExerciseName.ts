@@ -1,10 +1,18 @@
-import {store} from '../../Store';
-const exerciseData = JSON.parse(store.getString('exercises'));
+// import useExerciseStore from 'src/store/useExerciseMaster';
+import {store} from 'src/store/mmkv';
 
-/* HOW TO QUERY EXERCISE NAME BY ID FROM EXERCISE LIST */
-export const getExerciseName = id => {
-  let exername = exerciseData.filter(element => {
-    return element.id === id;
-  });
-  return exername[0]?.title;
+export const getExerciseName = (exerciseId: string) => {
+  return '';
+  // // const exerciseMaster = useExerciseStore(s => s.exerciseMaster);
+  // let exerciseString = store.getString('exercises');
+  // if (exerciseString !== undefined) {
+  //   const exerciseMaster = JSON.parse(exerciseString);
+  //   if (exerciseMaster !== undefined) {
+  //     let exername = exerciseMaster.filter(exercise => {
+  //       return exercise.id === exerciseId;
+  //     });
+  //     return exername[0]?.name;
+  //   }
+  // }
+  // return '';
 };

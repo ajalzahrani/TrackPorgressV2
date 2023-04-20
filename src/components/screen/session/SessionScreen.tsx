@@ -4,15 +4,13 @@ import {
   SafeAreaView,
   TouchableOpacity,
   StyleSheet,
-  ScrollView,
-  VirtualizedList,
   ListRenderItem,
   ListRenderItemInfo,
   FlatList,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {store} from '../../../Store';
 import uuidv4 from 'src/components/shared/uuid4v';
+import useExerciseName from 'src/components/hooks/useExerciseName';
 
 // Assets
 import {colors} from 'src/assets';
@@ -20,12 +18,9 @@ import {colors} from 'src/assets';
 // Components
 import SessionExerciseCard from './components/SessionExerciseCard';
 import SessionController from './components/SessionController';
-import Divider from 'src/components/shared/Divider';
+import {ScreenContainer} from 'src/components/shared';
 
 // Store
-import useExerciseStore from 'src/store/useExerciseMaster';
-import useRoutineStore from 'src/store/useRoutineStore';
-import type {exerciseMasterType} from 'src/components/shared/globalTypes';
 import useSessionStore from 'src/store/useSessionStore';
 
 // Navigation
@@ -60,24 +55,14 @@ const SessionScreen: React.FC<SessionScreenProp> = ({route, navigation}) => {
   // FIXME: Fix last cards on screen when opened
 
   const workout = route.params.workout;
-  const exerciseMaster = useExerciseStore(s => s.exerciseMaster);
-  const [selectedId, setSelectedId] = useState(null);
   const [ref, setRef] = useState<FlatList<any> | null>(null); // ref to flatlist
   const registerSession = useSessionStore(s => s.registerSession);
   const [sessionId, setSessionId] = useState(uuidv4());
-
-  /* HOW TO QUERY EXERCISE NAME BY ID FROM EXERCISE LIST */
-  const getExerciseName = (exerciseId: string) => {
-    let exercise = exerciseMaster.filter(exercise => {
-      return exercise.id === exerciseId;
-    });
-    return exercise[0]?.name;
-  };
+  const getExerciseName = useExerciseName();
 
   const scrollToNextCard = (index: number) => {
     index++;
     index *= 100;
-    // console.log('current index: ', index);
     if (ref) {
       ref.scrollToOffset({animated: true, offset: index + 2});
     }
@@ -87,11 +72,11 @@ const SessionScreen: React.FC<SessionScreenProp> = ({route, navigation}) => {
   const renderExercise: ListRenderItem<exercisesType> = ({
     item,
   }: ListRenderItemInfo<exercisesType>) => {
-    let exername = getExerciseName(item.id);
+    let exername = getExerciseName(item.id) || '';
     const rows = [];
     let key = 0;
     for (let j = 0; j < item.freq.length; j++) {
-      // SET END CHECKER
+      // Redner Last Exercise Card SET of an Exercise
       if (item.freq.length - j == 1) {
         rows.push(
           <SessionExerciseCard
@@ -101,12 +86,14 @@ const SessionScreen: React.FC<SessionScreenProp> = ({route, navigation}) => {
             exerciseId={item.id}
             exerciseName={exername}
             reps={item.freq[j]}
-            resttimeId={1}
-            resttime={workout.resettime}
+            expiryTimestamp={new Date().setSeconds(
+              new Date().getSeconds() + workout.resttime[1],
+            )}
             scrollToNextCard={scrollToNextCard}
           />,
         );
       } else {
+        // Redner Exercise Cards of an Exercise
         rows.push(
           <SessionExerciseCard
             key={key}
@@ -115,8 +102,9 @@ const SessionScreen: React.FC<SessionScreenProp> = ({route, navigation}) => {
             exerciseId={item.id}
             exerciseName={exername}
             reps={item.freq[j]}
-            resttimeId={0}
-            resttime={workout.resettime}
+            expiryTimestamp={new Date().setSeconds(
+              new Date().getSeconds() + workout.resttime[0],
+            )}
             scrollToNextCard={scrollToNextCard}
           />,
         );
@@ -151,21 +139,18 @@ const SessionScreen: React.FC<SessionScreenProp> = ({route, navigation}) => {
         },
       });
   }, [navigation]);
+
   return (
-    <SafeAreaView style={style.safeViewStyle}>
-      {/* <Modal_View /> */}
+    <ScreenContainer>
       <View style={style.workoutContainerStyle}>
-        <View
-        // className="flex-row items-center space-x-5"
-        >
-          <Text style={style.workoutTitleStyle}>{workout.title}</Text>
-          <TouchableOpacity
-            onPress={() => {
-              // console.log(JSON.stringify(printVol()));
-            }}>
-            <Text>Show vol</Text>
-          </TouchableOpacity>
-        </View>
+        <Text style={style.workoutTitleStyle}>{workout.title}</Text>
+        <TouchableOpacity
+          style={{backgroundColor: colors.greeny, padding: 10}}
+          onPress={() => {
+            console.log('Debug: ');
+          }}>
+          <Text>Debug: Show vol</Text>
+        </TouchableOpacity>
       </View>
       <FlatList
         contentContainerStyle={{paddingBottom: 72}}
@@ -173,26 +158,19 @@ const SessionScreen: React.FC<SessionScreenProp> = ({route, navigation}) => {
         ref={ref => setRef(ref)}
         renderItem={renderExercise}
         keyExtractor={item => item.id}
-        extraData={selectedId}
       />
       <SessionController sessionId={sessionId} workoutId={workout.id} />
-    </SafeAreaView>
+    </ScreenContainer>
   );
 };
 
 export default SessionScreen;
 
 const style = StyleSheet.create({
-  safeViewStyle: {
-    backgroundColor: colors.primary,
-    flex: 1,
-  },
   workoutContainerStyle: {
-    display: 'flex',
-    flexdirection: 'column',
+    flexDirection: 'column',
+    justifyContent: 'center',
     alignItems: 'center',
-    padding: 0,
-    gap: 30,
     marginTop: 10,
     marginBottom: 10,
   },
@@ -203,20 +181,6 @@ const style = StyleSheet.create({
     lineHeight: 45,
     textAlign: 'center',
     color: colors.white,
-  },
-
-  // Exercise card
-  cardContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 10,
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-    marginHorizontal: 20,
-    marginVertical: 10,
-    backgroundColor: colors.secondaryow,
-    borderRadius: 10,
   },
   workoutTitle: {
     fontStyle: 'normal',
@@ -262,64 +226,5 @@ const style = StyleSheet.create({
     textAlign: 'center',
     color: 'white',
     padding: 10,
-  },
-  cardContainer: {
-    // display: 'flex',
-    // flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 300,
-    marginHorizontal: 20,
-    backgroundColor: colors.semiPrimary,
-    borderRadius: 20,
-  },
-  exerciseTitleStyle: {
-    color: colors.white,
-    fontWeight: '500',
-    fontSize: 20,
-    // lineHeight: 30,
-    marginTop: 10,
-  },
-  containerStyle: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  innerContainerStyle: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 24,
-    paddingVertical: 14,
-  },
-  numberIndicator: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 100,
-    backgroundColor: colors.secondaryow,
-    width: 80,
-    height: 29,
-  },
-  middleTextStyle: {
-    fontWeight: '400',
-    fontSize: 16,
-    color: colors.white,
-  },
-  touchableOpacityStartStyle: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 5,
-    borderRadius: 100,
-    marginTop: 10,
-    marginBottom: 10,
-    marginHorizontal: 24.5,
   },
 });

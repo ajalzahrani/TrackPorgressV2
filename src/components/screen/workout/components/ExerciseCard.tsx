@@ -1,5 +1,6 @@
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import React, {useEffect, useState} from 'react';
+import useExerciseName from 'src/components/hooks/useExerciseName';
 
 // Assets
 import {colors, assets} from 'src/assets';
@@ -8,12 +9,9 @@ import {colors, assets} from 'src/assets';
 import SETsController from './SETsController';
 
 // Store
-import {
-  exerciseMasterType,
-  exercisesType,
-} from 'src/components/shared/globalTypes';
-import useExerciseStore from 'src/store/useExerciseMaster';
+import {exercisesType} from 'src/components/shared/globalTypes';
 import useRoutineStore from 'src/store/useRoutineStore';
+import useExerciseStore from 'src/store/useExerciseMaster';
 
 type ExerciseCardProp = {
   routineId: string;
@@ -25,11 +23,10 @@ const ExerciseCard: React.FC<ExerciseCardProp> = ({
   workoutId,
   exercise,
 }) => {
-  const setExerciseId = useRoutineStore(s => s.setExerciseId);
-  const exercisesMaster = useExerciseStore(s => s.exerciseMaster);
   const deleteExercise = useRoutineStore(s => s.deleteExercise);
-
+  const addFreq = useRoutineStore(s => s.addFreq);
   const [set, setSet] = useState(exercise.freq.length);
+  const getExerciseName = useExerciseName();
 
   const addSet = () => {
     setSet(set + 1);
@@ -46,6 +43,10 @@ const ExerciseCard: React.FC<ExerciseCardProp> = ({
     }
   };
 
+  const handleAddFreq = (freq: number[]) => {
+    addFreq(routineId, workoutId, exercise.id, freq);
+  };
+
   const RepControllerComponent = () => {
     const rows = [];
     for (let i = 0; i < set; i++) {
@@ -54,23 +55,12 @@ const ExerciseCard: React.FC<ExerciseCardProp> = ({
           key={i}
           freq={exercise.freq}
           index={i}
+          addFreq={handleAddFreq}
           indicatorTitle={'Set ' + (i + 1)}
         />,
       );
     }
     return <>{rows}</>;
-  };
-
-  useEffect(() => {
-    setExerciseId(exercise.id);
-  }, []);
-
-  /* HOW TO QUERY EXERCISE NAME BY ID FROM EXERCISE LIST */
-  const getExerciseName = (id: string) => {
-    let exername = exercisesMaster.filter(element => {
-      return element.id === id;
-    });
-    return exername[0].name;
   };
 
   return (
@@ -84,7 +74,7 @@ const ExerciseCard: React.FC<ExerciseCardProp> = ({
           justifyContent: 'center',
         }}>
         <Text style={style.exerciseTitleStyle}>
-          {getExerciseName(exercise.id)}
+          {getExerciseName(exercise?.id)}
         </Text>
         <TouchableOpacity
           onPress={() => {

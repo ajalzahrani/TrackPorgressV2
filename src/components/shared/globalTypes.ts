@@ -39,17 +39,17 @@ export type userType = {
 };
 export type exerciseMasterType = {
   id: string;
+  name: string;
   bodyPart?: string;
   equipment?: string;
   gifUrl?: string;
-  name: string;
   target?: string;
 };
 export type weekdaysType = {
   id: number;
   symbol: string;
-  workday: boolean;
   workoutId: string;
+  isWorkday: boolean;
 };
 export type exercisesType = {
   id: string;
@@ -59,7 +59,7 @@ export type workoutType = {
   id: string;
   title: string;
   exercises: exercisesType[];
-  resettime: number[];
+  resttime: number[];
 };
 export type routineType = {
   id: string;

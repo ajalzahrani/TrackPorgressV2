@@ -1,27 +1,25 @@
 import {
   View,
   Text,
-  SafeAreaView,
   Image,
   TouchableOpacity,
   StyleSheet,
   TextInput,
   Modal,
   Pressable,
-  ScrollView,
   Alert,
   FlatList,
   ListRenderItem,
   ListRenderItemInfo,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 
 // Assets
 import {colors, assets} from 'src/assets';
 
 // components
-import PressableButton from '../../shared/PressableButton';
 import ExerciseSelectRow from './components/ExerciseSelectRow';
+import {ScreenContainer} from 'src/components/shared';
 
 // Store
 import useExerciseStore from 'src/store/useExerciseMaster';
@@ -52,11 +50,14 @@ const ExerciseScreen: React.FC<ExerciseScreenProp> = ({route, navigation}) => {
   // FIXME: auto select new added exercise
   const exerciseMaster = useExerciseStore(s => s.exerciseMaster);
   const addNewExerciseMaster = useExerciseStore(s => s.addNewExerciseMaster);
-
   const [search, setSearch] = useState(''); //
   const [searchResult, setSearchResult] = useState(exerciseMaster);
   const [notFound, setNotFound] = useState(false); // handle if no exercise found in search
   const [modalVisible, setModalVisible] = useState(false);
+
+  const routineId = route.params.routineId;
+  const workouitId = route.params.workoutId;
+  const exercises = route.params.exercises;
 
   // search the list of exercises data and eanble the user to add not found exercies.
   const handleSearch = (searchText: string) => {
@@ -76,37 +77,24 @@ const ExerciseScreen: React.FC<ExerciseScreenProp> = ({route, navigation}) => {
     }
   };
 
-  // const bodyPartSearch = iconDesc => {
-  //   const filterdExercies = ExerciseApi.filter((exer, index) => {
-  //     return exer.bodyPart.match(iconDesc.toLowerCase());
-  //   });
-  //   handleSearchResult(iconDesc, filterdExercies);
-  // };
-
-  // const handleSearchResult = (searchTerm, filterdExercies) => {
-  //   if (searchTerm.length === 0) {
-  //     setSearchResult(ExerciseApi);
-  //     setNotFound(false);
-  //   } else if (filterdExercies.length === 0) {
-  //     setNotFound(true);
-  //   } else {
-  //     setSearchResult(filterdExercies);
-  //     setNotFound(false);
-  //   }
-  // };
-
   const renderExercise: ListRenderItem<exerciseMasterType> = ({
     item,
   }: ListRenderItemInfo<exerciseMasterType>) => {
     return (
       <View style={styles.preListContainerStyle}>
-        <ExerciseSelectRow key={item.id} exercise={item} />
+        <ExerciseSelectRow
+          key={item.id}
+          routineId={routineId}
+          workoutId={workouitId}
+          exerciseRow={item}
+          exercisesSelected={exercises}
+        />
       </View>
     );
   };
 
   return (
-    <SafeAreaView style={styles.safeViewStyle}>
+    <ScreenContainer>
       <Modal
         // animationType="pageSheet"
         presentationStyle="fullScreen"
@@ -122,29 +110,9 @@ const ExerciseScreen: React.FC<ExerciseScreenProp> = ({route, navigation}) => {
             onPress={() => setModalVisible(!modalVisible)}>
             <Text style={styles.textStyle}>Which pride</Text>
           </Pressable>
-          <View style={styles.imageContainer}>
-            <Image
-              style={styles.imageSelf}
-              source={{
-                // uri: 'https://reactnative.dev/img/tiny_logo.png',
-                // uri: 'https://media.geeksforgeeks.org/wp-content/uploads/20220221170632/ezgifcomgifmaker1.gif',
-                // uri: 'http://d205bpvrqc9yn1.cloudfront.net/1512.gif',
-                uri: 'https://media0.giphy.com/media/GtzXOGVW3ks8g/giphy.gif?cid=ecf05e476hj62jvozlrixbpyf8kjxtap5an3m7t4p02bm8bn&rid=giphy.gif&ct=g',
-              }}
-              // source={require('../asset/0001.gif')}
-              resizeMode="contain"
-            />
-            {/* <Image
-              style={styles.tinyLogo}
-              source={{
-                uri: 'https://reactnative.dev/img/tiny_logo.png',
-              }}
-            /> */}
-          </View>
         </View>
       </Modal>
       <View style={{paddingHorizontal: 16, flex: 1}}>
-        {/* TextInput component */}
         <TextInput
           placeholder="Exercise name"
           placeholderTextColor={colors.offwhite}
@@ -177,29 +145,6 @@ const ExerciseScreen: React.FC<ExerciseScreenProp> = ({route, navigation}) => {
             </TouchableOpacity>
           </View>
         )}
-        {/* <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-            marginVertical: 20,
-          }}>
-          <TouchableOpacity onPress={() => bodyPartSearch('waist')}>
-            <Image source={assets.icn_abs} style={styles.searchIcons} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => bodyPartSearch('arm')}>
-            <Image source={assets.icn_arm} style={styles.searchIcons} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => bodyPartSearch('legs')}>
-            <Image source={assets.icn_leg} style={styles.searchIcons} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => bodyPartSearch('chest')}>
-            <Image source={assets.icn_chest} style={styles.searchIcons} />
-          </TouchableOpacity>
-        </View> */}
-        {/* <PressableButton
-          title={'try an image'}
-          onPress={() => setModalVisible(!modalVisible)}
-        /> */}
         <FlatList
           contentContainerStyle={{paddingBottom: 72}}
           data={searchResult}
@@ -207,7 +152,7 @@ const ExerciseScreen: React.FC<ExerciseScreenProp> = ({route, navigation}) => {
           keyExtractor={exercise => exercise.id}
         />
       </View>
-    </SafeAreaView>
+    </ScreenContainer>
   );
 };
 

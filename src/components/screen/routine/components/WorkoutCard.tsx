@@ -3,10 +3,8 @@ import React from 'react';
 
 // Assets
 import {colors, assets} from 'src/assets';
+import {ListCardTitle} from 'src/components/shared';
 
-// Store
-import useStore from '../../../../store/store.bak/useStore';
-import useRoutineStore from 'src/store/useRoutineStore';
 import {workoutType} from 'src/components/shared/globalTypes';
 
 // Navigation
@@ -18,19 +16,14 @@ type WorkoutCardType = {
 };
 
 const WorkoutCard = ({routineId, workout}: WorkoutCardType) => {
-  // const selectCurrentWorkout = useStore(s => s.selectCurrentWorkout);
   const navigation = useNavigation<RoutineScreenNavigationProp>();
 
   return (
-    <View style={style.cardContainer}>
-      <Text style={style.workoutTitle}>{workout.title}</Text>
-      <View
-        style={style.editContainerStyle}
-        // className="space-x-2"
-      >
-        <TouchableOpacity onPress={() => {}}>
+    <ListCardTitle title={workout.title}>
+      <View style={style.editContainerStyle}>
+        {/* <TouchableOpacity onPress={() => {}} style={{marginRight: 20}}>
           <Image source={assets.icn_goforward} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity
           onPress={() => {
             // selectCurrentWorkout(workout.id);
@@ -42,7 +35,7 @@ const WorkoutCard = ({routineId, workout}: WorkoutCardType) => {
           <Image source={assets.icn_edit} />
         </TouchableOpacity>
       </View>
-    </View>
+    </ListCardTitle>
   );
 };
 

@@ -1,21 +1,13 @@
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-import uuidv4 from 'src/components/shared/uuid4v';
 import {useTimer} from 'src/components/hooks/timer-hook';
 
 // Assets
 import {colors, assets} from 'src/assets';
 
-// components
-import secondsToTime from 'src/components/shared/secondToTme';
-
-// gstore
+// Store
 import useSessionStore from 'src/store/useSessionStore';
-
-type expiryTimestampType = {
-  expiryTimestamp: Date;
-};
 
 type SessionExerciseCardType = {
   index: number;
@@ -23,8 +15,7 @@ type SessionExerciseCardType = {
   exerciseId: string;
   exerciseName: string;
   reps: number;
-  resttimeId: number;
-  resttime: number[];
+  expiryTimestamp?: number;
   scrollToNextCard: (index: number) => void;
   // setSelectedId: () => void;
 };
@@ -35,22 +26,18 @@ const SessionExerciseCard: React.FC<SessionExerciseCardType> = ({
   exerciseId,
   exerciseName,
   reps,
-  resttime,
-  resttimeId,
+  expiryTimestamp,
   scrollToNextCard,
-  // setSelectedId,
 }) => {
   // FIXME: Add value picker for weight and time
   const registerSet = useSessionStore(s => s.registerSet);
   const [isActive, setIsActive] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
   const [skitchTitle, setSkitchTitle] = useState(false);
-  const [secondss, setSecondss] = useState(() => {
-    if (resttimeId === 0) return resttime[0];
-    else return resttime[1];
-  });
 
-  const expiryTimestamp = Math.floor(secondss);
+  const [weight, setWeight] = useState(0);
+  const [rep, setRep] = useState(reps);
+  const [tut, setTut] = useState(0);
 
   const {
     seconds,
@@ -69,18 +56,25 @@ const SessionExerciseCard: React.FC<SessionExerciseCardType> = ({
   });
 
   useEffect(() => {
-    handleTimerLableStop();
-  }, [isActive]);
+    if (seconds === 0) {
+      handleTimerLableStop();
+    }
+  }, [seconds]);
 
   const handleTimerLableStop = () => {
-    scrollToNextCard(index);
+    // scrollToNextCard(index);
     setIsPressed(s => !s);
     setSkitchTitle(true);
   };
 
-  const [weight, setWeight] = useState(0);
-  const [rep, setRep] = useState(reps);
-  const [tut, setTut] = useState(0);
+  function toggleRestTimer() {
+    setIsActive(!isActive);
+    start();
+  }
+
+  function reset() {
+    setIsActive(false);
+  }
 
   const addWeight = () => {
     setWeight(weight + 5);
@@ -92,7 +86,6 @@ const SessionExerciseCard: React.FC<SessionExerciseCardType> = ({
       setWeight(weight - 1);
     }
   };
-
   const addRep = () => {
     setRep(rep + 1);
   };
@@ -103,7 +96,6 @@ const SessionExerciseCard: React.FC<SessionExerciseCardType> = ({
       setRep(rep - 1);
     }
   };
-
   const addTut = () => {
     setTut(tut + 5);
   };
@@ -115,15 +107,6 @@ const SessionExerciseCard: React.FC<SessionExerciseCardType> = ({
     }
   };
 
-  function toggle() {
-    setIsActive(!isActive);
-  }
-
-  function reset() {
-    setSecondss(0);
-    setIsActive(false);
-  }
-
   return (
     <>
       <View
@@ -133,25 +116,14 @@ const SessionExerciseCard: React.FC<SessionExerciseCardType> = ({
           {borderBottomStartRadius: isPressed ? 0 : 10},
           {marginBottom: isPressed ? 0 : 7},
         ]}>
-        <View
-        // className="flex-col space-y-2"
-        >
+        <View style={style.cardTitle}>
+          <Text style={style.timerLable}>{seconds > 0 ? seconds : '--'}</Text>
           <Text
             style={skitchTitle ? style.workoutTitleDone : style.workoutTitle}>
             {exerciseName}
           </Text>
-          {/* <TimerLabel
-            seconds={seconds}
-            setSeconds={setSeconds}
-            isActive={isActive}
-            toggle={toggle}
-          /> */}
-          <Text style={style.timerLable}>{seconds > 0 ? seconds : '--'}</Text>
         </View>
-        <View
-          style={style.editContainerStyle}
-          // className="space-x-2"
-        >
+        <View style={style.editContainerStyle}>
           <TouchableOpacity
             onPress={() => {
               setIsPressed(!isPressed);
@@ -259,7 +231,7 @@ const SessionExerciseCard: React.FC<SessionExerciseCardType> = ({
           <TouchableOpacity
             // className="mb-1"
             onPress={() => {
-              toggle();
+              toggleRestTimer();
               // Register set to exercises array
               registerSet(sessionId, exerciseId, weight, rep, tut);
             }}>
@@ -380,8 +352,14 @@ const style = StyleSheet.create({
     marginHorizontal: 24.5,
   },
   timerLable: {
+    marginRight: 20,
     fontSize: 18,
     color: 'white',
+  },
+  cardTitle: {
+    flexDirection: 'row',
+
+    alignItems: 'center',
   },
 });
 
