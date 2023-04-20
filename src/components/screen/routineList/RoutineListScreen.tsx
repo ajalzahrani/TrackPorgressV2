@@ -43,6 +43,7 @@ type RoutineListProps = {
 
 const RoutineListScreen: React.FC<RoutineListProps> = ({route, navigation}) => {
   const routines = useRoutineStore(s => s.routines);
+  const setRoutineId = useRoutineStore(s => s.setRoutineId);
 
   const {t} = useTranslation();
 
@@ -104,8 +105,8 @@ const RoutineListScreen: React.FC<RoutineListProps> = ({route, navigation}) => {
               <TouchableOpacity
                 style={{flex: 1}}
                 onPress={() => {
-                  // console.log(routine);
-                  navigation.navigate('RoutineScreen', {routine});
+                  setRoutineId(routine.id);
+                  navigation.navigate('RoutineScreen');
                 }}>
                 <RoutineCard routine={routine} />
               </TouchableOpacity>

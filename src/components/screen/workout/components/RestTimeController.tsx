@@ -2,6 +2,9 @@ import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {TimePicker, ValueMap} from 'react-native-simple-time-picker';
 
+import useExerciseStore from 'src/store/useExerciseMaster';
+import useRoutineStore from 'src/store/useRoutineStore';
+
 // Assets
 import {colors, assets} from 'src/assets';
 
@@ -16,7 +19,7 @@ const RestTimeController: React.FC<RestTimeControllerProps> = ({
   resttime,
 }) => {
   const [number, setNumber] = useState(() => {
-    if (controllerType === 0) return resttime[0];
+    if (id === 0) return resttime[0];
     else return resttime[1];
   });
 
@@ -46,7 +49,7 @@ const RestTimeController: React.FC<RestTimeControllerProps> = ({
   };
 
   useEffect(() => {
-    setNumber(convertTimeToSeconds(value.minutes, value.seconds));
+    setNumber(timing.convertTimeToSeconds(value.minutes, value.seconds));
   }, [value]);
 
   useEffect(() => {

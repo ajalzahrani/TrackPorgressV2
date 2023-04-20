@@ -48,8 +48,8 @@ export type exerciseMasterType = {
 export type weekdaysType = {
   id: number;
   symbol: string;
+  workoutId: string;
   isWorkday: boolean;
-  workout: string;
 };
 export type exercisesType = {
   id: string;

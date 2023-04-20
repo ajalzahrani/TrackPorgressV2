@@ -54,13 +54,15 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
   // FIXME: Auto select new added workout.
   // FIXME: Clicking on navigation button should prsiste configurations.
 
-  const dayId = useRoutineStore(s => s.dayId);
-  const workoutId = useRoutineStore(s => s.workoutId);
+  const routines = useRoutineStore(s => s.routines);
+  const routineId = useRoutineStore(r => r.stateId.routineId);
+  const workoutId = useRoutineStore(s => s.stateId.workoutId);
+  const routineIndex = routines.findIndex(i => i.id === routineId);
+  const routine = routines[routineIndex];
+  const routineRef = useRef(routine);
   const setWorkoutId = useRoutineStore(s => s.setWorkoutId);
   const setWeekDayWorkout = useRoutineStore(s => s.setWeekDayWorkout);
-  const routine = route.params.routine;
   const workout = routine.workouts.find(workout => workout.id === workoutId);
-  // const routineRef = useRef(routine);
 
   const {t} = useTranslation();
 
@@ -125,15 +127,7 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
           <TouchableOpacity
             style={style.addNewWorkout}
             onPress={() => {
-              navigation.navigate('WorkoutScreen', {
-                routineId: routine.id,
-                workout: {
-                  id: uuidv4(),
-                  title: '',
-                  exercises: [],
-                  resttime: [],
-                },
-              });
+              navigation.navigate('WorkoutScreen');
             }}>
             <Image source={assets.icn_plus} style={{}} />
             <Text style={{color: colors.red}}>
@@ -153,11 +147,10 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
               <Text style={style.workoutTitleStyle}>{workout.title}</Text>
               <TouchableOpacity
                 onPress={() => {
-                  // selectCurrentWorkout(workout.id);
-                  navigation.navigate('WorkoutScreen', {
-                    routineId: routine.id,
-                    workout: workout,
-                  });
+                  if (workoutId !== undefined) {
+                    setWorkoutId(workoutId);
+                  }
+                  navigation.navigate('WorkoutScreen');
                 }}>
                 <Image source={assets.icn_edit} />
               </TouchableOpacity>

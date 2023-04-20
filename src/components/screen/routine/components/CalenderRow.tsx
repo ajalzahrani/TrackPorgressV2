@@ -25,7 +25,7 @@ type CalenderRowProp = {
 const CalenderRow: React.FC<CalenderRowProp> = ({routine}) => {
   const setWorkoutId = useRoutineStore(s => s.setWorkoutId);
   const setDayId = useRoutineStore(s => s.setDayId);
-  const dayId = useRoutineStore(s => s.dayId);
+  const dayId = useRoutineStore(s => s.stateId.dayId);
   const [db, setDB] = useState(dayButton);
 
   const generateWorkdays = () => {
@@ -37,9 +37,7 @@ const CalenderRow: React.FC<CalenderRowProp> = ({routine}) => {
           <TouchableOpacity
             key={day.id}
             onPress={() => {
-              setDayId(day.id);
-              setWorkoutId(day.workout);
-
+              setWorkoutId(day.workoutId);
               setDB(
                 produce(draft => {
                   draft.forEach(day => (day.ispicked = false));
@@ -89,22 +87,17 @@ const CalenderRow: React.FC<CalenderRowProp> = ({routine}) => {
   };
 
   const handleWhichDay = () => {
-    let date = new Date().getDay();
     setDB(
       produce(draft => {
         draft.forEach(day => {
           day.ispicked = false;
           day.istoday = false;
         });
-        draft[date].istoday = true;
-        draft[date].ispicked = true;
+        draft[dayId].istoday = true;
+        draft[dayId].ispicked = true;
       }),
     );
-
-    // if current day has scheduled workout then select workout
-    const dayId = new Date().getDay();
-    // setDayId(dayId);
-    setWorkoutId(routine.weekdays[dayId].workout);
+    setWorkoutId(routine.weekdays[dayId].workoutId);
   };
 
   useEffect(() => {

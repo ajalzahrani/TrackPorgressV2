@@ -4,6 +4,9 @@ import React, {useEffect, useState} from 'react';
 // Assets
 import {colors, assets} from 'src/assets';
 
+// Store
+import useRoutineStore from 'src/store/useRoutineStore';
+
 type SETsControllerProp = {
   indicatorTitle: string;
   index: number;
@@ -15,14 +18,21 @@ const SETsController: React.FC<SETsControllerProp> = ({
   indicatorTitle,
   freq,
   index,
-  addFreq,
 }) => {
+  const routineId = useRoutineStore(s => s.stateId.routineId);
+  const workoutId = useRoutineStore(s => s.stateId.workoutId);
+  const exerciseId = useRoutineStore(s => s.stateId.exerciseId);
+
+  const addFreq = useRoutineStore(s => s.addFreq);
   const [number, setNumber] = useState(freq[index] || 0);
 
   const updateFreq = () => {
     let updatedFreq = freq;
     updatedFreq[index] = number;
-    addFreq(updatedFreq);
+    // addFreq(updatedFreq);
+    if (workoutId !== undefined && exerciseId !== undefined) {
+      addFreq(routineId, workoutId, exerciseId, updatedFreq);
+    }
   };
 
   const addNumber = () => {

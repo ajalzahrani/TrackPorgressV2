@@ -11,6 +11,7 @@ import SETsController from './SETsController';
 // Store
 import {exercisesType} from 'src/components/shared/globalTypes';
 import useRoutineStore from 'src/store/useRoutineStore';
+import useExerciseStore from 'src/store/useExerciseMaster';
 
 type ExerciseCardProp = {
   routineId: string;
