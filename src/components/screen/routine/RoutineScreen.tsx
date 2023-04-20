@@ -128,7 +128,7 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
               navigation.navigate('WorkoutScreen', {
                 routineId: routine.id,
                 workout: {
-                  id: '',
+                  id: uuidv4(),
                   title: '',
                   exercises: [],
                   resttime: [],

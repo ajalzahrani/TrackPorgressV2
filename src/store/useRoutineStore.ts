@@ -143,17 +143,30 @@ const useRoutineStore = create<State & Actions>((set, get) => ({
       produce((state: Draft<State & Actions>) => {
         const routineIndex = state.routines.findIndex(r => r.id === routineId);
         if (routineIndex !== -1) {
+          console.log('routineIndex founded');
+          console.log(state.routines[routineIndex].workouts);
           const workoutIndex = state.routines[routineIndex].workouts.findIndex(
             w => w.id === workoutId,
           );
           if (workoutIndex !== -1) {
+            console.log('workoutIndex founded');
+
             const exerciseIndex = state.routines[routineIndex].workouts[
               workoutIndex
             ].exercises.findIndex(e => e.id === exerciseId);
+
+            console.log(
+              state.routines[routineIndex].workouts[workoutIndex].exercises,
+            );
             if (exerciseIndex === -1) {
               state.routines[routineIndex].workouts[workoutIndex].exercises[
                 exerciseIndex
               ] = {id: exerciseId, freq: []};
+            } else {
+              state.routines[routineIndex].workouts[workoutIndex].exercises =
+                state.routines[routineIndex].workouts[
+                  workoutIndex
+                ].exercises.filter(e => e.id !== exerciseId);
             }
           }
         }

@@ -1,6 +1,6 @@
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import ExerciseApi from '../../../../assets/database/ExerciseApiShort.json';
+import useExerciseName from 'src/components/hooks/useExerciseName';
 
 // Assets
 import {colors, assets} from 'src/assets';
@@ -9,11 +9,7 @@ import {colors, assets} from 'src/assets';
 import SETsController from './SETsController';
 
 // Store
-import {
-  exerciseMasterType,
-  exercisesType,
-} from 'src/components/shared/globalTypes';
-import useExerciseStore from 'src/store/useExerciseMaster';
+import {exercisesType} from 'src/components/shared/globalTypes';
 import useRoutineStore from 'src/store/useRoutineStore';
 
 type ExerciseCardProp = {
@@ -26,10 +22,10 @@ const ExerciseCard: React.FC<ExerciseCardProp> = ({
   workoutId,
   exercise,
 }) => {
-  const exercisesMaster = useExerciseStore(s => s.exerciseMaster);
   const deleteExercise = useRoutineStore(s => s.deleteExercise);
   const addFreq = useRoutineStore(s => s.addFreq);
   const [set, setSet] = useState(exercise.freq.length);
+  const getExerciseName = useExerciseName();
 
   const addSet = () => {
     setSet(set + 1);
@@ -64,19 +60,6 @@ const ExerciseCard: React.FC<ExerciseCardProp> = ({
       );
     }
     return <>{rows}</>;
-  };
-
-  /* HOW TO QUERY EXERCISE NAME BY ID FROM EXERCISE LIST */
-  const getExerciseName = (id: string) => {
-    let exerciseIndex = exercisesMaster.findIndex(e => e.id === id);
-    console.log(exerciseIndex);
-
-    if (exerciseIndex !== -1) {
-      let exercise = exercisesMaster[exerciseIndex];
-      console.log(exercise.name);
-      return exercise.name;
-    }
-    return 'Exercise name is not defined';
   };
 
   return (

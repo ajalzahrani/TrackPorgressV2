@@ -6,15 +6,10 @@ import CardExerciseDetails from './CardExerciseDetails';
 // Assets
 import {colors, assets} from 'src/assets';
 
-// Store
-import useStore from '../../../../store/store.bak/useStore';
-import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
-import PressableButton from '../../../shared/PressableButton';
 import {
   exerciseMasterType,
   exercisesType,
 } from 'src/components/shared/globalTypes';
-import useExerciseStore from 'src/store/useExerciseMaster';
 import useRoutineStore from 'src/store/useRoutineStore';
 
 type ExerciseSelectRowType = {
@@ -37,7 +32,7 @@ const ExerciseSelectRow = ({
 
   const handlePreSelect = () => {
     exercisesSelected?.find(exercise => {
-      if (exercise.id === exercise.id) {
+      if (exercise.id === exerciseRow.id) {
         setIsSelected(true);
       }
     });
@@ -58,28 +53,24 @@ const ExerciseSelectRow = ({
       >
         <View style={style.ExerciseRow}>
           <Text style={style.exerciseTitleStyle}>{exerciseRow.name}</Text>
-          <View
-          //  className="flex-row space-x-2 justify-center items-center"
-          >
-            <Image source={explore ? assets.icn_remove : assets.icn_add} />
-            <TouchableOpacity
-              onPress={() => {
-                setIsSelected(!isSelected);
-                updateExercises(routineId, workoutId, exerciseRow.id);
-              }}>
-              <View
-                style={{
+          <TouchableOpacity
+            onPress={() => {
+              setIsSelected(!isSelected);
+              updateExercises(routineId, workoutId, exerciseRow.id);
+            }}>
+            <View
+              style={[
+                {
                   backgroundColor: isSelected
                     ? colors.secondary
                     : colors.primary,
-                }}
-                // className="p-4 rounded-full"
-              ></View>
-            </TouchableOpacity>
-          </View>
+                },
+                {padding: 12, borderRadius: 150 / 2},
+              ]}></View>
+          </TouchableOpacity>
         </View>
       </TouchableOpacity>
-      {explore && <CardExerciseDetails exercise={exerciseRow} />}
+      {/* {explore && <CardExerciseDetails exercise={exerciseRow} />} */}
     </>
   );
 };
