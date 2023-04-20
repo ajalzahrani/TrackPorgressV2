@@ -10,7 +10,6 @@ import ListCard from './ListCard';
 import ListCardDetails from './ListCardDetails';
 import ListCardTitle from './ListCardTitle';
 import LoadingView from './LoadingView';
-import {timing} from './timing';
 
 export {
   getDayLabel,
