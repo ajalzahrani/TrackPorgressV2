@@ -61,7 +61,6 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
   const workout = routine.workouts[workoutIndex];
   const deleteWorkout = useRoutineStore(s => s.deleteWorkout);
   const addWorkout = useRoutineStore(s => s.addWorkout);
-  const addFreq = useRoutineStore(s => s.addFreq);
   const [modalVisible, setModalVisible] = useState(false);
   const {t} = useTranslation();
 
@@ -193,7 +192,7 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
               onPress={() => {
                 if (workout !== undefined) {
                   if (workout.id !== undefined) {
-                    deleteWorkout(routineId, workout.id);
+                    deleteWorkout();
                   }
                 }
                 navigation!.goBack();

@@ -28,38 +28,25 @@ type Actions = {
   setExerciseId: (exerciseId: string) => void;
   setDayId: (dayId: number) => void;
   addNewRoutine: (routineId: string, routine: routineType) => void;
-  deleteRoutine: (routineId: string) => void;
+  deleteRoutine: () => void;
   addWorkout: (
     routineId: string,
     workoutId: string,
     workout: workoutType,
   ) => void;
-  deleteWorkout: (routineId: string, workoutId: string) => void;
-  updateExercises: (
-    routineId: string,
-    workoutId: string,
-    exerciseId: string,
-  ) => void;
-  addFreq: (
-    routineId: string,
-    workoutId: string,
-    exerciseId: string,
-    freq: number[],
-  ) => void;
-  deleteExercise: (
-    routineId: string,
-    workoutId: string,
-    exerciseId: string,
-  ) => void;
-  setWeekDayWorkout: (routineId: string) => void;
+  deleteWorkout: () => void;
+  updateExercises: (exerciseId: string) => void;
+  addFreq: (exerciseId: string, freq: number[]) => void;
+  deleteExercise: (exerciseId: string) => void;
+  setWeekDayWorkout: () => void;
 };
 
 const initialState: State = {
   routines: getRoutine(),
   stateId: {
     routineId: '',
-    workoutId: '',
-    exerciseId: '',
+    workoutId: undefined,
+    exerciseId: undefined,
     dayId: new Date().getDay(),
   },
 };
@@ -109,10 +96,12 @@ const useRoutineStore = create<State & Actions>((set, get) => ({
       }),
     ),
 
-  deleteRoutine: routineId =>
+  deleteRoutine: () =>
     set(
       produce((state: Draft<State & Actions>) => {
-        state.routines = state.routines.filter(r => r.id !== routineId);
+        state.routines = state.routines.filter(
+          r => r.id !== state.stateId.routineId,
+        );
       }),
     ),
 
@@ -133,46 +122,48 @@ const useRoutineStore = create<State & Actions>((set, get) => ({
       }),
     ),
 
-  deleteWorkout: (routineId, workoutId) =>
+  deleteWorkout: () =>
     set(
       produce((state: Draft<State & Actions>) => {
-        const routineIndex = state.routines.findIndex(r => r.id === routineId);
+        const routineIndex = state.routines.findIndex(
+          r => r.id === state.stateId.routineId,
+        );
         if (routineIndex !== -1) {
           state.routines[routineIndex].workouts = state.routines[
             routineIndex
-          ].workouts.filter(w => w.id !== workoutId);
+          ].workouts.filter(w => w.id !== state.stateId.workoutId);
         }
       }),
     ),
 
-  setWeekDayWorkout: routineId =>
+  setWeekDayWorkout: () =>
     set(
       produce((state: Draft<State & Actions>) => {
-        const routineIndex = state.routines.findIndex(r => r.id === routineId);
+        const routineIndex = state.routines.findIndex(
+          r => r.id === state.stateId.routineId,
+        );
         if (routineIndex !== -1) {
           if (state.stateId.workoutId !== undefined)
             state.routines[routineIndex].weekdays[
               state.stateId.dayId
             ].workoutId = state.stateId.workoutId;
-          const isworkoutday =
-            state.routines[routineIndex].weekdays[state.stateId.dayId]
-              .isWorkday;
-
           state.routines[routineIndex].weekdays[state.stateId.dayId].isWorkday =
             true;
         }
       }),
     ),
 
-  updateExercises: (routineId, workoutId, exerciseId) =>
+  updateExercises: exerciseId =>
     set(
       produce((state: Draft<State & Actions>) => {
-        const routineIndex = state.routines.findIndex(r => r.id === routineId);
+        const routineIndex = state.routines.findIndex(
+          r => r.id === state.stateId.routineId,
+        );
         if (routineIndex !== -1) {
           console.log('routineIndex founded');
           console.log(state.routines[routineIndex].workouts);
           const workoutIndex = state.routines[routineIndex].workouts.findIndex(
-            w => w.id === workoutId,
+            w => w.id === state.stateId.workoutId,
           );
           if (workoutIndex !== -1) {
             console.log('workoutIndex founded');
@@ -181,31 +172,35 @@ const useRoutineStore = create<State & Actions>((set, get) => ({
               workoutIndex
             ].exercises.findIndex(e => e.id === exerciseId);
 
-            console.log(
-              state.routines[routineIndex].workouts[workoutIndex].exercises,
-            );
+            // console.log(
+            //   state.routines[routineIndex].workouts[workoutIndex].exercises,
+            // );
             if (exerciseIndex === -1) {
-              state.routines[routineIndex].workouts[workoutIndex].exercises[
-                exerciseIndex
-              ] = {id: exerciseId, freq: []};
+              state.routines[routineIndex].workouts[
+                workoutIndex
+              ].exercises.push({
+                id: exerciseId,
+                freq: [],
+              });
             } else {
-              state.routines[routineIndex].workouts[workoutIndex].exercises =
-                state.routines[routineIndex].workouts[
-                  workoutIndex
-                ].exercises.filter(e => e.id !== exerciseId);
+              state.routines[routineIndex].workouts[
+                workoutIndex
+              ].exercises.splice(exerciseIndex, 1);
             }
           }
         }
       }),
     ),
 
-  addFreq: (routineId, workoutId, exerciseId, freq) =>
+  addFreq: (exerciseId, freq) =>
     set(
       produce((state: Draft<State & Actions>) => {
-        const routineIndex = state.routines.findIndex(r => r.id === routineId);
+        const routineIndex = state.routines.findIndex(
+          r => r.id === state.stateId.routineId,
+        );
         if (routineIndex !== -1) {
           const workoutIndex = state.routines[routineIndex].workouts.findIndex(
-            w => w.id === workoutId,
+            w => w.id === state.stateId.workoutId,
           );
           if (workoutIndex !== -1) {
             const workout = state.routines[routineIndex].workouts[workoutIndex];
@@ -222,13 +217,15 @@ const useRoutineStore = create<State & Actions>((set, get) => ({
       }),
     ),
 
-  deleteExercise: (routineId, workoutId, exerciseId) =>
+  deleteExercise: exerciseId =>
     set(
       produce((state: Draft<State & Actions>) => {
-        const routineIndex = state.routines.findIndex(r => r.id === routineId);
+        const routineIndex = state.routines.findIndex(
+          r => r.id === state.stateId.routineId,
+        );
         if (routineIndex !== -1) {
           const workoutIndex = state.routines[routineIndex].workouts.findIndex(
-            w => w.id === workoutId,
+            w => w.id === state.stateId.workoutId,
           );
           if (workoutIndex !== -1) {
             const workout = state.routines[routineIndex].workouts[workoutIndex];

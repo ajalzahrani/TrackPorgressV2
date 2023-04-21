@@ -19,16 +19,12 @@ const RoutineCard: React.FC<RoutineCardProps> = ({routine}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation<RoutineListNavigationProp>();
 
-  const action = () => {
-    deleteRoutine(routine.id);
-  };
-
   return (
     <>
       <GeneralModal
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
-        action={action}
+        action={deleteRoutine}
         message="Are you sure to delet routine?"
       />
 

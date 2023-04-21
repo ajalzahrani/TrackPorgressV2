@@ -44,7 +44,7 @@ const ExerciseCard: React.FC<ExerciseCardProp> = ({
   };
 
   const handleAddFreq = (freq: number[]) => {
-    addFreq(routineId, workoutId, exercise.id, freq);
+    addFreq(exercise.id, freq);
   };
 
   const RepControllerComponent = () => {
@@ -78,7 +78,7 @@ const ExerciseCard: React.FC<ExerciseCardProp> = ({
         </Text>
         <TouchableOpacity
           onPress={() => {
-            deleteExercise(routineId, workoutId, exercise.id);
+            deleteExercise(exercise.id);
           }}>
           <Image source={assets.icn_remove} />
         </TouchableOpacity>

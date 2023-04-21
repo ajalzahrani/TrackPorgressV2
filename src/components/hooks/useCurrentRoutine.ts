@@ -2,8 +2,9 @@ import useRoutineStore from 'src/store/useRoutineStore';
 
 const useCurrentRoutine = () => {
   const routines = useRoutineStore(s => s.routines);
+  const routineId = useRoutineStore(s => s.stateId.routineId);
 
-  const getCurrentRoutine = (routineId: string) => {
+  const getCurrentRoutine = () => {
     const routine = routines.find(r => r.id === routineId);
     return routine ? routine : null;
   };

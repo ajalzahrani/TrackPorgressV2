@@ -24,7 +24,7 @@ const ExerciseSelectRow = ({exerciseRow}: ExerciseSelectRowType) => {
 
   const handlePreSelect = () => {
     if (workoutId !== undefined)
-      getCurrentWorkout(routineId, workoutId)?.exercises?.find(exercise => {
+      getCurrentWorkout()?.exercises?.find(exercise => {
         if (exercise.id === exerciseRow.id) {
           setIsSelected(true);
         }
@@ -49,8 +49,7 @@ const ExerciseSelectRow = ({exerciseRow}: ExerciseSelectRowType) => {
           <TouchableOpacity
             onPress={() => {
               setIsSelected(!isSelected);
-              if (workoutId !== undefined)
-                updateExercises(routineId, workoutId, exerciseRow.id);
+              if (workoutId !== undefined) updateExercises(exerciseRow.id);
             }}>
             <View
               style={[

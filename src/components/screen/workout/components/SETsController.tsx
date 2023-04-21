@@ -29,9 +29,8 @@ const SETsController: React.FC<SETsControllerProp> = ({
   const updateFreq = () => {
     let updatedFreq = freq;
     updatedFreq[index] = number;
-    // addFreq(updatedFreq);
     if (workoutId !== undefined && exerciseId !== undefined) {
-      addFreq(routineId, workoutId, exerciseId, updatedFreq);
+      addFreq(exerciseId, updatedFreq);
     }
   };
 

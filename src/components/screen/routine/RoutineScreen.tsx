@@ -183,7 +183,7 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
                 key={workout.id}
                 onPress={() => {
                   setWorkoutId(workout.id);
-                  setWeekDayWorkout(routine.id);
+                  setWeekDayWorkout();
                 }}>
                 <WorkoutCard routineId={routine.id} workout={workout} />
               </TouchableOpacity>
