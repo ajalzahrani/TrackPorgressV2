@@ -1,41 +1,34 @@
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import React, {useEffect, useState} from 'react';
+import useCurrentWorkout from 'src/components/hooks/useCurrentWorkout';
 
 import CardExerciseDetails from './CardExerciseDetails';
 
 // Assets
 import {colors, assets} from 'src/assets';
 
-import {
-  exerciseMasterType,
-  exercisesType,
-} from 'src/components/shared/globalTypes';
+import {exerciseMasterType} from 'src/components/shared/globalTypes';
 import useRoutineStore from 'src/store/useRoutineStore';
 
 type ExerciseSelectRowType = {
-  routineId: string;
-  workoutId: string;
   exerciseRow: exerciseMasterType;
-  exercisesSelected: exercisesType[];
 };
 
-const ExerciseSelectRow = ({
-  routineId,
-  workoutId,
-  exerciseRow,
-  exercisesSelected,
-}: ExerciseSelectRowType) => {
+const ExerciseSelectRow = ({exerciseRow}: ExerciseSelectRowType) => {
   const updateExercises = useRoutineStore(s => s.updateExercises);
+  const getCurrentWorkout = useCurrentWorkout();
+  const {routineId, workoutId} = useRoutineStore(s => s.stateId);
   const [isSelected, setIsSelected] = useState(false);
   const [preSelected, setPreSelected] = useState(false);
   const [explore, setIsExplore] = useState(false);
 
   const handlePreSelect = () => {
-    exercisesSelected?.find(exercise => {
-      if (exercise.id === exerciseRow.id) {
-        setIsSelected(true);
-      }
-    });
+    if (workoutId !== undefined)
+      getCurrentWorkout(routineId, workoutId)?.exercises?.find(exercise => {
+        if (exercise.id === exerciseRow.id) {
+          setIsSelected(true);
+        }
+      });
     setPreSelected(true);
   };
 
@@ -56,7 +49,8 @@ const ExerciseSelectRow = ({
           <TouchableOpacity
             onPress={() => {
               setIsSelected(!isSelected);
-              updateExercises(routineId, workoutId, exerciseRow.id);
+              if (workoutId !== undefined)
+                updateExercises(routineId, workoutId, exerciseRow.id);
             }}>
             <View
               style={[

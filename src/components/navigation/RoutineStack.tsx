@@ -20,11 +20,7 @@ export type RoutineStackRootParamList = {
   RoutineFormScreen: {routine: routineType};
   RoutineScreen: undefined;
   WorkoutScreen: undefined;
-  ExerciseScreen: {
-    routineId: string;
-    workoutId: string;
-    exercises: {id: string; freq: number[]}[];
-  };
+  ExerciseScreen: undefined;
   SessionScreen: {workout: workoutType};
   SessionReportScreen: {sessionId: string};
 };

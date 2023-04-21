@@ -56,13 +56,14 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
 
   const routines = useRoutineStore(s => s.routines);
   const routineId = useRoutineStore(r => r.stateId.routineId);
-  const workoutId = useRoutineStore(s => s.stateId.workoutId);
   const routineIndex = routines.findIndex(i => i.id === routineId);
   const routine = routines[routineIndex];
-  const routineRef = useRef(routine);
+  const workoutId = useRoutineStore(s => s.stateId.workoutId);
+  const workoutIndex = routine.workouts.findIndex(w => w.id === workoutId);
   const setWorkoutId = useRoutineStore(s => s.setWorkoutId);
+  const workout = routine.workouts[workoutIndex];
   const setWeekDayWorkout = useRoutineStore(s => s.setWeekDayWorkout);
-  const workout = routine.workouts.find(workout => workout.id === workoutId);
+  // const routineRef = useRef(routine);
 
   const {t} = useTranslation();
 
@@ -127,6 +128,7 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
           <TouchableOpacity
             style={style.addNewWorkout}
             onPress={() => {
+              setWorkoutId(undefined);
               navigation.navigate('WorkoutScreen');
             }}>
             <Image source={assets.icn_plus} style={{}} />
@@ -141,9 +143,7 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
       <View style={style.workoutContainerStyle}>
         {workout?.title ? (
           <>
-            <View
-              // className="flex-row items-center space-x-5"
-              style={style.workoutTitleStyle}>
+            <View style={style.workoutTitleStyle}>
               <Text style={style.workoutTitleStyle}>{workout.title}</Text>
               <TouchableOpacity
                 onPress={() => {
@@ -154,11 +154,7 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
                 }}>
                 <Image source={assets.icn_edit} />
               </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  // unselectCurrentDay(currentDay.id);
-                  // unselectCurrentWorkout();
-                }}>
+              <TouchableOpacity onPress={() => {}}>
                 <Image source={assets.icn_remove} />
               </TouchableOpacity>
             </View>
@@ -174,20 +170,13 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
             />
           </>
         ) : (
-          <Text
-            // className="text-yellow-200"
-            style={style.noWorkoutWorning}>
+          <Text style={style.noWorkoutWorning}>
             {t('schedule.addNewWorkoutOrChoose')}
           </Text>
         )}
       </View>
       <View style={{paddingHorizontal: 16, flex: 1}}>
         <View style={style.preWorkoutListContainerStyle}>
-          {/* <Text
-          // className="text-white"
-          >
-            {t('schedule.preListOfWorkouts')}
-          </Text> */}
           <ScrollView contentContainerStyle={{paddingBottom: 72}}>
             {routine.workouts?.map(workout => (
               <TouchableOpacity
@@ -210,7 +199,6 @@ const style = StyleSheet.create({
   preWorkoutListContainerStyle: {
     marginTop: 51,
   },
-  // className="flex-row flex-1 space-x-2 items-center justify-end mt-2 mr-2"
   addNewWorkout: {
     flex: 1,
     flexDirection: 'row',

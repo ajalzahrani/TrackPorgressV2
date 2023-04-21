@@ -45,7 +45,7 @@ type WorkoutScreenNavigationProp = NativeStackNavigationProp<
 
 type WorkoutScreenProp = {
   route?: WorkoutScreenRouteProp;
-  navigation?: WorkoutScreenNavigationProp;
+  navigation: WorkoutScreenNavigationProp;
 };
 
 const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
@@ -149,14 +149,9 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
           <Image source={assets.icn_goback} />
         </TouchableOpacity>
         <TouchableOpacity
-          //className="flex-row flex-1 space-x-2 items-center justify-end mt-2 mr-2"
           style={style.addNewExercise}
           onPress={() => {
-            navigation.navigate('ExerciseScreen', {
-              routineId: routineId,
-              workoutId: workout?.id,
-              exercises: workout?.exercises || [{id: '', freq: []}],
-            });
+            navigation.navigate('ExerciseScreen');
           }}>
           <Image source={assets.icn_plus} style={{}} />
           <Text style={{color: colors.red}}>{t('workout.addNewExercise')}</Text>

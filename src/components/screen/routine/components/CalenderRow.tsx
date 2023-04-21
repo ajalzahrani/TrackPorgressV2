@@ -37,6 +37,7 @@ const CalenderRow: React.FC<CalenderRowProp> = ({routine}) => {
           <TouchableOpacity
             key={day.id}
             onPress={() => {
+              setDayId(dayId);
               setWorkoutId(day.workoutId);
               setDB(
                 produce(draft => {
@@ -97,7 +98,10 @@ const CalenderRow: React.FC<CalenderRowProp> = ({routine}) => {
         draft[dayId].ispicked = true;
       }),
     );
-    setWorkoutId(routine.weekdays[dayId].workoutId);
+
+    if (routine.weekdays[dayId].workoutId !== '') {
+      setWorkoutId(routine.weekdays[dayId].workoutId);
+    }
   };
 
   useEffect(() => {

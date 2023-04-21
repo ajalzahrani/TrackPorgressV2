@@ -19,7 +19,7 @@ const RestTimeController: React.FC<RestTimeControllerProps> = ({
   resttime,
 }) => {
   const [number, setNumber] = useState(() => {
-    if (id === 0) return resttime[0];
+    if (controllerType === 0) return resttime[0];
     else return resttime[1];
   });
 
@@ -49,7 +49,7 @@ const RestTimeController: React.FC<RestTimeControllerProps> = ({
   };
 
   useEffect(() => {
-    setNumber(timing.convertTimeToSeconds(value.minutes, value.seconds));
+    setNumber(convertTimeToSeconds(value.minutes, value.seconds));
   }, [value]);
 
   useEffect(() => {

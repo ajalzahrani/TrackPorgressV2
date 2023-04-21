@@ -5,6 +5,7 @@ import React from 'react';
 import {colors, assets} from 'src/assets';
 import {ListCardTitle} from 'src/components/shared';
 
+import useRoutineStore from 'src/store/useRoutineStore';
 import {workoutType} from 'src/components/shared/globalTypes';
 
 // Navigation
@@ -17,6 +18,7 @@ type WorkoutCardType = {
 
 const WorkoutCard = ({routineId, workout}: WorkoutCardType) => {
   const navigation = useNavigation<RoutineScreenNavigationProp>();
+  const setWorkoutId = useRoutineStore(s => s.setWorkoutId);
 
   return (
     <ListCardTitle title={workout.title}>
@@ -26,11 +28,8 @@ const WorkoutCard = ({routineId, workout}: WorkoutCardType) => {
         </TouchableOpacity> */}
         <TouchableOpacity
           onPress={() => {
-            // selectCurrentWorkout(workout.id);
-            navigation.navigate('WorkoutScreen', {
-              routineId: routineId,
-              workout: workout,
-            });
+            setWorkoutId(workout.id);
+            navigation.navigate('WorkoutScreen');
           }}>
           <Image source={assets.icn_edit} />
         </TouchableOpacity>

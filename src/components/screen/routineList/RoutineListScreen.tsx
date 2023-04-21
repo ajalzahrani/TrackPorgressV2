@@ -21,7 +21,7 @@ import {ScreenContainer, PressableButton} from 'src/components/shared';
 
 // Navigation
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RouteProp} from '@react-navigation/native';
+import {RouteProp, useRoute} from '@react-navigation/native';
 import {RoutineStackRootParamList} from 'src/components/navigation/RoutineStack';
 import uuidv4 from 'src/components/shared/uuid4v';
 import weekdays from 'src/assets/database/weekdays';

@@ -23,6 +23,7 @@ import {ScreenContainer} from 'src/components/shared';
 
 // Store
 import useExerciseStore from 'src/store/useExerciseMaster';
+import useRoutineStore from 'src/store/useRoutineStore';
 
 // Navigation
 import {RouteProp} from '@react-navigation/native';
@@ -55,10 +56,6 @@ const ExerciseScreen: React.FC<ExerciseScreenProp> = ({route, navigation}) => {
   const [notFound, setNotFound] = useState(false); // handle if no exercise found in search
   const [modalVisible, setModalVisible] = useState(false);
 
-  const routineId = route.params.routineId;
-  const workouitId = route.params.workoutId;
-  const exercises = route.params.exercises;
-
   // search the list of exercises data and eanble the user to add not found exercies.
   const handleSearch = (searchText: string) => {
     setSearch(searchText);
@@ -82,13 +79,7 @@ const ExerciseScreen: React.FC<ExerciseScreenProp> = ({route, navigation}) => {
   }: ListRenderItemInfo<exerciseMasterType>) => {
     return (
       <View style={styles.preListContainerStyle}>
-        <ExerciseSelectRow
-          key={item.id}
-          routineId={routineId}
-          workoutId={workouitId}
-          exerciseRow={item}
-          exercisesSelected={exercises}
-        />
+        <ExerciseSelectRow key={item.id} exerciseRow={item} />
       </View>
     );
   };

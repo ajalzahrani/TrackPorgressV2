@@ -24,10 +24,9 @@ type State = {
 
 type Actions = {
   setRoutineId: (routineId: string) => void;
-  setWorkoutId: (workoutId: string) => void;
+  setWorkoutId: (workoutId: string | undefined) => void;
   setExerciseId: (exerciseId: string) => void;
   setDayId: (dayId: number) => void;
-  deleteWorkout: (routineId: string, workoutId: string) => void;
   addNewRoutine: (routineId: string, routine: routineType) => void;
   deleteRoutine: (routineId: string) => void;
   addWorkout: (
@@ -35,6 +34,7 @@ type Actions = {
     workoutId: string,
     workout: workoutType,
   ) => void;
+  deleteWorkout: (routineId: string, workoutId: string) => void;
   updateExercises: (
     routineId: string,
     workoutId: string,
@@ -89,6 +89,13 @@ const useRoutineStore = create<State & Actions>((set, get) => ({
       }),
     ),
 
+  setDayId: dayId =>
+    set(
+      produce((state: Draft<State & Actions>) => {
+        state.stateId.dayId = dayId;
+      }),
+    ),
+
   addNewRoutine: (routineId, routine) =>
     set(
       produce((state: Draft<State & Actions>) => {
@@ -135,13 +142,6 @@ const useRoutineStore = create<State & Actions>((set, get) => ({
             routineIndex
           ].workouts.filter(w => w.id !== workoutId);
         }
-      }),
-    ),
-
-  setDayId: dayId =>
-    set(
-      produce((state: Draft<State & Actions>) => {
-        state.stateId.dayId = dayId;
       }),
     ),
 
