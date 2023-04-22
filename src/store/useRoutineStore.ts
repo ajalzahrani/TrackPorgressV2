@@ -29,11 +29,7 @@ type Actions = {
   setDayId: (dayId: number) => void;
   addNewRoutine: (routineId: string, routine: routineType) => void;
   deleteRoutine: () => void;
-  addWorkout: (
-    routineId: string,
-    workoutId: string,
-    workout: workoutType,
-  ) => void;
+  addWorkout: (workout: workoutType) => void;
   deleteWorkout: () => void;
   updateExercises: (exerciseId: string) => void;
   addFreq: (exerciseId: string, freq: number[]) => void;
@@ -105,13 +101,15 @@ const useRoutineStore = create<State & Actions>((set, get) => ({
       }),
     ),
 
-  addWorkout: (routineId, workoutId, workout) =>
+  addWorkout: workout =>
     set(
       produce((state: Draft<State & Actions>) => {
-        const routineIndex = state.routines.findIndex(r => r.id === routineId);
+        const routineIndex = state.routines.findIndex(
+          r => r.id === state.stateId.routineId,
+        );
         if (routineIndex !== -1) {
           const workoutIndex = state.routines[routineIndex].workouts.findIndex(
-            w => w.id === workoutId,
+            w => w.id === state.stateId.workoutId,
           );
           if (workoutIndex !== -1) {
             state.routines[routineIndex].workouts[workoutIndex] = workout;
@@ -187,6 +185,8 @@ const useRoutineStore = create<State & Actions>((set, get) => ({
                 workoutIndex
               ].exercises.splice(exerciseIndex, 1);
             }
+          } else {
+            console.log('workoutIndex not founded');
           }
         }
       }),

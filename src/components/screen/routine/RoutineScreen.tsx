@@ -63,6 +63,7 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
   const setWorkoutId = useRoutineStore(s => s.setWorkoutId);
   const workout = routine.workouts[workoutIndex];
   const setWeekDayWorkout = useRoutineStore(s => s.setWeekDayWorkout);
+  const deleteWorkout = useRoutineStore(s => s.deleteWorkout);
   // const routineRef = useRef(routine);
 
   const {t} = useTranslation();
@@ -154,7 +155,11 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
                 }}>
                 <Image source={assets.icn_edit} />
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => {}}>
+              <TouchableOpacity
+                onPress={() => {
+                  deleteWorkout();
+                  setWorkoutId(undefined);
+                }}>
                 <Image source={assets.icn_remove} />
               </TouchableOpacity>
             </View>

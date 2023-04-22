@@ -69,7 +69,7 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
       setModalVisible(true);
     } else {
       if (workout !== undefined) {
-        addWorkout(routineId, workout.id, workout);
+        addWorkout(workout);
       }
       navigation!.goBack();
     }

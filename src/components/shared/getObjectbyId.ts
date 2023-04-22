@@ -1,11 +1,13 @@
 import {routineType, workoutType, exercisesType} from './globalTypes';
 
-const getObjectById = (
-  id: string,
-  array: routineType[] | workoutType[] | exercisesType[],
-) => {
-  const index = array.findIndex(i => i.id === id);
-  return array[index];
-};
+function getObjectById<T>(id: string | number, array: T[]) {
+  const objectIndex = array.findIndex(o => o.id === id);
+
+  if (objectIndex === -1) {
+    return array[objectIndex];
+  }
+
+  return undefined;
+}
 
 export default getObjectById;

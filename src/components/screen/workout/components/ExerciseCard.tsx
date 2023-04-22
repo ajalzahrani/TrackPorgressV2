@@ -14,15 +14,9 @@ import useRoutineStore from 'src/store/useRoutineStore';
 import useExerciseStore from 'src/store/useExerciseMaster';
 
 type ExerciseCardProp = {
-  routineId: string;
-  workoutId: string;
   exercise: exercisesType;
 };
-const ExerciseCard: React.FC<ExerciseCardProp> = ({
-  routineId,
-  workoutId,
-  exercise,
-}) => {
+const ExerciseCard: React.FC<ExerciseCardProp> = ({exercise}) => {
   const deleteExercise = useRoutineStore(s => s.deleteExercise);
   const addFreq = useRoutineStore(s => s.addFreq);
   const [set, setSet] = useState(exercise.freq.length);
