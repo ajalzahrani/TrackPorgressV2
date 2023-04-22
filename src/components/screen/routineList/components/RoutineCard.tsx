@@ -8,7 +8,7 @@ import useRoutineStore from 'src/store/useRoutineStore';
 
 import GeneralModal from 'src/components/shared/GeneralModal';
 import {RoutineListNavigationProp} from '../RoutineListScreen';
-import {routineType} from 'src/components/shared/globalTypes';
+import {routineType} from 'src/types';
 
 type RoutineCardProps = {
   routine: routineType;

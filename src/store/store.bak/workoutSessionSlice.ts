@@ -3,8 +3,8 @@ import {produce} from 'immer';
 import uuid from 'react-native-uuid';
 import moment from 'moment';
 import {store} from '../mmkv';
-import {sessionType} from 'src/components/shared/globalTypes';
-import {sessionExerciseType} from 'src/components/shared/globalTypes';
+import {sessionType} from 'src/types';
+import {sessionExerciseType} from 'src/types';
 
 const globalKey = 'session';
 

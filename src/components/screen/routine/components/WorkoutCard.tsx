@@ -6,7 +6,7 @@ import {colors, assets} from 'src/assets';
 import {ListCardTitle} from 'src/components/shared';
 
 import useRoutineStore from 'src/store/useRoutineStore';
-import {workoutType} from 'src/components/shared/globalTypes';
+import {workoutType} from 'src/types';
 
 // Navigation
 import {useNavigation} from '@react-navigation/native';

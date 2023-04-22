@@ -32,7 +32,7 @@ import useRoutineStore from 'src/store/useRoutineStore';
 // Navigation
 import {RoutineStackRootParamList} from 'src/components/navigation/RoutineStack';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {workoutType} from 'src/components/shared/globalTypes';
+import {workoutType} from 'src/types';
 type WorkoutScreenRouteProp = RouteProp<
   RoutineStackRootParamList,
   'WorkoutScreen'
@@ -51,14 +51,7 @@ type WorkoutScreenProp = {
 const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
   // FIXME: Re-design Rest time controllers
 
-  const routines = useRoutineStore(s => s.routines);
-  const routineId = useRoutineStore(s => s.stateId.routineId);
-  const workoutId = useRoutineStore(s => s.stateId.workoutId);
-
-  const routineIndex = routines.findIndex(r => r.id === routineId);
-  const routine = routines[routineIndex];
-  const workoutIndex = routine.workouts.findIndex(w => w.id === workoutId);
-  const workout = routine.workouts[workoutIndex];
+  const workout = useRoutineStore(s => s.getWorkout());
   const deleteWorkout = useRoutineStore(s => s.deleteWorkout);
   const addWorkout = useRoutineStore(s => s.addWorkout);
   const [modalVisible, setModalVisible] = useState(false);
@@ -168,14 +161,7 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
             />
 
             {workout?.exercises?.map(exercise => {
-              return (
-                <ExerciseCard
-                  key={exercise.id}
-                  routineId={routineId}
-                  workoutId={workout.id}
-                  exercise={exercise}
-                />
-              );
+              return <ExerciseCard key={exercise.id} exercise={exercise} />;
             })}
             {RestTimeDrawer()}
 

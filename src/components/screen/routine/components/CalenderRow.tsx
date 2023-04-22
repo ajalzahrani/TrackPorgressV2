@@ -5,7 +5,7 @@ import produce from 'immer';
 import {colors} from 'src/assets';
 
 // Store
-import {routineType} from 'src/components/shared/globalTypes';
+import {routineType} from 'src/types';
 import useRoutineStore from 'src/store/useRoutineStore';
 
 const dayButton = [

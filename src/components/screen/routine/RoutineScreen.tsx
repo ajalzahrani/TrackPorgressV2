@@ -21,6 +21,7 @@ import WorkoutCard from './components/WorkoutCard';
 import {PressableButton} from 'src/components/shared';
 import compareObjects from 'src/components/shared/compareObjects';
 import {ScreenContainer} from 'src/components/shared';
+import {workoutType} from 'src/types';
 
 // Assets
 import {colors, assets} from 'src/assets';
@@ -54,21 +55,23 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
   // FIXME: Auto select new added workout.
   // FIXME: Clicking on navigation button should prsiste configurations.
 
-  const routines = useRoutineStore(s => s.routines);
-  const routineId = useRoutineStore(r => r.stateId.routineId);
-  const routineIndex = routines.findIndex(i => i.id === routineId);
-  const routine = routines[routineIndex];
+  const routineStore = useRoutineStore(s => s.getRoutine());
+  const [routine, setRoutine] = useState(routineStore);
   const workoutId = useRoutineStore(s => s.stateId.workoutId);
+
   const workoutIndex = routine.workouts.findIndex(w => w.id === workoutId);
   const setWorkoutId = useRoutineStore(s => s.setWorkoutId);
   const workout = routine.workouts[workoutIndex];
-  const setWeekDayWorkout = useRoutineStore(s => s.setWeekDayWorkout);
   const deleteWorkout = useRoutineStore(s => s.deleteWorkout);
+
+  const setWeekDayWorkout = useRoutineStore(s => s.setWeekDayWorkout);
   // const routineRef = useRef(routine);
 
   const {t} = useTranslation();
 
   const [modalVisible, setModalVisible] = useState(false);
+
+  const handleUpdateWorkout = (workout: workoutType) => {};
 
   return (
     <ScreenContainer>

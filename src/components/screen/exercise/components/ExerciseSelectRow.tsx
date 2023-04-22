@@ -7,7 +7,7 @@ import CardExerciseDetails from './CardExerciseDetails';
 // Assets
 import {colors, assets} from 'src/assets';
 
-import {exerciseMasterType} from 'src/components/shared/globalTypes';
+import {exerciseMasterType} from 'src/types';
 import useRoutineStore from 'src/store/useRoutineStore';
 
 type ExerciseSelectRowType = {

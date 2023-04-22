@@ -9,7 +9,7 @@ import {colors, assets} from 'src/assets';
 import SETsController from './SETsController';
 
 // Store
-import {exercisesType} from 'src/components/shared/globalTypes';
+import {exercisesType} from 'src/types';
 import useRoutineStore from 'src/store/useRoutineStore';
 import useExerciseStore from 'src/store/useExerciseMaster';
 

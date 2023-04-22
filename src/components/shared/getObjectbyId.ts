@@ -1,4 +1,4 @@
-import {routineType, workoutType, exercisesType} from './globalTypes';
+import {routineType, workoutType, exercisesType} from '../../types';
 
 function getObjectById<T>(id: string | number, array: T[]) {
   const objectIndex = array.findIndex(o => o.id === id);

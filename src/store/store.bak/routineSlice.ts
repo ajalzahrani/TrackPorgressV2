@@ -3,7 +3,7 @@ import {produce} from 'immer';
 import {store} from '../mmkv';
 import uuidv4 from 'src/components/shared/uuid4v';
 import DefaultWeekdays from '../../assets/database/weekdays';
-import {routineType} from 'src/components/shared/globalTypes';
+import {routineType} from 'src/types';
 
 type State = {
   routines: routineType[];

@@ -30,7 +30,7 @@ import {RouteProp} from '@react-navigation/native';
 import {RoutineStackRootParamList} from 'src/components/navigation/RoutineStack';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
-import type {exerciseMasterType} from 'src/components/shared/globalTypes';
+import type {exerciseMasterType} from 'src/types';
 
 type ExerciseScreenRouteProp = RouteProp<
   RoutineStackRootParamList,

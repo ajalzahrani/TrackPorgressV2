@@ -1,7 +1,7 @@
 import create from 'zustand';
 import {produce} from 'immer';
 import {store} from '../mmkv';
-import {workoutType} from 'src/components/shared/globalTypes';
+import {workoutType} from 'src/types';
 
 const workoutGlobalKey = 'workout';
 

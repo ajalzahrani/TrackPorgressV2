@@ -2,7 +2,7 @@ import {StyleSheet, Text, View, Modal, Pressable, Image} from 'react-native';
 import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {colors, assets} from 'src/assets';
-import {exerciseMasterType} from 'src/components/shared/globalTypes';
+import {exerciseMasterType} from 'src/types';
 
 type CardExerciseDetailsType = {
   exercise: exerciseMasterType;

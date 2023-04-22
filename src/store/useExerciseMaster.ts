@@ -2,7 +2,7 @@ import create from 'zustand';
 import {produce} from 'immer';
 import {store} from './mmkv';
 import uuid from 'react-native-uuid';
-import {exerciseMasterType} from 'src/components/shared/globalTypes';
+import {exerciseMasterType} from 'src/types';
 import def from 'src/components/shared/GlobalDefinition';
 
 const getExerciseMaster = (): exerciseMasterType[] => {

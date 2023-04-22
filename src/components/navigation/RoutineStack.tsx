@@ -13,7 +13,7 @@ import WorkoutScreen from '../screen/workout/WorkoutScreen';
 import ExerciseScreen from '../screen/exercise/ExerciseScreen';
 import SessionScreen from '../screen/session/SessionScreen';
 import SessionReportScreen from '../screen/sessionReport/SessionReportScreen';
-import {routineType, workoutType} from '../shared/globalTypes';
+import {routineType, workoutType} from '../../types';
 
 export type RoutineStackRootParamList = {
   RoutineListScreen: {name: string};

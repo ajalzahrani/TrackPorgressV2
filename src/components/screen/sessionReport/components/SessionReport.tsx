@@ -18,7 +18,7 @@ import Divider from 'src/components/shared/Divider';
 import {convertDate} from 'src/components/shared';
 import moment from 'moment';
 
-import {sessionType} from 'src/components/shared/globalTypes';
+import {sessionType} from 'src/types';
 type SessionReportProp = {
   session: sessionType;
 };

@@ -1,7 +1,7 @@
 import create from 'zustand';
 import {store} from './mmkv';
 import produce, {Draft} from 'immer';
-import {routineType, workoutType} from 'src/components/shared/globalTypes';
+import {routineType, workoutType} from 'src/types';
 import def from 'src/components/shared/GlobalDefinition';
 
 const getRoutine = (): routineType[] => {
@@ -26,6 +26,8 @@ type Actions = {
   setRoutineId: (routineId: string) => void;
   setWorkoutId: (workoutId: string | undefined) => void;
   setExerciseId: (exerciseId: string) => void;
+  getRoutine: () => routineType;
+  getWorkout: () => workoutType;
   setDayId: (dayId: number) => void;
   addNewRoutine: (routineId: string, routine: routineType) => void;
   deleteRoutine: () => void;
@@ -78,6 +80,24 @@ const useRoutineStore = create<State & Actions>((set, get) => ({
         state.stateId.dayId = dayId;
       }),
     ),
+
+  getRoutine: () => {
+    const routineIndex = get().routines.findIndex(
+      r => r.id === get().stateId.routineId,
+    );
+    return get().routines[routineIndex];
+  },
+
+  getWorkout: () => {
+    const routineIndex = get().routines.findIndex(
+      r => r.id === get().stateId.routineId,
+    );
+    const workoutIndex = get().routines[routineIndex].workouts.findIndex(
+      w => w.id === get().stateId.workoutId,
+    );
+
+    return get().routines[routineIndex].workouts[workoutIndex];
+  },
 
   addNewRoutine: (routineId, routine) =>
     set(
