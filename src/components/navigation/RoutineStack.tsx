@@ -19,7 +19,10 @@ export type RoutineStackRootParamList = {
   RoutineListScreen: {name: string};
   RoutineFormScreen: {routine: routineType};
   RoutineScreen: undefined;
-  WorkoutScreen: undefined;
+  WorkoutScreen: {
+    workout: workoutType | undefined;
+    handleUpdateRoutineWorkout: (workout: workoutType) => void;
+  };
   ExerciseScreen: undefined;
   SessionScreen: {workout: workoutType};
   SessionReportScreen: {sessionId: string};

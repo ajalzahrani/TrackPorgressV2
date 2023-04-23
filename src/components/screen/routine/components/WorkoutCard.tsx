@@ -14,9 +14,14 @@ import {RoutineScreenNavigationProp} from '../RoutineScreen';
 type WorkoutCardType = {
   routineId: string;
   workout: workoutType;
+  handleUpdateRoutineWorkout: (workout: workoutType) => void;
 };
 
-const WorkoutCard = ({routineId, workout}: WorkoutCardType) => {
+const WorkoutCard = ({
+  routineId,
+  workout,
+  handleUpdateRoutineWorkout,
+}: WorkoutCardType) => {
   const navigation = useNavigation<RoutineScreenNavigationProp>();
   const setWorkoutId = useRoutineStore(s => s.setWorkoutId);
 
@@ -29,7 +34,10 @@ const WorkoutCard = ({routineId, workout}: WorkoutCardType) => {
         <TouchableOpacity
           onPress={() => {
             setWorkoutId(workout.id);
-            navigation.navigate('WorkoutScreen');
+            navigation.navigate('WorkoutScreen', {
+              workout: workout,
+              handleUpdateRoutineWorkout: handleUpdateRoutineWorkout,
+            });
           }}>
           <Image source={assets.icn_edit} />
         </TouchableOpacity>

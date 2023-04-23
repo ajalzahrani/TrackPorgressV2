@@ -20,12 +20,17 @@ const dayButton = [
 
 type CalenderRowProp = {
   routine: routineType;
+  setWorkoutId: React.Dispatch<React.SetStateAction<string>>;
+  dayId: number;
+  setDayId: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const CalenderRow: React.FC<CalenderRowProp> = ({routine}) => {
-  const setWorkoutId = useRoutineStore(s => s.setWorkoutId);
-  const setDayId = useRoutineStore(s => s.setDayId);
-  const dayId = useRoutineStore(s => s.stateId.dayId);
+const CalenderRow: React.FC<CalenderRowProp> = ({
+  routine,
+  setWorkoutId,
+  dayId,
+  setDayId,
+}) => {
   const [db, setDB] = useState(dayButton);
 
   const generateWorkdays = () => {
@@ -37,7 +42,7 @@ const CalenderRow: React.FC<CalenderRowProp> = ({routine}) => {
           <TouchableOpacity
             key={day.id}
             onPress={() => {
-              setDayId(dayId);
+              setDayId(day.id);
               setWorkoutId(day.workoutId);
               setDB(
                 produce(draft => {
@@ -99,9 +104,9 @@ const CalenderRow: React.FC<CalenderRowProp> = ({routine}) => {
       }),
     );
 
-    if (routine.weekdays[dayId].workoutId !== '') {
-      setWorkoutId(routine.weekdays[dayId].workoutId);
-    }
+    // if (routine.weekdays[dayId].workoutId !== '') {
+    setWorkoutId(routine.weekdays[dayId].workoutId);
+    // }
   };
 
   useEffect(() => {

@@ -11,6 +11,7 @@ import ListCardDetails from './ListCardDetails';
 import ListCardTitle from './ListCardTitle';
 import LoadingView from './LoadingView';
 import getObjectById from './getObjectbyId';
+import GeneralModal from './GeneralModal';
 
 export {
   getDayLabel,
@@ -26,4 +27,5 @@ export {
   Pressable,
   ListCardTitle,
   getObjectById,
+  GeneralModal,
 };

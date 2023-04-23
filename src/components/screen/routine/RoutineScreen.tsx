@@ -14,6 +14,7 @@ import {
 import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useRef} from 'react';
+import produce from 'immer';
 
 // Components
 import CalenderRow from './components/CalenderRow';
@@ -21,7 +22,8 @@ import WorkoutCard from './components/WorkoutCard';
 import {PressableButton} from 'src/components/shared';
 import compareObjects from 'src/components/shared/compareObjects';
 import {ScreenContainer} from 'src/components/shared';
-import {workoutType} from 'src/types';
+import {routineType, workoutType} from 'src/types';
+import {GeneralModal} from 'src/components/shared';
 
 // Assets
 import {colors, assets} from 'src/assets';
@@ -56,26 +58,58 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
   // FIXME: Clicking on navigation button should prsiste configurations.
 
   const routineStore = useRoutineStore(s => s.getRoutine());
-  const [routine, setRoutine] = useState(routineStore);
-  const workoutId = useRoutineStore(s => s.stateId.workoutId);
+  const addNewRoutine = useRoutineStore(s => s.addNewRoutine);
+  const [routine, setRoutine] = useState<routineType>(routineStore);
+  const [workoutId, setWorkoutId] = useState('');
 
   const workoutIndex = routine.workouts.findIndex(w => w.id === workoutId);
-  const setWorkoutId = useRoutineStore(s => s.setWorkoutId);
   const workout = routine.workouts[workoutIndex];
   const deleteWorkout = useRoutineStore(s => s.deleteWorkout);
 
-  const setWeekDayWorkout = useRoutineStore(s => s.setWeekDayWorkout);
+  const [dayId, setDayId] = useState(new Date().getDay());
   // const routineRef = useRef(routine);
 
   const {t} = useTranslation();
 
   const [modalVisible, setModalVisible] = useState(false);
 
-  const handleUpdateWorkout = (workout: workoutType) => {};
+  const handleUpdateRoutineWorkout = (workout: workoutType) => {
+    const workoutIndex = routine.workouts.findIndex(w => w.id === workout.id);
+    setRoutine(
+      produce(routine, draft => {
+        draft.workouts[workoutIndex] = workout;
+      }),
+    );
+  };
+
+  const handleUpdateRoutineWeek = (workoutId: string) => {
+    setWorkoutId(workoutId);
+    console.log('dayId now: ', dayId, '| workoutId: now: ', workoutId);
+
+    if (workoutId !== '') {
+      setRoutine(
+        produce(routine, draft => {
+          draft.weekdays[dayId].workoutId = workoutId;
+          draft.weekdays[dayId].isWorkday = true;
+        }),
+      );
+    }
+  };
+
+  const handleUpdateRoutine = () => {
+    addNewRoutine(routine.id, routine);
+    navigation.navigate('RoutineListScreen', {name: ''});
+  };
 
   return (
     <ScreenContainer>
-      <Modal
+      <GeneralModal
+        action={() => handleUpdateRoutine()}
+        message="Save changes ?"
+        setModalVisible={setModalVisible}
+        modalVisible={modalVisible}
+      />
+      {/* <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
@@ -115,14 +149,14 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
             </View>
           </View>
         </View>
-      </Modal>
+      </Modal> */}
       <View>
         <View style={style.goBackStyle}>
           <TouchableOpacity
             onPress={() => {
-              // if (!compareObjects(routineRef, routine)) {
-              if (!compareObjects(routine, routine)) {
-                setModalVisible(!modalVisible);
+              if (!compareObjects(routineStore, routine)) {
+                setModalVisible(prev => !prev);
+                return;
               } else {
                 navigation.navigate('RoutineListScreen', {name: ''});
               }
@@ -132,8 +166,11 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
           <TouchableOpacity
             style={style.addNewWorkout}
             onPress={() => {
-              setWorkoutId(undefined);
-              navigation.navigate('WorkoutScreen');
+              // setWorkoutId(undefined);
+              navigation.navigate('WorkoutScreen', {
+                workout: undefined,
+                handleUpdateRoutineWorkout: handleUpdateRoutineWorkout,
+              });
             }}>
             <Image source={assets.icn_plus} style={{}} />
             <Text style={{color: colors.red}}>
@@ -142,26 +179,34 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
           </TouchableOpacity>
         </View>
 
-        <CalenderRow routine={routine} />
+        <CalenderRow
+          routine={routine}
+          setWorkoutId={setWorkoutId}
+          dayId={dayId}
+          setDayId={setDayId}
+        />
       </View>
       <View style={style.workoutContainerStyle}>
-        {workout?.title ? (
+        {routine.workouts[workoutIndex] ? (
           <>
             <View style={style.workoutTitleStyle}>
               <Text style={style.workoutTitleStyle}>{workout.title}</Text>
               <TouchableOpacity
                 onPress={() => {
-                  if (workoutId !== undefined) {
-                    setWorkoutId(workoutId);
-                  }
-                  navigation.navigate('WorkoutScreen');
+                  // if (workoutId !== undefined) {
+                  //   setWorkoutId(workoutId);
+                  // }
+                  navigation.navigate('WorkoutScreen', {
+                    workout: workout,
+                    handleUpdateRoutineWorkout: handleUpdateRoutineWorkout,
+                  });
                 }}>
                 <Image source={assets.icn_edit} />
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
                   deleteWorkout();
-                  setWorkoutId(undefined);
+                  // setWorkoutId(undefined);
                 }}>
                 <Image source={assets.icn_remove} />
               </TouchableOpacity>
@@ -171,9 +216,10 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
               title={'Start'}
               iconSource={assets.icn_start}
               onPress={() => {
-                navigation.navigate('SessionScreen', {
-                  workout: workout,
-                });
+                console.log(routine);
+                // navigation.navigate('SessionScreen', {
+                //   workout: workout,
+                // });
               }}
             />
           </>
@@ -190,10 +236,13 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
               <TouchableOpacity
                 key={workout.id}
                 onPress={() => {
-                  setWorkoutId(workout.id);
-                  setWeekDayWorkout();
+                  handleUpdateRoutineWeek(workout.id);
                 }}>
-                <WorkoutCard routineId={routine.id} workout={workout} />
+                <WorkoutCard
+                  routineId={routine.id}
+                  workout={workout}
+                  handleUpdateRoutineWorkout={handleUpdateRoutineWorkout}
+                />
               </TouchableOpacity>
             ))}
           </ScrollView>
