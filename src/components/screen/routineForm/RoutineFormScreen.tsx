@@ -1,17 +1,5 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Modal,
-  TextInput,
-  Alert,
-  Button,
-  ActionSheetIOS,
-} from 'react-native';
+import {View, Text, StyleSheet, TextInput, ActionSheetIOS} from 'react-native';
 import React, {useState} from 'react';
-// import SegmentedControl from '@react-native-segmented-control/segmented-control';
-// import SegmentedControl from '@react-native-community/segmented-control';
-import SegmentedControl from '@react-native-segmented-control/segmented-control';
 
 // Assets
 import {colors} from 'src/assets';
@@ -20,7 +8,6 @@ import {colors} from 'src/assets';
 import uuidv4 from 'src/components/shared/uuid4v';
 import {PressableButton} from 'src/components/shared';
 import Calendars2 from './components/Calendars2';
-import DateTimePickers from './components/DateTimePickers';
 import useRoutineStore from 'src/store/useRoutineStore';
 
 // Navigation

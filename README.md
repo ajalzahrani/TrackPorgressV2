@@ -25,7 +25,7 @@ To use the app, follow these steps:
 
 ## Source
 
-`npm start -- --reset-cache`
+`npm start -- --reset-cache` & `npm run sim clear-cache`
 
 ## Support
 

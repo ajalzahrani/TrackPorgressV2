@@ -175,7 +175,7 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
               title={'Start'}
               iconSource={assets.icn_start}
               onPress={() => {
-                // console.log(routine);
+                addNewRoutine(routine.id, routine);
                 navigation.navigate('SessionScreen', {
                   workout: workout,
                 });

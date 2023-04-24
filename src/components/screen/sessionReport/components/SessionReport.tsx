@@ -1,21 +1,12 @@
-import {
-  View,
-  Text,
-  ScrollView,
-  SafeAreaView,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import {View, Text, StyleSheet} from 'react-native';
+import React from 'react';
 
 // Assets
 import {colors} from 'src/assets';
 
 // Components
 import useExerciseName from 'src/components/hooks/useExerciseName';
-import * as Icons from 'react-native-heroicons/outline';
 import Divider from 'src/components/shared/Divider';
-import {convertDate} from 'src/components/shared';
 import moment from 'moment';
 
 import {sessionType} from 'src/types';
@@ -51,7 +42,7 @@ const SessionReport: React.FC<SessionReportProp> = ({session}) => {
         return (
           <View key={i}>
             <Text style={[style.generalFontSize, {fontWeight: 'bold'}]}>
-              {getExerciseName(exercise.exerciseId)} {exercise.exerciseId}
+              {getExerciseName(exercise.exerciseId)}
             </Text>
             <Text style={style.generalFontSize}>
               {exercise.set.length} {exercise.set.length > 1 ? 'Sets' : 'Set'}

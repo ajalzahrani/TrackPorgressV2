@@ -1,5 +1,4 @@
 import {getDayLabel} from './getDayLabel';
-import {getExerciseName} from './getExerciseName';
 import {convertDate} from './convertDate';
 import PressableButton from './PressableButton';
 import Pressable from './Pressable';
@@ -15,7 +14,6 @@ import GeneralModal from './GeneralModal';
 
 export {
   getDayLabel,
-  getExerciseName,
   convertDate,
   PressableButton,
   ScreenContainer,
