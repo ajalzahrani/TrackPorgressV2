@@ -93,19 +93,16 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
   };
 
   const handleExercise = (exerciseId: string) => {
-    setWorkout(
-      produce(workout, draft => {
-        const exerciseIndex = draft.exercises.findIndex(
-          e => e.id === exerciseId,
-        );
-        if (exerciseIndex !== -1) {
-          // slice the exercise
-          draft.exercises.splice(exerciseIndex, 1);
-        } else {
-          draft.exercises.push({id: exerciseId, freq: []});
-        }
-      }),
-    );
+    setWorkout(prev => {
+      const exerciseIndex = prev.exercises.findIndex(e => e.id === exerciseId);
+      const newExercises = [...prev.exercises];
+      if (exerciseIndex !== -1) {
+        newExercises.splice(exerciseIndex, 1);
+      } else {
+        newExercises.push({id: exerciseId, freq: []});
+      }
+      return {...prev, exercises: newExercises};
+    });
   };
 
   const RestTimeDrawer = () => {

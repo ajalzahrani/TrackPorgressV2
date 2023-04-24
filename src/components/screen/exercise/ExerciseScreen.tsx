@@ -144,13 +144,13 @@ const ExerciseScreen: React.FC<ExerciseScreenProp> = ({route, navigation}) => {
             </TouchableOpacity>
           </View>
         )}
-        {/* <FlatList
+        <FlatList
           contentContainerStyle={{paddingBottom: 72}}
           data={searchResult}
           renderItem={renderExercise}
           keyExtractor={exercise => exercise.id}
-        /> */}
-        <ScrollView>
+        />
+        {/* <ScrollView>
           {searchResult.map(exercise => (
             <View style={styles.preListContainerStyle}>
               <ExerciseSelectRow
@@ -161,7 +161,7 @@ const ExerciseScreen: React.FC<ExerciseScreenProp> = ({route, navigation}) => {
               />
             </View>
           ))}
-        </ScrollView>
+        </ScrollView> */}
       </View>
     </ScreenContainer>
   );
