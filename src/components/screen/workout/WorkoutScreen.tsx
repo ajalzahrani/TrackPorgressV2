@@ -28,13 +28,10 @@ import {PressableButton} from 'src/components/shared';
 import {ScreenContainer} from 'src/components/shared';
 import {GeneralModal} from 'src/components/shared';
 
-// Store
-import useRoutineStore from 'src/store/useRoutineStore';
-
 // Navigation
 import {RoutineStackRootParamList} from 'src/components/navigation/RoutineStack';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {exercisesType, workoutType} from 'src/types';
+import {workoutType} from 'src/types';
 import compareObjects from 'src/components/shared/compareObjects';
 type WorkoutScreenRouteProp = RouteProp<
   RoutineStackRootParamList,
@@ -102,6 +99,48 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
         newExercises.push({id: exerciseId, freq: []});
       }
       return {...prev, exercises: newExercises};
+    });
+  };
+
+  const handleExerciseFreqSetCount = (
+    exerciseId: string,
+    newLength: number,
+  ) => {
+    setWorkout(prev => {
+      const exerciseIndex = prev.exercises.findIndex(e => e.id === exerciseId);
+      const newExercises = [...prev.exercises];
+      if (exerciseIndex !== -1) {
+        const updatedExercise = {
+          ...newExercises[exerciseIndex],
+          freq: newExercises[exerciseIndex].freq.slice(0, newLength),
+        };
+        newExercises[exerciseIndex] = updatedExercise;
+        return {...prev, exercises: newExercises};
+      } else {
+        return prev;
+      }
+    });
+  };
+
+  const handleExerciseFreqRepCount = (
+    exerciseId: string,
+    index: number,
+    value: number,
+  ) => {
+    setWorkout(prev => {
+      const exerciseIndex = prev.exercises.findIndex(e => e.id === exerciseId);
+      const newExercises = [...prev.exercises];
+      if (exerciseIndex !== -1) {
+        const updatedExercise = {
+          ...newExercises[exerciseIndex],
+          freq: [...newExercises[exerciseIndex].freq],
+        };
+        updatedExercise.freq[index] = value;
+        newExercises[exerciseIndex] = updatedExercise;
+        return {...prev, exercises: newExercises};
+      } else {
+        return prev;
+      }
     });
   };
 
@@ -177,7 +216,14 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
             />
 
             {workout?.exercises?.map(exercise => {
-              return <ExerciseCard key={exercise.id} exercise={exercise} />;
+              return (
+                <ExerciseCard
+                  key={exercise.id}
+                  exercise={exercise}
+                  handleExerciseFreqRepCount={handleExerciseFreqRepCount}
+                  handleExerciseFreqSetCount={handleExerciseFreqSetCount}
+                />
+              );
             })}
             {RestTimeDrawer()}
 
