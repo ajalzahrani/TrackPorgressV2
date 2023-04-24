@@ -11,7 +11,7 @@ import {
   Pressable,
   TextInput,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 // import LinearGradient from 'react-native-linear-gradient';
 import {RouteProp, useNavigation} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
@@ -89,60 +89,86 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
     });
   };
 
-  const handleExercise = (exerciseId: string) => {
-    setWorkout(prev => {
-      const exerciseIndex = prev.exercises.findIndex(e => e.id === exerciseId);
-      const newExercises = [...prev.exercises];
-      if (exerciseIndex !== -1) {
-        newExercises.splice(exerciseIndex, 1);
-      } else {
-        newExercises.push({id: exerciseId, freq: []});
-      }
-      return {...prev, exercises: newExercises};
-    });
-  };
-
-  const handleExerciseFreqSetCount = (
-    exerciseId: string,
-    newLength: number,
-  ) => {
-    setWorkout(prev => {
-      const exerciseIndex = prev.exercises.findIndex(e => e.id === exerciseId);
-      const newExercises = [...prev.exercises];
-      if (exerciseIndex !== -1) {
-        const updatedExercise = {
-          ...newExercises[exerciseIndex],
-          freq: newExercises[exerciseIndex].freq.slice(0, newLength),
-        };
-        newExercises[exerciseIndex] = updatedExercise;
+  const handleExercise = useCallback(
+    (exerciseId: string) => {
+      setWorkout(prev => {
+        const exerciseIndex = prev.exercises.findIndex(
+          e => e.id === exerciseId,
+        );
+        const newExercises = [...prev.exercises];
+        if (exerciseIndex !== -1) {
+          newExercises.splice(exerciseIndex, 1);
+        } else {
+          newExercises.push({id: exerciseId, freq: []});
+        }
         return {...prev, exercises: newExercises};
-      } else {
-        return prev;
-      }
-    });
-  };
+      });
+    },
+    [setWorkout],
+  );
 
-  const handleExerciseFreqRepCount = (
-    exerciseId: string,
-    index: number,
-    value: number,
-  ) => {
-    setWorkout(prev => {
-      const exerciseIndex = prev.exercises.findIndex(e => e.id === exerciseId);
-      const newExercises = [...prev.exercises];
-      if (exerciseIndex !== -1) {
-        const updatedExercise = {
-          ...newExercises[exerciseIndex],
-          freq: [...newExercises[exerciseIndex].freq],
-        };
-        updatedExercise.freq[index] = value;
-        newExercises[exerciseIndex] = updatedExercise;
-        return {...prev, exercises: newExercises};
-      } else {
-        return prev;
-      }
-    });
-  };
+  const handleDeleteExercise = useCallback(
+    (exerciseId: string) => {
+      setWorkout(prev => {
+        const exerciseIndex = prev.exercises.findIndex(
+          e => e.id === exerciseId,
+        );
+        if (exerciseIndex !== -1) {
+          const newExercises = [...prev.exercises];
+          newExercises.splice(exerciseIndex, 1);
+          return {...prev, exercises: newExercises};
+        } else {
+          return prev;
+        }
+      });
+    },
+    [setWorkout],
+  );
+
+  const handleExerciseFreqSetCount = useCallback(
+    (exerciseId: string, newLength: number) => {
+      setWorkout(prev => {
+        const exerciseIndex = prev.exercises.findIndex(
+          e => e.id === exerciseId,
+        );
+        const newExercises = [...prev.exercises];
+        if (exerciseIndex !== -1) {
+          const updatedExercise = {
+            ...newExercises[exerciseIndex],
+            freq: newExercises[exerciseIndex].freq.slice(0, newLength),
+          };
+          newExercises[exerciseIndex] = updatedExercise;
+          return {...prev, exercises: newExercises};
+        } else {
+          return prev;
+        }
+      });
+    },
+    [setWorkout],
+  );
+
+  const handleExerciseFreqRepCount = useCallback(
+    (exerciseId: string, index: number, value: number) => {
+      setWorkout(prev => {
+        const exerciseIndex = prev.exercises.findIndex(
+          e => e.id === exerciseId,
+        );
+        const newExercises = [...prev.exercises];
+        if (exerciseIndex !== -1) {
+          const updatedExercise = {
+            ...newExercises[exerciseIndex],
+            freq: [...newExercises[exerciseIndex].freq],
+          };
+          updatedExercise.freq[index] = value;
+          newExercises[exerciseIndex] = updatedExercise;
+          return {...prev, exercises: newExercises};
+        } else {
+          return prev;
+        }
+      });
+    },
+    [setWorkout],
+  );
 
   const RestTimeDrawer = () => {
     if (workout !== undefined) {
@@ -222,6 +248,7 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
                   exercise={exercise}
                   handleExerciseFreqRepCount={handleExerciseFreqRepCount}
                   handleExerciseFreqSetCount={handleExerciseFreqSetCount}
+                  handleDeleteExercise={handleDeleteExercise}
                 />
               );
             })}

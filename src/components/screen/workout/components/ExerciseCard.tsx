@@ -20,11 +20,13 @@ type ExerciseCardProp = {
     value: number,
   ) => void;
   handleExerciseFreqSetCount: (exerciseId: string, newLength: number) => void;
+  handleDeleteExercise: (exerciseId: string) => void;
 };
 const ExerciseCard: React.FC<ExerciseCardProp> = ({
   exercise,
   handleExerciseFreqRepCount,
   handleExerciseFreqSetCount,
+  handleDeleteExercise,
 }) => {
   const deleteExercise = useRoutineStore(s => s.deleteExercise);
   const [set, setSet] = useState(exercise.freq.length);
@@ -77,7 +79,7 @@ const ExerciseCard: React.FC<ExerciseCardProp> = ({
         </Text>
         <TouchableOpacity
           onPress={() => {
-            deleteExercise(exercise.id);
+            handleDeleteExercise(exercise.id);
           }}>
           <Image source={assets.icn_remove} />
         </TouchableOpacity>
