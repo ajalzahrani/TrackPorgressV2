@@ -11,11 +11,12 @@ import {
   Pressable,
   TextInput,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import React, {useEffect, useState} from 'react';
+// import LinearGradient from 'react-native-linear-gradient';
 import {RouteProp, useNavigation} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 import uuidv4 from 'src/components/shared/uuid4v';
+import produce from 'immer';
 
 // Assets
 import {colors, assets} from 'src/assets';
@@ -75,6 +76,8 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
       if (workout !== undefined) {
         const routineWorkoutHandler = route?.params.handleUpdateRoutineWorkout;
         if (routineWorkoutHandler !== undefined) routineWorkoutHandler(workout);
+      } else {
+        console.log('workout is undefined');
       }
 
       navigation!.goBack();
@@ -89,12 +92,20 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
     });
   };
 
-  const handleExercises = (exercises: exercisesType[]) => {
-    setWorkout(prev => {
-      const newWorkout = {...prev};
-      newWorkout.exercises = exercises;
-      return newWorkout;
-    });
+  const handleExercise = (exerciseId: string) => {
+    setWorkout(
+      produce(workout, draft => {
+        const exerciseIndex = draft.exercises.findIndex(
+          e => e.id === exerciseId,
+        );
+        if (exerciseIndex !== -1) {
+          // slice the exercise
+          draft.exercises.splice(exerciseIndex, 1);
+        } else {
+          draft.exercises.push({id: exerciseId, freq: []});
+        }
+      }),
+    );
   };
 
   const RestTimeDrawer = () => {
@@ -141,27 +152,6 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
         setModalVisible={setModalVisible}
         message="Are you sure you want to save changes?"
       />
-      {/* <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setModalVisible(!modalVisible);
-        }}>
-        <View style={style.centeredView}>
-          <View style={style.modalView}>
-            <Text style={style.modalText}>Type in workout name</Text>
-            <Pressable
-              style={[style.button, style.buttonClose]}
-              onPress={() => {
-                setModalVisible(!modalVisible);
-              }}>
-              <Text style={style.textStyle}>Okey</Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal> */}
       <View style={style.goBackStyle}>
         <TouchableOpacity onPress={() => navigation!.goBack()}>
           <Image source={assets.icn_goback} />
@@ -169,7 +159,10 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
         <TouchableOpacity
           style={style.addNewExercise}
           onPress={() => {
-            navigation.navigate('ExerciseScreen');
+            navigation.navigate('ExerciseScreen', {
+              exercises: workout?.exercises,
+              handleExercise: handleExercise,
+            });
           }}>
           <Image source={assets.icn_plus} style={{}} />
           <Text style={{color: colors.red}}>{t('workout.addNewExercise')}</Text>
@@ -202,6 +195,8 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
                     return;
                   }
                   console.log('objects equals each other');
+                  handleAddWorkout();
+                } else {
                   handleAddWorkout();
                 }
               }}

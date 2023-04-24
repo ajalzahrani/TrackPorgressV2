@@ -23,7 +23,6 @@ import {ScreenContainer} from 'src/components/shared';
 
 // Store
 import useExerciseStore from 'src/store/useExerciseMaster';
-import useRoutineStore from 'src/store/useRoutineStore';
 
 // Navigation
 import {RouteProp} from '@react-navigation/native';
@@ -31,6 +30,7 @@ import {RoutineStackRootParamList} from 'src/components/navigation/RoutineStack'
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import type {exerciseMasterType} from 'src/types';
+import {ScrollView} from 'react-native-gesture-handler';
 
 type ExerciseScreenRouteProp = RouteProp<
   RoutineStackRootParamList,
@@ -56,6 +56,9 @@ const ExerciseScreen: React.FC<ExerciseScreenProp> = ({route, navigation}) => {
   const [notFound, setNotFound] = useState(false); // handle if no exercise found in search
   const [modalVisible, setModalVisible] = useState(false);
 
+  const handleExercise = route.params.handleExercise;
+  const preSelectedExercises = route.params.exercises;
+
   // search the list of exercises data and eanble the user to add not found exercies.
   const handleSearch = (searchText: string) => {
     setSearch(searchText);
@@ -79,7 +82,12 @@ const ExerciseScreen: React.FC<ExerciseScreenProp> = ({route, navigation}) => {
   }: ListRenderItemInfo<exerciseMasterType>) => {
     return (
       <View style={styles.preListContainerStyle}>
-        <ExerciseSelectRow key={item.id} exerciseRow={item} />
+        <ExerciseSelectRow
+          key={item.id}
+          exerciseRow={item}
+          preSelectedExercises={preSelectedExercises}
+          handleExercise={handleExercise}
+        />
       </View>
     );
   };
@@ -136,12 +144,24 @@ const ExerciseScreen: React.FC<ExerciseScreenProp> = ({route, navigation}) => {
             </TouchableOpacity>
           </View>
         )}
-        <FlatList
+        {/* <FlatList
           contentContainerStyle={{paddingBottom: 72}}
           data={searchResult}
           renderItem={renderExercise}
           keyExtractor={exercise => exercise.id}
-        />
+        /> */}
+        <ScrollView>
+          {searchResult.map(exercise => (
+            <View style={styles.preListContainerStyle}>
+              <ExerciseSelectRow
+                key={exercise.id}
+                exerciseRow={exercise}
+                preSelectedExercises={preSelectedExercises}
+                handleExercise={handleExercise}
+              />
+            </View>
+          ))}
+        </ScrollView>
       </View>
     </ScreenContainer>
   );

@@ -5,12 +5,14 @@ type GeneralModalProps = {
   modalVisible: boolean;
   setModalVisible: (visible: boolean) => void;
   action: () => void;
+  noAction?: () => void;
   message: string;
 };
 const GeneralModal = ({
   modalVisible,
   setModalVisible,
   action,
+  noAction,
   message,
 }: GeneralModalProps) => {
   return (
@@ -35,12 +37,24 @@ const GeneralModal = ({
               }}>
               <Text style={styles.textStyle}>Yes</Text>
             </Pressable>
+            {noAction && (
+              <Pressable
+                style={[styles.button, styles.buttonClose, {marginRight: 10}]}
+                onPress={() => {
+                  if (noAction) {
+                    noAction();
+                  }
+                  setModalVisible(!modalVisible);
+                }}>
+                <Text style={styles.textStyle}>No</Text>
+              </Pressable>
+            )}
             <Pressable
               style={[styles.button, styles.buttonClose, {marginRight: 10}]}
               onPress={() => {
                 setModalVisible(!modalVisible);
               }}>
-              <Text style={styles.textStyle}>No</Text>
+              <Text style={styles.textStyle}>Cancel</Text>
             </Pressable>
           </View>
         </View>

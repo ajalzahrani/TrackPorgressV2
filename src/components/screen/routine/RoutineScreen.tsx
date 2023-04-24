@@ -1,19 +1,13 @@
 import {
   View,
   Text,
-  SafeAreaView,
   Image,
   TouchableOpacity,
   StyleSheet,
   ScrollView,
-  Modal,
-  TextInput,
-  Alert,
-  Pressable,
 } from 'react-native';
 import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {useRef} from 'react';
 import produce from 'immer';
 
 // Components
@@ -34,8 +28,7 @@ import useRoutineStore from 'src/store/useRoutineStore';
 // Navigation
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RoutineStackRootParamList} from 'src/components/navigation/RoutineStack';
-import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
-import uuidv4 from 'src/components/shared/uuid4v';
+import {RouteProp} from '@react-navigation/native';
 
 type RoutineScreenRouteProp = RouteProp<
   RoutineStackRootParamList,
@@ -60,14 +53,12 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
   const routineStore = useRoutineStore(s => s.getRoutine());
   const addNewRoutine = useRoutineStore(s => s.addNewRoutine);
   const [routine, setRoutine] = useState<routineType>(routineStore);
-  const [workoutId, setWorkoutId] = useState('');
 
+  const [workoutId, setWorkoutId] = useState('');
   const workoutIndex = routine.workouts.findIndex(w => w.id === workoutId);
   const workout = routine.workouts[workoutIndex];
-  const deleteWorkout = useRoutineStore(s => s.deleteWorkout);
 
   const [dayId, setDayId] = useState(new Date().getDay());
-  // const routineRef = useRef(routine);
 
   const {t} = useTranslation();
 
@@ -77,15 +68,17 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
     const workoutIndex = routine.workouts.findIndex(w => w.id === workout.id);
     setRoutine(
       produce(routine, draft => {
+        if (workoutIndex === -1) {
+          draft.workouts.push(workout);
+          return;
+        }
         draft.workouts[workoutIndex] = workout;
       }),
     );
   };
 
-  const handleUpdateRoutineWeek = (workoutId: string) => {
+  const handleUpdateRoutineAddWekDay = (workoutId: string) => {
     setWorkoutId(workoutId);
-    console.log('dayId now: ', dayId, '| workoutId: now: ', workoutId);
-
     if (workoutId !== '') {
       setRoutine(
         produce(routine, draft => {
@@ -94,6 +87,16 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
         }),
       );
     }
+  };
+
+  const handleUpdateRoutineDeleteWeekDay = () => {
+    setWorkoutId('');
+    setRoutine(
+      produce(routine, draft => {
+        draft.weekdays[dayId].workoutId = '';
+        draft.weekdays[dayId].isWorkday = false;
+      }),
+    );
   };
 
   const handleUpdateRoutine = () => {
@@ -105,51 +108,11 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
     <ScreenContainer>
       <GeneralModal
         action={() => handleUpdateRoutine()}
+        noAction={() => navigation.navigate('RoutineListScreen', {name: ''})}
         message="Save changes ?"
         setModalVisible={setModalVisible}
         modalVisible={modalVisible}
       />
-      {/* <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setModalVisible(!modalVisible);
-        }}>
-        <View style={style.centeredView}>
-          <View style={style.modalView}>
-            <Text style={style.modalText}>Save changes ?</Text>
-
-            <View style={{flexDirection: 'row'}}>
-              <Pressable
-                style={[style.button, style.buttonClose, {marginRight: 10}]}
-                onPress={() => {
-                  setModalVisible(!modalVisible);
-                  // saveRoutine();
-                  navigation.navigate('RoutineListScreen', {name: ''});
-                }}>
-                <Text style={style.textStyle}>Yes</Text>
-              </Pressable>
-              <Pressable
-                style={[style.button, style.buttonClose, {marginRight: 10}]}
-                onPress={() => {
-                  setModalVisible(!modalVisible);
-                  navigation.navigate('RoutineListScreen', {name: ''});
-                }}>
-                <Text style={style.textStyle}>No</Text>
-              </Pressable>
-              <Pressable
-                style={[style.button, style.buttonClose]}
-                onPress={() => {
-                  setModalVisible(!modalVisible);
-                }}>
-                <Text style={style.textStyle}>Cancel</Text>
-              </Pressable>
-            </View>
-          </View>
-        </View>
-      </Modal> */}
       <View>
         <View style={style.goBackStyle}>
           <TouchableOpacity
@@ -193,9 +156,6 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
               <Text style={style.workoutTitleStyle}>{workout.title}</Text>
               <TouchableOpacity
                 onPress={() => {
-                  // if (workoutId !== undefined) {
-                  //   setWorkoutId(workoutId);
-                  // }
                   navigation.navigate('WorkoutScreen', {
                     workout: workout,
                     handleUpdateRoutineWorkout: handleUpdateRoutineWorkout,
@@ -205,8 +165,7 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
-                  deleteWorkout();
-                  // setWorkoutId(undefined);
+                  handleUpdateRoutineDeleteWeekDay();
                 }}>
                 <Image source={assets.icn_remove} />
               </TouchableOpacity>
@@ -236,7 +195,7 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
               <TouchableOpacity
                 key={workout.id}
                 onPress={() => {
-                  handleUpdateRoutineWeek(workout.id);
+                  handleUpdateRoutineAddWekDay(workout.id);
                 }}>
                 <WorkoutCard
                   routineId={routine.id}

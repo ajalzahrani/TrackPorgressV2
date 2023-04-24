@@ -13,7 +13,7 @@ import WorkoutScreen from '../screen/workout/WorkoutScreen';
 import ExerciseScreen from '../screen/exercise/ExerciseScreen';
 import SessionScreen from '../screen/session/SessionScreen';
 import SessionReportScreen from '../screen/sessionReport/SessionReportScreen';
-import {routineType, workoutType} from '../../types';
+import {exercisesType, routineType, workoutType} from '../../types';
 
 export type RoutineStackRootParamList = {
   RoutineListScreen: {name: string};
@@ -23,7 +23,10 @@ export type RoutineStackRootParamList = {
     workout: workoutType | undefined;
     handleUpdateRoutineWorkout: (workout: workoutType) => void;
   };
-  ExerciseScreen: undefined;
+  ExerciseScreen: {
+    exercises: exercisesType[];
+    handleExercise: (exerciseId: string) => void;
+  };
   SessionScreen: {workout: workoutType};
   SessionReportScreen: {sessionId: string};
 };
