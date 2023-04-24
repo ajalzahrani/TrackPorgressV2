@@ -14,6 +14,7 @@ export type sessionType = {
   startTime: string;
   endTime: string;
   workoutId: string;
+  routineId?: string;
   exercise: sessionExerciseType[];
 };
 export type userType = {
