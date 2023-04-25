@@ -1,6 +1,9 @@
 import React from 'react';
 import {Image, View, Text, StyleSheet} from 'react-native';
 
+('react-native-heroicons/outline');
+import * as Icons from 'react-native-heroicons/outline';
+
 // Tab Navigator
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 const Tab = createBottomTabNavigator();
@@ -12,12 +15,14 @@ import RoutineStack from './RoutineStack';
 import HomeScreen from '../screen/home/HomeScreen';
 import StatScreen from '../screen/statistics/StatScreen';
 import SettingsScreen from '../screen/settings/SettingsScreen';
+import StoreScreen from '../screen/store/StoreScreen';
 
 export type RouterStackRootParamList = {
   HomeScreen: undefined;
   StatScreen: undefined;
   RoutineStack: undefined;
   SettingsScreen: undefined;
+  StoreScreen: undefined;
 };
 
 // componetns
@@ -58,6 +63,28 @@ const Router = () => {
         }}
       />
       <Tab.Screen
+        name="Store"
+        component={StoreScreen}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({focused}) => (
+            <View style={style.tabBarVewStyle}>
+              <Icons.ShoppingBagIcon
+                color={focused ? colors.red : colors.greeny}
+                size={24}
+              />
+              <Text
+                style={{
+                  color: focused ? colors.red : colors.greeny,
+                  ...style.tabBarTitleStyle,
+                }}>
+                Store
+              </Text>
+            </View>
+          ),
+        }}
+      />
+      <Tab.Screen
         name="Routines"
         component={RoutineStack}
         options={{
@@ -77,7 +104,7 @@ const Router = () => {
                   color: focused ? colors.red : colors.greeny,
                   ...style.tabBarTitleStyle,
                 }}>
-                Schedule
+                Routine
               </Text>
             </View>
           ),
