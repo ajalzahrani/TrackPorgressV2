@@ -7,6 +7,12 @@ type GeneralModalProps = {
   action: () => void;
   noAction?: () => void;
   message: string;
+  buttons?: {
+    text: string;
+    action: () => void;
+    backgroundColor?: string;
+    textColor?: string;
+  }[];
 };
 const GeneralModal = ({
   modalVisible,

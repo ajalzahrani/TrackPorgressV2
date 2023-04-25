@@ -14,7 +14,6 @@ import {colors, assets} from 'src/assets';
 // Components
 import SessionTimerLabel from './SessionTimerLabel';
 import {useStopwatch} from 'src/components/hooks/timer-hook';
-import GeneralModal from '../../../shared/GeneralModal';
 
 // Store
 import useSessionStore from 'src/store/useSessionStore';
@@ -23,6 +22,7 @@ import useSessionStore from 'src/store/useSessionStore';
 import {useNavigation} from '@react-navigation/native';
 import {RoutineStackRootParamList} from 'src/components/navigation/RoutineStack';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import CustomModal from 'src/components/shared/CustomModal';
 
 type SessionScreenNavigationProp = NativeStackNavigationProp<
   RoutineStackRootParamList,
@@ -83,11 +83,24 @@ const SessionController = ({sessionId, workoutId}: SessionControllerType) => {
 
   return (
     <>
-      <GeneralModal
+      <CustomModal
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
-        message="Are you sure you want to end your Workout Session?"
-        action={endSeassionAction}
+        message="Are you sure you want to save changes?"
+        buttons={[
+          {
+            text: 'No',
+            onPress: () => setModalVisible(false),
+            backgroundColor: colors.red,
+            textColor: colors.white,
+          },
+          {
+            text: 'Yes',
+            onPress: () => {
+              endSeassionAction();
+            },
+          },
+        ]}
       />
       <View
       // className="absolute bottom-1 w-full z-50"

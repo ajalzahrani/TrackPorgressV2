@@ -11,6 +11,7 @@ import ListCardTitle from './ListCardTitle';
 import LoadingView from './LoadingView';
 import getObjectById from './getObjectbyId';
 import GeneralModal from './GeneralModal';
+import CustomModal from './CustomModal';
 
 export {
   getDayLabel,
@@ -26,4 +27,5 @@ export {
   ListCardTitle,
   getObjectById,
   GeneralModal,
+  CustomModal,
 };

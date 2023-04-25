@@ -6,9 +6,9 @@ import {useNavigation} from '@react-navigation/native';
 import ListCardTitle from 'src/components/shared/ListCardTitle';
 import useRoutineStore from 'src/store/useRoutineStore';
 
-import GeneralModal from 'src/components/shared/GeneralModal';
 import {RoutineListNavigationProp} from '../RoutineListScreen';
 import {routineType} from 'src/types';
+import CustomModal from 'src/components/shared/CustomModal';
 
 type RoutineCardProps = {
   routine: routineType;
@@ -21,11 +21,25 @@ const RoutineCard: React.FC<RoutineCardProps> = ({routine}) => {
 
   return (
     <>
-      <GeneralModal
+      <CustomModal
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
-        action={deleteRoutine}
-        message="Are you sure to delet routine?"
+        message="Are you sure you want to save changes?"
+        buttons={[
+          {
+            text: 'No',
+            onPress: () => setModalVisible(false),
+            backgroundColor: colors.red,
+            textColor: colors.white,
+          },
+          {
+            text: 'Yes',
+            onPress: () => {
+              setModalVisible(false);
+              deleteRoutine(routine.id);
+            },
+          },
+        ]}
       />
 
       <ListCardTitle title={routine.title}>

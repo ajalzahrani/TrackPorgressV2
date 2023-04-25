@@ -26,7 +26,7 @@ import ExerciseCard from './components/ExerciseCard';
 import RestTimeController from './components/RestTimeController';
 import {PressableButton} from 'src/components/shared';
 import {ScreenContainer} from 'src/components/shared';
-import {GeneralModal} from 'src/components/shared';
+import {CustomModal} from 'src/components/shared';
 
 // Navigation
 import {RoutineStackRootParamList} from 'src/components/navigation/RoutineStack';
@@ -64,11 +64,12 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
   // TODO: delete workout function
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [titleModalVisible, setTitleModalVisible] = useState(false);
   const {t} = useTranslation();
 
   const handleAddWorkout = () => {
     if (workout?.title.length === 0) {
-      setModalVisible(true);
+      setTitleModalVisible(true);
     } else {
       if (workout !== undefined) {
         const routineWorkoutHandler = route?.params.handleUpdateRoutineWorkout;
@@ -208,11 +209,33 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
 
   return (
     <ScreenContainer>
-      <GeneralModal
-        action={() => handleAddWorkout()}
+      <CustomModal
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
         message="Are you sure you want to save changes?"
+        buttons={[
+          {text: 'Cancel', onPress: () => setModalVisible(false)},
+
+          {
+            text: 'No',
+            onPress: () => navigation.goBack(),
+            backgroundColor: colors.red,
+            textColor: colors.white,
+          },
+          {
+            text: 'Save',
+            onPress: () => {
+              handleAddWorkout();
+              setModalVisible(false);
+            },
+          },
+        ]}
+      />
+      <CustomModal
+        modalVisible={titleModalVisible}
+        setModalVisible={setTitleModalVisible}
+        message="Please enter a workout name"
+        buttons={[{text: 'Ok', onPress: () => setTitleModalVisible(false)}]}
       />
       <View style={style.goBackStyle}>
         <TouchableOpacity onPress={() => navigation!.goBack()}>

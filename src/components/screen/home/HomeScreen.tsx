@@ -8,9 +8,8 @@ import {colors, assets} from 'src/assets';
 
 // Components
 import QuickStart from './components/QuickStart';
-import {Pressable} from 'src/components/shared';
+import {CustomModal, Pressable} from 'src/components/shared';
 import PressableButton from '../../shared/PressableButton';
-import GeneralModal from '../../shared/GeneralModal';
 import ScreenContainer from 'src/components/shared/ScreenContainer';
 import useRoutineStore from 'src/store/useRoutineStore';
 
@@ -21,11 +20,17 @@ const HomeScreen = () => {
 
   return (
     <ScreenContainer>
-      <GeneralModal
+      <CustomModal
         modalVisible={modalView}
         setModalVisible={setModalVisible}
-        action={() => console.log(routines[0])}
-        message="some message goes herelet make this text as big as we can"
+        message="Just for showing some informatino!"
+        buttons={{
+          text: 'Okay',
+          onPress: () => {
+            console.log(routines[0]);
+            setModalVisible(false);
+          },
+        }}
       />
       <View style={styles.containerStyle}>
         <Text style={styles.homeTitle}>{t('home.title')}!</Text>

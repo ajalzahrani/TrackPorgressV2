@@ -13,11 +13,10 @@ import produce from 'immer';
 // Components
 import CalenderRow from './components/CalenderRow';
 import WorkoutCard from './components/WorkoutCard';
-import {PressableButton} from 'src/components/shared';
+import {CustomModal, PressableButton} from 'src/components/shared';
 import compareObjects from 'src/components/shared/compareObjects';
 import {ScreenContainer} from 'src/components/shared';
 import {routineType, workoutType} from 'src/types';
-import {GeneralModal} from 'src/components/shared';
 
 // Assets
 import {colors, assets} from 'src/assets';
@@ -106,12 +105,27 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
 
   return (
     <ScreenContainer>
-      <GeneralModal
-        action={() => handleUpdateRoutine()}
-        noAction={() => navigation.navigate('RoutineListScreen', {name: ''})}
-        message="Save changes ?"
-        setModalVisible={setModalVisible}
+      <CustomModal
         modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        message="Are you sure you want to save changes?"
+        buttons={[
+          {text: 'Cancel', onPress: () => setModalVisible(false)},
+
+          {
+            text: 'No',
+            onPress: () => navigation.goBack(),
+            backgroundColor: colors.red,
+            textColor: colors.white,
+          },
+          {
+            text: 'Save',
+            onPress: () => {
+              handleUpdateRoutine();
+              setModalVisible(false);
+            },
+          },
+        ]}
       />
       <View>
         <View style={style.goBackStyle}>
