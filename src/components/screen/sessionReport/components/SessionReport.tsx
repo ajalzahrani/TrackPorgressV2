@@ -6,10 +6,11 @@ import {colors} from 'src/assets';
 
 // Components
 import useExerciseName from 'src/components/hooks/useExerciseName';
-import Divider from 'src/components/shared/Divider';
+
 import moment from 'moment';
 
 import {sessionType} from 'src/types';
+import Divider from 'src/components/shared/Divider';
 type SessionReportProp = {
   session: sessionType;
 };

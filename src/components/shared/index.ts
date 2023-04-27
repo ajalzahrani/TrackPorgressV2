@@ -12,6 +12,7 @@ import LoadingView from './LoadingView';
 import getObjectById from './getObjectbyId';
 import GeneralModal from './GeneralModal';
 import CustomModal from './CustomModal';
+import CustomPicker from './CustomPicker';
 
 export {
   getDayLabel,
@@ -28,4 +29,5 @@ export {
   getObjectById,
   GeneralModal,
   CustomModal,
+  CustomPicker,
 };

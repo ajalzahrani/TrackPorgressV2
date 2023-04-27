@@ -17,6 +17,19 @@ export type sessionType = {
   routineId?: string;
   exercise: sessionExerciseType[];
 };
+
+export type userBodyMeasurementsType = {
+  height?: number;
+  weight?: number;
+  bmi?: number;
+  muscleMass?: number;
+  bodyWater?: number;
+  boneMass?: number;
+  visceralFat?: number;
+  boneDensity?: number;
+  customMeasurements?: [{title: string; value: number}];
+};
+
 export type userType = {
   // user identity
   id: string;
@@ -24,19 +37,27 @@ export type userType = {
   password: string;
   firstname?: string;
   lastname?: string;
-
-  // user personal
   dob?: string;
-  tall?: number;
-  weight?: number;
+  gender?: string;
 
-  // user contact
+  // user messurements
+  bodyMeasurements?: userBodyMeasurementsType;
+
+  activityLevel?: number; // 1-7 days per week
+  activityLevelDescription?: [
+    'Basal Metabolic Rate (BMR)',
+    'Sedentary: little or no exercise',
+    'Light: exercise 1-3 times/week',
+    'Moderate: exercise 4-5 times/week',
+    'Active: daily exercise or intense exercise 3-4 times/week',
+    'Very Active: intense exercise 6-7 times/week',
+    'Extra Active: very intense exercise daily, or physical job',
+  ];
+
+  // user social
   mobile?: string;
   email: string;
-  location?: {
-    country: string;
-    city: string;
-  };
+  location?: string;
 };
 export type exerciseMasterType = {
   id: string;

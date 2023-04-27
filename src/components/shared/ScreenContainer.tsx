@@ -27,7 +27,7 @@ export default ScreenContainer;
 const styles = StyleSheet.create({
   safeAreaView: {
     // marginHorizontal: 20,
-    // marginTop: 20
+    // marginTop: 20,
     backgroundColor: colors.primary,
     flex: 1,
   },

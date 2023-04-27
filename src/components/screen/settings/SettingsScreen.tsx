@@ -5,16 +5,40 @@ import {
   TouchableOpacity,
   Text,
   Image,
+  ScrollView,
+  Button,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 
 // Components
 import {colors, assets} from 'src/assets';
-import {ScreenContainer} from 'src/components/shared';
-
+import {ScreenContainer, CustomPicker} from 'src/components/shared';
+import CardInformation from './components/CardInformation';
 import {useTranslation} from 'react-i18next';
+import type {userType} from 'src/types';
 
 const SettingsScreen = () => {
+  const [accountInfo, setAccountInfo] = React.useState({
+    gender: '',
+    dob: '',
+    location: '',
+    email: '',
+  });
+
+  const [bodyMeaurement, setBodyMeaurement] = React.useState({
+    height: 0,
+    weight: 0,
+    bmi: 0,
+    muscleMass: 0,
+    bodyWater: 0,
+    boneMass: 0,
+    visceralFat: 0,
+    boneDensity: 0,
+  });
+
+  const [selectedLanguage, setSelectedLanguage] = useState();
+  const [modalVisible, setModalVisible] = useState(false);
+
   const {t, i18n} = useTranslation();
 
   // array with all supported languages
@@ -23,12 +47,12 @@ const SettingsScreen = () => {
     {name: 'en', label: 'English'},
   ];
 
-  type propType = {
+  type languageItemPropType = {
     name: string;
     label: string;
   };
 
-  const LanguageItem = ({name, label}: propType) => (
+  const LanguageItem = ({name, label}: languageItemPropType) => (
     <TouchableOpacity
       style={[styles.button]}
       onPress={() => {
@@ -43,23 +67,43 @@ const SettingsScreen = () => {
 
   return (
     <ScreenContainer>
+      <CustomPicker
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+      />
       <View style={styles.profileTitleStyle}>
         <View style={styles.container}>
-          <Image source={assets.abs} style={styles.image} />
+          <Image source={assets.AsianBueaty} style={styles.image} />
           <View style={{marginLeft: 16}}>
             <Text style={styles.userFullName}>John Wick</Text>
             <Text style={styles.username}>@johnWick</Text>
           </View>
         </View>
       </View>
-      <View style={styles.cardInformationStyle}>
-        {/* <CardInformation /> */}
-      </View>
-      <View style={styles.centeredView}>
-        {languages.map(lang => (
-          <LanguageItem {...lang} key={lang.name} />
-        ))}
-      </View>
+      <ScrollView contentContainerStyle={{paddingBottom: 100}}>
+        <TouchableOpacity onPress={() => setModalVisible(true)}>
+          <Text>Language</Text>
+        </TouchableOpacity>
+        <CardInformation
+          title="Account Information"
+          rows={Object.keys(accountInfo).map(key => ({
+            header: key,
+            value: accountInfo[key as keyof typeof accountInfo],
+          }))}
+        />
+        <CardInformation
+          title="Measurements"
+          rows={Object.keys(bodyMeaurement).map(key => ({
+            header: key,
+            value: bodyMeaurement[key as keyof typeof bodyMeaurement],
+          }))}
+        />
+        <View style={styles.centeredView}>
+          {languages.map(lang => (
+            <LanguageItem {...lang} key={lang.name} />
+          ))}
+        </View>
+      </ScrollView>
     </ScreenContainer>
   );
 };
@@ -85,10 +129,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginLeft: 12,
   },
-  cardInformationStyle: {
-    paddingHorizontal: 5,
-    marginTop: 10,
-  },
+  cardInformationStyle: {},
 
   container: {
     flexDirection: 'row',
