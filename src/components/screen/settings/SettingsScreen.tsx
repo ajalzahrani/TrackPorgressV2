@@ -16,6 +16,7 @@ import {ScreenContainer, CustomPicker} from 'src/components/shared';
 import CardInformation from './components/CardInformation';
 import {useTranslation} from 'react-i18next';
 import type {userType} from 'src/types';
+import CardInformationHC from './components/CardInformationHC';
 
 const SettingsScreen = () => {
   const [accountInfo, setAccountInfo] = React.useState({
@@ -35,9 +36,6 @@ const SettingsScreen = () => {
     visceralFat: 0,
     boneDensity: 0,
   });
-
-  const [selectedLanguage, setSelectedLanguage] = useState();
-  const [modalVisible, setModalVisible] = useState(false);
 
   const {t, i18n} = useTranslation();
 
@@ -67,10 +65,6 @@ const SettingsScreen = () => {
 
   return (
     <ScreenContainer>
-      <CustomPicker
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-      />
       <View style={styles.profileTitleStyle}>
         <View style={styles.container}>
           <Image source={assets.AsianBueaty} style={styles.image} />
@@ -81,9 +75,7 @@ const SettingsScreen = () => {
         </View>
       </View>
       <ScrollView contentContainerStyle={{paddingBottom: 100}}>
-        <TouchableOpacity onPress={() => setModalVisible(true)}>
-          <Text>Language</Text>
-        </TouchableOpacity>
+        <CardInformationHC title="Parameters" />
         <CardInformation
           title="Account Information"
           rows={Object.keys(accountInfo).map(key => ({

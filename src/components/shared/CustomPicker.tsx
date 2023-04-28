@@ -3,14 +3,23 @@ import {Picker} from '@react-native-picker/picker';
 import {View, StyleSheet, Modal, Alert, Text, Pressable} from 'react-native';
 import {colors} from 'src/assets/';
 import {ScreenContainer} from 'src/components/shared';
+import Divider from 'src/components/shared/Divider';
 
 type Props = {
   modalVisible: boolean;
   setModalVisible: (visible: boolean) => void;
+  items: string[];
+  selectedItem: string;
+  setSelectedItem: (item: string) => void;
 };
 
-const CustomPicker = ({modalVisible, setModalVisible}: Props) => {
-  const [selectedLanguage, setSelectedLanguage] = useState();
+const CustomPicker = ({
+  modalVisible,
+  setModalVisible,
+  items,
+  selectedItem,
+  setSelectedItem,
+}: Props) => {
   return (
     <View>
       <Modal
@@ -23,16 +32,7 @@ const CustomPicker = ({modalVisible, setModalVisible}: Props) => {
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Picker
-              style={{backgroundColor: colors.offwhite}}
-              selectedValue={selectedLanguage}
-              onValueChange={(itemValue, itemIndex) =>
-                setSelectedLanguage(itemValue)
-              }>
-              <Picker.Item label="English" value="English" color="black" />
-              <Picker.Item label="Arabic" value="Arabic" color="black" />
-            </Picker>
-            <View style={{alignItems: 'center'}}>
+            <View style={{alignItems: 'flex-end'}}>
               <Pressable
                 style={[{marginTop: 10, backgroundColor: colors.blue}]}
                 onPress={() => {
@@ -41,6 +41,16 @@ const CustomPicker = ({modalVisible, setModalVisible}: Props) => {
                 <Text>OK</Text>
               </Pressable>
             </View>
+            <Picker
+              // style={{backgroundColor: colors.offwhite}}
+              selectedValue={selectedItem}
+              onValueChange={(itemValue, itemIndex) =>
+                setSelectedItem(itemValue)
+              }>
+              {items.map((item, index) => {
+                return <Picker.Item key={index} label={item} value={item} />;
+              })}
+            </Picker>
           </View>
         </View>
       </Modal>
@@ -58,11 +68,11 @@ const styles = StyleSheet.create({
     // marginHorizontal: 20,
   },
   modalView: {
-    backgroundColor: colors.greeny,
-    borderRadius: 20,
+    backgroundColor: colors.secondary,
+    // borderRadius: 20,
     borderTopLeftRadius: 20,
     borderTopEndRadius: 20,
     paddingHorizontal: 35,
-    paddingBottom: 35,
+    // paddingBottom: 35,
   },
 });

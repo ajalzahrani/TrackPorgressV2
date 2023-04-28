@@ -13,6 +13,7 @@ import getObjectById from './getObjectbyId';
 import GeneralModal from './GeneralModal';
 import CustomModal from './CustomModal';
 import CustomPicker from './CustomPicker';
+import ModalInput from './ModalInput';
 
 export {
   getDayLabel,
@@ -30,4 +31,5 @@ export {
   GeneralModal,
   CustomModal,
   CustomPicker,
+  ModalInput,
 };

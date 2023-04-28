@@ -23,6 +23,7 @@ type CustomModalProps = {
   setModalVisible: (visible: boolean) => void;
   buttons?: buttonType[] | buttonType | null;
   style?: ViewStyle | ViewStyle[] | null;
+  children?: React.ReactNode;
 };
 const CustomModal = ({
   modalVisible,
@@ -30,6 +31,7 @@ const CustomModal = ({
   message,
   buttons,
   style,
+  children,
 }: CustomModalProps) => {
   return (
     <Modal
@@ -43,7 +45,7 @@ const CustomModal = ({
       <View style={styles.centeredView}>
         <View style={[styles.modalView, style]}>
           <Text style={styles.modalText}>{message}</Text>
-
+          {children}
           <View style={{flexDirection: 'row'}}>
             {Array.isArray(buttons) ? (
               buttons?.map(button => (
