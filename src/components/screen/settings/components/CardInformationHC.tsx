@@ -84,11 +84,13 @@ const CardRowDate: React.FC<CardRowDateType> = ({header, dob}) => {
 type CardRowTextType = {
   header: string;
   text: string | number;
+  message?: string;
 };
-const CardRowText: React.FC<CardRowTextType> = ({header, text}) => {
+const CardRowText: React.FC<CardRowTextType> = ({header, text, message}) => {
   const {t} = useTranslation();
   const [modalVisible, setModalVisible] = React.useState(false);
   const [textValue, setTextValue] = React.useState(text);
+
   return (
     <>
       <ModalInput
@@ -96,7 +98,7 @@ const CardRowText: React.FC<CardRowTextType> = ({header, text}) => {
         setModalVisible={setModalVisible}
         textValue={textValue}
         setTextValue={setTextValue}
-        message="E-mail address"
+        message={message}
       />
       <TouchableOpacity
         onPress={() => setModalVisible(true)}
@@ -110,20 +112,55 @@ const CardRowText: React.FC<CardRowTextType> = ({header, text}) => {
 
 type CardInformationHCType = {
   title: string;
+  rows: {
+    picker: 'picker' | 'Date' | 'Text';
+    header: string;
+    value?: string | Date | string[];
+    message?: string;
+  }[];
 };
-const CardInformationHC = ({title}: CardInformationHCType) => {
+const CardInformationHC = ({title, rows}: CardInformationHCType) => {
+  // TODO: Apply keyboard avoding refer to ModalInput.tsx for the implementatin
+
+  const generateRows = () => {
+    const generatedRows = rows.map((row, i) => {
+      switch (row.picker) {
+        case 'picker':
+          if (row.value !== undefined && Array.isArray(row.value)) {
+            return <CardRowCP key={i} header={row.header} items={row.value} />;
+          }
+        case 'Date':
+          if (row.value !== undefined && row.value instanceof Date) {
+            return <CardRowDate key={i} header={row.header} dob={row.value} />;
+          }
+        case 'Text':
+          if (row.value !== undefined && typeof row.value === 'string') {
+            return (
+              <CardRowText
+                key={i}
+                header={row.header}
+                text={row.value}
+                message={row.message}
+              />
+            );
+          }
+      }
+    });
+
+    const finalRows = Array.from({length: generatedRows.length * 2 - 1});
+    for (let i = 0; i < generatedRows.length; i++) {
+      finalRows[i * 2] = generatedRows[i];
+      if (i !== generatedRows.length - 1) {
+        finalRows[i * 2 + 1] = <Divider key={`divider-${i}`} />;
+      }
+    }
+
+    return finalRows;
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.cardTitle}>{title}</Text>
-      <View style={styles.cardContainer}>
-        <CardRowCP header="Gender" items={['Male', 'Female']} />
-        <Divider />
-        <CardRowCP header="Empty" items={['1', '2', '3', '4']} />
-        <Divider />
-        <CardRowDate header="DOB" dob={new Date()} />
-        <Divider />
-        <CardRowText header="email" text="" />
-      </View>
+      <View style={styles.cardContainer}>{generateRows()}</View>
     </View>
   );
 };
