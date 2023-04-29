@@ -2,120 +2,24 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
   KeyboardAvoidingView,
-  Button,
-  Keyboard,
-  Platform,
-  TextInput,
   TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 import React from 'react';
-import {useTranslation} from 'react-i18next';
 import {colors} from 'src/assets';
-import {CustomPicker} from 'src/components/shared';
 import Divider from 'src/components/shared/Divider';
-import DatePicker from 'react-native-date-picker';
-import {ModalInput} from 'src/components/shared';
 
-type CardRowCPType = {
-  header: string;
-  items: string[];
-};
-const CardRowCP: React.FC<CardRowCPType> = ({header, items}) => {
-  const {t} = useTranslation();
-  const [modalVisible, setModalVisible] = React.useState(false);
-  const [selectedItem, setSelectedItem] = React.useState(items[0]);
-  return (
-    <>
-      <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
-        <CustomPicker
-          modalVisible={modalVisible}
-          setModalVisible={setModalVisible}
-          selectedItem={selectedItem}
-          setSelectedItem={setSelectedItem}
-          items={items}
-        />
-      </TouchableWithoutFeedback>
-      <TouchableOpacity
-        onPress={() => setModalVisible(true)}
-        style={styles.cardRowContainer}>
-        <Text style={styles.cardRowText}>{t(header)}</Text>
-        <Text style={styles.cardRowText}>{t(selectedItem)}</Text>
-      </TouchableOpacity>
-    </>
-  );
-};
-
-type CardRowDateType = {
-  header: string;
-  dob: Date;
-};
-const CardRowDate: React.FC<CardRowDateType> = ({header, dob}) => {
-  const {t} = useTranslation();
-  const [modalVisible, setModalVisible] = React.useState(false);
-  const [date, setDate] = React.useState<Date>(dob);
-  return (
-    <>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <DatePicker
-          modal
-          open={modalVisible}
-          date={date}
-          onConfirm={date => {
-            setModalVisible(false);
-            setDate(date);
-          }}
-          onCancel={() => {
-            setModalVisible(false);
-          }}
-        />
-      </TouchableWithoutFeedback>
-      <TouchableOpacity
-        onPress={() => setModalVisible(true)}
-        style={styles.cardRowContainer}>
-        <Text style={styles.cardRowText}>{t(header)}</Text>
-        <Text style={styles.cardRowText}>{date.toLocaleDateString()}</Text>
-      </TouchableOpacity>
-    </>
-  );
-};
-
-type CardRowTextType = {
-  header: string;
-  text: string | number;
-  message?: string;
-};
-const CardRowText: React.FC<CardRowTextType> = ({header, text, message}) => {
-  const {t} = useTranslation();
-  const [modalVisible, setModalVisible] = React.useState(false);
-  const [textValue, setTextValue] = React.useState(text);
-
-  return (
-    <>
-      <ModalInput
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-        textValue={textValue}
-        setTextValue={setTextValue}
-        message={message}
-      />
-      <TouchableOpacity
-        onPress={() => setModalVisible(true)}
-        style={styles.cardRowContainer}>
-        <Text style={styles.cardRowText}>{t(header)}</Text>
-        <Text style={styles.cardRowText}>{textValue}</Text>
-      </TouchableOpacity>
-    </>
-  );
-};
+import CardRowCP from './CardRowCP';
+import CardRowDate from './CardRowDate';
+import CardRowText from './CardRowText';
 
 type CardInformationHCType = {
   title: string;
   rows: {
     picker: 'picker' | 'Date' | 'Text';
     header: string;
-    value?: string | Date | string[];
+    value?: string | string[] | Date;
     message?: string;
   }[];
 };
@@ -198,6 +102,8 @@ const styles = StyleSheet.create({
   },
   containerr: {
     flex: 1,
+    // height: '100%',
+    // width: '100%',
   },
   inner: {
     padding: 24,

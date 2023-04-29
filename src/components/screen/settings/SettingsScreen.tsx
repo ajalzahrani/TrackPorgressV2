@@ -75,13 +75,32 @@ const SettingsScreen = () => {
         </View>
       </View>
       <ScrollView contentContainerStyle={{paddingBottom: 100}}>
-        <CardInformationHC title="Parameters" />
-        <CardInformation
+        <CardInformationHC
           title="Account Information"
-          rows={Object.keys(accountInfo).map(key => ({
-            header: key,
-            value: accountInfo[key as keyof typeof accountInfo],
-          }))}
+          rows={[
+            {
+              picker: 'picker',
+              header: 'Gender',
+              value: ['Male', 'Female'],
+            },
+            {
+              picker: 'Date',
+              header: 'DOB',
+              value: new Date(),
+            },
+            {
+              picker: 'Text',
+              header: 'Email',
+              value: '',
+              message: 'Please enter your email',
+            },
+            {
+              picker: 'Text',
+              header: 'Location',
+              value: '',
+              message: 'Please enter your location',
+            },
+          ]}
         />
         <CardInformation
           title="Measurements"

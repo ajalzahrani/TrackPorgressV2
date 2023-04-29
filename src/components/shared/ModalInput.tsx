@@ -17,7 +17,7 @@ import React from 'react';
 import CustomModal from './CustomModal';
 
 type ModalInputProps = {
-  message: string;
+  message?: string;
   modalVisible: boolean;
   setModalVisible: (visible: boolean) => void;
   style?: ViewStyle | ViewStyle[] | null;
@@ -33,14 +33,27 @@ export default function ModalInput({
   textValue,
   setTextValue,
 }: ModalInputProps) {
+  const [text, setText] = React.useState(textValue);
   return (
     <CustomModal
       modalVisible={modalVisible}
       setModalVisible={setModalVisible}
       message={message}
       buttons={[
-        {text: 'OK', onPress: () => setModalVisible(false)},
-        {text: 'Cancel', onPress: () => setModalVisible(false)},
+        {
+          text: 'OK',
+          onPress: () => {
+            setModalVisible(false);
+            setTextValue(text.toString());
+          },
+        },
+        {
+          text: 'Cancel',
+          onPress: () => {
+            setModalVisible(false);
+            // setTextValue('');
+          },
+        },
       ]}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -48,8 +61,8 @@ export default function ModalInput({
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <TextInput
             style={styles.textInput}
-            onChangeText={setTextValue}
-            value={textValue}
+            onChangeText={setText}
+            value={text}
           />
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
