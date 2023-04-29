@@ -24,8 +24,6 @@ type CardInformationHCType = {
   }[];
 };
 const CardInformationHC = ({title, rows}: CardInformationHCType) => {
-  // TODO: Apply keyboard avoding refer to ModalInput.tsx for the implementatin
-
   const generateRows = () => {
     const generatedRows = rows.map((row, i) => {
       switch (row.picker) {

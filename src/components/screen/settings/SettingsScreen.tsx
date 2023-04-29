@@ -12,7 +12,7 @@ import React, {useState} from 'react';
 
 // Components
 import {colors, assets} from 'src/assets';
-import {ScreenContainer, CustomPicker} from 'src/components/shared';
+import {ScreenContainer} from 'src/components/shared';
 import CardInformation from './components/CardInformation';
 import {useTranslation} from 'react-i18next';
 import type {userType} from 'src/types';
