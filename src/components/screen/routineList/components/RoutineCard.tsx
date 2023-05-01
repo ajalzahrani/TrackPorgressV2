@@ -19,11 +19,15 @@ const RoutineCard: React.FC<RoutineCardProps> = ({routine}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation<RoutineListNavigationProp>();
 
+  const onClose = () {
+    setModalVisible(!modalVisible)
+  }
+
   return (
     <>
       <CustomModal
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
+        visible={modalVisible}
+        onClose={onClose}
         message="Are you sure you want to save changes?"
         buttons={[
           {

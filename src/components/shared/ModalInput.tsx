@@ -1,6 +1,6 @@
 import {StyleSheet, ViewStyle, TextInput} from 'react-native';
 import React from 'react';
-import CustomModal from './CustomModal';
+import CustomModal2 from './CustomModal2';
 
 type ModalInputProps = {
   message: string;
@@ -19,10 +19,9 @@ export default function ModalInput({
   textValue,
   setTextValue,
 }: ModalInputProps) {
-  const [text, setText] = React.useState(textValue);
   return (
     <>
-      <CustomModal
+      <CustomModal2
         message={message}
         visible={visible}
         onClose={onClose}
@@ -31,41 +30,35 @@ export default function ModalInput({
             text: 'OK',
             onPress: () => {
               onClose();
-              setTextValue(text.toString());
+              setTextValue(textValue);
             },
           },
           {
             text: 'Cancel',
             onPress: () => {
               onClose();
-              // setTextValue('');
+              setTextValue('');
             },
           },
         ]}>
         <TextInput
           style={styles.textInput}
-          onChangeText={setText}
-          value={text}
+          onChangeText={setTextValue}
+          value={textValue}
+          autoCapitalize="none"
         />
-      </CustomModal>
+      </CustomModal2>
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  containerr: {
-    // flex: 1,
-  },
-  inner: {
-    padding: 24,
-    flex: 1,
-    justifyContent: 'space-around',
-  },
   textInput: {
+    width: '100%',
     height: 40,
-    borderColor: '#000000',
-    borderBottomWidth: 1,
-    marginBottom: 36,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
   },
   btnContainer: {
     backgroundColor: 'white',

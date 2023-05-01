@@ -2,13 +2,14 @@ import {Text, View, Image, StyleSheet} from 'react-native';
 import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useNavigation, useRoute} from '@react-navigation/native';
+import KACModal from 'src/components/shared/KACModal';
 
 // assets
 import {colors, assets} from 'src/assets';
 
 // Components
 import QuickStart from './components/QuickStart';
-import {CustomModal, Pressable} from 'src/components/shared';
+import {CustomModal, ModalInput, Pressable} from 'src/components/shared';
 import PressableButton from '../../shared/PressableButton';
 import ScreenContainer from 'src/components/shared/ScreenContainer';
 import useRoutineStore from 'src/store/useRoutineStore';
@@ -16,6 +17,7 @@ import useRoutineStore from 'src/store/useRoutineStore';
 const HomeScreen = () => {
   const [modalView, setModalVisible] = useState(false);
   const routines = useRoutineStore(s => s.routines);
+  const [textValue, setTextValue] = useState('');
   const {t} = useTranslation();
 
   const onClose = () => {
@@ -24,7 +26,16 @@ const HomeScreen = () => {
 
   return (
     <ScreenContainer>
+      <ModalInput
+        message="Hello, World"
+        visible={modalView}
+        onClose={onClose}
+        textValue={textValue}
+        setTextValue={setTextValue}
+      />
+
       <View style={styles.containerStyle}>
+        <Text style={styles.homeTitle}>{textValue}</Text>
         <Text style={styles.homeTitle}>{t('home.title')}!</Text>
         <Image style={styles.image} source={assets.bgImage} />
         <View style={styles.descriptionContainerStyle}>

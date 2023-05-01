@@ -1,14 +1,7 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Modal,
-  Pressable,
-  Alert,
-  ViewStyle,
-} from 'react-native';
+import {StyleSheet, Text, View, Pressable, ViewStyle} from 'react-native';
 import React from 'react';
 import {ScrollView} from 'react-native-gesture-handler';
+import KACModal from './KACModal';
 
 type buttonType = {
   text: string;
@@ -34,14 +27,7 @@ const CustomModal = ({
   children,
 }: CustomModalProps) => {
   return (
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={visible}
-      onRequestClose={() => {
-        Alert.alert('Modal has been closed.');
-        onClose();
-      }}>
+    <KACModal visible={visible} onClose={onClose}>
       <View style={styles.centeredView}>
         <View style={[styles.modalView, style]}>
           <Text style={styles.modalText}>{message}</Text>
@@ -72,7 +58,7 @@ const CustomModal = ({
           </View>
         </View>
       </View>
-    </Modal>
+    </KACModal>
   );
 };
 
@@ -81,7 +67,7 @@ export default CustomModal;
 const styles = StyleSheet.create({
   // modal style
   centeredView: {
-    flex: 1,
+    // flex: 1,
     // flexWrap: 'wrap',
     justifyContent: 'center',
     alignItems: 'center',
