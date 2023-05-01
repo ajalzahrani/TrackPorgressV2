@@ -150,6 +150,12 @@ const SettingsScreen = () => {
               header: 'Bone Density',
               value: generateNums(100),
             },
+            {
+              picker: 'text',
+              header: 'Bone Density',
+              message: 'some message',
+              value: 'some text',
+            },
           ]}
         />
         <View style={styles.centeredView}>

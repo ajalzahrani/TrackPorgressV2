@@ -29,7 +29,7 @@ const HomeScreen = () => {
       <ModalInput
         message="Hello, World"
         visible={modalView}
-        onClose={onClose}
+        setVisible={setModalVisible}
         textValue={textValue}
         setTextValue={setTextValue}
       />

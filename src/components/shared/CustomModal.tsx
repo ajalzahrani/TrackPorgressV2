@@ -13,19 +13,22 @@ type buttonType = {
 type CustomModalProps = {
   message: string;
   visible: boolean;
-  onClose: () => void;
+  setVisible: React.Dispatch<React.SetStateAction<boolean>>;
   buttons?: buttonType[];
   style?: ViewStyle | ViewStyle[] | null;
   children?: React.ReactNode;
 };
 const CustomModal = ({
   visible,
-  onClose,
+  setVisible,
   message,
   buttons,
   style,
   children,
 }: CustomModalProps) => {
+  const onClose = () => {
+    setVisible(false);
+  };
   return (
     <KACModal visible={visible} onClose={onClose}>
       <View style={styles.centeredView}>

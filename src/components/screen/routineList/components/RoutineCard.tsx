@@ -19,9 +19,9 @@ const RoutineCard: React.FC<RoutineCardProps> = ({routine}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation<RoutineListNavigationProp>();
 
-  const onClose = () {
-    setModalVisible(!modalVisible)
-  }
+  const onClose = () => {
+    setModalVisible(!modalVisible);
+  };
 
   return (
     <>
