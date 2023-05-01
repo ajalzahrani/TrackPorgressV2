@@ -106,8 +106,8 @@ const RoutineScreen: React.FC<RoutineScreenProps> = ({route, navigation}) => {
   return (
     <ScreenContainer>
       <CustomModal
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
+        visible={modalVisible}
+        setVisible={setModalVisible}
         message="Are you sure you want to save changes?"
         buttons={[
           {text: 'Cancel', onPress: () => setModalVisible(false)},

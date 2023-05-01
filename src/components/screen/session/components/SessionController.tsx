@@ -62,11 +62,12 @@ const SessionController = ({sessionId, workoutId}: SessionControllerType) => {
   }, []);
 
   const endSeassionAction = () => {
-    setModalVisible(!modalVisible);
+    setModalVisible(false);
+
     // stop session timer
     pause();
-    // Register session
 
+    // Register session
     registerSession(
       sessionId,
       new Date().toString(),
@@ -76,17 +77,18 @@ const SessionController = ({sessionId, workoutId}: SessionControllerType) => {
       workoutId,
       [],
     );
-
+    console.log('hi do something');
     // Show report modal
     navigation.navigate('SessionReportScreen', {sessionId: sessionId});
+    console.log('do navigate');
   };
 
   return (
     <>
       <CustomModal
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-        message="Are you sure you want to save changes?"
+        visible={modalVisible}
+        setVisible={setModalVisible}
+        message="Are you sure you want to quit session?"
         buttons={[
           {
             text: 'No',

@@ -12,7 +12,6 @@ import LoadingView from './LoadingView';
 import getObjectById from './getObjectbyId';
 import GeneralModal from './GeneralModal';
 import CustomModal from './CustomModal';
-import CustomPicker from './CustomPicker';
 import ModalInput from './ModalInput';
 
 export {
@@ -30,6 +29,5 @@ export {
   getObjectById,
   GeneralModal,
   CustomModal,
-  CustomPicker,
   ModalInput,
 };

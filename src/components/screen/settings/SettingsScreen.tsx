@@ -158,6 +158,16 @@ const SettingsScreen = () => {
             },
           ]}
         />
+        <CardInformationHC
+          title="Language"
+          rows={[
+            {
+              picker: 'picker',
+              header: 'Language',
+              value: languages.map(l => l.label),
+            },
+          ]}
+        />
         <View style={styles.centeredView}>
           {languages.map(lang => (
             <LanguageItem {...lang} key={lang.name} />
