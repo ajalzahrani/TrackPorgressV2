@@ -19,15 +19,15 @@ type buttonType = {
 
 type CustomModalProps = {
   message: string;
-  modalVisible: boolean;
-  setModalVisible: (visible: boolean) => void;
-  buttons?: buttonType[] | buttonType | null;
+  visible: boolean;
+  onClose: () => void;
+  buttons?: buttonType[];
   style?: ViewStyle | ViewStyle[] | null;
   children?: React.ReactNode;
 };
 const CustomModal = ({
-  modalVisible,
-  setModalVisible,
+  visible,
+  onClose,
   message,
   buttons,
   style,
@@ -37,62 +37,38 @@ const CustomModal = ({
     <Modal
       animationType="slide"
       transparent={true}
-      visible={modalVisible}
+      visible={visible}
       onRequestClose={() => {
         Alert.alert('Modal has been closed.');
-        setModalVisible(!modalVisible);
+        onClose();
       }}>
       <View style={styles.centeredView}>
         <View style={[styles.modalView, style]}>
           <Text style={styles.modalText}>{message}</Text>
           {children}
           <View style={{flexDirection: 'row'}}>
-            {Array.isArray(buttons) ? (
-              buttons?.map(button => (
-                <ScrollView>
-                  <Pressable
-                    style={[
-                      styles.button,
-                      styles.buttonClose,
-                      {
-                        marginRight: 10,
-                        backgroundColor: button.backgroundColor
-                          ? button.backgroundColor
-                          : '#2196F3',
-                      },
-                    ]}
-                    onPress={() => {
-                      button.onPress();
-                    }}>
-                    <Text style={[styles.textStyle, {color: button.textColor}]}>
-                      {button.text}
-                    </Text>
-                  </Pressable>
-                </ScrollView>
-              ))
-            ) : !buttons ? (
-              <Pressable
-                style={[styles.button, styles.buttonClose, {marginRight: 10}]}
-                onPress={() => {
-                  setModalVisible(!modalVisible);
-                }}>
-                <Text style={styles.textStyle}>Ok</Text>
-              </Pressable>
-            ) : (
-              <Pressable
-                style={[
-                  styles.button,
-                  styles.buttonClose,
-                  // {marginRight: 10, backgroundColor: buttons.backgroundColor},
-                ]}
-                onPress={() => {
-                  buttons.onPress();
-                }}>
-                <Text style={[styles.textStyle, {color: buttons.textColor}]}>
-                  {buttons.text}
-                </Text>
-              </Pressable>
-            )}
+            {buttons?.map(button => (
+              <ScrollView>
+                <Pressable
+                  style={[
+                    styles.button,
+                    styles.buttonClose,
+                    {
+                      marginRight: 10,
+                      backgroundColor: button.backgroundColor
+                        ? button.backgroundColor
+                        : '#2196F3',
+                    },
+                  ]}
+                  onPress={() => {
+                    button.onPress();
+                  }}>
+                  <Text style={[styles.textStyle, {color: button.textColor}]}>
+                    {button.text}
+                  </Text>
+                </Pressable>
+              </ScrollView>
+            ))}
           </View>
         </View>
       </View>

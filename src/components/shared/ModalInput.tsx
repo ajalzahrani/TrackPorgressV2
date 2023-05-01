@@ -1,72 +1,54 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Modal,
-  Pressable,
-  Alert,
-  ViewStyle,
-  TextInput,
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
-  TouchableWithoutFeedback,
-} from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
+import {StyleSheet, ViewStyle, TextInput} from 'react-native';
 import React from 'react';
 import CustomModal from './CustomModal';
 
 type ModalInputProps = {
-  message?: string;
-  modalVisible: boolean;
-  setModalVisible: (visible: boolean) => void;
+  message: string;
+  visible: boolean;
+  onClose: () => void;
   style?: ViewStyle | ViewStyle[] | null;
   children?: React.ReactNode;
-  textValue: string | number;
+  textValue: string;
   setTextValue: (text: string) => void;
 };
 
 export default function ModalInput({
   message,
-  modalVisible,
-  setModalVisible,
+  visible,
+  onClose,
   textValue,
   setTextValue,
 }: ModalInputProps) {
   const [text, setText] = React.useState(textValue);
   return (
-    <CustomModal
-      modalVisible={modalVisible}
-      setModalVisible={setModalVisible}
-      message={message}
-      buttons={[
-        {
-          text: 'OK',
-          onPress: () => {
-            setModalVisible(false);
-            setTextValue(text.toString());
+    <>
+      <CustomModal
+        message={message}
+        visible={visible}
+        onClose={onClose}
+        buttons={[
+          {
+            text: 'OK',
+            onPress: () => {
+              onClose();
+              setTextValue(text.toString());
+            },
           },
-        },
-        {
-          text: 'Cancel',
-          onPress: () => {
-            setModalVisible(false);
-            // setTextValue('');
+          {
+            text: 'Cancel',
+            onPress: () => {
+              onClose();
+              // setTextValue('');
+            },
           },
-        },
-      ]}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.containerr}>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <TextInput
-            style={styles.textInput}
-            onChangeText={setText}
-            value={text}
-          />
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
-    </CustomModal>
+        ]}>
+        <TextInput
+          style={styles.textInput}
+          onChangeText={setText}
+          value={text}
+        />
+      </CustomModal>
+    </>
   );
 }
 

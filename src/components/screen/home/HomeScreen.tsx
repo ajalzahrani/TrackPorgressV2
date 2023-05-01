@@ -18,20 +18,12 @@ const HomeScreen = () => {
   const routines = useRoutineStore(s => s.routines);
   const {t} = useTranslation();
 
+  const onClose = () => {
+    setModalVisible(!modalView);
+  };
+
   return (
     <ScreenContainer>
-      <CustomModal
-        modalVisible={modalView}
-        setModalVisible={setModalVisible}
-        message="Just for showing some informatino!"
-        buttons={{
-          text: 'Okay',
-          onPress: () => {
-            console.log(routines[0]);
-            setModalVisible(false);
-          },
-        }}
-      />
       <View style={styles.containerStyle}>
         <Text style={styles.homeTitle}>{t('home.title')}!</Text>
         <Image style={styles.image} source={assets.bgImage} />
@@ -42,7 +34,7 @@ const HomeScreen = () => {
 
           <PressableButton
             title={t('home.btnQuickStart')}
-            onPress={() => setModalVisible(!modalView)}
+            onPress={() => setModalVisible(true)}
             style={{paddingHorizontal: 40, marginTop: 20}}
           />
         </View>

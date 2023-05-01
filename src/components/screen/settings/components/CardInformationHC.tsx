@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import React from 'react';
 import {colors} from 'src/assets';
 import Divider from 'src/components/shared/Divider';
@@ -17,7 +10,7 @@ import CardRowText from './CardRowText';
 type CardInformationHCType = {
   title: string;
   rows: {
-    picker: 'picker' | 'Date' | 'Text';
+    picker: 'picker' | 'date' | 'text';
     header: string;
     value?: string | string[] | Date;
     message?: string;
@@ -31,18 +24,18 @@ const CardInformationHC = ({title, rows}: CardInformationHCType) => {
           if (row.value !== undefined && Array.isArray(row.value)) {
             return <CardRowCP key={i} header={row.header} items={row.value} />;
           }
-        case 'Date':
+        case 'date':
           if (row.value !== undefined && row.value instanceof Date) {
             return <CardRowDate key={i} header={row.header} dob={row.value} />;
           }
-        case 'Text':
+        case 'text':
           if (row.value !== undefined && typeof row.value === 'string') {
             return (
               <CardRowText
                 key={i}
                 header={row.header}
                 text={row.value}
-                message={row.message}
+                message={row.message ? row.message : ''}
               />
             );
           }

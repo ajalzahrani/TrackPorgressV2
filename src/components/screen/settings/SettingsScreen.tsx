@@ -18,6 +18,11 @@ import {useTranslation} from 'react-i18next';
 import type {userType} from 'src/types';
 import CardInformationHC from './components/CardInformationHC';
 
+function generateNums(N: number) {
+  const setOfNums = [...Array(N).keys()].map(i => (i + 1).toString());
+  return setOfNums;
+}
+
 const SettingsScreen = () => {
   const [accountInfo, setAccountInfo] = React.useState({
     gender: '',
@@ -84,30 +89,68 @@ const SettingsScreen = () => {
               value: ['Male', 'Female'],
             },
             {
-              picker: 'Date',
+              picker: 'date',
               header: 'DOB',
               value: new Date(),
             },
             {
-              picker: 'Text',
+              picker: 'text',
               header: 'Email',
               value: '',
               message: 'Please enter your email',
             },
             {
-              picker: 'Text',
+              picker: 'text',
               header: 'Location',
               value: '',
               message: 'Please enter your location',
             },
           ]}
         />
-        <CardInformation
-          title="Measurements"
-          rows={Object.keys(bodyMeaurement).map(key => ({
-            header: key,
-            value: bodyMeaurement[key as keyof typeof bodyMeaurement],
-          }))}
+        <CardInformationHC
+          title="Body Measurements"
+          rows={[
+            {
+              picker: 'picker',
+              header: 'Height',
+              value: generateNums(200),
+            },
+            {
+              picker: 'picker',
+              header: 'Weight',
+              value: generateNums(250),
+            },
+            {
+              picker: 'picker',
+              header: 'BMI',
+              value: generateNums(50),
+            },
+            {
+              picker: 'picker',
+              header: 'Muscle Mass',
+              value: generateNums(70),
+            },
+            {
+              picker: 'picker',
+              header: 'Body Water',
+              value: generateNums(100),
+            },
+            {
+              picker: 'picker',
+              header: 'Bone Mass',
+              value: generateNums(100),
+            },
+            {
+              picker: 'picker',
+              header: 'Visceral Fat',
+              value: generateNums(100),
+            },
+            {
+              picker: 'picker',
+              header: 'Bone Density',
+              value: generateNums(100),
+            },
+          ]}
         />
         <View style={styles.centeredView}>
           {languages.map(lang => (

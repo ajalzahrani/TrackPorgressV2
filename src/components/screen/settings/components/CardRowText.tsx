@@ -6,22 +6,24 @@ import styles from './CardPickersStyle';
 
 type CardRowTextType = {
   header: string;
-  text: string | number;
-  message?: string;
+  text: string;
+  message: string;
 };
 const CardRowText: React.FC<CardRowTextType> = ({header, text, message}) => {
   const {t} = useTranslation();
   const [modalVisible, setModalVisible] = React.useState(false);
   const [textValue, setTextValue] = React.useState(text);
-
+  const onClose = () => {
+    setModalVisible(false);
+  };
   return (
     <>
       <ModalInput
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
+        message={message}
+        visible={modalVisible}
+        onClose={onClose}
         textValue={textValue}
         setTextValue={setTextValue}
-        message={message}
       />
       <TouchableOpacity
         onPress={() => setModalVisible(true)}
