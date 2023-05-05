@@ -23,9 +23,12 @@ To use the app, follow these steps:
 1. Log each SET during the session.
 1. End the session.
 
-## Source
-
-`npm start -- --reset-cache` & `npm run sim clear-cache`
+```
+npm start -- --reset-cache
+``` 
+```
+npm run sim clear-cache
+```
 
 ## Support
 
