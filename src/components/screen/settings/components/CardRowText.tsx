@@ -21,7 +21,7 @@ const CardRowText: React.FC<CardRowTextType> = ({header, text, message}) => {
       <ModalInput
         message={message}
         visible={modalVisible}
-        onClose={onClose}
+        setVisible={onClose}
         textValue={textValue}
         setTextValue={setTextValue}
       />
