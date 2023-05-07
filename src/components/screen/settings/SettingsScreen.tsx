@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 
+import useUserPreferencesStore from 'src/store/useUserPreferencesStore';
+
 // Components
 import {colors, assets} from 'src/assets';
 import {ScreenContainer} from 'src/components/shared';
@@ -24,23 +26,15 @@ function generateNums(N: number) {
 }
 
 const SettingsScreen = () => {
-  const [accountInfo, setAccountInfo] = React.useState({
-    gender: '',
-    dob: '',
-    location: '',
-    email: '',
-  });
-
-  const [bodyMeaurement, setBodyMeaurement] = React.useState({
-    height: 0,
-    weight: 0,
-    bmi: 0,
-    muscleMass: 0,
-    bodyWater: 0,
-    boneMass: 0,
-    visceralFat: 0,
-    boneDensity: 0,
-  });
+  const userPreferences = useUserPreferencesStore(s => s.preferences);
+  const setFirstname = useUserPreferencesStore(s => s.setFirstName);
+  const setUsername = useUserPreferencesStore(s => s.setUsername);
+  const setLastname = useUserPreferencesStore(s => s.setLastName);
+  const setLocation = useUserPreferencesStore(s => s.setLocation);
+  const setMobile = useUserPreferencesStore(s => s.setMobile);
+  const setGender = useUserPreferencesStore(s => s.setGender);
+  const setEmail = useUserPreferencesStore(s => s.setEmail);
+  const setDOB = useUserPreferencesStore(s => s.setDOB);
 
   const {t, i18n} = useTranslation();
 
@@ -107,7 +101,7 @@ const SettingsScreen = () => {
             },
           ]}
         />
-        <CardInformationHC
+        {/* <CardInformationHC
           title="Body Measurements"
           rows={[
             {
@@ -157,7 +151,7 @@ const SettingsScreen = () => {
               value: 'some text',
             },
           ]}
-        />
+        /> */}
         <CardInformationHC
           title="Language"
           rows={[

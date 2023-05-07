@@ -35,14 +35,20 @@ export type userType = {
   id: string;
   username: string;
   password: string;
-  firstname?: string;
-  lastname?: string;
-  dob?: string;
-  gender?: string;
+  firstname: string;
+  lastname: string;
+  dob: string;
+  gender: string;
+
+  // user social
+  mobile?: string;
+  email: string;
+  location?: string;
 
   // user messurements
   bodyMeasurements?: userBodyMeasurementsType;
 
+  // workout preferences
   activityLevel?: number; // 1-7 days per week
   activityLevelDescription?: [
     'Basal Metabolic Rate (BMR)',
@@ -53,11 +59,6 @@ export type userType = {
     'Very Active: intense exercise 6-7 times/week',
     'Extra Active: very intense exercise daily, or physical job',
   ];
-
-  // user social
-  mobile?: string;
-  email: string;
-  location?: string;
 };
 export type exerciseMasterType = {
   id: string;
