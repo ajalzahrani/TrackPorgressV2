@@ -4,10 +4,12 @@
 const exerciseMasterGlobalKey = 'exercises';
 const routineGlobalKey = 'routines';
 const sessionGlobalKey = 'session';
+const userPreferences = 'preferences';
 
 const def = {
   exerciseMasterGlobalKey,
   routineGlobalKey,
   sessionGlobalKey,
+  userPreferences,
 };
 export default def;
