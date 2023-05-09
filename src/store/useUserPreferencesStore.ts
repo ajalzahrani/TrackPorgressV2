@@ -11,7 +11,16 @@ const getPreferences = (): userType => {
   return store.contains(def.userPreferences) &&
     typeof preferencesString === 'string'
     ? JSON.parse(preferencesString)
-    : [];
+    : {
+        id: '',
+        username: '',
+        password: '',
+        firstname: '',
+        lastname: '',
+        dob: '',
+        gender: '',
+        email: '',
+      };
 };
 
 type State = {
@@ -37,53 +46,21 @@ const useUserPreferencesStore = create<State & Actions>((set, get) => ({
   ...initialState,
 
   setUsername: username =>
-    set(
-      produce((state: Draft<State>) => {
-        state.preferences.username = username;
-      }),
-    ),
+    set(state => ({...state, preferences: {...state.preferences, username}})),
   setFirstName: firstname =>
-    set(
-      produce((state: Draft<State>) => {
-        state.preferences.firstname = firstname;
-      }),
-    ),
+    set(state => ({...state, preferences: {...state.preferences, firstname}})),
   setLastName: lastname =>
-    set(
-      produce((state: Draft<State>) => {
-        state.preferences.lastname = lastname;
-      }),
-    ),
-  setMobile: mobile =>
-    set(
-      produce((state: Draft<State>) => {
-        state.preferences.mobile = mobile;
-      }),
-    ),
+    set(state => ({...state, preferences: {...state.preferences, lastname}})),
   setDOB: dob =>
-    set(
-      produce((state: Draft<State>) => {
-        state.preferences.dob = dob;
-      }),
-    ),
+    set(state => ({...state, preferences: {...state.preferences, dob}})),
+  setMobile: mobile =>
+    set(state => ({...state, preferences: {...state.preferences, mobile}})),
   setEmail: email =>
-    set(
-      produce((state: Draft<State>) => {
-        state.preferences.email = email;
-      }),
-    ),
+    set(state => ({...state, preferences: {...state.preferences, email}})),
   setLocation: location =>
-    set(
-      produce((state: Draft<State>) => {
-        state.preferences.location = location;
-      }),
-    ),
+    set(state => ({...state, preferences: {...state.preferences, location}})),
   setGender: gender =>
-    set(
-      produce((state: Draft<State>) => {
-        state.preferences.gender = gender;
-      }),
-    ),
+    set(state => ({...state, preferences: {...state.preferences, gender}})),
 }));
 
 export default useUserPreferencesStore;

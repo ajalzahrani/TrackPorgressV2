@@ -12,7 +12,9 @@ type CardInformationHCType = {
   rows: {
     picker: 'picker' | 'date' | 'text';
     header: string;
+    items?: string[];
     value?: string | string[] | Date;
+    setValue?: (value: string) => void;
     message?: string;
   }[];
 };
@@ -21,9 +23,15 @@ const CardInformationHC = ({title, rows}: CardInformationHCType) => {
     const generatedRows = rows.map((row, i) => {
       switch (row.picker) {
         case 'picker':
-          if (row.value !== undefined && Array.isArray(row.value)) {
-            return <CardRowCP key={i} header={row.header} items={row.value} />;
-          }
+          return (
+            <CardRowCP
+              key={i}
+              header={row.header}
+              items={row.items ? row.items : []}
+              value={typeof row.value === 'string' ? row.value : ''}
+              setValue={row.setValue ? row.setValue : () => {}}
+            />
+          );
         case 'date':
           if (row.value !== undefined && row.value instanceof Date) {
             return <CardRowDate key={i} header={row.header} dob={row.value} />;
@@ -41,7 +49,6 @@ const CardInformationHC = ({title, rows}: CardInformationHCType) => {
           }
       }
     });
-
     const finalRows = Array.from({length: generatedRows.length * 2 - 1});
     for (let i = 0; i < generatedRows.length; i++) {
       finalRows[i * 2] = generatedRows[i];

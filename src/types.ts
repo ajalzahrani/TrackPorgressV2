@@ -19,15 +19,15 @@ export type sessionType = {
 };
 
 export type userBodyMeasurementsType = {
-  height?: number;
-  weight?: number;
-  bmi?: number;
-  muscleMass?: number;
-  bodyWater?: number;
-  boneMass?: number;
-  visceralFat?: number;
-  boneDensity?: number;
-  customMeasurements?: [{title: string; value: number}];
+  height?: string;
+  weight?: string;
+  bmi?: string;
+  muscleMass?: string;
+  bodyWater?: string;
+  boneMass?: string;
+  visceralFat?: string;
+  boneDensity?: string;
+  // customMeasurements?: [{title: string; value: number}];
 };
 
 export type userType = {
@@ -44,9 +44,6 @@ export type userType = {
   mobile?: string;
   email: string;
   location?: string;
-
-  // user messurements
-  bodyMeasurements?: userBodyMeasurementsType;
 
   // workout preferences
   activityLevel?: number; // 1-7 days per week

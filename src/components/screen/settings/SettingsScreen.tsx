@@ -11,6 +11,7 @@ import {
 import React, {useState} from 'react';
 
 import useUserPreferencesStore from 'src/store/useUserPreferencesStore';
+import useUserBodyMeasureStore from 'src/store/useUserBodyMeasureStore';
 
 // Components
 import {colors, assets} from 'src/assets';
@@ -35,6 +36,10 @@ const SettingsScreen = () => {
   const setGender = useUserPreferencesStore(s => s.setGender);
   const setEmail = useUserPreferencesStore(s => s.setEmail);
   const setDOB = useUserPreferencesStore(s => s.setDOB);
+
+  const bodyMeasurements = useUserBodyMeasureStore(s => s.bodyMeasurements);
+  const setHight = useUserBodyMeasureStore(s => s.setHeight);
+  const setWeight = useUserBodyMeasureStore(s => s.setWeight);
 
   const {t, i18n} = useTranslation();
 
@@ -80,7 +85,9 @@ const SettingsScreen = () => {
             {
               picker: 'picker',
               header: 'Gender',
-              value: ['Male', 'Female'],
+              items: ['Male', 'Female'],
+              value: userPreferences.gender ? userPreferences.gender : 'Male',
+              setValue: setGender,
             },
             {
               picker: 'date',
@@ -101,58 +108,62 @@ const SettingsScreen = () => {
             },
           ]}
         />
-        {/* <CardInformationHC
+        <CardInformationHC
           title="Body Measurements"
           rows={[
             {
               picker: 'picker',
               header: 'Height',
-              value: generateNums(200),
+              items: generateNums(10),
+              value: bodyMeasurements.height,
+              setValue: setHight,
             },
             {
               picker: 'picker',
               header: 'Weight',
-              value: generateNums(250),
+              items: generateNums(250),
+              value: bodyMeasurements.weight,
+              setValue: setWeight,
             },
-            {
-              picker: 'picker',
-              header: 'BMI',
-              value: generateNums(50),
-            },
-            {
-              picker: 'picker',
-              header: 'Muscle Mass',
-              value: generateNums(70),
-            },
-            {
-              picker: 'picker',
-              header: 'Body Water',
-              value: generateNums(100),
-            },
-            {
-              picker: 'picker',
-              header: 'Bone Mass',
-              value: generateNums(100),
-            },
-            {
-              picker: 'picker',
-              header: 'Visceral Fat',
-              value: generateNums(100),
-            },
-            {
-              picker: 'picker',
-              header: 'Bone Density',
-              value: generateNums(100),
-            },
-            {
-              picker: 'text',
-              header: 'Bone Density',
-              message: 'some message',
-              value: 'some text',
-            },
+            // {
+            //   picker: 'picker',
+            //   header: 'BMI',
+            //   value: generateNums(50),
+            // },
+            // {
+            //   picker: 'picker',
+            //   header: 'Muscle Mass',
+            //   value: generateNums(70),
+            // },
+            // {
+            //   picker: 'picker',
+            //   header: 'Body Water',
+            //   value: generateNums(100),
+            // },
+            // {
+            //   picker: 'picker',
+            //   header: 'Bone Mass',
+            //   value: generateNums(100),
+            // },
+            // {
+            //   picker: 'picker',
+            //   header: 'Visceral Fat',
+            //   value: generateNums(100),
+            // },
+            // {
+            //   picker: 'picker',
+            //   header: 'Bone Density',
+            //   value: generateNums(100),
+            // },
+            // {
+            //   picker: 'text',
+            //   header: 'Bone Density',
+            //   message: 'some message',
+            //   value: 'some text',
+            // },
           ]}
-        /> */}
-        <CardInformationHC
+        />
+        {/* <CardInformationHC
           title="Language"
           rows={[
             {
@@ -161,7 +172,7 @@ const SettingsScreen = () => {
               value: languages.map(l => l.label),
             },
           ]}
-        />
+        /> */}
         <View style={styles.centeredView}>
           {languages.map(lang => (
             <LanguageItem {...lang} key={lang.name} />
