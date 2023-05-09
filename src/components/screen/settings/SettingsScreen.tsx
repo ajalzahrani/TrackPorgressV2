@@ -40,6 +40,12 @@ const SettingsScreen = () => {
   const bodyMeasurements = useUserBodyMeasureStore(s => s.bodyMeasurements);
   const setHight = useUserBodyMeasureStore(s => s.setHeight);
   const setWeight = useUserBodyMeasureStore(s => s.setWeight);
+  const setBmi = useUserBodyMeasureStore(s => s.setBmi);
+  const setMuscleMass = useUserBodyMeasureStore(s => s.setMuscleMass);
+  const setBodyWater = useUserBodyMeasureStore(s => s.setBodyWater);
+  const setBoneDensity = useUserBodyMeasureStore(s => s.setBoneDensity);
+  const setBoneMass = useUserBodyMeasureStore(s => s.setBoneMass);
+  const setVisceralFat = useUserBodyMeasureStore(s => s.setVisceralFat);
 
   const {t, i18n} = useTranslation();
 
@@ -125,21 +131,27 @@ const SettingsScreen = () => {
               value: bodyMeasurements.weight,
               setValue: setWeight,
             },
-            // {
-            //   picker: 'picker',
-            //   header: 'BMI',
-            //   value: generateNums(50),
-            // },
-            // {
-            //   picker: 'picker',
-            //   header: 'Muscle Mass',
-            //   value: generateNums(70),
-            // },
-            // {
-            //   picker: 'picker',
-            //   header: 'Body Water',
-            //   value: generateNums(100),
-            // },
+            {
+              picker: 'picker',
+              header: 'BMI',
+              items: generateNums(50),
+              value: bodyMeasurements.bmi,
+              setValue: setBmi,
+            },
+            {
+              picker: 'picker',
+              header: 'Muscle Mass',
+              items: generateNums(70),
+              value: bodyMeasurements.muscleMass,
+              setValue: setMuscleMass,
+            },
+            {
+              picker: 'picker',
+              header: 'Body Water',
+              items: generateNums(100),
+              value: bodyMeasurements.bodyWater,
+              setValue: setBodyWater,
+            },
             // {
             //   picker: 'picker',
             //   header: 'Bone Mass',

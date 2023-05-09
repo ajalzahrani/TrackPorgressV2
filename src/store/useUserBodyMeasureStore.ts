@@ -69,25 +69,25 @@ const useUserBodyMeasureStore = create<State & Actions>((set, get) => ({
       bodyMeasurements: {...state.bodyMeasurements, muscleMass},
     })),
 
-  setBodyWater: dob =>
+  setBodyWater: bodyWater =>
     set(state => ({
       ...state,
-      bodyMeasurements: {...state.bodyMeasurements, dob},
+      bodyMeasurements: {...state.bodyMeasurements, bodyWater},
     })),
-  setBoneMass: mobile =>
+  setBoneMass: boneMass =>
     set(state => ({
       ...state,
-      bodyMeasurements: {...state.bodyMeasurements, mobile},
+      bodyMeasurements: {...state.bodyMeasurements, boneMass},
     })),
-  setVisceralFat: email =>
+  setVisceralFat: visceralFat =>
     set(state => ({
       ...state,
-      bodyMeasurements: {...state.bodyMeasurements, email},
+      bodyMeasurements: {...state.bodyMeasurements, visceralFat},
     })),
-  setBoneDensity: location =>
+  setBoneDensity: boneDensity =>
     set(state => ({
       ...state,
-      bodyMeasurements: {...state.bodyMeasurements, location},
+      bodyMeasurements: {...state.bodyMeasurements, boneDensity},
     })),
 }));
 
