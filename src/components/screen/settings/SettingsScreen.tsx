@@ -8,7 +8,7 @@ import {
   ScrollView,
   Button,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import useUserPreferencesStore from 'src/store/useUserPreferencesStore';
 import useUserBodyMeasureStore from 'src/store/useUserBodyMeasureStore';
@@ -20,6 +20,7 @@ import CardInformation from './components/CardInformation';
 import {useTranslation} from 'react-i18next';
 import type {userType} from 'src/types';
 import CardInformationHC from './components/CardInformationHC';
+import useUnit from 'src/utility/UnitConversion';
 
 function generateNums(N: number) {
   const setOfNums = [...Array(N).keys()].map(i => (i + 1).toString());
@@ -40,12 +41,22 @@ const SettingsScreen = () => {
   const bodyMeasurements = useUserBodyMeasureStore(s => s.bodyMeasurements);
   const setHight = useUserBodyMeasureStore(s => s.setHeight);
   const setWeight = useUserBodyMeasureStore(s => s.setWeight);
-  const setBmi = useUserBodyMeasureStore(s => s.setBmi);
+  // const setBmi = useUserBodyMeasureStore(s => s.setBmi);
   const setMuscleMass = useUserBodyMeasureStore(s => s.setMuscleMass);
   const setBodyWater = useUserBodyMeasureStore(s => s.setBodyWater);
   const setBoneDensity = useUserBodyMeasureStore(s => s.setBoneDensity);
   const setBoneMass = useUserBodyMeasureStore(s => s.setBoneMass);
   const setVisceralFat = useUserBodyMeasureStore(s => s.setVisceralFat);
+  const setMetric = useUserBodyMeasureStore(s => s.setMetric);
+  const [bmi, setBmi] = useState<string>('');
+  const convertWeight = useUnit();
+
+  useEffect(() => {
+    const newBmi =
+      Number(bodyMeasurements.weight) /
+      Math.pow(Number(bodyMeasurements.height) / 100, 2);
+    setBmi(newBmi.toFixed(2).toString());
+  }, [bodyMeasurements.height, bodyMeasurements.weight]);
 
   const {t, i18n} = useTranslation();
 
@@ -120,7 +131,7 @@ const SettingsScreen = () => {
             {
               picker: 'picker',
               header: 'Height',
-              items: generateNums(10),
+              items: generateNums(200),
               value: bodyMeasurements.height,
               setValue: setHight,
             },
@@ -128,15 +139,15 @@ const SettingsScreen = () => {
               picker: 'picker',
               header: 'Weight',
               items: generateNums(250),
-              value: bodyMeasurements.weight,
+              value: convertWeight(bodyMeasurements.weight),
               setValue: setWeight,
             },
             {
               picker: 'picker',
               header: 'BMI',
               items: generateNums(50),
-              value: bodyMeasurements.bmi,
-              setValue: setBmi,
+              value: bmi,
+              // setValue: setBmi,
             },
             {
               picker: 'picker',
@@ -151,6 +162,13 @@ const SettingsScreen = () => {
               items: generateNums(100),
               value: bodyMeasurements.bodyWater,
               setValue: setBodyWater,
+            },
+            {
+              picker: 'picker',
+              header: 'Unit of Measurement',
+              items: ['kg', 'lbs'],
+              value: bodyMeasurements.metric,
+              setValue: setMetric,
             },
             // {
             //   picker: 'picker',

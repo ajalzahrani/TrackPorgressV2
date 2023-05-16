@@ -19,6 +19,7 @@ export type sessionType = {
 };
 
 export type userBodyMeasurementsType = {
+  metric: string;
   height?: string;
   weight?: string;
   bmi?: string;

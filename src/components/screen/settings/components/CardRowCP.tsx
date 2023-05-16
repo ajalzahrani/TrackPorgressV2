@@ -36,6 +36,7 @@ const CardRowCP: React.FC<CardRowCPType> = ({
         style={styles.cardRowContainer}>
         <Text style={styles.cardRowText}>{t(header)}</Text>
         <Text style={styles.cardRowText}>{t(value)}</Text>
+        {/* <Text style={styles.cardRowText}>{t('cm')}</Text> */}
       </TouchableOpacity>
     </>
   );

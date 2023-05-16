@@ -12,8 +12,9 @@ const getUserBodyMeasurements = (): userBodyMeasurementsType => {
     typeof userBodyMeasurements === 'string'
     ? JSON.parse(userBodyMeasurements)
     : {
-        height: '',
-        weight: '',
+        metric: 'kg',
+        height: '168',
+        weight: '0',
         bmi: '',
         muscleMass: '',
         bodyWater: '',
@@ -28,6 +29,7 @@ type State = {
 };
 
 type Actions = {
+  setMetric: (metric: string) => void;
   setHeight: (height: string) => void;
   setWeight: (weight: string) => void;
   setBmi: (bmi: string) => void;
@@ -44,6 +46,12 @@ const initialState: State = {
 
 const useUserBodyMeasureStore = create<State & Actions>((set, get) => ({
   ...initialState,
+
+  setMetric: metric =>
+    set(state => ({
+      ...state,
+      bodyMeasurements: {...state.bodyMeasurements, metric},
+    })),
 
   setHeight: height =>
     set(state => ({
