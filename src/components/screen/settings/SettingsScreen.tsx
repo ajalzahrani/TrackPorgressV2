@@ -20,7 +20,7 @@ import CardInformation from './components/CardInformation';
 import {useTranslation} from 'react-i18next';
 import type {userType} from 'src/types';
 import CardInformationHC from './components/CardInformationHC';
-import useUnit from 'src/utility/UnitConversion';
+import useUnit from 'src/components/hooks/useUnit';
 
 function generateNums(N: number) {
   const setOfNums = [...Array(N).keys()].map(i => (i + 1).toString());
@@ -49,7 +49,6 @@ const SettingsScreen = () => {
   const setVisceralFat = useUserBodyMeasureStore(s => s.setVisceralFat);
   const setMetric = useUserBodyMeasureStore(s => s.setMetric);
   const [bmi, setBmi] = useState<string>('');
-  const convertWeight = useUnit();
 
   useEffect(() => {
     const newBmi =
@@ -139,7 +138,7 @@ const SettingsScreen = () => {
               picker: 'picker',
               header: 'Weight',
               items: generateNums(250),
-              value: convertWeight(bodyMeasurements.weight),
+              value: bodyMeasurements.weight,
               setValue: setWeight,
             },
             {

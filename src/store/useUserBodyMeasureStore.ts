@@ -14,7 +14,7 @@ const getUserBodyMeasurements = (): userBodyMeasurementsType => {
     : {
         metric: 'kg',
         height: '168',
-        weight: '0',
+        weight: '71',
         bmi: '',
         muscleMass: '',
         bodyWater: '',
