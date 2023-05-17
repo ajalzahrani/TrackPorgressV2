@@ -1,26 +1,23 @@
 import {
-  View,
-  SafeAreaView,
-  StyleSheet,
+  View, StyleSheet,
   TouchableOpacity,
   Text,
   Image,
-  ScrollView,
-  Button,
+  ScrollView
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 
 import useUserPreferencesStore from 'src/store/useUserPreferencesStore';
 import useUserBodyMeasureStore from 'src/store/useUserBodyMeasureStore';
+import useBMICas from 'src/components/hooks/useBMICas';
+import useUnit from 'src/components/hooks/useUnit';
 
 // Components
-import {colors, assets} from 'src/assets';
-import {ScreenContainer} from 'src/components/shared';
-import CardInformation from './components/CardInformation';
-import {useTranslation} from 'react-i18next';
-import type {userType} from 'src/types';
+import { colors, assets } from 'src/assets';
+import { ScreenContainer } from 'src/components/shared';
+import { useTranslation } from 'react-i18next';
 import CardInformationHC from './components/CardInformationHC';
-import useUnit from 'src/components/hooks/useUnit';
+
 
 function generateNums(N: number) {
   const setOfNums = [...Array(N).keys()].map(i => (i + 1).toString());
@@ -39,23 +36,16 @@ const SettingsScreen = () => {
   const setDOB = useUserPreferencesStore(s => s.setDOB);
 
   const bodyMeasurements = useUserBodyMeasureStore(s => s.bodyMeasurements);
+  const setMetric = useUserBodyMeasureStore(s => s.setMetric);
   const setHight = useUserBodyMeasureStore(s => s.setHeight);
   const setWeight = useUserBodyMeasureStore(s => s.setWeight);
-  // const setBmi = useUserBodyMeasureStore(s => s.setBmi);
   const setMuscleMass = useUserBodyMeasureStore(s => s.setMuscleMass);
   const setBodyWater = useUserBodyMeasureStore(s => s.setBodyWater);
   const setBoneDensity = useUserBodyMeasureStore(s => s.setBoneDensity);
   const setBoneMass = useUserBodyMeasureStore(s => s.setBoneMass);
   const setVisceralFat = useUserBodyMeasureStore(s => s.setVisceralFat);
-  const setMetric = useUserBodyMeasureStore(s => s.setMetric);
-  const [bmi, setBmi] = useState<string>('');
-
-  useEffect(() => {
-    const newBmi =
-      Number(bodyMeasurements.weight) /
-      Math.pow(Number(bodyMeasurements.height) / 100, 2);
-    setBmi(newBmi.toFixed(2).toString());
-  }, [bodyMeasurements.height, bodyMeasurements.weight]);
+  useUnit();
+  useBMICas();
 
   const {t, i18n} = useTranslation();
 
@@ -145,7 +135,7 @@ const SettingsScreen = () => {
               picker: 'picker',
               header: 'BMI',
               items: generateNums(50),
-              value: bmi,
+              value: bodyMeasurements.bmi,
               // setValue: setBmi,
             },
             {

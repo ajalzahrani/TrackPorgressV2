@@ -4,9 +4,6 @@ import {useTranslation} from 'react-i18next';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import KACModal from 'src/components/shared/KACModal';
 import useUserBodyMeasureStore from 'src/store/useUserBodyMeasureStore';
-import useBMICas from 'src/components/hooks/useBMICas';
-import convertWeight from 'src/components/hooks/useUnit';
-import useUnit from 'src/components/hooks/useUnit';
 
 // assets
 import {colors, assets} from 'src/assets';
@@ -22,9 +19,7 @@ const HomeScreen = () => {
   const [modalView, setModalVisible] = useState(false);
   const routines = useRoutineStore(s => s.routines);
   const [textValue, setTextValue] = useState('');
-  const bodyMeasurements = useUserBodyMeasureStore(s => s.bodyMeasurements);
-  const bmi = useBMICas();
-  const convertWeight = useUnit();
+  const bm = useUserBodyMeasureStore(s => s.bodyMeasurements);
   const {t} = useTranslation();
 
   const onClose = () => {
@@ -44,11 +39,11 @@ const HomeScreen = () => {
       <View style={styles.containerStyle}>
         {/* <Text style={styles.homeTitle}>{textValue}</Text> */}
         <Text style={styles.homeTitle}>{t('home.title')}!</Text>
-        <Text style={styles.homeTitle}>{bodyMeasurements.metric}</Text>
+        <Text style={styles.homeTitle}>{bm.metric}</Text>
         <Text style={styles.homeTitle}>
-          weight: {bodyMeasurements.weight}
+          weight: {bm.weight}
         </Text>
-        <Text style={styles.homeTitle}>BMI {bmi}</Text>
+        <Text style={styles.homeTitle}>BMI {bm.bmi}</Text>
         <Image style={styles.image} source={assets.bgImage} />
         <View style={styles.descriptionContainerStyle}>
           {/* FIXME: adjust the font and the button as the design */}

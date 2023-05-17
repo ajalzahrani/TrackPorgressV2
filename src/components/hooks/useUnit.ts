@@ -1,5 +1,6 @@
 import {useEffect, useLayoutEffect, useRef, useState} from 'react';
 import useUserBodyMeasureStore from 'src/store/useUserBodyMeasureStore';
+import useBMICas from './useBMICas';
 
 export default function useUnit() {
   const bodyMeasurements = useUserBodyMeasureStore(s => s.bodyMeasurements);
@@ -20,7 +21,7 @@ export default function useUnit() {
         console.log(`weight = ${flotweight * 2.40462}`);
         flotweight = flotweight * 2.205;
       }
-      const result = flotweight.toFixed(2) + bodyMeasurements.metric;
+      const result = flotweight.toFixed(1);
       setWeight(result);
     }
   };
@@ -33,8 +34,7 @@ export default function useUnit() {
       } else {
         flotHeight = flotHeight / 30.48;
       }
-      const result = flotHeight.toFixed(2);
-      //+ bodyMeasurements.metric === 'kg' ? 'cm' : 'ft';
+      const result = flotHeight.toFixed(1);
       setHeight(result);
     }
   };

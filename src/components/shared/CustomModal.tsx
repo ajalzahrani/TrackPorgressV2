@@ -36,8 +36,8 @@ const CustomModal = ({
           <Text style={styles.modalText}>{message}</Text>
           {children}
           <View style={{flexDirection: 'row'}}>
-            {buttons?.map(button => (
-              <ScrollView>
+            {buttons?.map((button, i) => (
+              <ScrollView key={i}>
                 <Pressable
                   style={[
                     styles.button,
