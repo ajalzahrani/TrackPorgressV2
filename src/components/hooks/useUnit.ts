@@ -2,6 +2,10 @@ import {useEffect, useLayoutEffect, useRef, useState} from 'react';
 import useUserBodyMeasureStore from 'src/store/useUserBodyMeasureStore';
 import useBMICas from './useBMICas';
 
+// Metric system or the International System of Units (SI). In this system, the unit of weight or mass is the kilogram (kg).
+
+// Imperial system or the United States customary units. In this system, the unit of weight or mass is the pound (lb).
+
 export default function useUnit() {
   const bodyMeasurements = useUserBodyMeasureStore(s => s.bodyMeasurements);
   const setWeight = useUserBodyMeasureStore(s => s.setWeight);
@@ -9,16 +13,11 @@ export default function useUnit() {
 
   const firstUpdate = useRef(true);
   const convertWeight = () => {
-    console.log('convert ran');
     if (bodyMeasurements.weight !== undefined) {
       let flotweight = parseFloat(bodyMeasurements.weight);
       if (bodyMeasurements.metric === 'kg') {
-        console.log(`metric is KG`);
-        console.log(`weight = ${flotweight / 2.40462}`);
         flotweight = flotweight / 2.205;
       } else {
-        console.log(`metric is LBS`);
-        console.log(`weight = ${flotweight * 2.40462}`);
         flotweight = flotweight * 2.205;
       }
       const result = flotweight.toFixed(1);

@@ -4,6 +4,7 @@ import {useTranslation} from 'react-i18next';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import KACModal from 'src/components/shared/KACModal';
 import useUserBodyMeasureStore from 'src/store/useUserBodyMeasureStore';
+import useBMICas from 'src/components/hooks/useBMICas';
 
 // assets
 import {colors, assets} from 'src/assets';
