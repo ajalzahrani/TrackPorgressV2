@@ -19,15 +19,15 @@ export type sessionType = {
 };
 
 export type userBodyMeasurementsType = {
-  metric: string;
-  height?: string;
-  weight?: string;
-  bmi?: string;
-  muscleMass?: string;
-  bodyWater?: string;
-  boneMass?: string;
-  visceralFat?: string;
-  boneDensity?: string;
+  metric: 'imperial' | 'metric';
+  height: string;
+  weight: string;
+  bmi: string;
+  muscleMass: string;
+  bodyWater: string;
+  boneMass: string;
+  visceralFat: string;
+  boneDensity: string;
   // customMeasurements?: [{title: string; value: number}];
 };
 

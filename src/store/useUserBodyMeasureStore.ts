@@ -12,7 +12,7 @@ const getUserBodyMeasurements = (): userBodyMeasurementsType => {
     typeof userBodyMeasurements === 'string'
     ? JSON.parse(userBodyMeasurements)
     : {
-        metric: 'kg',
+        metric: 'metric',
         height: '168',
         weight: '71',
         bmi: '',
@@ -29,7 +29,7 @@ type State = {
 };
 
 type Actions = {
-  setMetric: (metric: string) => void;
+  setMetric: (metric: 'imperial' | 'metric') => void;
   setHeight: (height: string) => void;
   setWeight: (weight: string) => void;
   setBmi: (bmi: string) => void;

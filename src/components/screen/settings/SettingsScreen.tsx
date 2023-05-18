@@ -9,8 +9,8 @@ import React from 'react';
 
 import useUserPreferencesStore from 'src/store/useUserPreferencesStore';
 import useUserBodyMeasureStore from 'src/store/useUserBodyMeasureStore';
-import useBMICas from 'src/components/hooks/useBMICas';
 import useUnit from 'src/components/hooks/useUnit';
+import { convertHeight, convertWeight } from 'src/utility/unitconversion';
 
 // Components
 import { colors, assets } from 'src/assets';
@@ -45,7 +45,6 @@ const SettingsScreen = () => {
   const setBoneMass = useUserBodyMeasureStore(s => s.setBoneMass);
   const setVisceralFat = useUserBodyMeasureStore(s => s.setVisceralFat);
   useUnit();
-  useBMICas();
 
   const {t, i18n} = useTranslation();
 
@@ -155,7 +154,7 @@ const SettingsScreen = () => {
             {
               picker: 'picker',
               header: 'Unit of Measurement',
-              items: ['kg', 'lbs'],
+              items: ['metric', 'imperial'],
               value: bodyMeasurements.metric,
               setValue: setMetric,
             },
