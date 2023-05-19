@@ -17,6 +17,7 @@ import { colors, assets } from 'src/assets';
 import { ScreenContainer } from 'src/components/shared';
 import { useTranslation } from 'react-i18next';
 import CardInformationHC from './components/CardInformationHC';
+import useBMICas from 'src/components/hooks/useBMICas';
 
 
 function generateNums(N: number) {
@@ -45,6 +46,7 @@ const SettingsScreen = () => {
   const setBoneMass = useUserBodyMeasureStore(s => s.setBoneMass);
   const setVisceralFat = useUserBodyMeasureStore(s => s.setVisceralFat);
   useUnit();
+  useBMICas();
 
   const {t, i18n} = useTranslation();
 

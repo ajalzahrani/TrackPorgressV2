@@ -1,5 +1,5 @@
 import configureMeasurements, {allMeasures} from 'convert-units';
-const convert = configureMeasurements(allMeasures);
+export const convert = configureMeasurements(allMeasures);
 
 export function convertWeight(weight: string, sys: string) {
   let w = parseFloat(weight);
