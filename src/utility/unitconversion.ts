@@ -1,46 +1,24 @@
-// Height: metric => cm | imperial => foot
-// Weight: metric => kg | imperial => lb
-
-function cvtMeterToCm(m: number) {
-  return m * 100;
-}
-
-function cvtCmtoMeter(m: number) {
-  return m / 100;
-}
-
-function cvtCmToFoot(cm: number) {
-  let heightMeter = cvtCmtoMeter(cm);
-  return heightMeter * 0.032808399;
-}
-
-function cvtFootToCm(foot: number) {
-  let heightMeter = foot / 0.032808399;
-  return cvtMeterToCm(heightMeter);
-}
-
-function cvtKgToLb(kg: number) {
-  return kg * 2.205;
-}
-
-function cvtLbToKg(lb: number) {
-  return lb / 2.205;
-}
+import configureMeasurements, {allMeasures} from 'convert-units';
+const convert = configureMeasurements(allMeasures);
 
 export function convertWeight(weight: string, sys: string) {
   let w = parseFloat(weight);
   if (sys === 'imperial') {
-    return cvtKgToLb(w);
+    // return cvtKgToLb(w);
+    return convert(w).from('kg').to('lb');
   } else {
-    return cvtLbToKg(w);
+    // return cvtLbToKg(w);
+    return convert(w).from('lb').to('kg');
   }
 }
 
 export function convertHeight(height: string, sys: string) {
   const h = parseFloat(height);
   if (sys === 'imperial') {
-    return cvtCmToFoot(h);
+    // return cvtCmToFoot(h);
+    return convert(h).from('cm').to('ft');
   } else {
-    return cvtFootToCm(h);
+    // return cvtFootToCm(h);
+    return convert(h).from('ft').to('cm');
   }
 }

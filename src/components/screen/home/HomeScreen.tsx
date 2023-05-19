@@ -6,6 +6,7 @@ import KACModal from 'src/components/shared/KACModal';
 import useUserBodyMeasureStore from 'src/store/useUserBodyMeasureStore';
 import useBMICas from 'src/components/hooks/useBMICas';
 
+
 // assets
 import {colors, assets} from 'src/assets';
 
@@ -22,10 +23,6 @@ const HomeScreen = () => {
   const [textValue, setTextValue] = useState('');
   const bm = useUserBodyMeasureStore(s => s.bodyMeasurements);
   const {t} = useTranslation();
-
-  const onClose = () => {
-    setModalVisible(!modalView);
-  };
 
   return (
     <ScreenContainer>

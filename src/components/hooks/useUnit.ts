@@ -19,7 +19,7 @@ export default function useUnit() {
       firstUpdate.current = false;
       return;
     }
-    setWeight(convertWeight(bm.weight, bm.metric).toString());
-    setHeight(convertHeight(bm.height, bm.metric).toString());
+    setWeight(convertWeight(bm.weight, bm.metric).toFixed(1));
+    setHeight(convertHeight(bm.height, bm.metric).toFixed(1));
   }, [bm.metric]);
 }
