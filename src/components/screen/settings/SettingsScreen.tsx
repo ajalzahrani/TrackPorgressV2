@@ -17,7 +17,7 @@ import { colors, assets } from 'src/assets';
 import { ScreenContainer } from 'src/components/shared';
 import { useTranslation } from 'react-i18next';
 import CardInformationHC from './components/CardInformationHC';
-import useBMICas from 'src/components/hooks/useBMICas';
+import useBMICas from 'src/components/hooks/useBMI';
 
 
 function generateNums(N: number) {

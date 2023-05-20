@@ -2,7 +2,7 @@ import {useEffect, useMemo, useState} from 'react';
 import useUserBodyMeasureStore from 'src/store/useUserBodyMeasureStore';
 import {convert} from 'src/utility/unitconversion';
 
-export default function useBMICas() {
+export default function useBMI() {
   const bm = useUserBodyMeasureStore(s => s.bodyMeasurements);
   const setBmi = useUserBodyMeasureStore(s => s.setBmi);
   useEffect(() => {
