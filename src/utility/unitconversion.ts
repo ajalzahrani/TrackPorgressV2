@@ -1,6 +1,8 @@
 import configureMeasurements, {allMeasures} from 'convert-units';
 export const convert = configureMeasurements(allMeasures);
 
+// TODO: adjuste the use of convert-units lib
+
 export function convertWeight(weight: string, sys: string) {
   let w = parseFloat(weight);
   if (sys === 'imperial') {

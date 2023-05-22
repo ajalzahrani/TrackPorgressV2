@@ -1,24 +1,27 @@
 import {
-  View, StyleSheet,
+  View,
+  StyleSheet,
   TouchableOpacity,
   Text,
   Image,
-  ScrollView
+  ScrollView,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 
 import useUserPreferencesStore from 'src/store/useUserPreferencesStore';
 import useUserBodyMeasureStore from 'src/store/useUserBodyMeasureStore';
 import useUnit from 'src/components/hooks/useUnit';
-import { convertHeight, convertWeight } from 'src/utility/unitconversion';
+import {convertHeight, convertWeight} from 'src/utility/unitconversion';
 
 // Components
-import { colors, assets } from 'src/assets';
-import { ScreenContainer } from 'src/components/shared';
-import { useTranslation } from 'react-i18next';
+import {colors, assets} from 'src/assets';
+import {ScreenContainer} from 'src/components/shared';
+import {useTranslation} from 'react-i18next';
 import CardInformationHC from './components/CardInformationHC';
 import useBMICas from 'src/components/hooks/useBMI';
-
+import PickerList from 'src/components/shared/PickerList';
+import {Picker} from '@react-native-picker/picker';
+import {ViewRow} from 'src/components/shared';
 
 function generateNums(N: number) {
   const setOfNums = [...Array(N).keys()].map(i => (i + 1).toString());
@@ -48,6 +51,12 @@ const SettingsScreen = () => {
   useUnit();
   useBMICas();
 
+  const [modal, setModal] = useState(false);
+
+  const onClose = () => {
+    setModal(s => !s);
+  };
+
   const {t, i18n} = useTranslation();
 
   // array with all supported languages
@@ -56,12 +65,12 @@ const SettingsScreen = () => {
     {name: 'en', label: 'English'},
   ];
 
-  type languageItemPropType = {
+  type LanguageButtonPropType = {
     name: string;
     label: string;
   };
 
-  const LanguageItem = ({name, label}: languageItemPropType) => (
+  const LanguageButton = ({name, label}: LanguageButtonPropType) => (
     <TouchableOpacity
       style={[styles.button]}
       onPress={() => {
@@ -189,15 +198,34 @@ const SettingsScreen = () => {
             {
               picker: 'picker',
               header: 'Language',
-              value: languages.map(l => l.label),
+              items: languages.map(l => l.label),
             },
           ]}
         /> */}
+        <TouchableOpacity onPress={() => setModal(true)}>
+          <Text>Show Picker list</Text>
+        </TouchableOpacity>
         <View style={styles.centeredView}>
           {languages.map(lang => (
-            <LanguageItem {...lang} key={lang.name} />
+            <LanguageButton {...lang} key={lang.name} />
           ))}
         </View>
+        <PickerList
+          visible={modal}
+          onClose={onClose}
+          picker={[
+            {
+              items: ['1', '2', '3', '4'],
+              selectedItem: 'hi',
+              setSelectedItem: () => console.log('hi'),
+            },
+            {
+              items: ['5', '6', '7', '8'],
+              selectedItem: 'hi',
+              setSelectedItem: () => console.log('hi'),
+            },
+          ]}
+        />
       </ScrollView>
     </ScreenContainer>
   );
