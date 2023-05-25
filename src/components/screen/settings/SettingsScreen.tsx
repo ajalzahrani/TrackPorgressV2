@@ -50,11 +50,16 @@ const SettingsScreen = () => {
   const setVisceralFat = useUserBodyMeasureStore(s => s.setVisceralFat);
   useUnit();
   useBMICas();
+  const [value, setValue] = useState<string>('----');
 
   const [modal, setModal] = useState(false);
 
-  const onClose = () => {
+  const onClose = (fvalue: string, svalue: string) => {
     setModal(s => !s);
+    // save the value
+    console.log('fValue: ', fvalue, ' svalue: ', svalue);
+    const newValue = fvalue + ' ' + svalue;
+    setValue(newValue);
   };
 
   const {t, i18n} = useTranslation();
@@ -90,6 +95,7 @@ const SettingsScreen = () => {
           <Image source={assets.AsianBueaty} style={styles.image} />
           <View style={{marginLeft: 16}}>
             <Text style={styles.userFullName}>John Wick</Text>
+            <Text style={styles.userFullName}>{value}</Text>
             <Text style={styles.username}>@johnWick</Text>
           </View>
         </View>
@@ -213,14 +219,14 @@ const SettingsScreen = () => {
         <PickerList
           visible={modal}
           onClose={onClose}
-          picker={[
+          pickers={[
             {
-              items: ['1', '2', '3', '4'],
+              items: ['1', '2', '3', '4', '5'],
               selectedItem: 'hi',
               setSelectedItem: () => console.log('hi'),
             },
             {
-              items: ['5', '6', '7', '8'],
+              items: ['5', '6', '7', '8', '9'],
               selectedItem: 'hi',
               setSelectedItem: () => console.log('hi'),
             },

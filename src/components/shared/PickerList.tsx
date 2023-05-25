@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Picker} from '@react-native-picker/picker';
 import {
   View,
@@ -11,6 +11,7 @@ import {
 import {colors} from 'src/assets/';
 import ViewRow from './ViewRow';
 import {} from 'react-native';
+import PressableButton from './Pressable';
 
 type picker = {
   items: string[];
@@ -20,15 +21,21 @@ type picker = {
 
 type Props = {
   visible: boolean;
-  onClose: () => void;
+  onClose: (fvalue: string, svalue: string) => void;
   children?: React.ReactNode;
-  picker: picker[];
+  pickers: picker[];
 };
 
-const PickerList = ({visible, onClose, children, picker}: Props) => {
+const PickerList = ({visible, onClose, children, pickers}: Props) => {
+  const [fvalue, setFValue] = useState('');
+  const [svalue, setSValue] = useState('');
+
   return (
     <Modal visible={visible} animationType="slide" transparent>
-      <TouchableWithoutFeedback onPress={onClose}>
+      <TouchableWithoutFeedback
+        onPress={() => {
+          onClose(fvalue, svalue);
+        }}>
         <View style={{flex: 1}}>
           <KeyboardAvoidingView
             behavior="padding"
@@ -37,36 +44,47 @@ const PickerList = ({visible, onClose, children, picker}: Props) => {
           >
             <TouchableWithoutFeedback onPress={() => null}>
               <View style={styles.modalView}>
+                {/* <PressableButton
+                  title="Done"
+                  onPress={() => {
+                    onClose(fvalue, svalue);
+                  }}
+                /> */}
                 <ViewRow
                   style={{alignItems: 'center', justifyContent: 'center'}}>
-                  {picker.map((pic, i) => {
-                    return (
-                      <View
-                        key={i}
-                        style={{
-                          width: 150,
-                          //   justifyContent: 'center',
-                          //   alignItems: 'center',
-                        }}>
-                        <Text>seom</Text>
-                        <Picker
-                          selectedValue={pic.selectedItem}
-                          onValueChange={(itemValue, itemIndex) =>
-                            pic.setSelectedItem(itemValue)
-                          }>
-                          {pic.items.map((item, index) => {
-                            return (
-                              <Picker.Item
-                                key={index}
-                                label={item}
-                                value={item}
-                              />
-                            );
-                          })}
-                        </Picker>
-                      </View>
-                    );
-                  })}
+                  {/* Left picker */}
+                  <View
+                    style={{
+                      width: 150,
+                    }}>
+                    <Text>seom</Text>
+                    <Picker
+                      selectedValue={fvalue}
+                      onValueChange={itemValue => setFValue(itemValue)}>
+                      {pickers[0].items.map((item, index) => {
+                        return (
+                          <Picker.Item key={index} label={item} value={item} />
+                        );
+                      })}
+                    </Picker>
+                  </View>
+                  <Text>.</Text>
+                  {/* Right picker */}
+                  <View
+                    style={{
+                      width: 150,
+                    }}>
+                    <Text>seom</Text>
+                    <Picker
+                      selectedValue={svalue}
+                      onValueChange={itemValue => setSValue(itemValue)}>
+                      {pickers[1].items.map((item, index) => {
+                        return (
+                          <Picker.Item key={index} label={item} value={item} />
+                        );
+                      })}
+                    </Picker>
+                  </View>
                 </ViewRow>
                 {children}
               </View>
