@@ -4,14 +4,14 @@ import React from 'react';
 // Assets
 import {colors, assets} from 'src/assets';
 
-const Divider = () => {
+const Divider = ({color}: {color?: string}) => {
   return (
     <View>
       <View
         style={{
           borderWidth: 0.5,
           width: '100%',
-          borderColor: colors.secondaryow,
+          borderColor: color || colors.secondaryow,
           marginVertical: 15,
         }}
       />

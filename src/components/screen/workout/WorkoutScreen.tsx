@@ -11,11 +11,12 @@ import {
   Pressable,
   TextInput,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
+// import LinearGradient from 'react-native-linear-gradient';
 import {RouteProp, useNavigation} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 import uuidv4 from 'src/components/shared/uuid4v';
+import produce from 'immer';
 
 // Assets
 import {colors, assets} from 'src/assets';
@@ -25,14 +26,13 @@ import ExerciseCard from './components/ExerciseCard';
 import RestTimeController from './components/RestTimeController';
 import {PressableButton} from 'src/components/shared';
 import {ScreenContainer} from 'src/components/shared';
-
-// Store
-import useRoutineStore from 'src/store/useRoutineStore';
+import {CustomModal} from 'src/components/shared';
 
 // Navigation
 import {RoutineStackRootParamList} from 'src/components/navigation/RoutineStack';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {workoutType} from 'src/components/shared/globalTypes';
+import {workoutType} from 'src/types';
+import compareObjects from 'src/components/shared/compareObjects';
 type WorkoutScreenRouteProp = RouteProp<
   RoutineStackRootParamList,
   'WorkoutScreen'
@@ -51,38 +51,125 @@ type WorkoutScreenProp = {
 const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
   // FIXME: Re-design Rest time controllers
 
-  const routines = useRoutineStore(s => s.routines);
-  const routineId = useRoutineStore(s => s.stateId.routineId);
-  const workoutId = useRoutineStore(s => s.stateId.workoutId);
+  const workoutStore = route?.params?.workout;
+  const [workout, setWorkout] = useState<workoutType>(
+    workoutStore || {
+      id: uuidv4(),
+      title: '',
+      exercises: [],
+      resttime: [],
+    },
+  );
 
-  const routineIndex = routines.findIndex(r => r.id === routineId);
-  const routine = routines[routineIndex];
-  const workoutIndex = routine.workouts.findIndex(w => w.id === workoutId);
-  const workout = routine.workouts[workoutIndex];
-  const deleteWorkout = useRoutineStore(s => s.deleteWorkout);
-  const addWorkout = useRoutineStore(s => s.addWorkout);
+  // TODO: delete workout function
+
   const [modalVisible, setModalVisible] = useState(false);
+  const [titleModalVisible, setTitleModalVisible] = useState(false);
   const {t} = useTranslation();
 
   const handleAddWorkout = () => {
     if (workout?.title.length === 0) {
-      setModalVisible(true);
+      setTitleModalVisible(true);
     } else {
       if (workout !== undefined) {
-        addWorkout(routineId, workout.id, workout);
+        const routineWorkoutHandler = route?.params.handleUpdateRoutineWorkout;
+        if (routineWorkoutHandler !== undefined) routineWorkoutHandler(workout);
+      } else {
+        console.log('workout is undefined');
       }
+
       navigation!.goBack();
     }
   };
 
-  const handleAddWorkoutTitle = (title: string) => {
-    workout!.title = title;
+  const handleTitle = (title: string) => {
+    setWorkout(prev => {
+      const newWorkout = {...prev};
+      newWorkout.title = title;
+      return newWorkout;
+    });
   };
 
-  const handleUpdateExercise = (exerciseId: string) => {
-    if (workout !== undefined) {
-    }
-  };
+  const handleExercise = useCallback(
+    (exerciseId: string) => {
+      setWorkout(prev => {
+        const exerciseIndex = prev.exercises.findIndex(
+          e => e.id === exerciseId,
+        );
+        const newExercises = [...prev.exercises];
+        if (exerciseIndex !== -1) {
+          newExercises.splice(exerciseIndex, 1);
+        } else {
+          newExercises.push({id: exerciseId, freq: []});
+        }
+        return {...prev, exercises: newExercises};
+      });
+    },
+    [setWorkout],
+  );
+
+  const handleDeleteExercise = useCallback(
+    (exerciseId: string) => {
+      setWorkout(prev => {
+        const exerciseIndex = prev.exercises.findIndex(
+          e => e.id === exerciseId,
+        );
+        if (exerciseIndex !== -1) {
+          const newExercises = [...prev.exercises];
+          newExercises.splice(exerciseIndex, 1);
+          return {...prev, exercises: newExercises};
+        } else {
+          return prev;
+        }
+      });
+    },
+    [setWorkout],
+  );
+
+  const handleExerciseFreqSetCount = useCallback(
+    (exerciseId: string, newLength: number) => {
+      setWorkout(prev => {
+        const exerciseIndex = prev.exercises.findIndex(
+          e => e.id === exerciseId,
+        );
+        const newExercises = [...prev.exercises];
+        if (exerciseIndex !== -1) {
+          const updatedExercise = {
+            ...newExercises[exerciseIndex],
+            freq: newExercises[exerciseIndex].freq.slice(0, newLength),
+          };
+          newExercises[exerciseIndex] = updatedExercise;
+          return {...prev, exercises: newExercises};
+        } else {
+          return prev;
+        }
+      });
+    },
+    [setWorkout],
+  );
+
+  const handleExerciseFreqRepCount = useCallback(
+    (exerciseId: string, index: number, value: number) => {
+      setWorkout(prev => {
+        const exerciseIndex = prev.exercises.findIndex(
+          e => e.id === exerciseId,
+        );
+        const newExercises = [...prev.exercises];
+        if (exerciseIndex !== -1) {
+          const updatedExercise = {
+            ...newExercises[exerciseIndex],
+            freq: [...newExercises[exerciseIndex].freq],
+          };
+          updatedExercise.freq[index] = value;
+          newExercises[exerciseIndex] = updatedExercise;
+          return {...prev, exercises: newExercises};
+        } else {
+          return prev;
+        }
+      });
+    },
+    [setWorkout],
+  );
 
   const RestTimeDrawer = () => {
     if (workout !== undefined) {
@@ -122,27 +209,34 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
 
   return (
     <ScreenContainer>
-      <Modal
-        animationType="slide"
-        transparent={true}
+      <CustomModal
         visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setModalVisible(!modalVisible);
-        }}>
-        <View style={style.centeredView}>
-          <View style={style.modalView}>
-            <Text style={style.modalText}>Type in workout name</Text>
-            <Pressable
-              style={[style.button, style.buttonClose]}
-              onPress={() => {
-                setModalVisible(!modalVisible);
-              }}>
-              <Text style={style.textStyle}>Okey</Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal>
+        setVisible={setModalVisible}
+        message="Are you sure you want to save changes?"
+        buttons={[
+          {text: 'Cancel', onPress: () => setModalVisible(false)},
+
+          {
+            text: 'No',
+            onPress: () => navigation.goBack(),
+            backgroundColor: colors.red,
+            textColor: colors.white,
+          },
+          {
+            text: 'Save',
+            onPress: () => {
+              handleAddWorkout();
+              setModalVisible(false);
+            },
+          },
+        ]}
+      />
+      <CustomModal
+        visible={titleModalVisible}
+        setVisible={setTitleModalVisible}
+        message="Please enter a workout name"
+        buttons={[{text: 'Ok', onPress: () => setTitleModalVisible(false)}]}
+      />
       <View style={style.goBackStyle}>
         <TouchableOpacity onPress={() => navigation!.goBack()}>
           <Image source={assets.icn_goback} />
@@ -150,7 +244,10 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
         <TouchableOpacity
           style={style.addNewExercise}
           onPress={() => {
-            navigation.navigate('ExerciseScreen');
+            navigation.navigate('ExerciseScreen', {
+              exercises: workout?.exercises,
+              handleExercise: handleExercise,
+            });
           }}>
           <Image source={assets.icn_plus} style={{}} />
           <Text style={{color: colors.red}}>{t('workout.addNewExercise')}</Text>
@@ -162,7 +259,7 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
             <TextInput
               placeholder="Workout name"
               placeholderTextColor={colors.offwhite}
-              onChangeText={inpuText => handleAddWorkoutTitle(inpuText)}
+              onChangeText={inpuText => handleTitle(inpuText)}
               defaultValue={workout?.title}
               style={style.textInputStyle}
             />
@@ -171,9 +268,10 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
               return (
                 <ExerciseCard
                   key={exercise.id}
-                  routineId={routineId}
-                  workoutId={workout.id}
                   exercise={exercise}
+                  handleExerciseFreqRepCount={handleExerciseFreqRepCount}
+                  handleExerciseFreqSetCount={handleExerciseFreqSetCount}
+                  handleDeleteExercise={handleDeleteExercise}
                 />
               );
             })}
@@ -183,7 +281,17 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
               title={t('workout.skitch')}
               iconSource={assets.icn_edit}
               onPress={() => {
-                handleAddWorkout();
+                if (workoutStore !== undefined) {
+                  if (!compareObjects(workoutStore, workout)) {
+                    console.log('objects not equals each other');
+                    setModalVisible(prev => !prev);
+                    return;
+                  }
+                  console.log('objects equals each other');
+                  handleAddWorkout();
+                } else {
+                  handleAddWorkout();
+                }
               }}
             />
             {/* Test button */}
@@ -192,10 +300,13 @@ const WorkoutScreen: React.FC<WorkoutScreenProp> = ({route, navigation}) => {
               onPress={() => {
                 if (workout !== undefined) {
                   if (workout.id !== undefined) {
-                    deleteWorkout();
+                    // deleteWorkout();
+
+                    console.log(workoutStore);
+                    console.log(workout);
                   }
                 }
-                navigation!.goBack();
+                // navigation!.goBack();
               }}
             />
           </ScrollView>

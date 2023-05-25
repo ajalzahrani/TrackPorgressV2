@@ -10,7 +10,12 @@ import {
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {colors} from '../../assets';
-
+/**
+ * 
+ * 
+ *  This component button has Linear Gradient
+ * 
+ */
 type propType = {
   title: string;
   onPress: (event: Event) => void;

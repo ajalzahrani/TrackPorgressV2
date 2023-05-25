@@ -1,29 +1,23 @@
-import {
-  View,
-  Text,
-  ScrollView,
-  SafeAreaView,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import {View, Text, StyleSheet} from 'react-native';
+import React from 'react';
 
 // Assets
 import {colors} from 'src/assets';
 
 // Components
-import {getExerciseName} from 'src/components/shared';
-import * as Icons from 'react-native-heroicons/outline';
-import Divider from 'src/components/shared/Divider';
-import {convertDate} from 'src/components/shared';
+import useExerciseName from 'src/components/hooks/useExerciseName';
+
 import moment from 'moment';
 
-import {sessionType} from 'src/components/shared/globalTypes';
+import {sessionType} from 'src/types';
+import Divider from 'src/components/shared/Divider';
 type SessionReportProp = {
   session: sessionType;
 };
 
 const SessionReport: React.FC<SessionReportProp> = ({session}) => {
+  const getExerciseName = useExerciseName();
+  console.log(session);
   return (
     <View>
       {/* <Text style={{color: colors.white}}>{session.length}</Text> */}
@@ -43,14 +37,12 @@ const SessionReport: React.FC<SessionReportProp> = ({session}) => {
       </Text>
       <Divider />
       <Text style={style.generalFontSize}>Routine Name</Text>
-      <Text style={style.generalFontSize}>
-        {/* {getWorkoutObject(session.workoutId).title} */}
-      </Text>
+      <Text style={style.generalFontSize}>{/** Get the routine name */}</Text>
       <Divider />
       {session.exercise.map((exercise, i) => {
         return (
           <View key={i}>
-            <Text style={style.generalFontSize}>
+            <Text style={[style.generalFontSize, {fontWeight: 'bold'}]}>
               {getExerciseName(exercise.exerciseId)}
             </Text>
             <Text style={style.generalFontSize}>
@@ -59,7 +51,8 @@ const SessionReport: React.FC<SessionReportProp> = ({session}) => {
             {exercise.set.map((s, i) => {
               return (
                 <Text key={i} style={{color: 'white'}}>
-                  {s.reps}
+                  {} {s.reps} {s.reps > 1 ? 'Reps' : 'Rep'} | {s.weight} KG |{' '}
+                  {s.tut} TUT
                 </Text>
               );
             })}

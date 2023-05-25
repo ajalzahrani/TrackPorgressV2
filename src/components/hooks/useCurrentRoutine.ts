@@ -6,7 +6,7 @@ const useCurrentRoutine = () => {
 
   const getCurrentRoutine = () => {
     const routine = routines.find(r => r.id === routineId);
-    return routine ? routine : null;
+    return routine;
   };
 
   return getCurrentRoutine;

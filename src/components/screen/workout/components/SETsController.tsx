@@ -4,34 +4,28 @@ import React, {useEffect, useState} from 'react';
 // Assets
 import {colors, assets} from 'src/assets';
 
-// Store
-import useRoutineStore from 'src/store/useRoutineStore';
-
 type SETsControllerProp = {
   indicatorTitle: string;
   index: number;
   freq: number[];
-  addFreq: (freq: number[]) => void;
+  handleExerciseFreqRepCount: (
+    exerciseId: string,
+    index: number,
+    value: number,
+  ) => void;
+  exerciseId: string;
 };
 
 const SETsController: React.FC<SETsControllerProp> = ({
   indicatorTitle,
   freq,
   index,
+  handleExerciseFreqRepCount,
+  exerciseId,
 }) => {
-  const routineId = useRoutineStore(s => s.stateId.routineId);
-  const workoutId = useRoutineStore(s => s.stateId.workoutId);
-  const exerciseId = useRoutineStore(s => s.stateId.exerciseId);
-
-  const addFreq = useRoutineStore(s => s.addFreq);
   const [number, setNumber] = useState(freq[index] || 0);
-
   const updateFreq = () => {
-    let updatedFreq = freq;
-    updatedFreq[index] = number;
-    if (workoutId !== undefined && exerciseId !== undefined) {
-      addFreq(exerciseId, updatedFreq);
-    }
+    handleExerciseFreqRepCount(exerciseId, index, number);
   };
 
   const addNumber = () => {
@@ -48,7 +42,7 @@ const SETsController: React.FC<SETsControllerProp> = ({
 
   useEffect(() => {
     updateFreq();
-  });
+  }, [number]);
 
   return (
     <View style={style.containerStyle}>

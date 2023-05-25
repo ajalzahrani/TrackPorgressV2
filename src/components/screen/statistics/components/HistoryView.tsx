@@ -4,7 +4,7 @@ import {colors} from 'src/assets';
 import Calendars from './Calendars';
 import SessionReport from 'src/components/screen/sessionReport/components/SessionReport';
 import useSessionStore from 'src/store/useSessionStore';
-import {sessionType} from 'src/components/shared/globalTypes';
+import {sessionType} from 'src/types';
 
 const HistoryView = () => {
   const getSessionsByDate = useSessionStore(state => state.getSessionsByDate);

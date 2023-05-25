@@ -2,7 +2,6 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import React, {useState, useMemo, useEffect} from 'react';
 import {Calendar} from 'react-native-calendars';
 import {colors} from 'src/assets';
-import {convertDate} from 'src/components/shared/';
 import moment from 'moment';
 
 import useSessionStore from 'src/store/useSessionStore';

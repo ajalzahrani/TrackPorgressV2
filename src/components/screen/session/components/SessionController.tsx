@@ -14,7 +14,6 @@ import {colors, assets} from 'src/assets';
 // Components
 import SessionTimerLabel from './SessionTimerLabel';
 import {useStopwatch} from 'src/components/hooks/timer-hook';
-import GeneralModal from '../../../shared/GeneralModal';
 
 // Store
 import useSessionStore from 'src/store/useSessionStore';
@@ -23,6 +22,7 @@ import useSessionStore from 'src/store/useSessionStore';
 import {useNavigation} from '@react-navigation/native';
 import {RoutineStackRootParamList} from 'src/components/navigation/RoutineStack';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import CustomModal from 'src/components/shared/CustomModal';
 
 type SessionScreenNavigationProp = NativeStackNavigationProp<
   RoutineStackRootParamList,
@@ -62,11 +62,12 @@ const SessionController = ({sessionId, workoutId}: SessionControllerType) => {
   }, []);
 
   const endSeassionAction = () => {
-    setModalVisible(!modalVisible);
+    setModalVisible(false);
+
     // stop session timer
     pause();
-    // Register session
 
+    // Register session
     registerSession(
       sessionId,
       new Date().toString(),
@@ -76,18 +77,32 @@ const SessionController = ({sessionId, workoutId}: SessionControllerType) => {
       workoutId,
       [],
     );
-
+    console.log('hi do something');
     // Show report modal
     navigation.navigate('SessionReportScreen', {sessionId: sessionId});
+    console.log('do navigate');
   };
 
   return (
     <>
-      <GeneralModal
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-        message="Are you sure you want to end your Workout Session?"
-        action={endSeassionAction}
+      <CustomModal
+        visible={modalVisible}
+        setVisible={setModalVisible}
+        message="Are you sure you want to quit session?"
+        buttons={[
+          {
+            text: 'No',
+            onPress: () => setModalVisible(false),
+            backgroundColor: colors.red,
+            textColor: colors.white,
+          },
+          {
+            text: 'Yes',
+            onPress: () => {
+              endSeassionAction();
+            },
+          },
+        ]}
       />
       <View
       // className="absolute bottom-1 w-full z-50"

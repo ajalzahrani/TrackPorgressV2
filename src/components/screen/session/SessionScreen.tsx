@@ -37,7 +37,7 @@ type SessionScreenNavigationProp = NativeStackNavigationProp<
   'SessionScreen'
 >;
 
-import type {exercisesType} from 'src/components/shared/globalTypes';
+import type {exercisesType} from 'src/types';
 
 type SessionScreenProp = {
   route: SessionScreenRouteProp;

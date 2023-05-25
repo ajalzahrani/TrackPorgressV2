@@ -8,7 +8,7 @@ const useCurrentWorkout = () => {
   const getCurrentWorkout = () => {
     const workout = getCurrentRoutine()?.workouts.find(w => w.id === workoutId);
 
-    return workout ? workout : null;
+    return workout ? workout : undefined;
   };
 
   return getCurrentWorkout;

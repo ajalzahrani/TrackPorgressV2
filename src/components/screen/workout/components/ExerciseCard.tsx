@@ -9,42 +9,42 @@ import {colors, assets} from 'src/assets';
 import SETsController from './SETsController';
 
 // Store
-import {exercisesType} from 'src/components/shared/globalTypes';
+import {exercisesType} from 'src/types';
 import useRoutineStore from 'src/store/useRoutineStore';
-import useExerciseStore from 'src/store/useExerciseMaster';
 
 type ExerciseCardProp = {
-  routineId: string;
-  workoutId: string;
   exercise: exercisesType;
+  handleExerciseFreqRepCount: (
+    exerciseId: string,
+    index: number,
+    value: number,
+  ) => void;
+  handleExerciseFreqSetCount: (exerciseId: string, newLength: number) => void;
+  handleDeleteExercise: (exerciseId: string) => void;
 };
 const ExerciseCard: React.FC<ExerciseCardProp> = ({
-  routineId,
-  workoutId,
   exercise,
+  handleExerciseFreqRepCount,
+  handleExerciseFreqSetCount,
+  handleDeleteExercise,
 }) => {
   const deleteExercise = useRoutineStore(s => s.deleteExercise);
-  const addFreq = useRoutineStore(s => s.addFreq);
   const [set, setSet] = useState(exercise.freq.length);
   const getExerciseName = useExerciseName();
 
   const addSet = () => {
     setSet(set + 1);
-    exercise.freq.length = set; // link set count with any update
+    handleExerciseFreqSetCount(exercise.id, set);
   };
 
   const minSet = () => {
     if (set === 0) {
       setSet(0);
-      exercise.freq.length = 0;
+      handleExerciseFreqSetCount(exercise.id, 0);
     } else {
       setSet(set - 1);
-      exercise.freq.length = set - 1; // link set count with any update
+      handleExerciseFreqSetCount(exercise.id, set - 1);
     }
-  };
-
-  const handleAddFreq = (freq: number[]) => {
-    addFreq(exercise.id, freq);
   };
 
   const RepControllerComponent = () => {
@@ -55,8 +55,9 @@ const ExerciseCard: React.FC<ExerciseCardProp> = ({
           key={i}
           freq={exercise.freq}
           index={i}
-          addFreq={handleAddFreq}
+          handleExerciseFreqRepCount={handleExerciseFreqRepCount}
           indicatorTitle={'Set ' + (i + 1)}
+          exerciseId={exercise.id}
         />,
       );
     }
@@ -78,7 +79,7 @@ const ExerciseCard: React.FC<ExerciseCardProp> = ({
         </Text>
         <TouchableOpacity
           onPress={() => {
-            deleteExercise(exercise.id);
+            handleDeleteExercise(exercise.id);
           }}>
           <Image source={assets.icn_remove} />
         </TouchableOpacity>

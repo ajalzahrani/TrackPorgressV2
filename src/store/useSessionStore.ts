@@ -1,10 +1,7 @@
 import create from 'zustand';
 import {store} from './mmkv';
 import produce, {Draft} from 'immer';
-import {
-  sessionExerciseType,
-  sessionType,
-} from 'src/components/shared/globalTypes';
+import {sessionExerciseType, sessionType} from 'src/types';
 import uuidv4 from 'src/components/shared/uuid4v';
 import moment from 'moment';
 import def from 'src/components/shared/GlobalDefinition';

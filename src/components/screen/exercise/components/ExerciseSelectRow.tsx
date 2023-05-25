@@ -7,28 +7,30 @@ import CardExerciseDetails from './CardExerciseDetails';
 // Assets
 import {colors, assets} from 'src/assets';
 
-import {exerciseMasterType} from 'src/components/shared/globalTypes';
+import {exerciseMasterType, exercisesType} from 'src/types';
 import useRoutineStore from 'src/store/useRoutineStore';
 
 type ExerciseSelectRowType = {
   exerciseRow: exerciseMasterType;
+  preSelectedExercises: exercisesType[];
+  handleExercise: (exerciseId: string) => void;
 };
 
-const ExerciseSelectRow = ({exerciseRow}: ExerciseSelectRowType) => {
-  const updateExercises = useRoutineStore(s => s.updateExercises);
-  const getCurrentWorkout = useCurrentWorkout();
-  const {routineId, workoutId} = useRoutineStore(s => s.stateId);
+const ExerciseSelectRow = ({
+  exerciseRow,
+  preSelectedExercises,
+  handleExercise,
+}: ExerciseSelectRowType) => {
   const [isSelected, setIsSelected] = useState(false);
   const [preSelected, setPreSelected] = useState(false);
   const [explore, setIsExplore] = useState(false);
 
   const handlePreSelect = () => {
-    if (workoutId !== undefined)
-      getCurrentWorkout()?.exercises?.find(exercise => {
-        if (exercise.id === exerciseRow.id) {
-          setIsSelected(true);
-        }
-      });
+    preSelectedExercises.find(exercise => {
+      if (exercise.id === exerciseRow.id) {
+        setIsSelected(true);
+      }
+    });
     setPreSelected(true);
   };
 
@@ -49,7 +51,8 @@ const ExerciseSelectRow = ({exerciseRow}: ExerciseSelectRowType) => {
           <TouchableOpacity
             onPress={() => {
               setIsSelected(!isSelected);
-              if (workoutId !== undefined) updateExercises(exerciseRow.id);
+              // if (workoutId !== undefined) updateExercises(exerciseRow.id);
+              handleExercise(exerciseRow.id);
             }}>
             <View
               style={[

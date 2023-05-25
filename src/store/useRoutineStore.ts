@@ -1,7 +1,7 @@
 import create from 'zustand';
 import {store} from './mmkv';
 import produce, {Draft} from 'immer';
-import {routineType, workoutType} from 'src/components/shared/globalTypes';
+import {routineType, workoutType} from 'src/types';
 import def from 'src/components/shared/GlobalDefinition';
 
 const getRoutine = (): routineType[] => {
@@ -26,14 +26,12 @@ type Actions = {
   setRoutineId: (routineId: string) => void;
   setWorkoutId: (workoutId: string | undefined) => void;
   setExerciseId: (exerciseId: string) => void;
+  getRoutine: () => routineType;
+  getWorkout: () => workoutType;
   setDayId: (dayId: number) => void;
   addNewRoutine: (routineId: string, routine: routineType) => void;
-  deleteRoutine: () => void;
-  addWorkout: (
-    routineId: string,
-    workoutId: string,
-    workout: workoutType,
-  ) => void;
+  deleteRoutine: (routineId: string) => void;
+  addWorkout: (workout: workoutType) => void;
   deleteWorkout: () => void;
   updateExercises: (exerciseId: string) => void;
   addFreq: (exerciseId: string, freq: number[]) => void;
@@ -83,6 +81,24 @@ const useRoutineStore = create<State & Actions>((set, get) => ({
       }),
     ),
 
+  getRoutine: () => {
+    const routineIndex = get().routines.findIndex(
+      r => r.id === get().stateId.routineId,
+    );
+    return get().routines[routineIndex];
+  },
+
+  getWorkout: () => {
+    const routineIndex = get().routines.findIndex(
+      r => r.id === get().stateId.routineId,
+    );
+    const workoutIndex = get().routines[routineIndex].workouts.findIndex(
+      w => w.id === get().stateId.workoutId,
+    );
+
+    return get().routines[routineIndex].workouts[workoutIndex];
+  },
+
   addNewRoutine: (routineId, routine) =>
     set(
       produce((state: Draft<State & Actions>) => {
@@ -96,22 +112,22 @@ const useRoutineStore = create<State & Actions>((set, get) => ({
       }),
     ),
 
-  deleteRoutine: () =>
+  deleteRoutine: routineId =>
     set(
       produce((state: Draft<State & Actions>) => {
-        state.routines = state.routines.filter(
-          r => r.id !== state.stateId.routineId,
-        );
+        state.routines = state.routines.filter(r => r.id !== routineId);
       }),
     ),
 
-  addWorkout: (routineId, workoutId, workout) =>
+  addWorkout: workout =>
     set(
       produce((state: Draft<State & Actions>) => {
-        const routineIndex = state.routines.findIndex(r => r.id === routineId);
+        const routineIndex = state.routines.findIndex(
+          r => r.id === state.stateId.routineId,
+        );
         if (routineIndex !== -1) {
           const workoutIndex = state.routines[routineIndex].workouts.findIndex(
-            w => w.id === workoutId,
+            w => w.id === state.stateId.workoutId,
           );
           if (workoutIndex !== -1) {
             state.routines[routineIndex].workouts[workoutIndex] = workout;
@@ -187,6 +203,8 @@ const useRoutineStore = create<State & Actions>((set, get) => ({
                 workoutIndex
               ].exercises.splice(exerciseIndex, 1);
             }
+          } else {
+            console.log('workoutIndex not founded');
           }
         }
       }),
