@@ -42,13 +42,13 @@ const Calendars = ({setSelectedDate}: CalenderProps) => {
     let marked = {};
     // mark sessions dates
     sessions.forEach(session => {
-      Object.assign(marked, moment(session.datetime).format('YYYY-MM-DD'), {
+      Object.assign(marked, moment(session.datetime, 'YYYY-MM-DD'), {
         selected: true,
         selectedColor: '#222222',
       });
     });
     // mark today
-    Object.assign(marked, moment(new Date()).format('YYYY-MM-DD'), {
+    Object.assign(marked, moment(new Date(), 'YYYY-MM-DD'), {
       marked: true,
     });
     setMarkedDate(marked);
