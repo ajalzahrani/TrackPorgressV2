@@ -32,6 +32,14 @@ function generateNums(N: number) {
   return setOfNums;
 }
 
+// TODO: Categorize Settings
+// Account
+// Body Measurements
+// Notification and Sounds
+// Appearence
+// Languages
+// ProTrack FAQ
+
 const SettingsScreen = () => {
   const userPreferences = useUserPreferencesStore(s => s.preferences);
   const setFirstname = useUserPreferencesStore(s => s.setFirstName);
