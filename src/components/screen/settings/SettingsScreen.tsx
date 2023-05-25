@@ -15,7 +15,11 @@ import {convertHeight, convertWeight} from 'src/utility/unitconversion';
 
 // Components
 import {colors, assets} from 'src/assets';
-import {ScreenContainer} from 'src/components/shared';
+import {
+  PressableButton,
+  PressableButtonColor,
+  ScreenContainer,
+} from 'src/components/shared';
 import {useTranslation} from 'react-i18next';
 import CardInformationHC from './components/CardInformationHC';
 import useBMICas from 'src/components/hooks/useBMI';
@@ -208,9 +212,14 @@ const SettingsScreen = () => {
             },
           ]}
         /> */}
-        <TouchableOpacity onPress={() => setModal(true)}>
-          <Text>Show Picker list</Text>
-        </TouchableOpacity>
+
+        <PressableButton
+          title="Show PickerList"
+          onPress={() => setModal(true)}
+          style={{padding: 20}}
+          titleStyle={{color: 'white', fontSize: 20, fontWeight: '800'}}
+        />
+
         <View style={styles.centeredView}>
           {languages.map(lang => (
             <LanguageButton {...lang} key={lang.name} />

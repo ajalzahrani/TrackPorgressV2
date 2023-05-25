@@ -1,4 +1,5 @@
-import PressableButton from './PressableButton';
+import PressableButton from './Pressable';
+import PressableButtonColor from './PressableButton';
 import Pressable from './Pressable';
 import ScreenContainer from './ScreenContainer';
 import ViewCenter from './ViewCenter';
@@ -13,6 +14,7 @@ import ModalInput from './ModalInput';
 
 export {
   PressableButton,
+  PressableButtonColor,
   ScreenContainer,
   ViewCenter,
   ViewRow,

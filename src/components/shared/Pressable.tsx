@@ -3,6 +3,7 @@ import {
   Text,
   Pressable,
   ViewStyle,
+  TextStyle,
   GestureResponderEvent,
   View,
 } from 'react-native';
@@ -16,6 +17,7 @@ type propType = {
   disabled?: boolean;
   children?: React.ReactNode;
   style?: ViewStyle | ViewStyle[];
+  titleStyle?: TextStyle;
 };
 function PressableButton({
   title,
@@ -24,6 +26,7 @@ function PressableButton({
   disabled,
   children,
   style,
+  titleStyle,
 }: propType) {
   return (
     <Pressable
@@ -37,8 +40,9 @@ function PressableButton({
       style={({pressed, disabled}: any) => [
         style || {},
         {opacity: disabled ? 0.5 : pressed ? 0.8 : 1.0},
+        styles.positionStyle,
       ]}>
-      <Text style={styles.text}>{title}</Text>
+      <Text style={titleStyle}>{title}</Text>
       <View style={styles.indicatorStyle}>{children}</View>
     </Pressable>
   );
@@ -47,11 +51,8 @@ function PressableButton({
 export default PressableButton;
 
 const styles = StyleSheet.create({
-  text: {
-    // fontSize: 16,
-    // fontWeight: '700',
-  },
   indicatorStyle: {
     position: 'absolute',
   },
+  positionStyle: {justifyContent: 'center', alignItems: 'center'},
 });
