@@ -2,6 +2,8 @@
 
 ProTrack is a mobile application designed for iOS that helps users keep track of their progress while doing any type of training. The app allows users to schedule routine, set up exercises and workouts, and log weight and reps for each exercise. With ProTrack, users can see their progress over time, stay motivated, and reach their fitness goals faster.
 
+## Project move to  [ProTrack](https://github.com/ajalzahrani/ProTrack)
+
 ## Features
 
 - [x] Schedule training sessions
